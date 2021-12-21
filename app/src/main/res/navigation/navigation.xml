@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@+id/nav_hole">
+
+    <fragment
+        android:id="@+id/nav_hole"
+        android:name="cn.edu.pku.pkuhole.ui.hole.HoleFragment"
+        android:label="@string/menu_hole"
+        tools:layout="@layout/fragment_hole" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="cn.edu.pku.pkuhole.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
