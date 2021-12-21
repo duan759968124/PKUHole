@@ -13,4 +13,6 @@
     <string name="menu_hole">P大树洞</string>
     <string name="menu_settings">设置</string>
     <string name="search">Search</string>
+    <string name="hole_all_list">树洞</string>
+    <string name="my_attention">关注</string>
 </resources>

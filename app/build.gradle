@@ -34,6 +34,7 @@ android {
     }
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
 }
 
@@ -49,6 +50,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.viewpager2:viewpager2:$rootProject.viewPagerVersion"
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
 
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

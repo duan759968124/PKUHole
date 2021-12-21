@@ -6,8 +6,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import cn.edu.pku.pkuhole.R
-import cn.edu.pku.pkuhole.databinding.FragmentHoleBinding
-import cn.edu.pku.pkuhole.viewmodels.HoleViewModel
+import cn.edu.pku.pkuhole.adapters.HOLE_ALL_LIST_INDEX
+import cn.edu.pku.pkuhole.adapters.HOLE_MY_ATTENTION_INDEX
+import cn.edu.pku.pkuhole.adapters.HolePaperAdapter
+import cn.edu.pku.pkuhole.databinding.FragmentHoleViewPagerBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 /**
  *
@@ -17,22 +20,34 @@ import cn.edu.pku.pkuhole.viewmodels.HoleViewModel
  * @Desc:
  * @Version:        1.0
  */
-class HoleFragment : Fragment() {
-    private lateinit var viewModel: HoleViewModel
+class HoleViewPagerFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHoleBinding.inflate(inflater, container, false)
-        viewModel =  ViewModelProvider(this).get(HoleViewModel::class.java)
+        val binding = FragmentHoleViewPagerBinding.inflate(inflater, container, false)
+        val tabLayout = binding.tabs
+        val viewPager = binding.viewPager
 
-        val sectionsPaperAdapter = SectionsPagerApapter(this, supp)
+        viewPager.adapter = HolePaperAdapter(this)
+        TabLayoutMediator(tabLayout, viewPager){ tab, position ->
+            tab.text = getTabList(position)
+        }.attach()
+
 
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
         return binding.root
+    }
+
+    private fun getTabList(position: Int): String? {
+        return when (position) {
+            HOLE_ALL_LIST_INDEX -> getString(R.string.hole_all_list)
+            HOLE_MY_ATTENTION_INDEX -> getString(R.string.my_attention)
+            else -> null
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
