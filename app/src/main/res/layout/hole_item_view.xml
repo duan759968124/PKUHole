@@ -7,6 +7,10 @@
         <variable
             name="holeAllListItemBean"
             type="cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean" />
+
+        <variable
+            name="clickListener"
+            type="cn.edu.pku.pkuhole.adapters.HoleItemListener" />
     </data>
 
     <LinearLayout
@@ -14,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="vertical"
+        android:onClick="@{()->clickListener.onClick(holeAllListItemBean)}"
         android:padding="10dp">
 
         <TextView

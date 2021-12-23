@@ -14,14 +14,14 @@ import androidx.room.RoomDatabase
  * @Version:        1.0
  */
 @Database(
-    entities = [HoleAllListItemBean::class, HoleAttentionItemBean::class],
+    entities = [HoleAllListItemBean::class],
     version = 1,
     exportSchema = false
 )
 abstract class HoleDatabase : RoomDatabase() {
 
     abstract val holeAllListDao: HoleAllListDao
-    abstract val holeAttentionDao: HoleAttentionDao
+//    abstract val holeAttentionDao: HoleAttentionDao
 
     companion object {
         @Volatile

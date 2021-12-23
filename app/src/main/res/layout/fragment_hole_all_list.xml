@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="holeAllListViewModel"
+            type="cn.edu.pku.pkuhole.viewmodels.hole.HoleAllListViewModel" />
     </data>
 
     <FrameLayout
@@ -13,10 +15,9 @@
         tools:context=".ui.hole.HoleAllListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hole_all_list"
+            android:id="@+id/hole_all_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/hole_item_view"
             tools:itemCount="5" />
 

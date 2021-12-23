@@ -16,11 +16,12 @@ import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
  * @Desc:
  * @Version:        1.0
  */
-class HoleAllListAdapter :
+class HoleAllListAdapter(val clickListener: HoleItemListener) :
     ListAdapter<HoleAllListItemBean, HoleAllListAdapter.ViewHolder>(HoleAllListDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HoleAllListItemBean) {
+        fun bind(item: HoleAllListItemBean, clickListener: HoleItemListener) {
             binding.holeAllListItemBean = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -38,7 +39,7 @@ class HoleAllListAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), clickListener)
     }
 }
 
@@ -57,4 +58,8 @@ class HoleAllListDiffCallback : DiffUtil.ItemCallback<HoleAllListItemBean>() {
         return oldItem == newItem
     }
 
+}
+
+class HoleItemListener(val clickListener: (pid: Long) -> Unit) {
+    fun onClick(holeItem: HoleAllListItemBean) = clickListener(holeItem.pid)
 }

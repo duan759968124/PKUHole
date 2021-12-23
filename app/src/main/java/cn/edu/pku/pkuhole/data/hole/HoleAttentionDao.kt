@@ -24,7 +24,7 @@ interface HoleAttentionDao {
     suspend fun update(holeAttentionItemBean: HoleAttentionItemBean)
 
     @Query("Select * from hole_attention_table where pid = :key")
-    suspend fun get(key: Long): HoleAttentionItemBean
+    suspend fun get(key: Long): HoleAttentionItemBean?
 
     @Query("Select * from hole_attention_table ORDER BY timestamp DESC")
     fun getAllList(): LiveData<List<HoleAttentionItemBean>>
