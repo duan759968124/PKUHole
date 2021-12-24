@@ -11,11 +11,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.pkuhole.adapters.HoleAllListAdapter
 import cn.edu.pku.pkuhole.adapters.HoleItemListener
-import cn.edu.pku.pkuhole.data.hole.HoleDatabase
+import cn.edu.pku.pkuhole.data.hole.AppDatabase
 import cn.edu.pku.pkuhole.databinding.FragmentHoleAllListBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleAllListViewModel
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleAllListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HoleAllListFragment : Fragment() {
 
     private lateinit var viewModel: HoleAllListViewModel
@@ -29,7 +31,7 @@ class HoleAllListFragment : Fragment() {
         context ?: return binding.root
 
         val application = requireNotNull(this.activity).application
-        val dataSource = HoleDatabase.getInstance(application).holeAllListDao
+        val dataSource = AppDatabase.getInstance(application).holeAllListDao
         val viewModelFactory = HoleAllListViewModelFactory(dataSource, application)
 
         viewModel = ViewModelProvider(this, viewModelFactory)[HoleAllListViewModel::class.java]
@@ -50,7 +52,7 @@ class HoleAllListFragment : Fragment() {
         })
         viewModel.navigationToHoleItemDetail.observe(viewLifecycleOwner, Observer { pid ->
             pid?.let {
-                this.findNavController()
+                findNavController()
                     .navigate(HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(pid))
                 viewModel.onHoleItemDetailNavigated()
             }

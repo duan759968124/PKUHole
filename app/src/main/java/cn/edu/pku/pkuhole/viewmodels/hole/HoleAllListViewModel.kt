@@ -1,16 +1,20 @@
 package cn.edu.pku.pkuhole.viewmodels.hole
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import cn.edu.pku.pkuhole.data.hole.HoleAllListDao
 import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
+import cn.edu.pku.pkuhole.data.hole.HoleAllListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HoleAllListViewModel(dataSource: HoleAllListDao, application: Application) : ViewModel() {
-    val database = dataSource
-    val holeAllList = database.getAllList()
+@HiltViewModel
+class HoleAllListViewModel @Inject internal constructor(
+    holeAllListRepository: HoleAllListRepository
+) : ViewModel() {
+    val holeAllList = holeAllListRepository.getAllList().asLiveData()
 
     private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
 
@@ -27,39 +31,39 @@ class HoleAllListViewModel(dataSource: HoleAllListDao, application: Application)
 
     init {
         viewModelScope.launch {
+            var item = HoleAllListItemBean(
+                pid = 2925277,
+                hidden = 0,
+                text = "求推荐汉堡~想吃了",
+                type = "text",
+                timestamp = 1638325648,
+                reply = 0,
+                likenum = 1,
+                extra = 0,
+                url = "",
+                hot = 1638325648,
+                tag = ""
+            )
+            holeAllListRepository.insert(item)
             insertInitData()
         }
     }
 
     private suspend fun insertInitData() {
-        var item = HoleAllListItemBean(
-            pid = 2925277,
-            hidden = 0,
-            text = "求推荐汉堡~想吃了",
-            type = "text",
-            timestamp = 1638325648,
-            replyNum = 0,
-            likeNum = 1,
-            extra = 0,
-            url = "",
-            hot = 1638325648,
-            tag = ""
-        )
-        database.insert(item)
-        item = HoleAllListItemBean(
+        val item = HoleAllListItemBean(
             pid = 2925289,
             hidden = 0,
             text = "hhhhhh",
             type = "text",
             timestamp = 1638325656,
-            replyNum = 0,
-            likeNum = 1,
+            reply = 0,
+            likenum = 1,
             extra = 0,
             url = "",
             hot = 1638325648,
             tag = null
         )
-        database.insert(item)
+        holeAllListRepository.insert(item)
     }
 
 }

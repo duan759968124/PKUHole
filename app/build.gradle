@@ -4,6 +4,7 @@ plugins {
 //    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
 //    id 'androidx.navigation.safeargs'
 }
 
@@ -44,13 +45,15 @@ dependencies {
 
     // Support libraries
     def appCompatVersion = '1.3.0'
+    def fragmentVersion = '1.4.0'
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+
+    // UI
     def materialVersion = '1.3.0'
     def constraintLayoutVersion = '2.0.4'
-    def fragmentVersion = '1.4.0'
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Android KTX
@@ -64,13 +67,14 @@ dependencies {
 
     // Lifecycle and Navigation dependencies
     // lifecycle-extensions 中的 API 已弃用
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+//    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     def lifecycleVersion = '2.4.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-//    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    // Lifecycles only (without ViewModel or LiveData)
 //    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
-//    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
 
     // Room
     def roomVersion = '2.4.0-rc01'
@@ -106,6 +110,14 @@ dependencies {
 
     def workVersion = "2.7.1"
     implementation "androidx.work:work-runtime-ktx:$workVersion"
+
+    // gson
+    def gsonVersion = "2.8.6"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // Dependency Injection
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
 
 
     // Testing dependencies

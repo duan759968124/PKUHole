@@ -14,7 +14,9 @@ import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
 import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.MainViewModel
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MainActivity : AppCompatActivity() {
 
     // 管理应用显示区域左上角导航按钮行为，单个顶层和多个顶层，传入导航图

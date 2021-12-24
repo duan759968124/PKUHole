@@ -24,13 +24,13 @@ data class HoleAllListItemBean(
     @ColumnInfo(name = "timestamp")
     var timestamp: Long = 0L,
     @ColumnInfo(name = "reply")
-    var replyNum: Int = 0,
+    var reply: Int = 0,
     @ColumnInfo(name = "extra")
     var extra: Int = 0,
     @ColumnInfo(name = "url")
     var url: String? = "",
     @ColumnInfo(name = "likeNum")
-    var likeNum: Int = 0,
+    var likenum: Int = 0,
     @ColumnInfo(name = "tag")
     var tag: String?,
     @ColumnInfo(name = "hidden")

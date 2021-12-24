@@ -1,7 +1,7 @@
 package cn.edu.pku.pkuhole.data.hole
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 /**
  *
@@ -17,26 +17,29 @@ interface HoleAllListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(holeAllListItemBean: HoleAllListItemBean)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(holeItems: List<HoleAllListItemBean>)
+
     @Update
     suspend fun update(holeAllListItemBean: HoleAllListItemBean)
 
     @Query("Select * from hole_all_list_table where pid = :key")
-    suspend fun get(key: Long): HoleAllListItemBean?
+    fun get(key: Long): Flow<HoleAllListItemBean?>
 
     @Query("Select * from hole_all_list_table ORDER BY pid DESC")
-    fun getAllList(): LiveData<List<HoleAllListItemBean>>
+    fun getAllList(): Flow<List<HoleAllListItemBean>>
 
-    /**
-     * Selects and returns the latest
-     */
-    @Query("SELECT * FROM hole_all_list_table ORDER BY pid DESC LIMIT 1")
-    suspend fun getLatest(): HoleAllListItemBean?
+//    /**
+//     * Selects and returns the latest
+//     */
+//    @Query("SELECT * FROM hole_all_list_table ORDER BY pid DESC LIMIT 1")
+//    suspend fun getLatest(): Flow<HoleAllListItemBean?>
+
+    // Todo : 后续改为查找HoleDetail的表格
+    @Query("Select * from hole_all_list_table where pid = :key")
+    fun getHoleDetailWithPid(key: Long): Flow<HoleAllListItemBean>
 
     @Query("DELETE FROM hole_all_list_table")
     suspend fun clear()
-
-    @Query("Select * from hole_all_list_table where pid = :key")
-    fun getHoleDetailWithPid(key: Long): LiveData<HoleAllListItemBean>
-
 
 }

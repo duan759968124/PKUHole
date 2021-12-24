@@ -16,7 +16,7 @@ import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
  * @Desc:
  * @Version:        1.0
  */
-class HoleAllListAdapter(val clickListener: HoleItemListener) :
+class HoleAllListAdapter(private val clickListener: HoleItemListener) :
     ListAdapter<HoleAllListItemBean, HoleAllListAdapter.ViewHolder>(HoleAllListDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: HoleAllListItemBean, clickListener: HoleItemListener) {
