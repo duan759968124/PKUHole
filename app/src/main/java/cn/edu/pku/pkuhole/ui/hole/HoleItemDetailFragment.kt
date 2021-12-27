@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import cn.edu.pku.pkuhole.R
-import cn.edu.pku.pkuhole.data.hole.AppDatabase
 import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
-import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
@@ -17,23 +16,26 @@ import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModelFactory
  * Use the [HoleItemDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class HoleItemDetailFragment : Fragment() {
 
+    private lateinit var binding: FragmentHoleItemDetailBinding
+    private val viewModel : HoleItemDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentHoleItemDetailBinding =
-            FragmentHoleItemDetailBinding.inflate(inflater, container, false)
-        val arguments = HoleItemDetailFragmentArgs.fromBundle(requireArguments())
-        val dataSource =
-            AppDatabase.getInstance(requireNotNull(this.activity).application).holeAllListDao
-        val viewModelFactory = HoleItemDetailViewModelFactory(arguments.pid, dataSource)
-        val holeItemDetailViewModel =
-            ViewModelProvider(this, viewModelFactory)[HoleItemDetailViewModel::class.java]
-        binding.holeItemDetailViewModel = holeItemDetailViewModel
+        binding = FragmentHoleItemDetailBinding.inflate(inflater, container, false)
+//        val arguments = HoleItemDetailFragmentArgs.fromBundle(requireArguments())
+//        val dataSource =
+//            AppDatabase.getInstance(requireNotNull(this.activity).application).holeAllListDao()
+//        val viewModelFactory = HoleItemDetailViewModelFactory(arguments.pid, dataSource)
+//        val holeItemDetailViewModel =
+//            ViewModelProvider(this, viewModelFactory)[HoleItemDetailViewModel::class.java]
+//        binding.holeItemDetailViewModel = holeItemDetailViewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)

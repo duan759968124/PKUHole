@@ -1,6 +1,7 @@
 package cn.edu.pku.pkuhole
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -14,9 +15,11 @@ import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
 import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.MainViewModel
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // 管理应用显示区域左上角导航按钮行为，单个顶层和多个顶层，传入导航图
@@ -24,15 +27,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHeaderBinding: NavHeaderMainBinding
 
-    private lateinit var viewModel: MainViewModel
+//    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         navHeaderBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+//        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         navHeaderBinding.mainViewModel = viewModel
 

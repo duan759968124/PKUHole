@@ -2,7 +2,9 @@ package cn.edu.pku.pkuhole.viewmodels
 
 import androidx.lifecycle.ViewModel
 import cn.edu.pku.pkuhole.data.UserInfo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *
@@ -12,7 +14,8 @@ import timber.log.Timber
  * @Desc:
  * @Version:        1.0
  */
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(): ViewModel() {
 
     var userInfo: UserInfo = UserInfo("Test", "CCPKU-viewModel")
 

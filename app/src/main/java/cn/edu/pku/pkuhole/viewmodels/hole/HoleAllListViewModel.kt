@@ -1,51 +1,60 @@
 package cn.edu.pku.pkuhole.viewmodels.hole
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
-import cn.edu.pku.pkuhole.data.hole.HoleAllListRepository
+import android.app.Application
+import androidx.lifecycle.*
+import cn.edu.pku.pkuhole.data.hole.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HoleAllListViewModel @Inject internal constructor(
     holeAllListRepository: HoleAllListRepository
+//    dataSource : HoleAllListDao, application: Application
 ) : ViewModel() {
-    val holeAllList = holeAllListRepository.getAllList().asLiveData()
+    private val database = holeAllListRepository
+    val holeAllList = database.getAllList().asLiveData()
+//    val holeAllList = database.getHoleAllListFromNet(1)
+//    val holeAllList = holeAllListRepository.getAllList().asLiveData()
 
-    private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
+//    private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
+//
+//    val navigationToHoleItemDetail: MutableLiveData<Long?>
+//        get() = _navigationToHoleItemDetail
 
-    val navigationToHoleItemDetail: MutableLiveData<Long?>
-        get() = _navigationToHoleItemDetail
-
-    fun onHoleItemClicked(pid: Long) {
-        _navigationToHoleItemDetail.value = pid
-    }
-
-    fun onHoleItemDetailNavigated() {
-        _navigationToHoleItemDetail.value = null
-    }
+//    fun onHoleItemClicked(pid: Long) {
+//        _navigationToHoleItemDetail.value = pid
+//    }
+//
+//    fun onHoleItemDetailNavigated() {
+//        _navigationToHoleItemDetail.value = null
+//    }
 
     init {
         viewModelScope.launch {
-            var item = HoleAllListItemBean(
-                pid = 2925277,
-                hidden = 0,
-                text = "求推荐汉堡~想吃了",
-                type = "text",
-                timestamp = 1638325648,
-                reply = 0,
-                likenum = 1,
-                extra = 0,
-                url = "",
-                hot = 1638325648,
-                tag = ""
-            )
-            holeAllListRepository.insert(item)
-            insertInitData()
+//            val item = HoleAllListItemBean(
+//                pid = 2925277,
+//                hidden = 0,
+//                text = "求推荐汉堡~想吃了",
+//                type = "text",
+//                timestamp = 1638325648,
+//                reply = 0,
+//                likenum = 1,
+//                extra = 0,
+//                url = "",
+//                hot = 1638325648,
+//                tag = ""
+//            )
+//            database.insert(item)
+//            insertInitData()
+            database.clear()
+            val result : HoleApiResponse<List<HoleAllListItemBean>> = database.getHoleAllListFromNet(1)
+            val holeGetList : List<HoleAllListItemBean>? = result.data
+            if (holeGetList != null) {
+                database.insertAll(holeGetList)
+            }
+//            Timber.e("fetch data result: %s", holeGetList.toString())
         }
     }
 
@@ -63,7 +72,7 @@ class HoleAllListViewModel @Inject internal constructor(
             hot = 1638325648,
             tag = null
         )
-        holeAllListRepository.insert(item)
+        database.insert(item)
     }
 
 }

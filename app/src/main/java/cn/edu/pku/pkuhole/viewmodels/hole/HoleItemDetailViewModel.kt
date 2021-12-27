@@ -1,10 +1,14 @@
 package cn.edu.pku.pkuhole.viewmodels.hole
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import cn.edu.pku.pkuhole.data.hole.HoleAllListDao
 import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
+import cn.edu.pku.pkuhole.data.hole.HoleAllListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *
@@ -14,13 +18,25 @@ import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
  * @Desc:
  * @Version:        1.0
  */
-class HoleItemDetailViewModel(private val pid: Long = 0L, dataSource: HoleAllListDao) :
+//class HoleItemDetailViewModel(private val pid: Long = 0L, dataSource: HoleAllListDao) :
+// Todo：修改仓库为hole Detail的仓库
+@HiltViewModel
+class HoleItemDetailViewModel @Inject constructor(
+//    private val pid: Long = 0L,
+    savedStateHandle: SavedStateHandle,
+    holeAllListRepository: HoleAllListRepository) :
     ViewModel() {
-    val database = dataSource
-
+    val pid : Long = savedStateHandle.get<Long>(HOLE_ITEM_DETAIL_PID)!!
     val holeAllListItemBean: LiveData<HoleAllListItemBean> =
-        database.getHoleDetailWithPid(pid).asLiveData()
+        holeAllListRepository.getHoleDetailWithPid(pid).asLiveData()
 
 //    fun getHoleItem() = holeAllListItemBean
+    companion object {
+        private const val HOLE_ITEM_DETAIL_PID = "pid"
+    }
+
+    init {
+        Timber.e("click hole pid: %s", pid)
+    }
 
 }

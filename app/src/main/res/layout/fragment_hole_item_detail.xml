@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="holeItemDetailViewModel"
+            name="viewModel"
             type="cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel" />
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
-            android:text="@{holeItemDetailViewModel.holeAllListItemBean.text}"
+            android:text="@{viewModel.holeAllListItemBean.text}"
             tools:text="text text" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             tools:text="text text"
-            android:text="@{holeItemDetailViewModel.holeAllListItemBean.type}" />
+            android:text="@{viewModel.holeAllListItemBean.type}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

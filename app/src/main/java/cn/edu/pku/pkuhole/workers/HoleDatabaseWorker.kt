@@ -39,7 +39,7 @@ class HoleDatabaseWorker(context: Context, workerParameters: WorkerParameters) :
                         val holeList: List<HoleAllListItemBean> =
                             Gson().fromJson(jsonReader, holeType)
                         val database = AppDatabase.getInstance(applicationContext)
-                        database.holeAllListDao.insertAll(holeList)
+                        database.holeAllListDao().insertAll(holeList)
                         Result.success()
                     }
                 }

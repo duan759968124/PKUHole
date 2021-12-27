@@ -1,5 +1,7 @@
 package cn.edu.pku.pkuhole.data.hole
 
+import cn.edu.pku.pkuhole.api.HoleApiService
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,7 +15,10 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class HoleAllListRepository @Inject constructor(private val holeAllListDao: HoleAllListDao) {
+class HoleAllListRepository @Inject constructor(
+    private val holeAllListDao: HoleAllListDao,
+    private val holeApi : HoleApiService
+    ) {
     fun getHoleItem(pid: Long) = holeAllListDao.get(pid)
 
     fun getAllList() = holeAllListDao.getAllList()
@@ -28,4 +33,12 @@ class HoleAllListRepository @Inject constructor(private val holeAllListDao: Hole
 
     // Todo: 使用多个后端数据？比如清理就清理掉allList 和 attention的所有数据？包括HoleDetail
     suspend fun clear() = holeAllListDao.clear()
+
+    // Todo : 后续改为查找HoleDetail的表格
+    fun getHoleDetailWithPid(pid : Long) = holeAllListDao.getHoleDetailWithPid(pid)
+
+    // network fetch data
+    suspend fun getHoleAllListFromNet(p: Int) : HoleApiResponse<List<HoleAllListItemBean>>{
+        return holeApi.getHoleAllList(page = p)
+    }
 }

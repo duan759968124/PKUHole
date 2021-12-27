@@ -21,15 +21,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class DatabaseModule {
+    // 全局复用一个实例，如果没有@Singleton表示每次都是新的实例
     @Singleton
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return AppDatabase.getInstance(context)
     }
 
+    // 每次都是新的实例
     @Provides
     fun provideHoleAllListDao(appDatabase: AppDatabase): HoleAllListDao {
-        return appDatabase.holeAllListDao
+        return appDatabase.holeAllListDao()
     }
-
 }

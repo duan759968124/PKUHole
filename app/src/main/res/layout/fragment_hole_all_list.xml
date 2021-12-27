@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+<!--    <data>-->
 
-        <variable
-            name="holeAllListViewModel"
-            type="cn.edu.pku.pkuhole.viewmodels.hole.HoleAllListViewModel" />
-    </data>
+<!--        <variable-->
+<!--            name="holeAllListViewModel"-->
+<!--            type="cn.edu.pku.pkuhole.viewmodels.hole.HoleAllListViewModel" />-->
+<!--    </data>-->
 
     <FrameLayout
         android:layout_width="match_parent"

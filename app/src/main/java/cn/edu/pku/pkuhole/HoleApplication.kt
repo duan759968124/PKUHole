@@ -1,6 +1,7 @@
 package cn.edu.pku.pkuhole
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 /**
@@ -11,6 +12,8 @@ import timber.log.Timber
  * @Desc:
  * @Version:        1.0
  */
+
+@HiltAndroidApp
 class HoleApplication : Application() {
     override fun onCreate() {
         super.onCreate()

@@ -28,7 +28,7 @@ import cn.edu.pku.pkuhole.workers.HoleDatabaseWorker.Companion.KEY_FILENAME
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val holeAllListDao: HoleAllListDao
+    abstract fun holeAllListDao(): HoleAllListDao
 //    abstract val holeAttentionDao: HoleAttentionDao
 
     companion object {

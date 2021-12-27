@@ -1,12 +1,15 @@
 package cn.edu.pku.pkuhole.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
 import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
+import cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragmentDirections
 
 /**
  *
@@ -16,13 +19,33 @@ import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
  * @Desc:
  * @Version:        1.0
  */
-class HoleAllListAdapter(private val clickListener: HoleItemListener) :
+
+// class HoleAllListAdapter(private val clickListener: HoleItemListener) :
+class HoleAllListAdapter :
     ListAdapter<HoleAllListItemBean, HoleAllListAdapter.ViewHolder>(HoleAllListDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HoleAllListItemBean, clickListener: HoleItemListener) {
-            binding.holeAllListItemBean = item
-            binding.clickListener = clickListener
-            binding.executePendingBindings()
+//  fun bind(item: HoleAllListItemBean, clickListener: HoleItemListener) {
+        init {
+            binding.setClickListener {
+                binding.holeAllListItemBean?.let { holeItem ->
+                    navigateToHoleItemDetail(holeItem, it)
+                }
+            }
+        }
+
+        private fun navigateToHoleItemDetail(holeItem: HoleAllListItemBean, view: View) {
+            val direction = HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(holeItem.pid)
+            view.findNavController().navigate(direction)
+        }
+
+        fun bind(item: HoleAllListItemBean) {
+            binding.apply{
+                holeAllListItemBean = item
+                executePendingBindings()
+            }
+//            binding.holeAllListItemBean = item
+//            binding.clickListener = clickListener
+//            binding.executePendingBindings()
         }
 
         companion object {
@@ -39,7 +62,8 @@ class HoleAllListAdapter(private val clickListener: HoleItemListener) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), clickListener)
+//        holder.bind(getItem(position), clickListener)
+        holder.bind(getItem(position))
     }
 }
 
@@ -60,6 +84,6 @@ class HoleAllListDiffCallback : DiffUtil.ItemCallback<HoleAllListItemBean>() {
 
 }
 
-class HoleItemListener(val clickListener: (pid: Long) -> Unit) {
-    fun onClick(holeItem: HoleAllListItemBean) = clickListener(holeItem.pid)
-}
+//class HoleItemListener(val clickListener: (pid: Long) -> Unit) {
+//    fun onClick(holeItem: HoleAllListItemBean) = clickListener(holeItem.pid)
+//}

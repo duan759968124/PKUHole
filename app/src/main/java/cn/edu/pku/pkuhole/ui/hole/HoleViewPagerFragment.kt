@@ -22,12 +22,14 @@ import com.google.android.material.tabs.TabLayoutMediator
  */
 class HoleViewPagerFragment : Fragment() {
 
+    private lateinit var binding: FragmentHoleViewPagerBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHoleViewPagerBinding.inflate(inflater, container, false)
+        binding = FragmentHoleViewPagerBinding.inflate(inflater, container, false)
         val tabLayout = binding.tabs
         val viewPager = binding.viewPager
 
