@@ -4,14 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
 import cn.edu.pku.pkuhole.utilities.DATABASE_NAME
-import cn.edu.pku.pkuhole.utilities.PRE_POPULATE_HOLE_LIST_DATA
-import cn.edu.pku.pkuhole.workers.HoleDatabaseWorker
-import cn.edu.pku.pkuhole.workers.HoleDatabaseWorker.Companion.KEY_FILENAME
 
 /**
  *
@@ -22,13 +15,13 @@ import cn.edu.pku.pkuhole.workers.HoleDatabaseWorker.Companion.KEY_FILENAME
  * @Version:        1.0
  */
 @Database(
-    entities = [HoleAllListItemBean::class],
+    entities = [HoleListItemBean::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun holeAllListDao(): HoleAllListDao
+    abstract fun holeListDao(): HoleListDao
 //    abstract val holeAttentionDao: HoleAttentionDao
 
     companion object {
@@ -60,18 +53,18 @@ abstract class AppDatabase : RoomDatabase() {
         // Create and pre-populate the database. See this article for more details:
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-//                .fallbackToDestructiveMigration()
-                .addCallback(
-                    object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                            val request = OneTimeWorkRequestBuilder<HoleDatabaseWorker>()
-                                .setInputData(workDataOf(KEY_FILENAME to PRE_POPULATE_HOLE_LIST_DATA))
-                                .build()
-                            WorkManager.getInstance(context).enqueue(request)
-                        }
-                    }
-                )
+                .fallbackToDestructiveMigration()
+//                .addCallback(
+//                    object : RoomDatabase.Callback() {
+//                        override fun onCreate(db: SupportSQLiteDatabase) {
+//                            super.onCreate(db)
+//                            val request = OneTimeWorkRequestBuilder<HoleDatabaseWorker>()
+//                                .setInputData(workDataOf(KEY_FILENAME to PRE_POPULATE_HOLE_LIST_DATA))
+//                                .build()
+//                            WorkManager.getInstance(context).enqueue(request)
+//                        }
+//                    }
+//                )
                 .build()
         }
     }

@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import cn.edu.pku.pkuhole.data.hole.AppDatabase
-import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
+import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
@@ -21,6 +21,7 @@ import timber.log.Timber
  * @Desc:
  * @Version:        1.0
  */
+// 预填充数据库
 class HoleDatabaseWorker(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
     companion object {
@@ -35,11 +36,11 @@ class HoleDatabaseWorker(context: Context, workerParameters: WorkerParameters) :
             if (fileName != null) {
                 applicationContext.assets.open(fileName).use { inputStream ->
                     JsonReader(inputStream.reader()).use { jsonReader ->
-                        val holeType = object : TypeToken<List<HoleAllListItemBean>>() {}.type
-                        val holeList: List<HoleAllListItemBean> =
+                        val holeType = object : TypeToken<List<HoleListItemBean>>() {}.type
+                        val holeListList: List<HoleListItemBean> =
                             Gson().fromJson(jsonReader, holeType)
                         val database = AppDatabase.getInstance(applicationContext)
-                        database.holeAllListDao().insertAll(holeList)
+                        database.holeListDao().insertAll(holeListList)
                         Result.success()
                     }
                 }

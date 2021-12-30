@@ -12,10 +12,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.hole.HoleAllListFragment">
+        tools:context=".ui.hole.HoleListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hole_all_list_recycler"
+            android:id="@+id/hole_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/hole_item_view"

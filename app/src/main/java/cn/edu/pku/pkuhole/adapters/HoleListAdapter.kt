@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cn.edu.pku.pkuhole.data.hole.HoleAllListItemBean
+import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
 import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
 import cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragmentDirections
 
@@ -21,26 +21,26 @@ import cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragmentDirections
  */
 
 // class HoleAllListAdapter(private val clickListener: HoleItemListener) :
-class HoleAllListAdapter :
-    ListAdapter<HoleAllListItemBean, HoleAllListAdapter.ViewHolder>(HoleAllListDiffCallback()) {
+class HoleListAdapter :
+    ListAdapter<HoleListItemBean, HoleListAdapter.ViewHolder>(HoleAllListDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 //  fun bind(item: HoleAllListItemBean, clickListener: HoleItemListener) {
         init {
             binding.setClickListener {
-                binding.holeAllListItemBean?.let { holeItem ->
+                binding.holeListItemBean?.let { holeItem ->
                     navigateToHoleItemDetail(holeItem, it)
                 }
             }
         }
 
-        private fun navigateToHoleItemDetail(holeItem: HoleAllListItemBean, view: View) {
-            val direction = HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(holeItem.pid)
+        private fun navigateToHoleItemDetail(holeListItem: HoleListItemBean, view: View) {
+            val direction = HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(holeListItem.pid)
             view.findNavController().navigate(direction)
         }
 
-        fun bind(item: HoleAllListItemBean) {
+        fun bind(listItem: HoleListItemBean) {
             binding.apply{
-                holeAllListItemBean = item
+                holeListItemBean = listItem
                 executePendingBindings()
             }
 //            binding.holeAllListItemBean = item
@@ -67,19 +67,19 @@ class HoleAllListAdapter :
     }
 }
 
-class HoleAllListDiffCallback : DiffUtil.ItemCallback<HoleAllListItemBean>() {
+class HoleAllListDiffCallback : DiffUtil.ItemCallback<HoleListItemBean>() {
     override fun areItemsTheSame(
-        oldItem: HoleAllListItemBean,
-        newItem: HoleAllListItemBean
+        oldListItem: HoleListItemBean,
+        newListItem: HoleListItemBean
     ): Boolean {
-        return oldItem.pid == newItem.pid
+        return oldListItem.pid == newListItem.pid
     }
 
     override fun areContentsTheSame(
-        oldItem: HoleAllListItemBean,
-        newItem: HoleAllListItemBean
+        oldListItem: HoleListItemBean,
+        newListItem: HoleListItemBean
     ): Boolean {
-        return oldItem == newItem
+        return oldListItem == newListItem
     }
 
 }

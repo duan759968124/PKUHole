@@ -23,7 +23,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
-            android:text="@{viewModel.holeAllListItemBean.text}"
+            android:text="@{viewModel.holeListItemBean.text}"
             tools:text="text text" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             tools:text="text text"
-            android:text="@{viewModel.holeAllListItemBean.type}" />
+            android:text="@{viewModel.holeListItemBean.type}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

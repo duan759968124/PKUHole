@@ -2,7 +2,7 @@ package cn.edu.pku.pkuhole.di
 
 import android.content.Context
 import cn.edu.pku.pkuhole.data.hole.AppDatabase
-import cn.edu.pku.pkuhole.data.hole.HoleAllListDao
+import cn.edu.pku.pkuhole.data.hole.HoleListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +30,7 @@ class DatabaseModule {
 
     // 每次都是新的实例
     @Provides
-    fun provideHoleAllListDao(appDatabase: AppDatabase): HoleAllListDao {
-        return appDatabase.holeAllListDao()
+    fun provideHoleListDao(appDatabase: AppDatabase): HoleListDao {
+        return appDatabase.holeListDao()
     }
 }

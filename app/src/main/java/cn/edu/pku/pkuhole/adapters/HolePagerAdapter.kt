@@ -2,7 +2,7 @@ package cn.edu.pku.pkuhole.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import cn.edu.pku.pkuhole.ui.hole.HoleAllListFragment
+import cn.edu.pku.pkuhole.ui.hole.HoleListFragment
 import cn.edu.pku.pkuhole.ui.settings.SettingsFragment
 import java.lang.IndexOutOfBoundsException
 
@@ -14,12 +14,12 @@ import java.lang.IndexOutOfBoundsException
  * @Desc:
  * @Version:        1.0
  */
-const val HOLE_ALL_LIST_INDEX = 0
+const val HOLE_LIST_INDEX = 0
 const val HOLE_MY_ATTENTION_INDEX = 1
 
 class HolePaperAdapter(fragment:Fragment): FragmentStateAdapter(fragment) {
     private val tabFragmentCreators: Map<Int, ()-> Fragment> = mapOf(
-        HOLE_ALL_LIST_INDEX to { HoleAllListFragment() },
+        HOLE_LIST_INDEX to { HoleListFragment() },
         HOLE_MY_ATTENTION_INDEX to { SettingsFragment() }
     )
 

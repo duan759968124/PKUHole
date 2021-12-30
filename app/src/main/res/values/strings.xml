@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PKUHole</string>
+    <string name="app_name">北大树洞</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">秦辉东</string>
@@ -7,16 +7,29 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+<!--    navigation DrawerLayout -->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_hole">P大树洞</string>
+    <string name="menu_hole">北大树洞</string>
     <string name="menu_settings">设置</string>
+
+<!--    view Pager -->
     <string name="search">Search</string>
-    <string name="hole_all_list">树洞</string>
+    <string name="hole_list">树洞</string>
     <string name="my_attention">关注</string>
-    <string name="hole_test_text">dz你哈珀等哈我i单位i好的话带哈我很难对付打完后缓冲区打完后曾参加卡号等哈我大货车脑残我打擦完阿达武汉参加完的</string>
+
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hole_datail">树洞详情</string>
+    <string name="hole_detail">树洞详情</string>
+
+    <!--    hole item card -->
+    <string name="hole_pid_format">#%d</string>
+    <string name="seconds_before">%d秒前</string>
+    <string name="minutes_before">%d分钟前</string>
+    <string name="hours_before">%d小时前</string>
+    <string name="days_before">%d天前</string>
+
+    <string name="hole_test_text">dz你哈珀等哈我i单位i好的话带哈我很难对付打完后缓冲区打完后曾参加卡号等哈我大货车脑残我打擦完阿达武汉参加完的</string>
+    <string name="card_test_post_time">23秒钱</string>
+    <string name="card_test_reply_num">0</string>
 </resources>

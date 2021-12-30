@@ -12,7 +12,21 @@
         tools:layout="@layout/fragment_hole_view_pager">
         <action
             android:id="@+id/action_nav_hole_to_nav_hole_detail"
-            app:destination="@id/nav_hole_detail" />
+            app:destination="@id/nav_hole_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_hole_detail"
+        android:name="cn.edu.pku.pkuhole.ui.hole.HoleItemDetailFragment"
+        android:label="@string/hole_detail"
+        tools:layout="@layout/fragment_hole_item_detail">
+        <argument
+            android:name="pid"
+            app:argType="long" />
     </fragment>
 
     <fragment
@@ -20,14 +34,5 @@
         android:name="cn.edu.pku.pkuhole.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
-    <fragment
-        android:id="@+id/nav_hole_detail"
-        android:name="cn.edu.pku.pkuhole.ui.hole.HoleItemDetailFragment"
-        android:label="@string/hole_datail"
-        tools:layout="@layout/fragment_hole_item_detail">
-        <argument
-            android:name="pid"
-            app:argType="long" />
-    </fragment>
 
 </navigation>

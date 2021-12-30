@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import cn.edu.pku.pkuhole.R
-import cn.edu.pku.pkuhole.adapters.HOLE_ALL_LIST_INDEX
+import cn.edu.pku.pkuhole.adapters.HOLE_LIST_INDEX
 import cn.edu.pku.pkuhole.adapters.HOLE_MY_ATTENTION_INDEX
 import cn.edu.pku.pkuhole.adapters.HolePaperAdapter
 import cn.edu.pku.pkuhole.databinding.FragmentHoleViewPagerBinding
@@ -46,7 +46,7 @@ class HoleViewPagerFragment : Fragment() {
 
     private fun getTabList(position: Int): String? {
         return when (position) {
-            HOLE_ALL_LIST_INDEX -> getString(R.string.hole_all_list)
+            HOLE_LIST_INDEX -> getString(R.string.hole_list)
             HOLE_MY_ATTENTION_INDEX -> getString(R.string.my_attention)
             else -> null
         }
