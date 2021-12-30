@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.11354166666666667" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/error.xml" value="0.3646153846153846" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_broken_image_24.xml" value="0.3646153846153846" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_image_24.xml" value="0.3646153846153846" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.33611111111111114" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/shape_load_bg.xml" value="0.33611111111111114" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/side_nav_bar.xml" value="0.33611111111111114" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/tab_icon_color_selector.xml" value="0.33611111111111114" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/activity_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/app_bar_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/content_main.xml" value="0.24114583333333334" />
@@ -11,17 +18,17 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_all_list.xml" value="0.264" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_item.xml" value="0.3541666666666667" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_item_detail.xml" value="0.1" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_list.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_view_pager.xml" value="0.19739583333333333" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view.xml" value="0.264" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/layout_loading_view.xml" value="0.1" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/nav_header_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/switch_item.xml" value="0.1" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/menu/activity_main_drawer.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/menu/menu_hole.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/menu/menu_hole_detail.xml" value="0.4" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/menu/menu_settings.xml" value="0.20364583333333333" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.33611111111111114" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.33611111111111114" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/xml/network_security_config.xml" value="0.11296296296296296" />
       </map>
     </option>

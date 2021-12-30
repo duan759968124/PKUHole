@@ -37,10 +37,6 @@ interface HoleApiService {
                     HttpLoggingInterceptor.Level.NONE
                 }
             )
-//                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
-//            val cookieJar: ClearableCookieJar =
-//                PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(context))
-// Todo: 缺少修改base url的 addInterceptor
             val okHttpclient = OkHttpClient.Builder()
                 .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())

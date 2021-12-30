@@ -1,10 +1,15 @@
 package cn.edu.pku.pkuhole.adapters.bindingAdapter
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
+import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.convertDurationToFormatted
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 
 /**
@@ -22,9 +27,22 @@ fun TextView.setPostDurationFormatted(item: HoleListItemBean){
 
 @BindingAdapter("hasImage")
 fun bindHasImage(view: View, url: String?) {
-    view.visibility = if (url == null || url == "") {
+    view.visibility = if (url.isNullOrEmpty()) {
         View.GONE
     } else {
         View.VISIBLE
+    }
+}
+
+@BindingAdapter("imageFromUrl")
+fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
+    if (!imageUrl.isNullOrEmpty()) {
+        val url = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + imageUrl
+        Glide.with(view.context)
+            .load(url)
+//            .placeholder(R.drawable.bg_drawer_header)
+//            .error(R.drawable.ic_broken_image_24)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(view)
     }
 }

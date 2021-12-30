@@ -71,8 +71,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_margin="@dimen/card_inside_margin_large"
                 android:padding="@dimen/card_inside_padding"
+                app:imageFromUrl="@{holeListItemBean.url}"
                 app:hasImage="@{holeListItemBean.url}"
-                android:src="@drawable/bg_drawer_header"
                 tools:src="@drawable/bg_drawer_header"
                 />
 
