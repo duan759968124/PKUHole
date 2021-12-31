@@ -20,7 +20,6 @@ class MainViewModel @Inject constructor(): ViewModel() {
     var userInfo: UserInfo = UserInfo("Test", "CCPKU-viewModel")
 
     init {
-        Timber.e("Main View Model init")
     }
 
     override fun onCleared() {

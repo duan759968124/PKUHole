@@ -20,10 +20,6 @@ data class HoleListItemBean(
     @ColumnInfo(name = "pid")
     var pid: Long,
 
-    @field:SerializedName("hidden")
-    @ColumnInfo(name = "hidden")
-    var hidden: Int?,
-
     @field:SerializedName("text")
     @ColumnInfo(name = "text")
     var text: String?,
@@ -53,15 +49,27 @@ data class HoleListItemBean(
     @ColumnInfo(name = "url")
     var url: String?,
 
+    // 树洞列表 单独属性
     @field:SerializedName("hot")
     @ColumnInfo(name = "hot")
     var hot: Long?,
+
+    // 树洞列表 单独属性
+    @field:SerializedName("hidden")
+    @ColumnInfo(name = "hidden")
+    var hidden: Int?,
 
     @field:SerializedName("tag")
     @ColumnInfo(name = "tag")
     var tag: String?,
 
-//    @field:SerializedName("attention_tag")
-//    @ColumnInfo(name = "attention_tag")
-//    var attention_tag: String?
+    // 关注列表 单独属性
+    @field:SerializedName("attention_tag")
+    @ColumnInfo(name = "attention_tag")
+    var attention_tag: String? = "attention_tag",
+
+    @ColumnInfo(name = "is_hole")
+    var isHole : Boolean?,
+    @ColumnInfo(name = "is_attention")
+    var isAttention : Boolean?
 )

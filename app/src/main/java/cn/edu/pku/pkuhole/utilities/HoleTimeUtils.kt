@@ -38,7 +38,7 @@ fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Re
         }
         else -> {
             val days = TimeUnit.HOURS.convert(durationMilli, TimeUnit.MILLISECONDS)
-            res.getString(R.string.hours_before, days)
+            res.getString(R.string.days_before, days)
         }
     }
 }

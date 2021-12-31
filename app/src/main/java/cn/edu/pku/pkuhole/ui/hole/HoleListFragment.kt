@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.pkuhole.adapters.HoleListAdapter
 import cn.edu.pku.pkuhole.base.BaseFragment
-import cn.edu.pku.pkuhole.base.network.IStateObserver
-import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
 import cn.edu.pku.pkuhole.databinding.FragmentHoleListBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,20 +28,26 @@ class HoleListFragment : BaseFragment() {
     ): View? {
         binding = FragmentHoleListBinding.inflate(inflater, container, false)
         context ?: return binding.root
-
-//        val application = requireNotNull(this.activity).application
-//        val dataSource = AppDatabase.getInstance(application).holeAllListDao()
-//        val viewModelFactory = HoleAllListViewModelFactory(dataSource, application)
-
-//        viewModel = ViewModelProvider(this, viewModelFactory)[HoleAllListViewModel::class.java]
-
-//        binding.holeAllListViewModel = viewModel
-
         val adapter = HoleListAdapter()
-        binding.holeListRecycler.adapter = adapter
-
+        binding.fragmentHoleListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-        binding.holeListRecycler.layoutManager = manager
+        binding.fragmentHoleListRecycler.layoutManager = manager
+
+        binding.fragmentHoleListSrl.setDisableContentWhenRefresh(true)
+        binding.fragmentHoleListSrl.setDisableContentWhenLoading(true)
+
+        // 刷新监听
+        binding.fragmentHoleListSrl.setOnRefreshListener {
+            viewModel.refreshHoleList()
+            Timber.e("监听到下拉刷新了")
+//            it.finishRefresh()
+        }
+        // 加载更多监听
+        binding.fragmentHoleListSrl.setOnLoadMoreListener {
+            viewModel.getHoleList()
+            Timber.e("监听到加载更多了")
+//            it.finishLoadMore(false)
+        }
 
         // 监听holeList变化并更新UI
         viewModel.holeList.observe(viewLifecycleOwner, Observer {
@@ -53,18 +56,34 @@ class HoleListFragment : BaseFragment() {
             }
         })
 
-        viewModel.errorLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.errorStatus.observe(viewLifecycleOwner, Observer {
 //            Timber.e(it.toString())
-            it.message?.let { it1 -> showToast(it1) }
+            it.message?.let { it -> showToast(it) }
         })
 
-        viewModel.loadingLiveData.observe(viewLifecycleOwner, Observer {
+        // 监听刷新状态
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+            if(it){
+                Timber.e("show refresh")
+                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
+            }else{
+                Timber.e("hide refresh")
+//                dismissLoading()
+                binding.fragmentHoleListSrl.finishRefresh(1000)
+            }
+        })
+
+        // 监听加载更多状态
+        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Timber.e("show loading")
-                showLoading()
+//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
             }else{
                 Timber.e("hide loading")
-                dismissLoading()
+//                dismissLoading()
+                binding.fragmentHoleListSrl.finishLoadMore(1000)
             }
         })
 

@@ -9,6 +9,7 @@ import cn.edu.pku.pkuhole.utilities.ToastUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.sql.Timestamp
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,14 +49,32 @@ class HoleListRepository @Inject constructor(
 //    suspend fun getHoleAllListFromNet(p: Int) : HoleApiResponse<List<HoleListItemBean>> {
 //        return holeApi.getHoleList(page = p)
 //    }
+    // 记录获取第一页或者刷新时间，作为请求刷新的一个参数
+    var getFirstPageOrRefreshHoleListTimestamp : Long = 0L
 
-    suspend fun getHoleListFromNet(page: Int){
+    suspend fun getHoleListFromNetToDatabase(page: Int){
         withContext(Dispatchers.IO){
-            Timber.e("add Hole List is called")
-            val holeListPage = holeApi.getHoleList(page = page)
-            holeListPage.data?.let { insertAll(it) }
+            val holeListResponse = holeApi.getHoleList(page = page)
+            holeListResponse.data?.map{  it.isHole = true }
+            holeListResponse.data?.let { insertAll(it) }
+            if(page == 1){
+                holeListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
+            }
+
         }
     }
+
+    suspend fun refreshHoleListFromNetToDatabase(){
+        withContext(Dispatchers.IO){
+            val refreshHoleListResponse = holeApi.refreshHoleList(timestamp = getFirstPageOrRefreshHoleListTimestamp)
+            refreshHoleListResponse.data?.map { it.isHole = true }
+            refreshHoleListResponse.data?.let { insertAll(it) }
+            refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
+
+        }
+    }
+
+
 
     /**
      * 请求项目分类。
