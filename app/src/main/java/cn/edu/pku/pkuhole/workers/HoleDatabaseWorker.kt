@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import cn.edu.pku.pkuhole.data.hole.AppDatabase
 import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
+import cn.edu.pku.pkuhole.data.hole.asDatabaseBean
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
@@ -40,7 +41,8 @@ class HoleDatabaseWorker(context: Context, workerParameters: WorkerParameters) :
                         val holeListList: List<HoleListItemBean> =
                             Gson().fromJson(jsonReader, holeType)
                         val database = AppDatabase.getInstance(applicationContext)
-                        database.holeListDao().insertAll(holeListList)
+                        val result = holeListList.map { it.asDatabaseBean() }
+                        database.holeListDao().insertAll(result)
                         Result.success()
                     }
                 }

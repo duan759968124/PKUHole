@@ -1,9 +1,8 @@
 package cn.edu.pku.pkuhole.data.hole
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
-
+/**
+ * 最小的实体
+ */
 data class HoleItemModel (
 
     var pid: Long,
@@ -18,9 +17,9 @@ data class HoleItemModel (
 )
 
 
-fun HoleItemModel.asDatabaseHoleBean():HoleListItemBean{
+fun HoleItemModel.asDatabaseBean():HoleItemBean{
     return let{
-        HoleListItemBean(
+        HoleItemBean(
             pid = it.pid,
             text = it.text,
             type = it.type,
@@ -31,24 +30,27 @@ fun HoleItemModel.asDatabaseHoleBean():HoleListItemBean{
             url = it.url,
             tag = it.tag,
             hot = null,
-            hidden = null
+            hidden = null,
+            attention_tag = null,
+            isHole = null,
+            isAttention = null
         )
     }
 }
 
-fun HoleItemModel.asDatabaseAttentionBean():AttentionItemBean{
-    return let{
-        AttentionItemBean(
-            pid = it.pid,
-            text = it.text,
-            type = it.type,
-            timestamp = it.timestamp,
-            reply = it.reply,
-            likenum = it.likenum,
-            extra = it.extra,
-            url = it.url,
-            tag = it.tag,
-            attention_tag = null
-        )
-    }
-}
+//fun HoleItemModel.asDatabaseAttentionBean():AttentionItemBean{
+//    return let{
+//        AttentionItemBean(
+//            pid = it.pid,
+//            text = it.text,
+//            type = it.type,
+//            timestamp = it.timestamp,
+//            reply = it.reply,
+//            likenum = it.likenum,
+//            extra = it.extra,
+//            url = it.url,
+//            tag = it.tag,
+//            attention_tag = null
+//        )
+//    }
+//}

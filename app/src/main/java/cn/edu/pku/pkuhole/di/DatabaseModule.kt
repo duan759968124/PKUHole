@@ -2,7 +2,7 @@ package cn.edu.pku.pkuhole.di
 
 import android.content.Context
 import cn.edu.pku.pkuhole.data.hole.AppDatabase
-import cn.edu.pku.pkuhole.data.hole.AttentionDao
+import cn.edu.pku.pkuhole.data.hole.CommentDao
 import cn.edu.pku.pkuhole.data.hole.HoleListDao
 import dagger.Module
 import dagger.Provides
@@ -37,7 +37,7 @@ class DatabaseModule {
 
     // 每次都是新的实例
     @Provides
-    fun provideAttentionDao(appDatabase: AppDatabase): AttentionDao {
-        return appDatabase.attentionDao()
+    fun provideCommentDao(appDatabase: AppDatabase): CommentDao {
+        return appDatabase.commentDao()
     }
 }

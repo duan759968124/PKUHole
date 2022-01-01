@@ -12,26 +12,26 @@ import timber.log.Timber
  * @Desc:
  * @Version:        1.0
  */
-@Dao
-interface AttentionDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(attentionItemBean: AttentionItemBean): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(attentionList: List<AttentionItemBean>): List<Long>
-
-    @Update
-    suspend fun update(attentionItemBean: AttentionItemBean)
-
-    @Query("Select * from attention_table where pid = :key")
-    fun get(key: Long): Flow<AttentionItemBean?>
-
-    @Query("Select * from attention_table ORDER BY pid DESC")
-    fun getAllList(): Flow<List<AttentionItemBean>>
-
-
-    @Query("DELETE FROM attention_table")
-    suspend fun clear()
-
-}
+//@Dao
+//interface AttentionDao {
+//
+////    @Insert(onConflict = OnConflictStrategy.REPLACE)
+////    suspend fun insert(attentionItemBean: AttentionItemBean): Long
+////
+////    @Insert(onConflict = OnConflictStrategy.REPLACE)
+////    suspend fun insertAll(attentionList: List<AttentionItemBean>): List<Long>
+////
+////    @Update
+////    suspend fun update(attentionItemBean: AttentionItemBean)
+////
+////    @Query("Select * from attention_table where pid = :key")
+////    fun get(key: Long): Flow<AttentionItemBean?>
+////
+////    @Query("Select * from attention_table ORDER BY pid DESC")
+////    fun getAllList(): Flow<List<AttentionItemBean>>
+////
+////
+////    @Query("DELETE FROM attention_table")
+////    suspend fun clear()
+//
+//}

@@ -40,7 +40,7 @@ class AttentionViewModel @Inject internal constructor(
             try {
                 // Todo: 还需要添加一个验证有效期token的接口【获取token】
                 refreshStatus.postValue(true)
-                database.clearAttentionList()
+//                database.clearAttentionList()
                 database.getAttentionListFromNetToDatabase()
             }catch (e: Exception){
                 errorStatus.postValue(e)

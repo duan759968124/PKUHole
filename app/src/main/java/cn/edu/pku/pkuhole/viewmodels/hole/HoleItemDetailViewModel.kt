@@ -1,13 +1,14 @@
 package cn.edu.pku.pkuhole.viewmodels.hole
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
-import cn.edu.pku.pkuhole.data.hole.HoleRepository
+import android.annotation.SuppressLint
+import androidx.lifecycle.*
+import cn.edu.pku.pkuhole.base.BaseViewModel
+import cn.edu.pku.pkuhole.data.hole.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -22,21 +23,45 @@ import javax.inject.Inject
 // Todo：修改仓库为hole Detail的仓库
 @HiltViewModel
 class HoleItemDetailViewModel @Inject constructor(
-//    private val pid: Long = 0L,
     savedStateHandle: SavedStateHandle,
     holeRepository: HoleRepository) :
-    ViewModel() {
-    val pid : Long = savedStateHandle.get<Long>(HOLE_ITEM_DETAIL_PID)!!
-    val holeListItemBean: LiveData<HoleListItemBean> =
-        holeRepository.getHoleDetailWithPid(pid).asLiveData()
+    BaseViewModel() {
 
-//    fun getHoleItem() = holeAllListItemBean
+    val pid : Long = savedStateHandle.get<Long>(HOLE_ITEM_DETAIL_PID)!!
+    private val database = holeRepository
+
+    val currentHoleItem: LiveData<HoleItemModel?> = database.getHoleItem(pid).asLiveData()
+
+    val commentList: LiveData<List<CommentItemBean>> = database.getCommentList(pid).asLiveData()
+
     companion object {
         private const val HOLE_ITEM_DETAIL_PID = "pid"
     }
 
     init {
         Timber.e("click hole pid: %s", pid)
+    }
+
+    @SuppressLint("TimberExceptionLogging")
+    fun fetchCommentDetailFromNet() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                loadingStatus.postValue(true)
+                // Todo: 还需要添加一个验证有效期token的接口【获取token】
+                database.getOneHoleFromNetToDatabase(pid)
+                database.getCommentListFromNetToDatabase(pid)
+            }catch (e: Exception){
+                errorStatus.postValue(e)
+                e.message?.let { Timber.e(e.message) }
+            }finally {
+                loadingStatus.postValue(false)
+            }
+        }
+    }
+
+    fun onCommentItemClicked(commentItem: CommentItemBean) {
+        Timber.e("click comment %s", commentItem.toString())
+        Timber.e("click comment %s", currentHoleItem.toString())
     }
 
 }

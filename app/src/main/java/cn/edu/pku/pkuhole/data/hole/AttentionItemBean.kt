@@ -2,6 +2,7 @@ package cn.edu.pku.pkuhole.data.hole
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -12,41 +13,33 @@ import com.google.gson.annotations.SerializedName
  * @Time:           2021/12/22
  * @Desc:
  * @Version:        1.0
+ *
+ * attention 实体 网络获取实体
  */
-@Entity(tableName = "attention_table")
 data class AttentionItemBean(
     @field:SerializedName("pid")
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "pid")
     var pid: Long,
 
     @field:SerializedName("text")
-    @ColumnInfo(name = "text")
     var text: String?,
 
     @field:SerializedName("type")
-    @ColumnInfo(name = "type")
     var type: String,
 
 //    Todo: 时间戳类型？？转化和格式
     @field:SerializedName("timestamp")
-    @ColumnInfo(name = "timestamp")
     var timestamp: Long,
 
     @field:SerializedName("reply")
-    @ColumnInfo(name = "reply")
     var reply: Int,
 
     @field:SerializedName("likenum")
-    @ColumnInfo(name = "likenum")
     var likenum: Int,
 
     @field:SerializedName("extra")
-    @ColumnInfo(name = "extra")
     var extra: Int?,
 
     @field:SerializedName("url")
-    @ColumnInfo(name = "url")
     var url: String?,
 
 //    // 树洞列表 单独属性
@@ -66,7 +59,10 @@ data class AttentionItemBean(
     // 关注列表 单独属性
     @field:SerializedName("attention_tag")
     @ColumnInfo(name = "attention_tag")
-    var attention_tag: String? = "attention_tag"
+    var attention_tag: String?,
+
+    @ColumnInfo(name = "isAttention")
+    var isAttention: Int? = 1
 )
 
 
@@ -82,6 +78,49 @@ fun List<AttentionItemBean>.asDomainModel():List<HoleItemModel>{
             extra = it.extra,
             url = it.url,
             tag = it.tag
+        )
+    }
+}
+
+
+fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
+    return map{
+        HoleItemBean(
+            pid = it.pid,
+            text = it.text,
+            type = it.type,
+            timestamp = it.timestamp,
+            reply = it.reply,
+            likenum = it.likenum,
+            extra = it.extra,
+            url = it.url,
+            tag = it.tag,
+            hot = null,
+            hidden = null,
+            attention_tag = it.attention_tag,
+            isHole = null,
+            isAttention = 1
+        )
+    }
+}
+
+fun AttentionItemBean.asDatabaseBean():HoleItemBean{
+    return let{
+        HoleItemBean(
+            pid = it.pid,
+            text = it.text,
+            type = it.type,
+            timestamp = it.timestamp,
+            reply = it.reply,
+            likenum = it.likenum,
+            extra = it.extra,
+            url = it.url,
+            tag = it.tag,
+            hot = null,
+            hidden = null,
+            attention_tag = it.attention_tag,
+            isHole = null,
+            isAttention = 1
         )
     }
 }

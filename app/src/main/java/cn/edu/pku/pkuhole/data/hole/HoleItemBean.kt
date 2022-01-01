@@ -1,7 +1,7 @@
 package cn.edu.pku.pkuhole.data.hole
 
 import androidx.room.ColumnInfo
-import androidx.room.Ignore
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -13,10 +13,10 @@ import com.google.gson.annotations.SerializedName
  * @Desc:
  * @Version:        1.0
  *
- * Hole list实体，网络获取实体
+ * 最大的实体，同时是数据库实体
  */
-
-data class HoleListItemBean(
+@Entity(tableName = "hole_list_table")
+data class HoleItemBean(
     @field:SerializedName("pid")
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "pid")
@@ -65,12 +65,19 @@ data class HoleListItemBean(
     @ColumnInfo(name = "tag")
     var tag: String?,
 
+    // 关注列表 单独属性
+    @field:SerializedName("attention_tag")
+    @ColumnInfo(name = "attention_tag")
+    var attention_tag: String?,
+
     @ColumnInfo(name = "isHole")
-    var isHole : Int? = 1
+    var isHole : Int?,
+    @ColumnInfo(name = "isAttention")
+    var isAttention : Int?
 )
 
 
-fun List<HoleListItemBean>.asDomainModel():List<HoleItemModel>{
+fun List<HoleItemBean>.asDomainModel():List<HoleItemModel>{
     return map{
         HoleItemModel(
             pid = it.pid,
@@ -86,9 +93,9 @@ fun List<HoleListItemBean>.asDomainModel():List<HoleItemModel>{
     }
 }
 
-fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
-    return map{
-        HoleItemBean(
+fun HoleItemBean.asDomainModel():HoleItemModel{
+    return let{
+        HoleItemModel(
             pid = it.pid,
             text = it.text,
             type = it.type,
@@ -97,33 +104,8 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
             likenum = it.likenum,
             extra = it.extra,
             url = it.url,
-            tag = it.tag,
-            hot = it.hot,
-            hidden = it.hidden,
-            attention_tag = null,
-            isHole = 1,
-            isAttention = null
+            tag = it.tag
         )
     }
 }
 
-fun HoleListItemBean.asDatabaseBean():HoleItemBean{
-    return let{
-        HoleItemBean(
-            pid = it.pid,
-            text = it.text,
-            type = it.type,
-            timestamp = it.timestamp,
-            reply = it.reply,
-            likenum = it.likenum,
-            extra = it.extra,
-            url = it.url,
-            tag = it.tag,
-            hot = it.hot,
-            hidden = it.hidden,
-            attention_tag = null,
-            isHole = 1,
-            isAttention = null
-        )
-    }
-}

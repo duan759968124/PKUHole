@@ -5,10 +5,20 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.pkuhole.R
+import cn.edu.pku.pkuhole.adapters.CommentAdapter
+import cn.edu.pku.pkuhole.adapters.CommentItemListener
+import cn.edu.pku.pkuhole.adapters.HoleAdapter
+import cn.edu.pku.pkuhole.adapters.HoleItemListener
+import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
+import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
+import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 /**
@@ -17,9 +27,10 @@ import dagger.hilt.android.AndroidEntryPoint
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class HoleItemDetailFragment : Fragment() {
+class HoleItemDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleItemDetailBinding
+    private lateinit var holeItemViewBinding: HoleItemViewBinding
     private val viewModel : HoleItemDetailViewModel by viewModels()
 
     override fun onCreateView(
@@ -28,6 +39,7 @@ class HoleItemDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHoleItemDetailBinding.inflate(inflater, container, false)
+        context ?: return binding.root
 //        val arguments = HoleItemDetailFragmentArgs.fromBundle(requireArguments())
 //        val dataSource =
 //            AppDatabase.getInstance(requireNotNull(this.activity).application).holeAllListDao()
@@ -35,11 +47,49 @@ class HoleItemDetailFragment : Fragment() {
 //        val holeItemDetailViewModel =
 //            ViewModelProvider(this, viewModelFactory)[HoleItemDetailViewModel::class.java]
 //        binding.holeItemDetailViewModel = holeItemDetailViewModel
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+//        binding.viewModel = viewModel
+//        binding.lifecycleOwner = viewLifecycleOwner
+
+        val adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
+        binding.fragmentCommentListRecycler.adapter = adapter
+        val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
+        binding.fragmentCommentListRecycler.layoutManager = manager
+
+
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
+
+        // 监听holeList变化并更新UI
+        viewModel.commentList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
+
+        // 监听加载更多状态
+        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
+            if(it){
+                Timber.e("show loading")
+                showLoading()
+            }else{
+                Timber.e("hide loading")
+                dismissLoading()
+            }
+        })
+
+        // Todo：监听错误状态，好像有点问题
+        viewModel.errorStatus.observe(viewLifecycleOwner, Observer {
+//            Timber.e(it.toString())
+            it.message?.let { it -> showToast(it) }
+        })
+
         return binding.root
+    }
+
+    override fun initData() {
+        viewModel.fetchCommentDetailFromNet()
+
     }
 
 

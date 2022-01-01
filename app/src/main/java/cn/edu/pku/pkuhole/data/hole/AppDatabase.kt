@@ -15,15 +15,16 @@ import cn.edu.pku.pkuhole.utilities.DATABASE_NAME
  * @Version:        1.0
  */
 @Database(
-    entities = [HoleListItemBean::class, AttentionItemBean::class],
+//    entities = [HoleListItemBean::class, AttentionItemBean::class],
+    entities = [HoleItemBean::class, CommentItemBean::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun holeListDao(): HoleListDao
-    abstract fun attentionDao(): AttentionDao
-//    abstract val holeAttentionDao: HoleAttentionDao
+    abstract fun commentDao(): CommentDao
+//    abstract fun attentionDao(): AttentionDao
 
     companion object {
         // For Singleton instantiation

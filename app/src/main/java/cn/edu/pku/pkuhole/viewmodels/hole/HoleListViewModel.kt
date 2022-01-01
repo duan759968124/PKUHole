@@ -99,7 +99,7 @@ class HoleListViewModel @Inject internal constructor(
                 if(currentPage == 1){
                     // Todo: 后续将删除数据的操作放到一块
                     // 首次进入的话删除掉本地数据库
-                    database.clearHoleList()
+                    database.clear()
                     refreshStatus.postValue(true)
                 }else{
                     loadingStatus.postValue(true)
