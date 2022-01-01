@@ -13,17 +13,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HoleListViewModel @Inject internal constructor(
-    holeListRepository: HoleListRepository
+    holeRepository: HoleRepository
 ) : BaseViewModel() {
-    private val database = holeListRepository
+    private val database = holeRepository
+
+    private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
+
+    val navigationToHoleItemDetail: MutableLiveData<Long?>
+        get() = _navigationToHoleItemDetail
+
+    fun onHoleItemClicked(pid: Long) {
+        _navigationToHoleItemDetail.value = pid
+    }
+
+    fun onHoleItemDetailNavigated() {
+        _navigationToHoleItemDetail.value = null
+    }
+
 
 //    val mHoleListLiveData = StateLiveData<List<HoleListItemBean>>()
 
     val holeList = database.getHoleList().asLiveData()
 
     var currentPage : Int = 1
-
-    var getFirstPageTimestamp : Long = 0L
 
 //    val errorLiveData = MutableLiveData<Throwable>()
 
@@ -87,7 +99,7 @@ class HoleListViewModel @Inject internal constructor(
                 if(currentPage == 1){
                     // Todo: 后续将删除数据的操作放到一块
                     // 首次进入的话删除掉本地数据库
-                    database.clear()
+                    database.clearHoleList()
                     refreshStatus.postValue(true)
                 }else{
                     loadingStatus.postValue(true)
@@ -124,6 +136,7 @@ class HoleListViewModel @Inject internal constructor(
                 refreshStatus.postValue(true)
                 // Todo: 还需要添加一个验证有效期token的接口【获取token】
                 database.refreshHoleListFromNetToDatabase()
+//                database.getAttentionListFromNetToDatabase()
             }catch (e: Exception){
                 errorStatus.postValue(e)
                 e.message?.let { Timber.e(e.message) }

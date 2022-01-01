@@ -58,11 +58,11 @@ dependencies {
 
     // UI 下拉刷新框架
     def refreshVersion = '2.0.5'
-    implementation  'io.github.scwang90:refresh-layout-kernel:2.0.5'
-    implementation  'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
-    implementation  'io.github.scwang90:refresh-header-radar:2.0.5'       //雷达刷新头
-    implementation  'io.github.scwang90:refresh-footer-ball:2.0.5'        //球脉冲加载
-    implementation  'io.github.scwang90:refresh-footer-classics:2.0.5'    //经典加载
+    implementation  "io.github.scwang90:refresh-layout-kernel:$refreshVersion"
+    implementation  "io.github.scwang90:refresh-header-classics:$refreshVersion"    //经典刷新头
+    implementation  "io.github.scwang90:refresh-header-radar:$refreshVersion"       //雷达刷新头
+    implementation  "io.github.scwang90:refresh-footer-ball:$refreshVersion"        //球脉冲加载
+    implementation  "io.github.scwang90:refresh-footer-classics:$refreshVersion"    //经典加载
 
 
     // Android KTX

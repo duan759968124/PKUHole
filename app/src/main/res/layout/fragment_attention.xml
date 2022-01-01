@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.hole.AttentionFragment">
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/fragment_attention_srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <com.scwang.smart.refresh.header.BezierRadarHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_attention_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/hole_item_view"
+                tools:itemCount="5" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+
+
+    </FrameLayout>
+</layout>

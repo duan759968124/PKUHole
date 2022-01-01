@@ -6,16 +6,17 @@
     <data>
 
         <variable
-            name="holeListItemBean"
-            type="cn.edu.pku.pkuhole.data.hole.HoleListItemBean" />
+            name="holeItemModel"
+            type="cn.edu.pku.pkuhole.data.hole.HoleItemModel" />
 
-<!--        <variable-->
-<!--            name="clickListener"-->
-<!--            type="cn.edu.pku.pkuhole.adapters.HoleItemListener" />-->
         <variable
             name="clickListener"
-            type="android.view.View.OnClickListener" />
+            type="cn.edu.pku.pkuhole.adapters.HoleItemListener" />
+<!--        <variable-->
+<!--            name="clickListener"-->
+<!--            type="android.view.View.OnClickListener" />-->
     </data>
+<!--     android:onClick="@{clickListener}"-->
 <!-- android:onClick="@{()->clickListener.onClick(holeAllListItemBean)}"-->
 
     <com.google.android.material.card.MaterialCardView
@@ -27,7 +28,7 @@
         app:cardElevation="@dimen/card_elevation"
         app:strokeColor="@color/card_stroke_color"
         app:rippleColor="@color/card_ripper_color"
-        android:onClick="@{clickListener}"
+        android:onClick="@{()->clickListener.onClick(holeItemModel)}"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +48,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:text="@{@string/hole_pid_format(holeListItemBean.pid)}"
+                android:text="@{@string/pid_format(holeItemModel.pid)}"
                 android:textStyle="bold"
                 tools:text="#2995822"  />
 
@@ -71,8 +72,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_margin="@dimen/card_inside_margin_large"
                 android:padding="@dimen/card_inside_padding"
-                app:imageFromUrl="@{holeListItemBean.url}"
-                app:hasImage="@{holeListItemBean.url}"
+                app:imageFromUrl="@{holeItemModel.url}"
+                app:hasImage="@{holeItemModel.url}"
                 tools:src="@drawable/bg_drawer_header"
                 />
 
@@ -91,7 +92,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="14sp"
                 android:textColor="@color/black"
-                android:text="@{holeListItemBean.text}"
+                android:text="@{holeItemModel.text}"
                 tools:text="@string/hole_test_text" />
             <View
                 android:id="@+id/card_line_two"
@@ -112,7 +113,7 @@
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textSize="12sp"
-                app:postDurationFormatted="@{holeListItemBean}"
+                app:postDurationFormatted="@{holeItemModel.timestamp}"
                 tools:text="@string/card_test_post_time" />
 
             <TextView
@@ -125,7 +126,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
                 android:textSize="12sp"
-                android:text="@{String.valueOf(holeListItemBean.reply)}"
+                android:text="@{String.valueOf(holeItemModel.reply)}"
                 tools:text="@string/card_test_reply_num"
                 />
             <ImageView
@@ -150,7 +151,7 @@
                 app:layout_constraintRight_toLeftOf="@id/hole_reply_image"
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
                 android:textSize="12sp"
-                android:text="@{String.valueOf(holeListItemBean.likenum)}"
+                android:text="@{String.valueOf(holeItemModel.likenum)}"
                 tools:text="@string/card_test_reply_num"
                 />
             <ImageView

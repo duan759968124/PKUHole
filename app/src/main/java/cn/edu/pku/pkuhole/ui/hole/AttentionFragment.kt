@@ -12,49 +12,47 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.pkuhole.adapters.HoleAdapter
 import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseFragment
+import cn.edu.pku.pkuhole.databinding.FragmentAttentionBinding
 import cn.edu.pku.pkuhole.databinding.FragmentHoleListBinding
+import cn.edu.pku.pkuhole.viewmodels.hole.AttentionViewModel
 
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class HoleListFragment : BaseFragment() {
+class AttentionFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentHoleListBinding
-    private val viewModel: HoleListViewModel by viewModels()
+    private lateinit var binding: FragmentAttentionBinding
+    private val viewModel: AttentionViewModel by viewModels()
 
     @SuppressLint("TimberArgCount")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHoleListBinding.inflate(inflater, container, false)
+        binding = FragmentAttentionBinding.inflate(inflater, container, false)
         context ?: return binding.root
 //        val adapter = HoleAdapter()
         val adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
-        binding.fragmentHoleListRecycler.adapter = adapter
+        binding.fragmentAttentionRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-        binding.fragmentHoleListRecycler.layoutManager = manager
+        binding.fragmentAttentionRecycler.layoutManager = manager
 
-        binding.fragmentHoleListSrl.setDisableContentWhenRefresh(false)
-        binding.fragmentHoleListSrl.setDisableContentWhenLoading(true)
+        // 是否在刷新的时候禁止列表的操作
+        binding.fragmentAttentionSrl.setDisableContentWhenRefresh(true)
+
+
 
         // 刷新监听
-        binding.fragmentHoleListSrl.setOnRefreshListener {
-            viewModel.refreshHoleList()
+        binding.fragmentAttentionSrl.setOnRefreshListener {
+            viewModel.refreshAttentionList()
             Timber.e("监听到下拉刷新了")
 //            it.finishRefresh()
         }
-        // 加载更多监听
-        binding.fragmentHoleListSrl.setOnLoadMoreListener {
-            viewModel.getHoleList()
-            Timber.e("监听到加载更多了")
-//            it.finishLoadMore(false)
-        }
 
         // 监听holeList变化并更新UI
-        viewModel.holeList.observe(viewLifecycleOwner, Observer {
+        viewModel.attentionList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
@@ -69,25 +67,12 @@ class HoleListFragment : BaseFragment() {
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Timber.e("show refresh")
-                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+                binding.fragmentAttentionSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
 //                showLoading()
             }else{
                 Timber.e("hide refresh")
 //                dismissLoading()
-                binding.fragmentHoleListSrl.finishRefresh(1000)
-            }
-        })
-
-        // 监听加载更多状态
-        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
-            if(it){
-                Timber.e("show loading")
-//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
-//                showLoading()
-            }else{
-                Timber.e("hide loading")
-//                dismissLoading()
-                binding.fragmentHoleListSrl.finishLoadMore(1000)
+                binding.fragmentAttentionSrl.finishRefresh(1000)
             }
         })
 

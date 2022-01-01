@@ -23,7 +23,7 @@
     <string name="hole_detail">树洞详情</string>
 
     <!--    hole item card -->
-    <string name="hole_pid_format">#%d</string>
+    <string name="pid_format">#%d</string>
     <string name="seconds_before">%d秒前</string>
     <string name="minutes_before">%d分钟前</string>
     <string name="hours_before">%d小时前</string>

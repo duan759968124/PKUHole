@@ -2,6 +2,7 @@ package cn.edu.pku.pkuhole.data.hole
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 
 /**
  *
@@ -15,13 +16,42 @@ import kotlinx.coroutines.flow.Flow
 interface HoleListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(holeListItemBean: HoleListItemBean)
+    suspend fun insert(holeListItemBean: HoleListItemBean): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(holeListItems: List<HoleListItemBean>)
+    suspend fun insertAll(holeListItems: List<HoleListItemBean>): List<Long>
 
     @Update
     suspend fun update(holeListItemBean: HoleListItemBean)
+
+
+    @Update
+    suspend fun updateList(holeListItems: List<HoleListItemBean>)
+
+    @Transaction
+    suspend fun upsert(holeListItemBean: HoleListItemBean){
+        val pid = insert(holeListItemBean)
+        if (pid == -1L){
+            update(holeListItemBean)
+        }
+    }
+
+    @Transaction
+    suspend fun upsertList(holeListItems: List<HoleListItemBean>){
+        val insertResult = insertAll(holeListItems)
+        val existList = mutableListOf<HoleListItemBean>()
+        Timber.e("insert result list %s", insertResult.toString())
+        insertResult.mapIndexed { index, pid ->
+            if(pid == -1L){
+                existList.add(holeListItems[index])
+            }
+        }
+        if(!existList.isNullOrEmpty()){
+            val pid = existList[0].pid
+            Timber.e("insert error need update net %s", existList[0].toString())
+            updateList(existList)
+        }
+    }
 
     @Query("Select * from hole_list_table where pid = :key")
     fun get(key: Long): Flow<HoleListItemBean?>
@@ -29,11 +59,6 @@ interface HoleListDao {
     @Query("Select * from hole_list_table ORDER BY pid DESC")
     fun getAllList(): Flow<List<HoleListItemBean>>
 
-//    /**
-//     * Selects and returns the latest
-//     */
-//    @Query("SELECT * FROM hole_list_table ORDER BY pid DESC LIMIT 1")
-//    suspend fun getLatest(): Flow<HoleAllListItemBean?>
 
     // Todo : 后续改为查找HoleDetail的表格
     @Query("Select * from hole_list_table where pid = :key")

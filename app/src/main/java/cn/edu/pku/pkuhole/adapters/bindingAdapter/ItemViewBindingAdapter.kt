@@ -21,8 +21,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
  * @Version:        1.0
  */
 @BindingAdapter("postDurationFormatted")
-fun TextView.setPostDurationFormatted(item: HoleListItemBean){
-    text = convertDurationToFormatted(item.timestamp, System.currentTimeMillis(), context.resources)
+fun TextView.setPostDurationFormatted(postTimestamp : Long){
+    text = convertDurationToFormatted(postTimestamp, System.currentTimeMillis(), context.resources)
 }
 
 @BindingAdapter("hasImage")

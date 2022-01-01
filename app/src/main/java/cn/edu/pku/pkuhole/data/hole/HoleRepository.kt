@@ -1,15 +1,14 @@
 package cn.edu.pku.pkuhole.data.hole
 
-import android.widget.Toast
+import androidx.lifecycle.Transformations
 import cn.edu.pku.pkuhole.api.HoleApiResponse
 import cn.edu.pku.pkuhole.api.HoleApiService
 import cn.edu.pku.pkuhole.base.BaseRepository
 import cn.edu.pku.pkuhole.base.network.StateLiveData
-import cn.edu.pku.pkuhole.utilities.ToastUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.sql.Timestamp
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,40 +22,47 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class HoleListRepository @Inject constructor(
+class HoleRepository @Inject constructor(
     private val holeListDao: HoleListDao,
-    private val holeApi : HoleApiService
+    private val attentionDao: AttentionDao,
+    private val holeApi : HoleApiService,
     ): BaseRepository() {
+
     fun getHoleItem(pid: Long) = holeListDao.get(pid)
 
-    fun getHoleList() = holeListDao.getAllList()
+    fun getAttentionItem(pid: Long) = attentionDao.get(pid)
 
-    suspend fun insert(holeListItemBean: HoleListItemBean) =
-        holeListDao.insert(holeListItemBean)
 
-    suspend fun insertAll(holeListList: List<HoleListItemBean>) = holeListDao.insertAll(holeListList)
+    fun getHoleList() : Flow<List<HoleItemModel>> = holeListDao.getAllList().map { it.asDomainModel() }
+    fun getAttentionList() : Flow<List<HoleItemModel>> = attentionDao.getAllList().map { it.asDomainModel() }
 
-    suspend fun update(holeListItemBean: HoleListItemBean) =
-        holeListDao.update(holeListItemBean)
+    suspend fun insertHoleItem(holeListItemBean: HoleListItemBean) = holeListDao.insert(holeListItemBean)
+
+    suspend fun insertAttentionItem(attentionItemBean: AttentionItemBean) = attentionDao.insert(attentionItemBean)
+
+    private suspend fun insertHoleList(holeListList: List<HoleListItemBean>) = holeListDao.insertAll(holeListList)
+
+    private suspend fun insertAttentionList(attentionList: List<AttentionItemBean>) = attentionDao.insertAll(attentionList)
+
+    suspend fun updateHoleItem(holeListItemBean: HoleListItemBean) = holeListDao.update(holeListItemBean)
+
+    suspend fun updateAttentionItem(attentionItemBean: AttentionItemBean) = attentionDao.update(attentionItemBean)
 
     // Todo: 使用多个后端数据？比如清理就清理掉allList 和 attention的所有数据？包括HoleDetail
-    suspend fun clear() = holeListDao.clear()
+    suspend fun clearHoleList() = holeListDao.clear()
+
+    suspend fun clearAttentionList() = attentionDao.clear()
 
     // Todo : 后续改为查找HoleDetail的表格
     fun getHoleDetailWithPid(pid : Long) = holeListDao.getHoleDetailWithPid(pid)
 
-    // network fetch data
-//    suspend fun getHoleAllListFromNet(p: Int) : HoleApiResponse<List<HoleListItemBean>> {
-//        return holeApi.getHoleList(page = p)
-//    }
     // 记录获取第一页或者刷新时间，作为请求刷新的一个参数
-    var getFirstPageOrRefreshHoleListTimestamp : Long = 0L
+    private var getFirstPageOrRefreshHoleListTimestamp : Long = 0L
 
     suspend fun getHoleListFromNetToDatabase(page: Int){
         withContext(Dispatchers.IO){
             val holeListResponse = holeApi.getHoleList(page = page)
-            holeListResponse.data?.map{  it.isHole = true }
-            holeListResponse.data?.let { insertAll(it) }
+            holeListResponse.data?.let { insertHoleList(it) }
             if(page == 1){
                 holeListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
             }
@@ -67,17 +73,23 @@ class HoleListRepository @Inject constructor(
     suspend fun refreshHoleListFromNetToDatabase(){
         withContext(Dispatchers.IO){
             val refreshHoleListResponse = holeApi.refreshHoleList(timestamp = getFirstPageOrRefreshHoleListTimestamp)
-            refreshHoleListResponse.data?.map { it.isHole = true }
-            refreshHoleListResponse.data?.let { insertAll(it) }
+            refreshHoleListResponse.data?.let { insertHoleList(it) }
             refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
 
+        }
+    }
+
+    // 获取attention列表  更换表格insert另一个表中
+    suspend fun getAttentionListFromNetToDatabase(){
+        withContext(Dispatchers.IO){
+            val attentionListResponse = holeApi.getAttentionList()
+            attentionListResponse.data?.let { insertAttentionList(it) }
         }
     }
 
 
 
     /**
-     * 请求项目分类。
      * @param stateLiveData 带有请求状态的LiveData
      */
     suspend fun getHoleListFromNet(page: Int, stateLiveData: StateLiveData<List<HoleListItemBean>>) {

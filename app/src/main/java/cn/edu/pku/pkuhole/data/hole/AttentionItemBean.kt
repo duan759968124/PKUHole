@@ -13,8 +13,8 @@ import com.google.gson.annotations.SerializedName
  * @Desc:
  * @Version:        1.0
  */
-@Entity(tableName = "hole_list_table")
-data class HoleListItemBean(
+@Entity(tableName = "attention_table")
+data class AttentionItemBean(
     @field:SerializedName("pid")
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "pid")
@@ -49,29 +49,28 @@ data class HoleListItemBean(
     @ColumnInfo(name = "url")
     var url: String?,
 
-    // 树洞列表 单独属性
-    @field:SerializedName("hot")
-    @ColumnInfo(name = "hot")
-    var hot: Long?,
-
-    // 树洞列表 单独属性
-    @field:SerializedName("hidden")
-    @ColumnInfo(name = "hidden")
-    var hidden: Int?,
+//    // 树洞列表 单独属性
+//    @field:SerializedName("hot")
+//    @ColumnInfo(name = "hot")
+//    var hot: Long?,
+//
+//    // 树洞列表 单独属性
+//    @field:SerializedName("hidden")
+//    @ColumnInfo(name = "hidden")
+//    var hidden: Int?,
 
     @field:SerializedName("tag")
     @ColumnInfo(name = "tag")
     var tag: String?,
 
-//    // 关注列表 单独属性
-//    @field:SerializedName("attention_tag")
-//    @ColumnInfo(name = "attention_tag")
-//    var attention_tag: String? = "attention_tag"
-
+    // 关注列表 单独属性
+    @field:SerializedName("attention_tag")
+    @ColumnInfo(name = "attention_tag")
+    var attention_tag: String? = "attention_tag"
 )
 
 
-fun List<HoleListItemBean>.asDomainModel():List<HoleItemModel>{
+fun List<AttentionItemBean>.asDomainModel():List<HoleItemModel>{
     return map{
         HoleItemModel(
             pid = it.pid,
