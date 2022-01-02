@@ -1,5 +1,7 @@
 package cn.edu.pku.pkuhole.viewmodels.hole
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import cn.edu.pku.pkuhole.base.BaseViewModel
 import cn.edu.pku.pkuhole.data.hole.HoleRepository
@@ -19,6 +21,12 @@ import javax.inject.Inject
 class HoleViewPagerViewModel @Inject constructor(
     holeRepository: HoleRepository) : BaseViewModel() {
 
+
+    private val _showDialogPost = MutableLiveData<Boolean>(false)
+
+    val showDialogPost: LiveData<Boolean>
+        get() = _showDialogPost
+
     private val database = holeRepository
 
     // 发帖之后要涉及到更新hole数据和关注数据
@@ -28,5 +36,10 @@ class HoleViewPagerViewModel @Inject constructor(
 
     fun onClickUploadFab(){
         Timber.e("start dialog post hole!!!")
+        _showDialogPost.value = true
+    }
+
+    fun showDialogPostFinished() {
+        _showDialogPost.value = false
     }
 }

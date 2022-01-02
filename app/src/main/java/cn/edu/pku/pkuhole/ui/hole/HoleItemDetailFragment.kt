@@ -1,5 +1,6 @@
 package cn.edu.pku.pkuhole.ui.hole
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -15,6 +16,11 @@ import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.setActionButtonEnabled
+import com.afollestad.materialdialogs.input.getInputField
+import com.afollestad.materialdialogs.input.input
 
 
 /**
@@ -45,6 +51,7 @@ class HoleItemDetailFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+
         val adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
@@ -59,7 +66,6 @@ class HoleItemDetailFragment : BaseFragment() {
                 adapter.submitList(it)
             }
         })
-
 
         // 监听加载更多状态
         viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
@@ -78,11 +84,54 @@ class HoleItemDetailFragment : BaseFragment() {
             it.message?.let { it -> showToast(it) }
         })
 
+        // 监听是否显示对话框
+        viewModel.replyDialogToName.observe(viewLifecycleOwner, Observer {
+            if(it.isNullOrEmpty()){
+                showReplyDialog("")
+            }else{
+                val prefillStr = "Re $it: "
+                showReplyDialog(prefillStr)
+            }
+        })
+
         return binding.root
     }
 
     override fun initData() {
         viewModel.fetchCommentDetailFromNet()
+    }
+
+    @SuppressLint("CheckResult")
+    fun showReplyDialog(paramString: String?) {
+        context?.let {
+            MaterialDialog(it).show {
+                title(R.string.reply)
+                input(hintRes = R.string.hint_text, prefill = paramString, ) { dialog, text ->
+                    if(!paramString.isNullOrEmpty()){
+                        Timber.e("input not null param text --%s--", text.substring(text.indexOf(":")+1).trim().isEmpty())
+                    }else{
+                        Timber.e("input text %s", text)
+                    }
+                    val inputField = dialog.getInputField()
+
+                    val isValid = !(!paramString.isNullOrEmpty() and text.substring(text.indexOf(":")+1).trim().isEmpty())
+                    Timber.e("isValid %s", isValid)
+                    inputField?.error = if (isValid) null else "Must !"
+                    dialog.setActionButtonEnabled(WhichButton.POSITIVE, isValid)
+                }
+                negativeButton(R.string.cancelReply)
+//                { dialog ->
+//                    dialog.hide()
+//                }
+                positiveButton(R.string.reply)
+            }
+        }
+//        Builder(context).title(2131230917).inputType(1).input(
+//            this.REPLY_DIALOG_INPUT_HINT,
+//            paramString,
+//            `HoleDetailFragment$$Lambda$3`.`lambdaFactory$`()
+//        ).positiveText(2131230914).negativeText(2131230913)
+//            .onPositive(`HoleDetailFragment$$Lambda$4`.`lambdaFactory$`(this)).show()
     }
 
 

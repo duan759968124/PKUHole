@@ -35,6 +35,11 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val commentList: LiveData<List<CommentItemBean>> = database.getCommentList(pid).asLiveData()
 
+    private val _replyDialogToName = MutableLiveData<String?>()
+
+    val replyDialogToName: LiveData<String?>
+        get() = _replyDialogToName
+
     companion object {
         private const val HOLE_ITEM_DETAIL_PID = "pid"
     }
@@ -63,11 +68,13 @@ class HoleItemDetailViewModel @Inject constructor(
     val holeItemClickListener = HoleItemListener{
         // Todo: 弹框
         Timber.e("pid %d", it)
+        _replyDialogToName.value = ""
     }
 
     fun onCommentItemClicked(commentItem: CommentItemBean) {
         // 弹框
         Timber.e("click comment %s", commentItem.toString())
+        _replyDialogToName.value = commentItem.name
     }
 
 }

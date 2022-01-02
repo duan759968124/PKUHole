@@ -40,4 +40,7 @@
     <string name="hole_extra_clear">清理</string>
     <string name="hole_post_commmit">发布</string>
     <string name="fab_scrolling_behavior">cn.edu.pku.pkuhole.utilities.ScrollingFabBehavior</string>
+    <string name="reply">回复</string>
+    <string name="cancelReply">取消</string>
+    <string name="hint_text">请输入回复内容</string>
 </resources>

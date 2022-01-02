@@ -64,6 +64,12 @@ dependencies {
     implementation  "io.github.scwang90:refresh-footer-ball:$refreshVersion"        //球脉冲加载
     implementation  "io.github.scwang90:refresh-footer-classics:$refreshVersion"    //经典加载
 
+    // dialog
+    // 升级到3.3.0, 输入框的提示hint放在了上面。3.2.1比较顺眼
+    def materialDialogVersion = '3.2.1'
+    implementation "com.afollestad.material-dialogs:core:$materialDialogVersion"
+    implementation "com.afollestad.material-dialogs:input:$materialDialogVersion"
+
 
     // Android KTX
     def ktxVersion = '1.3.2'

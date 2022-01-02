@@ -1,9 +1,10 @@
 package cn.edu.pku.pkuhole.ui.hole
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import cn.edu.pku.pkuhole.R
@@ -12,10 +13,10 @@ import cn.edu.pku.pkuhole.adapters.HOLE_MY_ATTENTION_INDEX
 import cn.edu.pku.pkuhole.adapters.HolePaperAdapter
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleViewPagerBinding
-import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleViewPagerViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 /**
  *
@@ -46,6 +47,25 @@ class HoleViewPagerFragment : BaseFragment() {
         }.attach()
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        // 创建一个dialog
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("hhhhhh")
+        builder.setMessage("click button")
+        dialog = builder.create()
+
+        viewModel.showDialogPost.observe(viewLifecycleOwner, Observer {
+            if(it){
+                Timber.e("show dialog")
+                dialog.show()
+                viewModel.showDialogPostFinished()
+            }else{
+                Timber.e("hide dialog")
+//                dialog.hide()
+            }
+        })
+
         setHasOptionsMenu(true)
         return binding.root
     }
