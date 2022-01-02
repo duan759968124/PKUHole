@@ -2,6 +2,7 @@ package cn.edu.pku.pkuhole.viewmodels.hole
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.*
+import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseViewModel
 import cn.edu.pku.pkuhole.data.hole.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,7 @@ class HoleItemDetailViewModel @Inject constructor(
     val pid : Long = savedStateHandle.get<Long>(HOLE_ITEM_DETAIL_PID)!!
     private val database = holeRepository
 
-    val currentHoleItem: LiveData<HoleItemModel?> = database.getHoleItem(pid).asLiveData()
+    val currentHoleItem = database.getHoleItem(pid).asLiveData()
 
     val commentList: LiveData<List<CommentItemBean>> = database.getCommentList(pid).asLiveData()
 
@@ -48,7 +49,7 @@ class HoleItemDetailViewModel @Inject constructor(
             try {
                 loadingStatus.postValue(true)
                 // Todo: 还需要添加一个验证有效期token的接口【获取token】
-                database.getOneHoleFromNetToDatabase(pid)
+//                database.getOneHoleFromNetToDatabase(pid)
                 database.getCommentListFromNetToDatabase(pid)
             }catch (e: Exception){
                 errorStatus.postValue(e)
@@ -59,9 +60,14 @@ class HoleItemDetailViewModel @Inject constructor(
         }
     }
 
+    val holeItemClickListener = HoleItemListener{
+        // Todo: 弹框
+        Timber.e("pid %d", it)
+    }
+
     fun onCommentItemClicked(commentItem: CommentItemBean) {
+        // 弹框
         Timber.e("click comment %s", commentItem.toString())
-        Timber.e("click comment %s", currentHoleItem.toString())
     }
 
 }

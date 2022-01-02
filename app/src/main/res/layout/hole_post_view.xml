@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/tv_hole_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/et_hole_post"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28.0dip"
+        android:layout_marginLeft="28.0dip"
+        android:gravity="center"
+        android:text="发布新树洞"
+        android:textSize="24.0sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/btn_hole_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="16.0dip"
+        android:layout_marginRight="28.0dip"
+        android:layout_marginBottom="16.0dip"
+        android:alpha="0.5"
+        android:background="#00000000"
+        android:src="@drawable/ic_send_black_36" />
+
+    <EditText
+        android:id="@id/et_hole_post"
+        style="?android:attr/textViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_hole_post"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:hint="说些什么吧~"
+        android:minHeight="200.0dip"
+        android:paddingLeft="28.0dip"
+        android:paddingRight="28.0dip" />
+
+    <ImageView
+        android:id="@+id/img_hole_post_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_hole_post"
+        android:adjustViewBounds="true"
+        android:maxHeight="300.0dip"
+        android:paddingLeft="28.0dip"
+        android:paddingRight="28.0dip"
+        android:paddingBottom="5.0dip"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_hole_post_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_hole_post_preview"
+        android:background="#ffd0d0d0">
+
+        <ImageButton
+            android:id="@id/btn_hole_post_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28.0dip"
+            android:layout_marginTop="10.0dip"
+            android:layout_marginRight="16.0dip"
+            android:layout_marginBottom="10.0dip"
+            android:alpha="0.5"
+            android:background="#00000000"
+            android:src="@drawable/ic_insert_photo_black_36" />
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/btn_hole_post_audio"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="16.0dip"-->
+<!--            android:layout_marginTop="10.0dip"-->
+<!--            android:layout_marginBottom="10.0dip"-->
+<!--            android:alpha="0.5"-->
+<!--            android:background="#00000000"-->
+<!--            android:src="@drawable/ic_keyboard_voice_black_36dp" />-->
+    </LinearLayout>
+</RelativeLayout>

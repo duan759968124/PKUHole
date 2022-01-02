@@ -17,7 +17,6 @@ import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
  * @Version:        1.0
  */
 
-//class HoleAdapter :
 class HoleAdapter(private val clickListener: HoleItemListener) :
     ListAdapter<HoleItemModel, HoleAdapter.ViewHolder>(HoleDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -61,6 +60,7 @@ class HoleAdapter(private val clickListener: HoleItemListener) :
         holder.bind(getItem(position), clickListener)
 //        holder.bind(getItem(position))
     }
+
 }
 
 class HoleDiffCallback : DiffUtil.ItemCallback<HoleItemModel>() {

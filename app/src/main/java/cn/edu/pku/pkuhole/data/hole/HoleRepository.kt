@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -85,6 +86,8 @@ class HoleRepository @Inject constructor(
     // 树洞详情相关函数
     // update holeItemModel函数
     fun getHoleItem(pid: Long) = holeListDao.get(pid).map { it?.asDomainModel() }
+//    fun getHoleItem(pid: Long) = holeListDao.get(pid).map { it?.asDomainModel() }
+
     private suspend fun updateHoleItemModel(holeItemModel: HoleItemModel) = holeListDao.updateModel(holeItemModel)
 
     fun getCommentList(pid: Long) = commentDao.getCommentListByPid(pid)
@@ -94,6 +97,7 @@ class HoleRepository @Inject constructor(
     suspend fun getOneHoleFromNetToDatabase(pid: Long){
         withContext(Dispatchers.IO){
             val holeResponse = holeApi.getOneHole(pid = pid)
+//            holeResponse.data?.let { it.reply = 100 }
             holeResponse.data?.let { updateHoleItemModel(it) }
         }
     }

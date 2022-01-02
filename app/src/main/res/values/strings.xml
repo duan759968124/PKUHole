@@ -34,4 +34,10 @@
     <string name="card_test_reply_num">0</string>
     <string name="detail_origin_title">原文</string>
     <string name="detail_comment_title">评论</string>
+    <string name="dialog_post_title">发布新树洞</string>
+    <string name="hole_add_image">添加图像</string>
+    <string name="hole_add_audio">添加音频</string>
+    <string name="hole_extra_clear">清理</string>
+    <string name="hole_post_commmit">发布</string>
+    <string name="fab_scrolling_behavior">cn.edu.pku.pkuhole.utilities.ScrollingFabBehavior</string>
 </resources>

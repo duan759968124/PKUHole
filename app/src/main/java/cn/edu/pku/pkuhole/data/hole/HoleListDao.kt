@@ -112,11 +112,6 @@ interface HoleListDao {
     @Query("Select * from hole_list_table where isAttention = 1 ORDER BY pid DESC")
     fun getAttentionList(): Flow<List<HoleItemBean>>
 
-
-    // Todo : 后续改为查找HoleDetail的表格
-    @Query("Select * from hole_list_table where pid = :key")
-    fun getHoleDetailWithPid(key: Long): Flow<HoleItemBean>
-
     @Query("DELETE FROM hole_list_table")
     suspend fun clear()
 

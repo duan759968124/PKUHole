@@ -10,12 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.adapters.CommentAdapter
 import cn.edu.pku.pkuhole.adapters.CommentItemListener
-import cn.edu.pku.pkuhole.adapters.HoleAdapter
-import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
-import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
-import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -30,7 +26,6 @@ import timber.log.Timber
 class HoleItemDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleItemDetailBinding
-    private lateinit var holeItemViewBinding: HoleItemViewBinding
     private val viewModel : HoleItemDetailViewModel by viewModels()
 
     override fun onCreateView(
@@ -47,14 +42,13 @@ class HoleItemDetailFragment : BaseFragment() {
 //        val holeItemDetailViewModel =
 //            ViewModelProvider(this, viewModelFactory)[HoleItemDetailViewModel::class.java]
 //        binding.holeItemDetailViewModel = holeItemDetailViewModel
-//        binding.viewModel = viewModel
-//        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentCommentListRecycler.layoutManager = manager
-
 
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
@@ -89,7 +83,6 @@ class HoleItemDetailFragment : BaseFragment() {
 
     override fun initData() {
         viewModel.fetchCommentDetailFromNet()
-
     }
 
 

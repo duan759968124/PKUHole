@@ -17,8 +17,6 @@
 <!--            type="android.view.View.OnClickListener" />-->
     </data>
 <!--     android:onClick="@{clickListener}"-->
-<!-- android:onClick="@{()->clickListener.onClick(holeAllListItemBean)}"-->
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
