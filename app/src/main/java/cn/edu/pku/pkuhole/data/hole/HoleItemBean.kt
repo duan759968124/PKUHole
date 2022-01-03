@@ -77,35 +77,35 @@ data class HoleItemBean(
 )
 
 
-fun List<HoleItemBean>.asDomainModel():List<HoleItemModel>{
-    return map{
-        HoleItemModel(
-            pid = it.pid,
-            text = it.text,
-            type = it.type,
-            timestamp = it.timestamp,
-            reply = it.reply,
-            likenum = it.likenum,
-            extra = it.extra,
-            url = it.url,
-            tag = it.tag
-        )
-    }
-}
-
-fun HoleItemBean.asDomainModel():HoleItemModel{
-    return let{
-        HoleItemModel(
-            pid = it.pid,
-            text = it.text,
-            type = it.type,
-            timestamp = it.timestamp,
-            reply = it.reply,
-            likenum = it.likenum,
-            extra = it.extra,
-            url = it.url,
-            tag = it.tag
-        )
-    }
-}
+//fun List<HoleItemBean>.asDomainModel():List<HoleItemModel>{
+//    return map{
+//        HoleItemModel(
+//            pid = it.pid,
+//            text = it.text,
+//            type = it.type,
+//            timestamp = it.timestamp,
+//            reply = it.reply,
+//            likenum = it.likenum,
+//            extra = it.extra,
+//            url = it.url,
+//            tag = it.tag,
+//        )
+//    }
+//}
+//
+//fun HoleItemBean.asDomainModel():HoleItemModel{
+//    return let{
+//        HoleItemModel(
+//            pid = it.pid,
+//            text = it.text,
+//            type = it.type,
+//            timestamp = it.timestamp,
+//            reply = it.reply,
+//            likenum = it.likenum,
+//            extra = it.extra,
+//            url = it.url,
+//            tag = it.tag,
+//        )
+//    }
+//}
 

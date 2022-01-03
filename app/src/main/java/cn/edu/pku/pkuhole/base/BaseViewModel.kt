@@ -3,6 +3,7 @@ package cn.edu.pku.pkuhole.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import cn.edu.pku.pkuhole.utilities.SingleLiveData
 
 /**
  *
@@ -19,7 +20,8 @@ open class BaseViewModel: ViewModel() {
     // 刷新等待状态
     val refreshStatus = MutableLiveData<Boolean>()
     // error 变量
-    val errorStatus = MutableLiveData<Throwable>()
+//    val errorStatus = MutableLiveData<Throwable>()
+    val errorStatus = SingleLiveData<Throwable>()
 
 
 }

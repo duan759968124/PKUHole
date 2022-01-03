@@ -67,7 +67,7 @@ class AttentionFragment : BaseFragment() {
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Timber.e("show refresh")
-                binding.fragmentAttentionSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                binding.fragmentAttentionSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
 //                showLoading()
             }else{
                 Timber.e("hide refresh")
@@ -89,6 +89,7 @@ class AttentionFragment : BaseFragment() {
 
     override fun initData() {
 //        viewModel.getHoleList()
+        viewModel.getAttentionList()
 //         监听数据的状态变化
 //        viewModel.mHoleListLiveData.observe(this,
 //            object : IStateObserver<List<HoleListItemBean>>(binding?.holeListRecycler) {

@@ -22,24 +22,24 @@ class HoleViewPagerViewModel @Inject constructor(
     holeRepository: HoleRepository) : BaseViewModel() {
 
 
-    private val _showDialogPost = MutableLiveData<Boolean>(false)
-
-    val showDialogPost: LiveData<Boolean>
-        get() = _showDialogPost
+//    private val _showDialogPost = MutableLiveData<Boolean>(false)
+//
+//    val showDialogPost: LiveData<Boolean>
+//        get() = _showDialogPost
 
     private val database = holeRepository
 
-    // 发帖之后要涉及到更新hole数据和关注数据
+    // 发帖之后要涉及到更新hole数据和关注数据【自动关注的】
     init {
 
     }
 
     fun onClickUploadFab(){
         Timber.e("start dialog post hole!!!")
-        _showDialogPost.value = true
+//        _showDialogPost.value = true
     }
 
-    fun showDialogPostFinished() {
-        _showDialogPost.value = false
-    }
+//    fun showDialogPostFinished() {
+//        _showDialogPost.value = false
+//    }
 }

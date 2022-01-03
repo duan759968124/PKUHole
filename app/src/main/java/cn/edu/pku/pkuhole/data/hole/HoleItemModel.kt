@@ -13,7 +13,7 @@ data class HoleItemModel (
     var likenum: Int,
     var extra: Int?,
     var url: String?,
-    var tag: String?
+    var tag: String?,
 )
 
 
@@ -32,8 +32,8 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             hot = null,
             hidden = null,
             attention_tag = null,
-            isHole = null,
-            isAttention = null
+            isHole = 0,
+            isAttention = 0
         )
     }
 }

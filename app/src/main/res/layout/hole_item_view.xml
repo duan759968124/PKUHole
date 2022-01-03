@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="holeItemModel"
-            type="cn.edu.pku.pkuhole.data.hole.HoleItemModel" />
+            name="holeItemBean"
+            type="cn.edu.pku.pkuhole.data.hole.HoleItemBean" />
 
         <variable
             name="clickListener"
@@ -26,7 +26,7 @@
         app:cardElevation="@dimen/card_elevation"
         app:strokeColor="@color/card_stroke_color"
         app:rippleColor="@color/card_ripper_color"
-        android:onClick="@{()->clickListener.onClick(holeItemModel)}"
+        android:onClick="@{()->clickListener.onClick(holeItemBean)}"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +46,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:text="@{@string/pid_format(holeItemModel.pid)}"
+                android:text="@{@string/pid_format(holeItemBean.pid)}"
                 android:textStyle="bold"
                 tools:text="#2995822"  />
 
@@ -70,8 +70,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_margin="@dimen/card_inside_margin_large"
                 android:padding="@dimen/card_inside_padding"
-                app:imageFromUrl="@{holeItemModel.url}"
-                app:hasImage="@{holeItemModel.url}"
+                app:imageFromUrl="@{holeItemBean.url}"
+                app:hasImage="@{holeItemBean.url}"
                 tools:src="@drawable/bg_drawer_header"
                 />
 
@@ -90,7 +90,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="14sp"
                 android:textColor="@color/black"
-                android:text="@{holeItemModel.toString()}"
+                android:text="@{holeItemBean.toString()}"
                 tools:text="@string/hole_test_text" />
             <View
                 android:id="@+id/card_line_two"
@@ -111,7 +111,7 @@
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textSize="12sp"
-                app:postDurationFormatted="@{holeItemModel.timestamp}"
+                app:postDurationFormatted="@{holeItemBean.timestamp}"
                 tools:text="@string/card_test_post_time" />
 
             <TextView
@@ -124,7 +124,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
                 android:textSize="12sp"
-                android:text="@{String.valueOf(holeItemModel.reply)}"
+                android:text="@{String.valueOf(holeItemBean.reply)}"
                 tools:text="@string/card_test_reply_num"
                 />
             <ImageView
@@ -149,7 +149,7 @@
                 app:layout_constraintRight_toLeftOf="@id/hole_reply_image"
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
                 android:textSize="12sp"
-                android:text="@{String.valueOf(holeItemModel.likenum)}"
+                android:text="@{String.valueOf(holeItemBean.likenum)}"
                 tools:text="@string/card_test_reply_num"
                 />
             <ImageView

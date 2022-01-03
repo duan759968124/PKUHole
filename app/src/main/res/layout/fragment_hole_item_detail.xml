@@ -43,7 +43,7 @@
                 android:layout_marginBottom="5dp"
                 layout="@layout/hole_item_view"
                 bind:clickListener="@{viewModel.holeItemClickListener}"
-                bind:holeItemModel="@{viewModel.currentHoleItem}"
+                bind:holeItemBean="@{viewModel.currentHoleItem}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

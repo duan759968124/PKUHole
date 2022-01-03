@@ -70,22 +70,6 @@ data class HoleListItemBean(
 )
 
 
-fun List<HoleListItemBean>.asDomainModel():List<HoleItemModel>{
-    return map{
-        HoleItemModel(
-            pid = it.pid,
-            text = it.text,
-            type = it.type,
-            timestamp = it.timestamp,
-            reply = it.reply,
-            likenum = it.likenum,
-            extra = it.extra,
-            url = it.url,
-            tag = it.tag
-        )
-    }
-}
-
 fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
     return map{
         HoleItemBean(
@@ -102,7 +86,7 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
             hidden = it.hidden,
             attention_tag = null,
             isHole = 1,
-            isAttention = null
+            isAttention = 0
         )
     }
 }
@@ -123,7 +107,7 @@ fun HoleListItemBean.asDatabaseBean():HoleItemBean{
             hidden = it.hidden,
             attention_tag = null,
             isHole = 1,
-            isAttention = null
+            isAttention = 0
         )
     }
 }

@@ -1,5 +1,6 @@
 package cn.edu.pku.pkuhole.data.hole
 
+import androidx.lifecycle.LiveData
 import cn.edu.pku.pkuhole.api.HoleApiResponse
 import cn.edu.pku.pkuhole.api.HoleApiService
 import cn.edu.pku.pkuhole.base.BaseRepository
@@ -28,21 +29,8 @@ class HoleRepository @Inject constructor(
     private val holeApi : HoleApiService,
     ): BaseRepository() {
 
-    fun getHoleList() : Flow<List<HoleItemModel>> = holeListDao.getHoleList().map { it.asDomainModel() }
-    fun getAttentionList() : Flow<List<HoleItemModel>> = holeListDao.getAttentionList().map { it.asDomainModel() }
-//    fun getAttentionList() : Flow<List<HoleItemModel>> = attentionDao.getAllList().map { it.asDomainModel() }
-
-//    suspend fun insertHoleItem(holeListItemBean: HoleListItemBean) = holeListDao.insert(holeListItemBean)
-//
-//    suspend fun insertAttentionItem(attentionItemBean: AttentionItemBean) = attentionDao.insert(attentionItemBean)
-//
-//    private suspend fun insertHoleList(holeListList: List<HoleListItemBean>) = holeListDao.insertAll(holeListList)
-//
-//    private suspend fun insertAttentionList(attentionList: List<AttentionItemBean>) = attentionDao.insertAll(attentionList)
-//
-//    suspend fun updateHoleItem(holeListItemBean: HoleListItemBean) = holeListDao.update(holeListItemBean)
-//
-//    suspend fun updateAttentionItem(attentionItemBean: AttentionItemBean) = attentionDao.update(attentionItemBean)
+    fun getHoleList() : Flow<List<HoleItemBean>> = holeListDao.getHoleList()
+    fun getAttentionList() : Flow<List<HoleItemBean>> = holeListDao.getAttentionList()
 
     private suspend fun updateOrInsertHoleList(holeListList: List<HoleListItemBean>) = holeListDao.upsertHoleList(holeListList)
 
@@ -84,8 +72,8 @@ class HoleRepository @Inject constructor(
     }
 
     // 树洞详情相关函数
-    // update holeItemModel函数
-    fun getHoleItem(pid: Long) = holeListDao.get(pid).map { it?.asDomainModel() }
+    // update holeItemBean函数
+    fun getHoleItem(pid: Long) = holeListDao.get(pid)
 //    fun getHoleItem(pid: Long) = holeListDao.get(pid).map { it?.asDomainModel() }
 
     private suspend fun updateHoleItemModel(holeItemModel: HoleItemModel) = holeListDao.updateModel(holeItemModel)
@@ -110,6 +98,36 @@ class HoleRepository @Inject constructor(
         }
     }
 
+    // 变更关注状态，重新获取这一条的记录并塞到数据库中
+    suspend fun switchAttentionStatus(
+        holeItemBean: HoleItemBean,
+        switch: Int
+    ): HoleApiResponse<String?> {
+        val holeResponse =
+            holeApi.switchAttentionStatus(pid = holeItemBean.pid, switch = switch)
+        if (holeResponse.code == 0) {
+            // 表示操作成功，变更数据库表中数据
+            Timber.e("switchAttentionStatus response %s", holeResponse.toString())
+//                val currentHoleItem = getHoleItem(pid)
+//                Todo：[为什么从数据库中取不出来数据？取出来结果导致无法继续下一步]
+            Timber.e("attention modify before %s", holeItemBean.toString())
+            holeItemBean.isAttention = switch
+            if(switch == 0){
+                holeItemBean.likenum --
+            }else{
+                holeItemBean.likenum ++
+            }
+            holeListDao.updateBean(holeItemBean)
+//                currentHoleItem.map {
+//                    if (it != null) {
+//                        it.isAttention = switch
+//                        holeListDao.updateBean(it)
+//                    }
+            Timber.e("attention modify after %s", holeItemBean.toString())
+        }
+        return holeResponse
+    }
+
 
     // 清理该repository所有数据
     suspend fun clear() {
@@ -132,6 +150,22 @@ class HoleRepository @Inject constructor(
      */
     suspend fun getHoleListFromNetWithResult(page: Int): HoleApiResponse<List<HoleListItemBean>>? {
         return holeApi.getHoleList(page = page)
+    }
+
+    /**
+     * 纯网络接口，不向数据库写数据
+     * 评论成功返回数据
+     */
+    suspend fun sendReplyComment(pid: Long, comment: String): HoleApiResponse<Long> {
+        return holeApi.sendReplyComment(pid = pid, text = comment)
+    }
+
+    /**
+     * 举报，不向数据库写数据
+     * 举报成功返回数据
+     */
+    suspend fun report(pid: Long, reason: String):HoleApiResponse<String?>{
+        return holeApi.report(pid = pid, reason = reason)
     }
 
 }

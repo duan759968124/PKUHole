@@ -17,10 +17,10 @@ interface HoleListDao {
 
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(holeListItemBean: HoleItemBean): Long
+    suspend fun insert(holeItemBean: HoleItemBean): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAll(holeListItems: List<HoleItemBean>): List<Long>
+    suspend fun insertAll(holeItemBeans: List<HoleItemBean>): List<Long>
 
 //    @Update(entity=HoleItemBean::class)
 //    suspend fun <T> update(item: T)
@@ -33,6 +33,9 @@ interface HoleListDao {
 
     @Update(entity=HoleItemBean::class)
     suspend fun updateModel(item: HoleItemModel)
+
+    @Update(entity=HoleItemBean::class)
+    suspend fun updateBean(item: HoleItemBean)
 
 //    @Update(entity=HoleItemBean::class)
 //    suspend fun <T> updateList(listItems: List<T>)
@@ -74,14 +77,12 @@ interface HoleListDao {
     suspend fun upsertHoleList(holeListItems: List<HoleListItemBean>){
         val insertResult = insertAll(holeListItems.asDatabaseBean())
         val existList = mutableListOf<HoleListItemBean>()
-        Timber.e("insert result list %s", insertResult.toString())
         insertResult.mapIndexed { index, pid ->
             if(pid == -1L){
                 existList.add(holeListItems[index])
             }
         }
         if(!existList.isNullOrEmpty()){
-            Timber.e("insert error need update net %s", existList[0].toString())
             updateHoleList(existList)
         }
     }
@@ -90,16 +91,14 @@ interface HoleListDao {
     suspend fun upsertAttentionList(attentionItems: List<AttentionItemBean>){
         val insertResult = insertAll(attentionItems.asDatabaseBean())
         val existList = mutableListOf<AttentionItemBean>()
-        Timber.e("insert result list %s", insertResult.toString())
         insertResult.mapIndexed { index, pid ->
             if(pid == -1L){
                 existList.add(attentionItems[index])
             }
         }
         if(!existList.isNullOrEmpty()){
-            Timber.e("insert error need update net %s", existList[0].toString())
-            existList.map { updateAttention(it) }
-//            updateAttentionList(existList)
+            updateAttentionList(existList)
+//            existList.map { updateAttention(it) }
         }
     }
 

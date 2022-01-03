@@ -15,8 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
 interface HoleApiService {
@@ -64,6 +63,38 @@ interface HoleApiService {
         @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
         @Query("pid") pid: Long,
     ): HoleApiResponse<List<CommentItemBean>>
+
+    // 回复评论
+    @FormUrlEncoded
+    @POST("services/pkuhole/api.php")
+    suspend fun sendReplyComment(
+        @Query("action") action: String = "docomment",
+        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+        @Field("pid") pid: Long,
+        @Field("text") text: String,
+    ): HoleApiResponse<Long>
+
+    // Attention状态变化【关注或者取消关注】
+    @FormUrlEncoded
+    @POST("services/pkuhole/api.php")
+    suspend fun switchAttentionStatus(
+        @Query("action") action: String = "attention",
+        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+        @Field("pid") pid: Long,
+        @Field("switch") switch: Int,
+    ): HoleApiResponse<String?>
+
+
+    // 举报树洞
+    @FormUrlEncoded
+    @POST("services/pkuhole/api.php")
+    suspend fun report(
+        @Query("action") action: String = "report",
+        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+        @Field("pid") pid: Long,
+        @Field("reason") reason: String,
+    ): HoleApiResponse<String?>
+
 
 
     companion object{

@@ -42,5 +42,9 @@
     <string name="fab_scrolling_behavior">cn.edu.pku.pkuhole.utilities.ScrollingFabBehavior</string>
     <string name="reply">回复</string>
     <string name="cancelReply">取消</string>
-    <string name="hint_text">请输入回复内容</string>
+    <string name="hint_reply_text">请输入回复内容</string>
+    <string name="star">关注</string>
+    <string name="report">举报</string>
+    <string name="report_title">举报树洞</string>
+    <string name="hint_report_text">请输入举报原因</string>
 </resources>

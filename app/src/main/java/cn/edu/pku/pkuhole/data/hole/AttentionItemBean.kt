@@ -66,22 +66,6 @@ data class AttentionItemBean(
 )
 
 
-fun List<AttentionItemBean>.asDomainModel():List<HoleItemModel>{
-    return map{
-        HoleItemModel(
-            pid = it.pid,
-            text = it.text,
-            type = it.type,
-            timestamp = it.timestamp,
-            reply = it.reply,
-            likenum = it.likenum,
-            extra = it.extra,
-            url = it.url,
-            tag = it.tag
-        )
-    }
-}
-
 
 fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
     return map{
@@ -98,7 +82,7 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             hot = null,
             hidden = null,
             attention_tag = it.attention_tag,
-            isHole = null,
+            isHole = 0,
             isAttention = 1
         )
     }
@@ -119,7 +103,7 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
             hot = null,
             hidden = null,
             attention_tag = it.attention_tag,
-            isHole = null,
+            isHole = 0,
             isAttention = 1
         )
     }

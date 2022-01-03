@@ -30,7 +30,7 @@ class AttentionViewModel @Inject internal constructor(
     val attentionList = database.getAttentionList().asLiveData()
 
     init {
-        getAttentionList()
+//        getAttentionList()
     }
 
     // 封装toast请求，并显示在fragment中或者设置监听到BaseFragment中

@@ -49,22 +49,22 @@ class HoleViewPagerFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         // 创建一个dialog
-        var dialog: AlertDialog? = null
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("hhhhhh")
-        builder.setMessage("click button")
-        dialog = builder.create()
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(context)
+//        builder.setTitle("hhhhhh")
+//        builder.setMessage("click button")
+//        dialog = builder.create()
 
-        viewModel.showDialogPost.observe(viewLifecycleOwner, Observer {
-            if(it){
-                Timber.e("show dialog")
-                dialog.show()
-                viewModel.showDialogPostFinished()
-            }else{
-                Timber.e("hide dialog")
-//                dialog.hide()
-            }
-        })
+//        viewModel.showDialogPost.observe(viewLifecycleOwner, Observer {
+//            if(it){
+//                Timber.e("show dialog")
+//                dialog.show()
+//                viewModel.showDialogPostFinished()
+//            }else{
+//                Timber.e("hide dialog")
+////                dialog.hide()
+//            }
+//        })
 
         setHasOptionsMenu(true)
         return binding.root

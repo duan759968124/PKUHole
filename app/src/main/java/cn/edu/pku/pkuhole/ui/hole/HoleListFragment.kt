@@ -65,11 +65,11 @@ class HoleListFragment : BaseFragment() {
             it.message?.let { it -> showToast(it) }
         })
 
-        // 监听刷新状态
+        // 监听刷新状态变化
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Timber.e("show refresh")
-                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
 //                showLoading()
             }else{
                 Timber.e("hide refresh")

@@ -3,7 +3,7 @@ package cn.edu.pku.pkuhole.api
 import com.google.gson.annotations.SerializedName
 
 data class HoleApiResponse<T> (
-    @field:SerializedName("code") val code: Int = 1,
+    @field:SerializedName("code") val code: Int = 0,
     @field:SerializedName("msg") val msg: String? = null,
 
     @field:SerializedName("timestamp") val timestamp: Long? = null,
