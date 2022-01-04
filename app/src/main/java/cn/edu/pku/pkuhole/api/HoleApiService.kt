@@ -20,6 +20,15 @@ import java.util.concurrent.TimeUnit
 
 interface HoleApiService {
 
+
+    // login
+    @FormUrlEncoded
+    @POST("services/authen/login.php")
+    suspend fun login(
+        @Field("uid") uid: String,
+        @Field("password") password: String,
+    ): HoleApiResponse<String?>
+
     // 获取树洞数据，按照页（p）
     @GET("services/pkuhole/api.php")
     suspend fun getHoleList(

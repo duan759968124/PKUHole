@@ -9,4 +9,4 @@ package cn.edu.pku.pkuhole.data
  * @Version:        1.0
  */
 
-data class UserInfo(var name: String = "未登录", var department: String = "未知")
+data class UserInfo(var uid: String, var name: String?,  var department: String?, var token: String, var token_timestamp : Long)

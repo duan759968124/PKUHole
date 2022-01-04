@@ -168,4 +168,8 @@ class HoleRepository @Inject constructor(
         return holeApi.report(pid = pid, reason = reason)
     }
 
+    suspend fun login(account: String, password: String):HoleApiResponse<String?>{
+        return holeApi.login(uid = account, password = password)
+    }
+
 }

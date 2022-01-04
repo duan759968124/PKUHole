@@ -12,6 +12,12 @@ data class HoleApiResponse<T> (
     @field:SerializedName("attention") val attention: Int? = null,
     @field:SerializedName("captcha") val captcha: Boolean? = null,
 
+    @field:SerializedName("uid") val uid: String? = null,
+    @field:SerializedName("name") val name: String? = null,
+    @field:SerializedName("department") val department: String? = null,
+    @field:SerializedName("token") val token: String? = null,
+    @field:SerializedName("token_timestamp") val token_timestamp: Long? = null,
+
     var dataState: DataState? = null,
     var error: Throwable? = null
 )

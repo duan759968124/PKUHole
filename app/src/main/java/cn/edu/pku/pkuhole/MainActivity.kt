@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -12,9 +13,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
 import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
-import cn.edu.pku.pkuhole.viewmodels.MainViewModel
+import cn.edu.pku.pkuhole.viewmodels.UserViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navHeaderBinding: NavHeaderMainBinding
 
 //    private lateinit var viewModel: MainViewModel
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,21 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 //       选择侧边栏导航的时候导航到响应的fragment,并边缘滑动可以显示导航栏
         navView.setupWithNavController(navController)
+
+
+        viewModel.userInfo.observe(this, Observer { userInfo ->
+            run {
+                Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
+                if (userInfo.name == "Test") {
+                    navController.navigate(R.id.nav_hole)
+                }else{
+                    Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
+                }
+            }
+        })
+
     }
+
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
 //        // Inflate the menu; this adds items to the action bar if it is present.

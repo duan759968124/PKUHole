@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@+id/nav_hole">
+    app:startDestination="@+id/nav_login">
 
     <fragment
         android:id="@+id/nav_hole"
@@ -16,7 +16,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 
@@ -35,5 +35,25 @@
         android:name="cn.edu.pku.pkuhole.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="cn.edu.pku.pkuhole.ui.login.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_nav_login_to_nav_hole"
+            app:destination="@id/nav_hole"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/nav_hole"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <action
+        android:id="@+id/action_global_nav_login"
+        app:destination="@id/nav_login" />
+<!--    view.findNavController().navigate(R.id.action_global_mainFragment)-->
 
 </navigation>
