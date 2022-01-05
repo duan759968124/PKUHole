@@ -82,24 +82,27 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.userInfo.observe(this, Observer { userInfo ->
+            Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
             navHeaderBinding.navHeaderUserName.text = userInfo.name
             navHeaderBinding.navHeaderUserDepartment.text = userInfo.department
-            run {
-                Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
-                if (userInfo.name == "Test") {
-                    navController.navigate(R.id.nav_hole)
-                }else{
-                    Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
-                }
-            }
+//            run {
+//                Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
+//                if (userInfo.name == "Test") {
+//                    navController.navigate(R.id.nav_hole)
+//                }else{
+//                    Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
+//                }
+//            }
         })
 
-//        viewModel.loginStatus.observe(this, Observer { isLogin ->
-//            if (!isLogin) {
-//                navController.navigate(R.id.nav_login)
-//            }
-//            viewModel.onNavigateToLoginFinish()
-//        })
+        viewModel.loginStatus.observe(this, Observer { isLogin ->
+            Timber.e("isLogin %s", isLogin)
+            if (!isLogin) {
+                navController.navigate(R.id.nav_login)
+                viewModel.onNavigateToLoginFinish()
+            }
+
+        })
     }
 
     override fun onStart() {

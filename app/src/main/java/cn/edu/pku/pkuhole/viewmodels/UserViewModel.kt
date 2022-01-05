@@ -59,15 +59,16 @@ class UserViewModel @Inject constructor(
                 Timber.e("login response %s", response)
                 //Todo: 存数据 key-value存储
                 _loginSuccessNavigation.postValue(true)
-                userInfo.postValue(UserInfo(
-                                uid = response.uid!!,
-                                name = response.name,
-                                department = response.department,
-                                token = response.token,
-                                token_timestamp = response.token_timestamp
-                            ))
+                val userInfoRes = UserInfo(
+                    uid = response.uid!!,
+                    name = response.name,
+                    department = response.department,
+                    token = response.token,
+                    token_timestamp = response.token_timestamp
+                )
+                userInfo.postValue(userInfoRes)
                 // 将数据存到本地
-                UserInfoRepository.setUserInfo(userInfo.value!!)
+                UserInfoRepository.setUserInfo(userInfoRes)
             } catch (e: Exception) {
                 when (e) {
                     is HoleApiException -> failStatus.postValue(e)
@@ -75,6 +76,7 @@ class UserViewModel @Inject constructor(
                 }
             } finally {
 //                loadingStatus.postValue(false)
+                Timber.e("loginFinish %s", UserInfoRepository.getUserInfo().toString())
             }
         }
     }
@@ -86,6 +88,9 @@ class UserViewModel @Inject constructor(
 
     // mainActivity检查登录状态
     fun checkLoginStatus() {
+        userInfo.value = UserInfo("", "", "", "", 0L)
+        Timber.e("checkLoginStatus")
+        Timber.e("uid %s", UserInfoRepository.getUid())
         if(UserInfoRepository.getUid().isEmpty()){
             //未登录，跳转到登录界面
             _loginStatus.value = false
