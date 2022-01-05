@@ -29,6 +29,7 @@ class HoleItemDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleItemDetailBinding
     private val viewModel : HoleItemDetailViewModel by viewModels()
+    private lateinit var adapter : CommentAdapter
 
     private var isAttention : Int = 0
 
@@ -51,7 +52,7 @@ class HoleItemDetailFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
 
-        val adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
+        adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentCommentListRecycler.layoutManager = manager
@@ -59,6 +60,10 @@ class HoleItemDetailFragment : BaseFragment() {
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
 
+        return binding.root
+    }
+
+    override fun initObserve() {
         // 监听holeList变化并更新UI
         viewModel.commentList.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -108,7 +113,6 @@ class HoleItemDetailFragment : BaseFragment() {
                 showToast(it)
             }
         })
-        return binding.root
     }
 
     override fun initData() {

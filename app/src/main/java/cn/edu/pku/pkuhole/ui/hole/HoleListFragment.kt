@@ -23,6 +23,7 @@ class HoleListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleListBinding
     private val viewModel: HoleListViewModel by viewModels()
+    private lateinit var adapter : HoleAdapter
 
     @SuppressLint("TimberArgCount")
     override fun onCreateView(
@@ -32,7 +33,7 @@ class HoleListFragment : BaseFragment() {
         binding = FragmentHoleListBinding.inflate(inflater, container, false)
         context ?: return binding.root
 //        val adapter = HoleAdapter()
-        val adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
+        adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
         binding.fragmentHoleListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentHoleListRecycler.layoutManager = manager
@@ -40,6 +41,11 @@ class HoleListFragment : BaseFragment() {
         binding.fragmentHoleListSrl.setDisableContentWhenRefresh(false)
         binding.fragmentHoleListSrl.setDisableContentWhenLoading(true)
 
+//        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
+    }
+
+    override fun initObserve() {
         // 刷新监听
         binding.fragmentHoleListSrl.setOnRefreshListener {
             viewModel.refreshHoleList()
@@ -98,8 +104,6 @@ class HoleListFragment : BaseFragment() {
                 viewModel.onHoleItemDetailNavigated()
             }
         })
-//        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
     }
 
     override fun initData() {

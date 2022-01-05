@@ -94,6 +94,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+//        viewModel.loginStatus.observe(this, Observer { isLogin ->
+//            if (!isLogin) {
+//                navController.navigate(R.id.nav_login)
+//            }
+//            viewModel.onNavigateToLoginFinish()
+//        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.checkLoginStatus()
     }
 
 

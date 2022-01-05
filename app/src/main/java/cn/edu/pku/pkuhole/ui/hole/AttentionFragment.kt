@@ -25,8 +25,9 @@ class AttentionFragment : BaseFragment() {
 
     private lateinit var binding: FragmentAttentionBinding
     private val viewModel: AttentionViewModel by viewModels()
+    private lateinit var adapter: HoleAdapter
 
-    @SuppressLint("TimberArgCount")
+            @SuppressLint("TimberArgCount")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +35,7 @@ class AttentionFragment : BaseFragment() {
         binding = FragmentAttentionBinding.inflate(inflater, container, false)
         context ?: return binding.root
 //        val adapter = HoleAdapter()
-        val adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
+        adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
         binding.fragmentAttentionRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentAttentionRecycler.layoutManager = manager
@@ -43,7 +44,11 @@ class AttentionFragment : BaseFragment() {
         binding.fragmentAttentionSrl.setDisableContentWhenRefresh(true)
 
 
+//        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
+    }
 
+    override fun initObserve() {
         // 刷新监听
         binding.fragmentAttentionSrl.setOnRefreshListener {
             viewModel.refreshAttentionList()
@@ -83,8 +88,6 @@ class AttentionFragment : BaseFragment() {
                 viewModel.onHoleItemDetailNavigated()
             }
         })
-//        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
     }
 
     override fun initData() {

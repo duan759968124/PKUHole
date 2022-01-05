@@ -39,7 +39,18 @@ class LoginFragment : BaseFragment() {
         binding.viewModel = userViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        return binding.root
 
+    }
+
+    private fun navigateToHole() {
+        showToast("登录成功")
+        findNavController()
+            .navigate(LoginFragmentDirections.actionNavLoginToNavHole())
+        userViewModel.onLoginSuccessComplete()
+    }
+
+    override fun initObserve() {
         userViewModel.loadingStatus.observe(viewLifecycleOwner, Observer { loading ->
             if(loading){
                 showLoading()
@@ -51,16 +62,13 @@ class LoginFragment : BaseFragment() {
             if(loginSuccess)
                 navigateToHole()
         })
+        userViewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+            fail.message?.let { showToast("失败-$it") }
+        })
 
-        return binding.root
-
-    }
-
-    private fun navigateToHole() {
-        showToast("登录成功")
-        findNavController()
-            .navigate(LoginFragmentDirections.actionNavLoginToNavHole())
-        userViewModel.onLoginSuccessComplete()
+        userViewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+            error.message?.let { showToast("错误-$it") }
+        })
     }
 
 

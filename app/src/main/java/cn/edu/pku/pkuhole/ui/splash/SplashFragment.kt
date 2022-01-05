@@ -32,6 +32,10 @@ class splashFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun initObserve() {
+
+    }
+
 
     override fun initData() {
 

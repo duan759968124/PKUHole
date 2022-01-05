@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import cn.edu.pku.pkuhole.base.BaseViewModel
 import cn.edu.pku.pkuhole.base.network.HoleApiException
 import cn.edu.pku.pkuhole.data.UserInfo
+import cn.edu.pku.pkuhole.data.UserInfoRepository
 import cn.edu.pku.pkuhole.data.hole.HoleRepository
+import cn.edu.pku.pkuhole.utilities.kv
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,8 +31,6 @@ class UserViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     var userInfo = MutableLiveData<UserInfo>()
-    var name = MutableLiveData<String?>()
-    var department = MutableLiveData<String?>()
     private val database = holeRepository
     var account = MutableLiveData<String>()
     var password = MutableLiveData<String>()
@@ -39,49 +39,42 @@ class UserViewModel @Inject constructor(
     val loginSuccessNavigation: LiveData<Boolean>
         get() = _loginSuccessNavigation
 
+    private val _loginStatus = MutableLiveData<Boolean>()
+    val loginStatus: LiveData<Boolean>
+        get() = _loginStatus
+
 
     init {
         account.value = "1906194042"
-        password.value = "qhd1230its"
-        userInfo.value?.name = "unknown"
-        userInfo.value?.department = "未知"
+        password.value = "qhd1230it"
     }
 
     fun login() {
         Timber.e("click login account %s password %s", account.value, password.value)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                loadingStatus.postValue(true)
+//                loadingStatus.postValue(true)
                 val response =
-                    account.value?.let { password.value?.let { it1 -> database.login(it, it1) } }
+                    database.login(account = account.value!!, password = password.value!!)
                 Timber.e("login response %s", response)
-                if (response != null) {
-                    if (response.code == 0) {
-                        //Todo: 存数据 key-value存储
-                        _loginSuccessNavigation.postValue(true)
-                        userInfo.postValue(response.uid?.let {
-                            response.token?.let { it1 ->
-                                response.token_timestamp?.let { it2 ->
-                                    UserInfo(uid = it,
-                                        name = response.name,
-                                        department = response.department,
-                                        token = it1,
-                                        token_timestamp = it2)
-                                }
-                            }
-                        })
-                        name.postValue(response.name)
-                        department.postValue(response.department)
-                    } else {
-                        // Todo：在repository中改为抛出异常处理
-                        throw HoleApiException(response.code, response.msg)
-                    }
-                }
+                //Todo: 存数据 key-value存储
+                _loginSuccessNavigation.postValue(true)
+                userInfo.postValue(UserInfo(
+                                uid = response.uid!!,
+                                name = response.name,
+                                department = response.department,
+                                token = response.token,
+                                token_timestamp = response.token_timestamp
+                            ))
+                // 将数据存到本地
+                UserInfoRepository.setUserInfo(userInfo.value!!)
             } catch (e: Exception) {
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when (e) {
+                    is HoleApiException -> failStatus.postValue(e)
+                    else -> errorStatus.postValue(e)
+                }
             } finally {
-                loadingStatus.postValue(false)
+//                loadingStatus.postValue(false)
             }
         }
     }
@@ -89,5 +82,19 @@ class UserViewModel @Inject constructor(
 
     fun onLoginSuccessComplete() {
         _loginSuccessNavigation.value = false
+    }
+
+    // mainActivity检查登录状态
+    fun checkLoginStatus() {
+        if(UserInfoRepository.getUid().isEmpty()){
+            //未登录，跳转到登录界面
+            _loginStatus.value = false
+        }else{
+            userInfo.value = UserInfoRepository.getUserInfo()
+        }
+    }
+
+    fun onNavigateToLoginFinish() {
+        _loginStatus.value = true
     }
 }

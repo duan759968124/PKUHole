@@ -23,8 +23,11 @@ abstract class BaseFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mLoadingDialog = LoadingDialog(view.context, false)
+        initObserve()
         initData()
     }
+
+    abstract fun initObserve()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

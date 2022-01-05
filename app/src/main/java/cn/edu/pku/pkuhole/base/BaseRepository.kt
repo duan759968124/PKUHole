@@ -157,7 +157,7 @@ open class BaseRepository {
 //    suspend inline fun <reified T : Any> launchRequest(
 //        noinline block: suspend () -> HoleApiResponse<T>
 //    ): HoleApiResponse<T>? {
-//        try {
+//        return try {
 //            block()
 //        } catch (e: Exception) {
 //            e.printStackTrace()
@@ -186,6 +186,26 @@ open class BaseRepository {
 //            }
 //        }
 //    }
+    suspend inline fun <reified T: Any> launchRequest(
+        crossinline block : suspend () -> HoleApiResponse<T?>
+    ): HoleApiResponse<T?> {
+        return try {
+            block()
+        } catch (e: Exception){
+            when(e){
+                is UnknownHostException -> Timber.e(e.message)
+                is ConnectException -> Timber.e(e.message)
+                else -> Timber.e(e.message)
+            }
+            throw e
+        }.run {
+            if(code == 0){
+                this
+            }else{
+                throw HoleApiException(code, msg)
+            }
+        }
+    }
 
 
 

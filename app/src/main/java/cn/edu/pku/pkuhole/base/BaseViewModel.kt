@@ -3,6 +3,7 @@ package cn.edu.pku.pkuhole.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import cn.edu.pku.pkuhole.base.network.HoleApiException
 import cn.edu.pku.pkuhole.utilities.SingleLiveData
 
 /**
@@ -21,7 +22,10 @@ open class BaseViewModel: ViewModel() {
     val refreshStatus = MutableLiveData<Boolean>()
     // error 变量
 //    val errorStatus = MutableLiveData<Throwable>()
+//    网络异常错误监听【只需要toast的异常】
     val errorStatus = SingleLiveData<Throwable>()
+//    API错误监听【需要退出到登陆的异常】
+    val failStatus = SingleLiveData<HoleApiException>()
 
 
 }
