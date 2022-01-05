@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentLoginBinding
-import cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragmentDirections
 import cn.edu.pku.pkuhole.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,16 +28,17 @@ class LoginFragment : BaseFragment() {
     private val userViewModel : UserViewModel by activityViewModels()
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         context ?: return binding.root
         binding.viewModel = userViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
 
         userViewModel.loadingStatus.observe(viewLifecycleOwner, Observer { loading ->
             if(loading){
@@ -48,7 +47,6 @@ class LoginFragment : BaseFragment() {
                 dismissLoading()
             }
         })
-
         userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner, Observer { loginSuccess ->
             if(loginSuccess)
                 navigateToHole()

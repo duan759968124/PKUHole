@@ -7,6 +7,10 @@ import cn.edu.pku.pkuhole.base.loadsir.LoadingCallback
 import com.kingja.loadsir.core.LoadSir
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import com.tencent.mmkv.MMKV
+
+
+
 
 /**
  *
@@ -21,6 +25,9 @@ import timber.log.Timber
 class HoleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+//       init MMKV
+        val rootDir = MMKV.initialize(this)
+//        println("mmkv root: $rootDir")
 //       init Timber
         Timber.plant(Timber.DebugTree())
         initLoadSir()

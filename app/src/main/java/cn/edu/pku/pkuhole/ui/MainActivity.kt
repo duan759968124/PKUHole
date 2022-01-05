@@ -1,6 +1,8 @@
-package cn.edu.pku.pkuhole
+package cn.edu.pku.pkuhole.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
 import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.UserViewModel
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+//        binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         navHeaderBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 //        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -47,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 //        setSupportActionBar(binding.appBarMain.toolbar)
 //        drawerLayout侧边栏组件
-        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val drawerLayout= binding.drawerLayout
 //        navView 侧边栏菜单组件
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment)
@@ -63,13 +66,26 @@ class MainActivity : AppCompatActivity() {
 //       选择侧边栏导航的时候导航到响应的fragment,并边缘滑动可以显示导航栏
         navView.setupWithNavController(navController)
 
+//        设置每个界面的toolbar是否存在导航抽屉是否可用
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.nav_login -> {
+                    binding.toolbar.visibility = View.GONE
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                }
+                else -> {
+                    binding.toolbar.visibility = View.VISIBLE
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                }
+            }
+        }
+
 
         viewModel.userInfo.observe(this, Observer { userInfo ->
             navHeaderBinding.navHeaderUserName.text = userInfo.name
             navHeaderBinding.navHeaderUserDepartment.text = userInfo.department
             run {
                 Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
-
                 if (userInfo.name == "Test") {
                     navController.navigate(R.id.nav_hole)
                 }else{
@@ -87,9 +103,11 @@ class MainActivity : AppCompatActivity() {
 //        return true
 //    }
 
+
     override fun onSupportNavigateUp(): Boolean {
         //点击侧边栏按钮
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
 }

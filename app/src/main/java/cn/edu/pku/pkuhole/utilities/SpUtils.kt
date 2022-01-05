@@ -29,7 +29,7 @@ object SpUtils {
             is Int -> kv.putInt(key, value)
             is Long -> kv.putLong(key, value)
             is String -> kv.putString(key, value)
-            else -> error("${value?.javaClass?.simpleName} Not Supported By CniaoSpUtils")
+            else -> error("${value?.javaClass?.simpleName} Not Supported By SpUtils")
         }
     }
 
