@@ -1,15 +1,19 @@
 package cn.edu.pku.pkuhole.adapters.bindingAdapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import cn.edu.pku.pkuhole.R
+import cn.edu.pku.pkuhole.data.UserInfo
 import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
+import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.convertDurationToFormatted
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.navigation.NavigationView
 
 
 /**
@@ -46,3 +50,15 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
             .into(view)
     }
 }
+
+//@BindingAdapter("fillNavHeader")
+//fun fillNavHeader(view: NavigationView, userInfo: UserInfo?){
+//    val binding = NavHeaderMainBinding.inflate(LayoutInflater.from(view.context))
+//    if(userInfo != null){
+//        binding.userInfo = userInfo
+//    }else{
+//        binding.userInfo = UserInfo(uid = "00", name = "unknown", department = "unknown", token = "", token_timestamp = 0L)
+//    }
+//    binding.executePendingBindings()
+//    view.addHeaderView(binding.root)
+//}

@@ -38,11 +38,14 @@ class MainActivity : AppCompatActivity() {
 
 //        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        navHeaderBinding.mainViewModel = viewModel
+//        navHeaderBinding.userViewModel = viewModel
 
+//        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         setContentView(binding.root)
 //        设置toolbar
-        setSupportActionBar(binding.appBarMain.toolbar)
+        setSupportActionBar(binding.toolbar)
+//        setSupportActionBar(binding.appBarMain.toolbar)
 //        drawerLayout侧边栏组件
         val drawerLayout: DrawerLayout = binding.drawerLayout
 //        navView 侧边栏菜单组件
@@ -62,8 +65,11 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.userInfo.observe(this, Observer { userInfo ->
+            navHeaderBinding.navHeaderUserName.text = userInfo.name
+            navHeaderBinding.navHeaderUserDepartment.text = userInfo.department
             run {
                 Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
+
                 if (userInfo.name == "Test") {
                     navController.navigate(R.id.nav_hole)
                 }else{

@@ -60,7 +60,7 @@ class AttentionFragment : BaseFragment() {
 
         viewModel.errorStatus.observe(viewLifecycleOwner, Observer {
 //            Timber.e(it.toString())
-            it.message?.let { it -> showToast(it) }
+            it.message?.let { msg -> showToast(msg) }
         })
 
         // 监听刷新状态

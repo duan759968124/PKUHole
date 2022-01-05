@@ -29,9 +29,11 @@ class UserViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     var userInfo = MutableLiveData<UserInfo>()
+    var name = MutableLiveData<String?>()
+    var department = MutableLiveData<String?>()
     private val database = holeRepository
-    val account = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
+    var account = MutableLiveData<String>()
+    var password = MutableLiveData<String>()
 
     private val _loginSuccessNavigation = MutableLiveData<Boolean>()
     val loginSuccessNavigation: LiveData<Boolean>
@@ -41,6 +43,8 @@ class UserViewModel @Inject constructor(
     init {
         account.value = "1906194042"
         password.value = "qhd1230its"
+        userInfo.value?.name = "unknown"
+        userInfo.value?.department = "未知"
     }
 
     fun login() {
@@ -66,6 +70,8 @@ class UserViewModel @Inject constructor(
                                 }
                             }
                         })
+                        name.postValue(response.name)
+                        department.postValue(response.department)
                     } else {
                         // Todo：在repository中改为抛出异常处理
                         throw HoleApiException(response.code, response.msg)

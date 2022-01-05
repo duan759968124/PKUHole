@@ -54,6 +54,6 @@
     <action
         android:id="@+id/action_global_nav_login"
         app:destination="@id/nav_login" />
-<!--    view.findNavController().navigate(R.id.action_global_mainFragment)-->
+<!--    view.findNavController().navigate(R.id.action_global_nav_login)-->
 
 </navigation>
