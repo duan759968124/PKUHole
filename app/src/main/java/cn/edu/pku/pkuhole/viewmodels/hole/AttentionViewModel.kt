@@ -14,8 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AttentionViewModel @Inject internal constructor(
     holeRepository: HoleRepository
-) : BaseViewModel() {
-    private val database = holeRepository
+) : BaseViewModel(holeRepository = holeRepository) {
+//    private val database = holeRepository
 
     private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
     val navigationToHoleItemDetail: MutableLiveData<Long?>

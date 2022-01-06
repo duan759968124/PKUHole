@@ -19,15 +19,13 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HoleViewPagerViewModel @Inject constructor(
-    holeRepository: HoleRepository) : BaseViewModel() {
+    holeRepository: HoleRepository) : BaseViewModel(holeRepository = holeRepository) {
 
 
 //    private val _showDialogPost = MutableLiveData<Boolean>(false)
 //
 //    val showDialogPost: LiveData<Boolean>
 //        get() = _showDialogPost
-
-    private val database = holeRepository
 
     // 发帖之后要涉及到更新hole数据和关注数据【自动关注的】
     init {

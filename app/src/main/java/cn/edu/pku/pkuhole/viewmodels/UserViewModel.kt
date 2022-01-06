@@ -2,14 +2,12 @@ package cn.edu.pku.pkuhole.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.pkuhole.base.BaseViewModel
-import cn.edu.pku.pkuhole.base.network.HoleApiException
+import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.UserInfo
-import cn.edu.pku.pkuhole.data.UserInfoRepository
+import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.data.hole.HoleRepository
-import cn.edu.pku.pkuhole.utilities.kv
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,42 +20,37 @@ import javax.inject.Inject
  * @Author:         HuidongQin
  * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/22
- * @Desc:
+ * @Desc:           loginFragment与mainActivity共用这个viewModel
  * @Version:        1.0
  */
 @HiltViewModel
 class UserViewModel @Inject constructor(
     holeRepository: HoleRepository,
-) : BaseViewModel() {
+) : BaseViewModel(holeRepository=holeRepository) {
 
     var userInfo = MutableLiveData<UserInfo>()
-    private val database = holeRepository
     var account = MutableLiveData<String>()
     var password = MutableLiveData<String>()
 
+    // loginFragment监听 请求状态 true 跳转到nav_hole
     private val _loginSuccessNavigation = MutableLiveData<Boolean>()
     val loginSuccessNavigation: LiveData<Boolean>
         get() = _loginSuccessNavigation
 
-    private val _loginStatus = MutableLiveData<Boolean>()
-    val loginStatus: LiveData<Boolean>
-        get() = _loginStatus
-
 
     init {
-        account.value = "1906194042"
-        password.value = "qhd1230it"
+        account.value = LocalRepository.getAccount()
+        password.value = LocalRepository.getPassword()
     }
 
     fun login() {
         Timber.e("click login account %s password %s", account.value, password.value)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-//                loadingStatus.postValue(true)
+                loadingStatus.postValue(true)
                 val response =
                     database.login(account = account.value!!, password = password.value!!)
                 Timber.e("login response %s", response)
-                //Todo: 存数据 key-value存储
                 _loginSuccessNavigation.postValue(true)
                 val userInfoRes = UserInfo(
                     uid = response.uid!!,
@@ -66,22 +59,24 @@ class UserViewModel @Inject constructor(
                     token = response.token,
                     token_timestamp = response.token_timestamp
                 )
+                // 用来更新activity中显示
                 userInfo.postValue(userInfoRes)
                 // 将数据存到本地
-                UserInfoRepository.setUserInfo(userInfoRes)
+                LocalRepository.setUserInfo(userInfoRes)
             } catch (e: Exception) {
                 when (e) {
-                    is HoleApiException -> failStatus.postValue(e)
+                    is ApiException -> failStatus.postValue(e)
                     else -> errorStatus.postValue(e)
                 }
             } finally {
-//                loadingStatus.postValue(false)
-                Timber.e("loginFinish %s", UserInfoRepository.getUserInfo().toString())
+                loadingStatus.postValue(false)
+                Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
             }
         }
     }
 
 
+    // login Fragment持有
     fun onLoginSuccessComplete() {
         _loginSuccessNavigation.value = false
     }
@@ -90,16 +85,17 @@ class UserViewModel @Inject constructor(
     fun checkLoginStatus() {
         userInfo.value = UserInfo("", "", "", "", 0L)
         Timber.e("checkLoginStatus")
-        Timber.e("uid %s", UserInfoRepository.getUid())
-        if(UserInfoRepository.getUid().isEmpty()){
+        Timber.e("uid %s", LocalRepository.getUid())
+        if(LocalRepository.getUid().isEmpty()){
             //未登录，跳转到登录界面
             _loginStatus.value = false
         }else{
-            userInfo.value = UserInfoRepository.getUserInfo()
+            userInfo.value = LocalRepository.getUserInfo()
         }
     }
 
-    fun onNavigateToLoginFinish() {
-        _loginStatus.value = true
-    }
+    // mainActivity持有
+//    fun onNavigateToLoginFinish() {
+//        _loginStatus.value = true
+//    }
 }

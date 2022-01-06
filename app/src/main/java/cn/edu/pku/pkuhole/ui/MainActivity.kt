@@ -98,7 +98,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.loginStatus.observe(this, Observer { isLogin ->
             Timber.e("isLogin %s", isLogin)
             if (!isLogin) {
-                navController.navigate(R.id.nav_login)
+                // 全局导航操作
+                navController.navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
             }
 
@@ -107,6 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Timber.e("main activity onstart")
         viewModel.checkLoginStatus()
     }
 

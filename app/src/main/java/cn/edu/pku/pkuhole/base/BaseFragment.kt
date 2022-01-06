@@ -5,7 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.utilities.LoadingDialog
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *
@@ -15,10 +20,13 @@ import cn.edu.pku.pkuhole.utilities.LoadingDialog
  * @Desc:
  * @Version:        1.0
  */
+@AndroidEntryPoint
 abstract class BaseFragment: Fragment() {
 
     private lateinit var mLoadingDialog: LoadingDialog
     private lateinit var mContext: Context
+    private val baseViewModel: BaseViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,7 +35,17 @@ abstract class BaseFragment: Fragment() {
         initData()
     }
 
-    abstract fun initObserve()
+    open fun initObserve(){
+        baseViewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+            if(!isLogin){
+                findNavController().navigate(R.id.action_global_nav_login)
+                baseViewModel.onNavigateToLoginFinish()
+            }
+        })
+
+
+
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

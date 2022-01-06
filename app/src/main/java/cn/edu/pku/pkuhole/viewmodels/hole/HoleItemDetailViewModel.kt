@@ -26,10 +26,9 @@ import javax.inject.Inject
 class HoleItemDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     holeRepository: HoleRepository) :
-    BaseViewModel() {
+    BaseViewModel(holeRepository = holeRepository) {
 
     val pid : Long = savedStateHandle.get<Long>(HOLE_ITEM_DETAIL_PID)!!
-    private val database = holeRepository
 
     val currentHoleItem = database.getHoleItem(pid).asLiveData()
 
@@ -41,12 +40,8 @@ class HoleItemDetailViewModel @Inject constructor(
         get() = _replyDialogToName
 
     private var _responseMsg = MutableLiveData<String?>()
-
     val responseMsg: LiveData<String?>
         get() = _responseMsg
-
-//    var replyResponse = MutableLiveData<HoleApiResponse<Long>>()
-
 
 
     companion object {

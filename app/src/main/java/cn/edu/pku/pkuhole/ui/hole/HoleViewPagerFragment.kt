@@ -71,6 +71,7 @@ class HoleViewPagerFragment : BaseFragment() {
     }
 
     override fun initObserve() {
+        super.initObserve()
 
     }
 

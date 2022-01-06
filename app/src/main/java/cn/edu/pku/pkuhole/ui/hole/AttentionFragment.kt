@@ -27,7 +27,7 @@ class AttentionFragment : BaseFragment() {
     private val viewModel: AttentionViewModel by viewModels()
     private lateinit var adapter: HoleAdapter
 
-            @SuppressLint("TimberArgCount")
+    @SuppressLint("TimberArgCount")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

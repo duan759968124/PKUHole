@@ -1,12 +1,10 @@
 package cn.edu.pku.pkuhole.base
 
-import android.annotation.SuppressLint
 import cn.edu.pku.pkuhole.api.DataState
 import cn.edu.pku.pkuhole.api.HoleApiResponse
-import cn.edu.pku.pkuhole.base.network.HoleApiException
+import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.base.network.ResultState
 import cn.edu.pku.pkuhole.base.network.StateLiveData
-import cn.edu.pku.pkuhole.utilities.ToastUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -15,8 +13,6 @@ import timber.log.Timber
 import java.io.IOException
 import java.net.ConnectException
 import java.net.UnknownHostException
-import java.util.*
-import kotlin.reflect.full.isSubclassOf
 
 /**
  *
@@ -202,7 +198,7 @@ open class BaseRepository {
             if(code == 0){
                 this
             }else{
-                throw HoleApiException(code, msg)
+                throw ApiException(code, msg)
             }
         }
     }
