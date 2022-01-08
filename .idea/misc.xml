@@ -18,6 +18,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.25729166666666664" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_menu_settings.xml" value="0.25729166666666664" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.25729166666666664" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_pkuhole_icon_2.xml" value="0.3703125" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_report_problem_24.xml" value="0.25729166666666664" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.33611111111111114" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/ic_send_black_36.xml" value="0.1" />
@@ -33,6 +34,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/attention_item_view.xml" value="0.3541666666666667" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/comment_item_view.xml" value="0.3541666666666667" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/content_main.xml" value="0.24114583333333334" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_about_us.xml" value="0.375" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_attention.xml" value="0.3541666666666667" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_all_list.xml" value="0.264" />
@@ -41,7 +43,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_list.xml" value="0.28055555555555556" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_view_pager.xml" value="0.19739583333333333" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_login.xml" value="0.264" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_activity_test.xml" value="0.264" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_post_frag.xml" value="0.24114583333333334" />
@@ -56,6 +58,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.33611111111111114" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.33611111111111114" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/xml/network_security_config.xml" value="0.11296296296296296" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/xml/root_preferences.xml" value="0.3541666666666667" />
       </map>
     </option>
   </component>

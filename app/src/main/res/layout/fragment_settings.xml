@@ -3,18 +3,214 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="cn.edu.pku.pkuhole.viewmodels.SettingsViewModel" />
 
     </data>
 
-    <FrameLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/settings_background"
         tools:context=".ui.settings.SettingsFragment">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Hello" />
+            android:orientation="vertical">
 
-    </FrameLayout>
+            <LinearLayout
+                android:id="@+id/fragment_settings_privacy_policy_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/setting_item_padding_left_right"
+                    android:paddingTop="@dimen/setting_item_padding_top"
+                    android:paddingEnd="@dimen/setting_item_padding_left_right"
+                    android:paddingBottom="@dimen/setting_item_padding_bottom">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@color/setting_text_grey"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_right_24" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_inside_line_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_settings_user_agreement_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/setting_item_padding_left_right"
+                    android:paddingTop="@dimen/setting_item_padding_top"
+                    android:paddingEnd="@dimen/setting_item_padding_left_right"
+                    android:paddingBottom="@dimen/setting_item_padding_bottom">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/user_agreement"
+                        android:textColor="@color/setting_text_grey"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_right_24" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_inside_line_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_settings_copyright_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{()->viewModel.navigateToCopyright()}"
+                    android:paddingStart="@dimen/setting_item_padding_left_right"
+                    android:paddingTop="@dimen/setting_item_padding_top"
+                    android:paddingEnd="@dimen/setting_item_padding_left_right"
+                    android:paddingBottom="@dimen/setting_item_padding_bottom">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/copyright_info"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_right_24" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_inside_line_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_settings_about_us_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{() -> viewModel.navigateToAboutUs()}"
+                    android:paddingStart="@dimen/setting_item_padding_left_right"
+                    android:paddingTop="@dimen/setting_item_padding_top"
+                    android:paddingEnd="@dimen/setting_item_padding_left_right"
+                    android:paddingBottom="@dimen/setting_item_padding_bottom">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/about_us"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_right_24" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_inside_line_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_settings_button_exit_login_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{()->viewModel.exitLogin()}"
+                    android:paddingStart="@dimen/setting_item_padding_left_right"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="@dimen/setting_item_padding_left_right"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:text="@string/exit_login"
+                        android:textColor="@color/exit_login_red"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_inside_line_color" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </layout>

@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.preference:preference:1.1.1'
+
 
     // Support libraries
     def appCompatVersion = '1.4.0'

@@ -92,7 +92,8 @@ class UserViewModel @Inject constructor(
         if(LocalRepository.getUid().isEmpty()){
             //未登录，跳转到登录界面
             _loginStatus.value = false
-        }else{
+        }
+        else{
             userInfo.value = LocalRepository.getUserInfo()
         }
     }

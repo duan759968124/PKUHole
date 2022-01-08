@@ -7,11 +7,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-<!--    navigation DrawerLayout -->
+    <!--    navigation DrawerLayout -->
     <string name="menu_hole">树洞</string>
     <string name="menu_settings">设置</string>
 
-<!--    view Pager -->
+    <!--    view Pager -->
     <string name="search">Search</string>
     <string name="hole_list">树洞</string>
     <string name="my_attention">关注</string>
@@ -20,6 +20,7 @@
     <string name="hole_title">北大树洞</string>
     <string name="login">登录</string>
     <string name="hole_detail">树洞详情</string>
+    <string name="about_us_title">关于我们</string>
 
     <!--    hole item card -->
     <string name="pid_format">#%d</string>
@@ -48,6 +49,34 @@
     <string name="hint_report_text">请输入举报原因</string>
     <string name="hint_account">学号/职工号/北大邮箱/手机号</string>
     <string name="password">密码</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+<!--    settings-->
+    <string name="privacy_policy">隐私政策</string>
+    <string name="user_agreement">用户协议</string>
+    <string name="copyright_info">版权信息</string>
+    <string name="about_us">关于我们</string>
+    <string name="exit_login">退出登录</string>
+
+<!--    about us-->
+    <string name="app_version">版本</string>
+    <string name="app_version_info">北大树洞</string>
+    <string name="app_copyright">版权所有</string>
+    <string name="copyright_department">北京大学</string>
+
 
 
 </resources>

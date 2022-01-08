@@ -14,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import cn.edu.pku.pkuhole.R
+import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
 import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.UserViewModel
@@ -110,6 +111,8 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Timber.e("main activity onstart")
         viewModel.checkLoginStatus()
+//        navHeaderBinding.navHeaderUserName.text = LocalRepository.getUserInfo().name
+//        navHeaderBinding.navHeaderUserDepartment.text = LocalRepository.getUserInfo().department
     }
 
 

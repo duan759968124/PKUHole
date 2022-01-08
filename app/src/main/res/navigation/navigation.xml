@@ -34,7 +34,22 @@
         android:id="@+id/nav_settings"
         android:name="cn.edu.pku.pkuhole.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right">
+        <action
+            android:id="@+id/action_nav_settings_to_nav_about_us"
+            app:destination="@id/nav_about_us" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_about_us"
+        android:name="cn.edu.pku.pkuhole.ui.settings.AboutUsFragment"
+        android:label="@string/about_us_title"
+        tools:layout="@layout/fragment_about_us">
+    </fragment>
 
     <fragment
         android:id="@+id/nav_login"
@@ -53,7 +68,11 @@
     </fragment>
     <action
         android:id="@+id/action_global_nav_login"
-        app:destination="@id/nav_login" />
-<!--    view.findNavController().navigate(R.id.action_global_nav_login)-->
+        app:destination="@id/nav_login"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+    <!--    view.findNavController().navigate(R.id.action_global_nav_login)-->
 
 </navigation>

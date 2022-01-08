@@ -12,7 +12,13 @@
     <color name="card_stroke_color">#EDE7E6</color>
     <color name="card_ripper_color">#2196F3</color>
     <color name="card_inside_line_color">#EDE7E6</color>
+
+
     <color name="dialogBackgroundColor">#fffafafa</color>
     <color name="dialogAddonsBackgroundColor">#ffd0d0d0</color>
-    <color name="colorAccentDark">#ff20a392</color>
+
+
+    <color name="settings_background">#FFF2F2F2</color>
+    <color name="setting_text_grey">#FF878787</color>
+    <color name="exit_login_red">#FC2828</color>
 </resources>
