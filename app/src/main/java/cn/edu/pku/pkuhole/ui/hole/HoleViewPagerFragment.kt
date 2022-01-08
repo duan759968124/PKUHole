@@ -1,10 +1,8 @@
 package cn.edu.pku.pkuhole.ui.hole
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import cn.edu.pku.pkuhole.R
@@ -16,7 +14,6 @@ import cn.edu.pku.pkuhole.databinding.FragmentHoleViewPagerBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleViewPagerViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 /**
  *
@@ -88,7 +85,7 @@ class HoleViewPagerFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_hole, menu)
+        inflater.inflate(R.menu.menu_hole_toolbar, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

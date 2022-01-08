@@ -11,6 +11,7 @@ import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
 import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.HTTP_TIMEOUT_CONNECT
 import cn.edu.pku.pkuhole.utilities.HTTP_TIMEOUT_READ
+import cn.edu.pku.pkuhole.utilities.Hole_NEW_HOST_ADDRESS
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,65 +31,120 @@ interface HoleApiService {
     ): HoleApiResponse<String?>
 
     // 获取树洞数据，按照页（p）
-    @GET("services/pkuhole/api.php")
-    suspend fun getHoleList(
-        @Query("action") action: String = "getlist",
-        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-        @Query("p") page: Int,
-//        @Query("token") token: String = TEST_TOKEN
-    ): HoleApiResponse<List<HoleListItemBean>>
+//    @GET("services/pkuhole/api.php")
+//    suspend fun getHoleList(
+//        @Query("action") action: String = "getlist",
+//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+//        @Query("p") page: Int,
+////        @Query("token") token: String = TEST_TOKEN
+//    ): HoleApiResponse<List<HoleListItemBean>>
 
-    // 获取一条树洞数据
-    @GET("services/pkuhole/api.php")
-    suspend fun getOneHole(
-        @Query("action") action: String = "getone",
-        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-        @Query("pid") pid: Long,
-//        @Query("token") token: String = TEST_TOKEN
-    ): HoleApiResponse<HoleItemModel>
+    // 获取树洞数据，按照页（p）
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
+    suspend fun getHoleList(
+        @Field("action") action: String = "getlist",
+        @Field("token") token: String,
+        @Field("p") page: Int,
+    ): HoleApiResponse<List<HoleListItemBean>?>
+
+
+//    // 刷新树洞数据
+//    @GET("services/pkuhole/api.php")
+//    suspend fun refreshHoleList(
+//        @Query("action") action: String = "refreshlist",
+//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+//        @Query("timestamp") timestamp : Long,
+////        @Query("token") token: String = TEST_TOKEN
+//    ): HoleApiResponse<List<HoleListItemBean>?>
 
     // 刷新树洞数据
-    @GET("services/pkuhole/api.php")
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
     suspend fun refreshHoleList(
-        @Query("action") action: String = "refreshlist",
-        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-        @Query("timestamp") timestamp : Long,
-//        @Query("token") token: String = TEST_TOKEN
-    ): HoleApiResponse<List<HoleListItemBean>>
+        @Field("action") action: String = "refreshlist",
+        @Field("token") token: String,
+        @Field("timestamp") timestamp : Long,
+    ): HoleApiResponse<List<HoleListItemBean>?>
 
+//    // 获取关注数据
+//    @GET("services/pkuhole/api.php")
+//    suspend fun getAttentionList(
+//        @Query("action") action: String = "getattention",
+//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+////        @Query("token") token: String = TEST_TOKEN
+//    ): HoleApiResponse<List<AttentionItemBean>>
 
     // 获取关注数据
-    @GET("services/pkuhole/api.php")
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
     suspend fun getAttentionList(
-        @Query("action") action: String = "getattention",
-        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-//        @Query("token") token: String = TEST_TOKEN
-    ): HoleApiResponse<List<AttentionItemBean>>
+        @Field("action") action: String = "getattention",
+        @Field("token") token: String,
+    ): HoleApiResponse<List<AttentionItemBean>?>
+
+
+    // 获取一条树洞数据
+//    @GET("services/pkuhole/api.php")
+//    suspend fun getOneHole(
+//        @Query("action") action: String = "getone",
+//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+//        @Query("pid") pid: Long,
+////        @Query("token") token: String = TEST_TOKEN
+//    ): HoleApiResponse<HoleItemModel>
+
+    // 获取一条树洞数据
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
+    suspend fun getOneHole(
+        @Field("action") action: String = "getone",
+        @Field("token") token: String,
+        @Field("pid") pid: Long
+    ): HoleApiResponse<HoleItemModel?>
 
     // 获取某条树洞下的评论列表
-    @GET("services/pkuhole/api.php")
+//    @GET("services/pkuhole/api.php")
+//    suspend fun getCommentList(
+//        @Query("action") action: String = "getcomment",
+//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+//        @Query("pid") pid: Long,
+//    ): HoleApiResponse<List<CommentItemBean>>
+
+    // 获取某条树洞下的评论列表
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
     suspend fun getCommentList(
-        @Query("action") action: String = "getcomment",
-        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-        @Query("pid") pid: Long,
-    ): HoleApiResponse<List<CommentItemBean>>
+        @Field("action") action: String = "getcomment",
+        @Field("token") token: String,
+        @Field("pid") pid: Long,
+    ): HoleApiResponse<List<CommentItemBean>?>
+
+//    // 回复评论
+//    @FormUrlEncoded
+//    @POST("services/pkuhole/api.php")
+//    suspend fun sendReplyComment(
+//        @Query("action") action: String = "docomment",
+//        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+//        @Field("pid") pid: Long,
+//        @Field("text") text: String,
+//    ): HoleApiResponse<Long>
 
     // 回复评论
     @FormUrlEncoded
-    @POST("services/pkuhole/api.php")
+    @POST("services/hole/api.php")
     suspend fun sendReplyComment(
-        @Query("action") action: String = "docomment",
-        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+        @Field("action") action: String = "docomment",
+        @Field("token") token: String,
         @Field("pid") pid: Long,
         @Field("text") text: String,
-    ): HoleApiResponse<Long>
+    ): HoleApiResponse<Long?>
 
     // Attention状态变化【关注或者取消关注】
     @FormUrlEncoded
-    @POST("services/pkuhole/api.php")
+    @POST("services/hole/api.php")
     suspend fun switchAttentionStatus(
-        @Query("action") action: String = "attention",
-        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+        @Field("action") action: String = "attention",
+        @Field("token") token: String,
         @Field("pid") pid: Long,
         @Field("switch") switch: Int,
     ): HoleApiResponse<String?>
@@ -96,10 +152,10 @@ interface HoleApiService {
 
     // 举报树洞
     @FormUrlEncoded
-    @POST("services/pkuhole/api.php")
+    @POST("services/hole/api.php")
     suspend fun report(
-        @Query("action") action: String = "report",
-        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
+        @Field("action") action: String = "report",
+        @Field("token") token: String,
         @Field("pid") pid: Long,
         @Field("reason") reason: String,
     ): HoleApiResponse<String?>
@@ -116,7 +172,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-                .addInterceptor(ChangeBaseUrlInterceptor())
+//                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())
@@ -125,7 +181,7 @@ interface HoleApiService {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl(HOLE_HOST_ADDRESS)
+                .baseUrl(Hole_NEW_HOST_ADDRESS)
                 .client(okHttpclient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

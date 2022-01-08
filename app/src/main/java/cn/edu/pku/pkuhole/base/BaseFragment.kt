@@ -20,12 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
  * @Desc:
  * @Version:        1.0
  */
-@AndroidEntryPoint
+//@AndroidEntryPoint
 abstract class BaseFragment: Fragment() {
 
     private lateinit var mLoadingDialog: LoadingDialog
     private lateinit var mContext: Context
-    private val baseViewModel: BaseViewModel by viewModels()
+//    private val baseViewModel: BaseViewModel by viewModels()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,12 +36,12 @@ abstract class BaseFragment: Fragment() {
     }
 
     open fun initObserve(){
-        baseViewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
-            if(!isLogin){
-                findNavController().navigate(R.id.action_global_nav_login)
-                baseViewModel.onNavigateToLoginFinish()
-            }
-        })
+//        baseViewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+//            if(!isLogin){
+//                findNavController().navigate(R.id.action_global_nav_login)
+//                baseViewModel.onNavigateToLoginFinish()
+//            }
+//        })
 
 
 

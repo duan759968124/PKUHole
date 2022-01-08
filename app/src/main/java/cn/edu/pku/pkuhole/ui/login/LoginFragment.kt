@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.pkuhole.base.BaseFragment
+import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.FragmentLoginBinding
 import cn.edu.pku.pkuhole.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,7 +74,6 @@ class LoginFragment : BaseFragment() {
 
 
     override fun initData() {
-
 //        val navController = findNavController()
 //        val savedStateHandle = navController.previousBackStackEntry!!.savedStateHandle
 //

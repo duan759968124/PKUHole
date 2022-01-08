@@ -3,9 +3,11 @@ package cn.edu.pku.pkuhole.viewmodels.hole
 import android.annotation.SuppressLint
 import androidx.lifecycle.*
 import cn.edu.pku.pkuhole.base.BaseViewModel
+import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.hole.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -38,13 +40,14 @@ class AttentionViewModel @Inject internal constructor(
     fun getAttentionList(){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
                 refreshStatus.postValue(true)
-//                database.clearAttentionList()
-                database.getAttentionListFromNetToDatabase()
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let { database.getAttentionListFromNetToDatabase(it) }
             }catch (e: Exception){
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
                 refreshStatus.postValue(false)
             }

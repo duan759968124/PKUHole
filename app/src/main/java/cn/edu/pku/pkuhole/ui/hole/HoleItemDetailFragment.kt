@@ -3,10 +3,10 @@ package cn.edu.pku.pkuhole.ui.hole
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.adapters.CommentAdapter
@@ -17,6 +17,7 @@ import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
+import timber.log.Timber
 
 
 /**
@@ -90,12 +91,6 @@ class HoleItemDetailFragment : BaseFragment() {
             }
         })
 
-        // Todo：监听错误状态，好像有点问题
-        viewModel.errorStatus.observe(viewLifecycleOwner, Observer {
-//            Timber.e(it.toString())
-            it.message?.let { it -> showToast(it) }
-        })
-
         // 监听是否显示对话框
         viewModel.replyDialogToName.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrEmpty()) {
@@ -113,6 +108,30 @@ class HoleItemDetailFragment : BaseFragment() {
                 showToast(it)
             }
         })
+
+        // Todo：监听错误状态，好像有点问题
+        // 系统网络报错
+        viewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+            error.message?.let { showToast("错误-$it") }
+        })
+
+        // api报错
+        viewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+            fail.message?.let { showToast("失败-$it") }
+        })
+        // 退出到login界面
+        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+            Timber.e("isLogin %s", isLogin)
+            if (!isLogin) {
+                // 全局导航操作
+                findNavController().navigate(R.id.action_global_nav_login)
+                viewModel.onNavigateToLoginFinish()
+            }
+        })
+
+
+
+
     }
 
     override fun initData() {
@@ -197,7 +216,7 @@ class HoleItemDetailFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_hole_detail, menu)
+        inflater.inflate(R.menu.menu_hole_detail_toolbar, menu)
     }
 
 

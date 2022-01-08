@@ -146,42 +146,8 @@ open class BaseRepository {
 
 
     /**
-     * @deprecated  不可用，没有跑通
+     * 带返回值的单个请求
      */
-    // 没有异常监听和loading状态捕捉
-//    @SuppressLint("TimberArgCount")
-//    suspend inline fun <reified T : Any> launchRequest(
-//        noinline block: suspend () -> HoleApiResponse<T>
-//    ): HoleApiResponse<T>? {
-//        return try {
-//            block()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            when (e) {
-//                is UnknownHostException -> {
-//                }
-//                //...  各种需要单独处理的异常
-//                is ConnectException -> {
-//                }
-//                else -> {
-//                }
-//            }
-////            e.message?.let { ToastUtil.show(it) }
-////            Timber.e(e, "System Error : %s")
-////            return null
-//            throw e
-//        }.run {
-//            if (0 == code) {
-//                val isListType = T::class.isSubclassOf(List::class)
-//                if (data == null && isListType) {
-//                    Collections.EMPTY_LIST as? T
-//                }
-//                return this
-//            }  else {
-//                throw HoleApiException(code, msg)
-//            }
-//        }
-//    }
     suspend inline fun <reified T: Any> launchRequest(
         crossinline block : suspend () -> HoleApiResponse<T?>
     ): HoleApiResponse<T?> {

@@ -44,6 +44,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun login() {
+        // Todo: 做一个账号密码检查
         Timber.e("click login account %s password %s", account.value, password.value)
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -63,6 +64,8 @@ class UserViewModel @Inject constructor(
                 userInfo.postValue(userInfoRes)
                 // 将数据存到本地
                 LocalRepository.setUserInfo(userInfoRes)
+                LocalRepository.setAccount(account = account.value!!)
+                LocalRepository.setPassword(password = password.value!!)
             } catch (e: Exception) {
                 when (e) {
                     is ApiException -> failStatus.postValue(e)

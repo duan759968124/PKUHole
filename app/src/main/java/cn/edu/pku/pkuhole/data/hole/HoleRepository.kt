@@ -40,9 +40,9 @@ class HoleRepository @Inject constructor(
     // 记录获取第一页或者刷新时间，作为请求刷新的一个参数
     private var getFirstPageOrRefreshHoleListTimestamp : Long = 0L
 
-    suspend fun getHoleListFromNetToDatabase(page: Int){
+    suspend fun getHoleListFromNetToDatabase(page: Int, token: String){
         withContext(Dispatchers.IO){
-            val holeListResponse = holeApi.getHoleList(page = page)
+            val holeListResponse = launchRequest {holeApi.getHoleList(page = page, token= token)}
             holeListResponse.data?.map { it.isHole = 1 }
             holeListResponse.data?.let { updateOrInsertHoleList(it) }
             if(page == 1){
@@ -52,9 +52,9 @@ class HoleRepository @Inject constructor(
         }
     }
 
-    suspend fun refreshHoleListFromNetToDatabase(){
+    suspend fun refreshHoleListFromNetToDatabase(token: String){
         withContext(Dispatchers.IO){
-            val refreshHoleListResponse = holeApi.refreshHoleList(timestamp = getFirstPageOrRefreshHoleListTimestamp)
+            val refreshHoleListResponse = launchRequest {holeApi.refreshHoleList(timestamp = getFirstPageOrRefreshHoleListTimestamp, token = token)}
             refreshHoleListResponse.data?.map { it.isHole = 1 }
             refreshHoleListResponse.data?.let { updateOrInsertHoleList(it) }
             refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
@@ -63,9 +63,9 @@ class HoleRepository @Inject constructor(
     }
 
     // 获取attention列表  更换表格insert另一个表中
-    suspend fun getAttentionListFromNetToDatabase(){
+    suspend fun getAttentionListFromNetToDatabase(token: String){
         withContext(Dispatchers.IO){
-            val attentionListResponse = holeApi.getAttentionList()
+            val attentionListResponse = launchRequest {holeApi.getAttentionList(token=token)}
             attentionListResponse.data?.map { it.isAttention = 1 }
             attentionListResponse.data?.let { updateOrInsertAttentionList(it) }
         }
@@ -82,18 +82,18 @@ class HoleRepository @Inject constructor(
     private suspend fun insertCommentList(commentList: List<CommentItemBean>) = commentDao.insertCommentList(commentList)
 
     // 获取一条树洞详情,【这条数据一定存在，并且isHole或者isAttention一定存在，所以直接更新】并更新数据库
-    suspend fun getOneHoleFromNetToDatabase(pid: Long){
+    suspend fun getOneHoleFromNetToDatabase(pid: Long, token: String){
         withContext(Dispatchers.IO){
-            val holeResponse = holeApi.getOneHole(pid = pid)
+            val holeResponse = launchRequest {holeApi.getOneHole(pid = pid, token = token)}
 //            holeResponse.data?.let { it.reply = 100 }
             holeResponse.data?.let { updateHoleItemModel(it) }
         }
     }
 
     // 获取评论列表，并插入到数据库中【这里不用更新】
-    suspend fun getCommentListFromNetToDatabase(pid: Long){
+    suspend fun getCommentListFromNetToDatabase(pid: Long, token: String){
         withContext(Dispatchers.IO){
-            val holeResponse = holeApi.getCommentList(pid = pid)
+            val holeResponse = launchRequest {holeApi.getCommentList(pid = pid, token = token)}
             holeResponse.data?.let { insertCommentList(it) }
         }
     }
@@ -101,10 +101,11 @@ class HoleRepository @Inject constructor(
     // 变更关注状态，重新获取这一条的记录并塞到数据库中
     suspend fun switchAttentionStatus(
         holeItemBean: HoleItemBean,
-        switch: Int
+        switch: Int,
+        token: String
     ): HoleApiResponse<String?> {
         val holeResponse =
-            holeApi.switchAttentionStatus(pid = holeItemBean.pid, switch = switch)
+            launchRequest { holeApi.switchAttentionStatus(pid = holeItemBean.pid, switch = switch, token = token)}
         if (holeResponse.code == 0) {
             // 表示操作成功，变更数据库表中数据
             Timber.e("switchAttentionStatus response %s", holeResponse.toString())
@@ -125,6 +126,7 @@ class HoleRepository @Inject constructor(
 //                    }
             Timber.e("attention modify after %s", holeItemBean.toString())
         }
+        // Todo: 其实不需要return了
         return holeResponse
     }
 
@@ -136,36 +138,36 @@ class HoleRepository @Inject constructor(
     }
 
 
-    /**
-     * @param stateLiveData 带有请求状态的LiveData
-     */
-    suspend fun getHoleListFromNet(page: Int, stateLiveData: StateLiveData<List<HoleListItemBean>>) {
-        executeResp(
-            { holeApi.getHoleList(page = page)}
-            , stateLiveData)
-    }
+//    /**
+//     * @param stateLiveData 带有请求状态的LiveData
+//     */
+//    suspend fun getHoleListFromNet(page: Int, stateLiveData: StateLiveData<List<HoleListItemBean>?>) {
+//        executeResp(
+//            { holeApi.getHoleList(page = page, token = "")}
+//            , stateLiveData)
+//    }
 
-    /**
-     * 返回的带结果的数据，系统Error使用Toast,接口Error使用catch处理
-     */
-    suspend fun getHoleListFromNetWithResult(page: Int): HoleApiResponse<List<HoleListItemBean>>? {
-        return holeApi.getHoleList(page = page)
-    }
+//    /**
+//     * 返回的带结果的数据，系统Error使用Toast,接口Error使用catch处理
+//     */
+//    suspend fun getHoleListFromNetWithResult(page: Int): HoleApiResponse<List<HoleListItemBean>?> {
+//        return holeApi.getHoleList(page = page, token = "")
+//    }
 
     /**
      * 纯网络接口，不向数据库写数据
      * 评论成功返回数据
      */
-    suspend fun sendReplyComment(pid: Long, comment: String): HoleApiResponse<Long> {
-        return holeApi.sendReplyComment(pid = pid, text = comment)
+    suspend fun sendReplyComment(pid: Long, comment: String, token: String): HoleApiResponse<Long?> {
+        return launchRequest { holeApi.sendReplyComment(pid = pid, text = comment, token = token)}
     }
 
     /**
      * 举报，不向数据库写数据
      * 举报成功返回数据
      */
-    suspend fun report(pid: Long, reason: String):HoleApiResponse<String?>{
-        return holeApi.report(pid = pid, reason = reason)
+    suspend fun report(pid: Long, reason: String, token: String):HoleApiResponse<String?>{
+        return launchRequest { holeApi.report(pid = pid, reason = reason, token = token)}
     }
 
 //    suspend fun login(account: String, password: String):HoleApiResponse<String?>{

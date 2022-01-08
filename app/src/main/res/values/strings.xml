@@ -8,10 +8,7 @@
     <string name="action_settings">Settings</string>
 
 <!--    navigation DrawerLayout -->
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_hole">北大树洞</string>
+    <string name="menu_hole">树洞</string>
     <string name="menu_settings">设置</string>
 
 <!--    view Pager -->
@@ -20,6 +17,8 @@
     <string name="my_attention">关注</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hole_title">北大树洞</string>
+    <string name="login">登录</string>
     <string name="hole_detail">树洞详情</string>
 
     <!--    hole item card -->
@@ -49,5 +48,6 @@
     <string name="hint_report_text">请输入举报原因</string>
     <string name="hint_account">学号/职工号/北大邮箱/手机号</string>
     <string name="password">密码</string>
-    <string name="login">登录</string>
+
+
 </resources>

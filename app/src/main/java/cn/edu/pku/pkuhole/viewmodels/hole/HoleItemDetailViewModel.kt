@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.*
 import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseViewModel
+import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.hole.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -21,7 +23,6 @@ import javax.inject.Inject
  * @Version:        1.0
  */
 //class HoleItemDetailViewModel(private val pid: Long = 0L, dataSource: HoleAllListDao) :
-// Todo：修改仓库为hole Detail的仓库
 @HiltViewModel
 class HoleItemDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -57,12 +58,17 @@ class HoleItemDetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 loadingStatus.postValue(true)
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
-                database.getOneHoleFromNetToDatabase(pid)
-                database.getCommentListFromNetToDatabase(pid)
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+                    database.getOneHoleFromNetToDatabase(pid, it)
+                    database.getCommentListFromNetToDatabase(pid, it)
+                }
+
             }catch (e: Exception){
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
                 loadingStatus.postValue(false)
             }
@@ -90,27 +96,21 @@ class HoleItemDetailViewModel @Inject constructor(
         Timber.e("viewModel reply text: %s", text)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
-                loadingStatus.postValue(true)
-//                errorStatus.postValue(null)
-                val response = database.sendReplyComment(pid, text.toString())
-                Timber.e("reply result %s", response.toString())
-                loadingStatus.postValue(false)
-                if(response.code == 0){
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+                    val response = database.sendReplyComment(pid, text.toString(), it)
+                    Timber.e("reply result %s", response.toString())
 //                        _replyResponseMsg.postValue("回复成功")
                     response.data?.let {
-                        Timber.e("reply data %s", response.data.toString())
                         fetchCommentDetailFromNet()
                     }
                 }
-                else {
-//                        response.msg?.let { _replyResponseMsg.postValue(it) }
-                }
             }catch (e: Exception){
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
-                loadingStatus.postValue(false)
             }
         }
     }
@@ -119,45 +119,43 @@ class HoleItemDetailViewModel @Inject constructor(
         Timber.e("viewModel report text: %s", text)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
                 _responseMsg.postValue(null)
-                val response = database.report(pid, text.toString())
-                Timber.e("reply result %s", response.toString())
-                if(response.code == 0){
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+                    val response = database.report(pid, text.toString(), it)
+                    Timber.e("reply result %s", response.toString())
                     _responseMsg.postValue("举报成功")
-                }else{
-                    _responseMsg.postValue(response.msg)
                 }
             }catch (e: Exception){
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
             }
         }
     }
 
-
     fun switchAttentionStatus() {
         // 发送请求，根据currentHoleItem中的isAttention来判断状态
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
                 _responseMsg.postValue(null)
                 if(currentHoleItem.value?.isAttention == null){
                     currentHoleItem.value?.isAttention = 0
                 }
-                currentHoleItem.value?.isAttention?.let { val response = database.switchAttentionStatus(
-                    currentHoleItem.value!!,
-                    kotlin.math.abs(it - 1))
-                    if(response.code == 0){
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+                    val response = database.switchAttentionStatus(
+                            currentHoleItem.value!!,
+                            kotlin.math.abs(currentHoleItem.value!!.isAttention!! - 1), it)
                         _responseMsg.postValue("操作成功")
-                    }else{
-                        _responseMsg.postValue(response.msg)
-                    }
                 }
             }catch (e: Exception){
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
             }
         }

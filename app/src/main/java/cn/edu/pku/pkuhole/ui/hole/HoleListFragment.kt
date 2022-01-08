@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.adapters.HoleAdapter
 import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseFragment
@@ -66,11 +67,6 @@ class HoleListFragment : BaseFragment() {
             }
         })
 
-        viewModel.errorStatus.observe(viewLifecycleOwner, Observer {
-//            Timber.e(it.toString())
-            it.message?.let { it -> showToast(it) }
-        })
-
         // 监听刷新状态变化
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             if(it){
@@ -104,6 +100,27 @@ class HoleListFragment : BaseFragment() {
                 viewModel.onHoleItemDetailNavigated()
             }
         })
+
+
+        // 系统网络报错
+        viewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+            error.message?.let { showToast("错误-$it") }
+        })
+
+        // api报错
+        viewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+            fail.message?.let { showToast("失败-$it") }
+        })
+        // 退出到login界面
+        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+            Timber.e("isLogin %s", isLogin)
+            if (!isLogin) {
+                // 全局导航操作
+                findNavController().navigate(R.id.action_global_nav_login)
+                viewModel.onNavigateToLoginFinish()
+            }
+        })
+
     }
 
     override fun initData() {

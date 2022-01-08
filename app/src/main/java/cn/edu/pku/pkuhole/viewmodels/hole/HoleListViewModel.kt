@@ -3,9 +3,11 @@ package cn.edu.pku.pkuhole.viewmodels.hole
 import android.annotation.SuppressLint
 import androidx.lifecycle.*
 import cn.edu.pku.pkuhole.base.BaseViewModel
+import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.hole.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -29,33 +31,18 @@ class HoleListViewModel @Inject internal constructor(
         _navigationToHoleItemDetail.value = null
     }
 
-
-//    val mHoleListLiveData = StateLiveData<List<HoleListItemBean>>()
-
     val holeList = database.getHoleList().asLiveData()
 
     var currentPage : Int = 1
 
 //    val errorLiveData = MutableLiveData<Throwable>()
 
-//    val holeAllList = database.getHoleAllListFromNet(1)
-//    val holeAllList = holeAllListRepository.getAllList().asLiveData()
 
-//    private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
-//
-//    val navigationToHoleItemDetail: MutableLiveData<Long?>
-//        get() = _navigationToHoleItemDetail
-
-//    fun onHoleItemClicked(pid: Long) {
-//        _navigationToHoleItemDetail.value = pid
-//    }
-//
-//    fun onHoleItemDetailNavigated() {
-//        _navigationToHoleItemDetail.value = null
-//    }
 
     init {
         getHoleList()
+
+//        Timber.e("valid token %s", token.value)
 //        launch(
 //            {
 //                loadingLiveData.postValue(true)
@@ -96,25 +83,22 @@ class HoleListViewModel @Inject internal constructor(
                 // 第一次是自动加载，显示refresh
                 // 后续的请求都是加载更多数据导致的
                 if(currentPage == 1){
-                    // Todo: 后续将删除数据的操作放到一块
-                    // 首次进入的话删除掉本地数据库
+                    // 首次进入的话删除掉sql数据库
                     database.clear()
                     refreshStatus.postValue(true)
                 }else{
                     loadingStatus.postValue(true)
                 }
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
-                database.getHoleListFromNetToDatabase(currentPage)
+                val token = getValidTokenWithFlow().singleOrNull()
+                Timber.e("valid token %s", token)
+                token?.let { database.getHoleListFromNetToDatabase(currentPage, it) }
                 currentPage ++
                 Timber.e("launch IO in first %d", currentPage)
             }catch (e: Exception){
-//                val errorMsg = when(e){
-//                    is UnknownHostException -> e.message
-//                    else -> "None"
-//                }
-//                Timber.e(errorMsg.toString())
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+               when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
                 if(currentPage == 2){
                     refreshStatus.postValue(false)
@@ -133,12 +117,13 @@ class HoleListViewModel @Inject internal constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 refreshStatus.postValue(true)
-                // Todo: 还需要添加一个验证有效期token的接口【获取token】
-                database.refreshHoleListFromNetToDatabase()
-//                database.getAttentionListFromNetToDatabase()
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let { database.refreshHoleListFromNetToDatabase(it) }
             }catch (e: Exception){
-                errorStatus.postValue(e)
-                e.message?.let { Timber.e(e.message) }
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
             }finally {
                 refreshStatus.postValue(false)
             }
