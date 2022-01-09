@@ -17,8 +17,31 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_nav_hole_to_nav_search_result"
+            app:destination="@id/nav_search_result"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_search_result"
+        android:name="cn.edu.pku.pkuhole.ui.hole.SearchFragment"
+        android:label="@string/search_title"
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="keywords"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nav_search_result_to_nav_hole_detail"
+            app:destination="@id/nav_hole_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_hole_detail"
@@ -73,6 +96,7 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"/>
+
     <!--    view.findNavController().navigate(R.id.action_global_nav_login)-->
 
 </navigation>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="cn.edu.pku.pkuhole.viewmodels.hole.HoleViewPagerViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@id/container"
@@ -52,6 +53,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:alpha="0.5"
+                        android:onClick="@{()->viewModel.postNewHole()}"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_send_black_36" />
                 </RelativeLayout>
@@ -64,17 +66,23 @@
                     android:layout_below="@id/container_title"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
+                    android:text="@={viewModel.postTextContent}"
                     android:adjustViewBounds="true"
+                    tools:text="@string/hole_test_text"
                     android:background="@null"
                     android:hint="说些什么吧~"
                     android:minHeight="120dp" />
 
                 <ImageView
                     android:id="@+id/img_preview"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_below="@id/et_hole_post"
                     android:layout_alignParentStart="true"
+                    tools:src="@drawable/bg_drawer_header"
+                    app:hasLocalImage="@{viewModel.localPicFile}"
+                    app:imageFromFile="@{viewModel.localPicFile}"
+                    tools:visibility="visible"
                     android:scaleType="center"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -94,7 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:alpha="0.5"
+                    android:onClick="@{()->viewModel.getLocalPicture()}"
+                    android:alpha="0.7"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_insert_photo_black_36" />
 
@@ -107,5 +116,4 @@
                 <!--                android:src="@drawable/ic_mic_black_36dp" />-->
             </LinearLayout>
         </RelativeLayout>
-    </FrameLayout>
 </layout>

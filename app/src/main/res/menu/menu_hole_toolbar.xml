@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!--    android:id="@+id/app_bar_search"-->
     <item
-        android:id="@+id/nav_settings"
+        android:id="@+id/button_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
         app:showAsAction="always" />

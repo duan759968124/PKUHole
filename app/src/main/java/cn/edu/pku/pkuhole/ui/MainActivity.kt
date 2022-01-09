@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 //        navHeaderBinding.userViewModel = viewModel
 
 //        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+//        binding.lifecycleOwner = this
         setContentView(binding.root)
 //        设置toolbar
         setSupportActionBar(binding.toolbar)
@@ -103,7 +103,6 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
             }
-
         })
     }
 

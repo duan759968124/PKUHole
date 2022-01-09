@@ -21,4 +21,6 @@
     <color name="settings_background">#FFF2F2F2</color>
     <color name="setting_text_grey">#FF878787</color>
     <color name="exit_login_red">#FC2828</color>
+    <color name="app_color_grey">#393a3e</color>
+    <color name="app_color_white_transparent">#E0DBDBDB</color>
 </resources>

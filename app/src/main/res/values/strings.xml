@@ -12,7 +12,7 @@
     <string name="menu_settings">设置</string>
 
     <!--    view Pager -->
-    <string name="search">Search</string>
+    <string name="search">搜索</string>
     <string name="hole_list">树洞</string>
     <string name="my_attention">关注</string>
 
@@ -76,7 +76,8 @@
     <string name="app_version_info">北大树洞</string>
     <string name="app_copyright">版权所有</string>
     <string name="copyright_department">北京大学</string>
-
+    <string name="hint_search_text">请输入关键词，多词以空格分隔</string>
+    <string name="search_title">搜索结果</string>
 
 
 </resources>

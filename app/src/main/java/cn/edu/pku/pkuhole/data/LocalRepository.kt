@@ -85,6 +85,7 @@ object LocalRepository : MMKVOwner {
     // Todo:后续需要替换为加密后的password
     private var localAccount by mmkvString("")
     private var localPassword by mmkvString("")
+    private var localPasswordSecure by mmkvString("")
 
     fun getAccount(): String{
         return localAccount
@@ -97,6 +98,14 @@ object LocalRepository : MMKVOwner {
     }
     fun setPassword(password: String){
         localPassword = password
+    }
+
+    fun getPasswordSecure(): String{
+        return localPasswordSecure
+    }
+
+    fun setPasswordSecure(pwdSecure: String){
+        localPasswordSecure = pwdSecure
     }
 
     fun clearAll(){

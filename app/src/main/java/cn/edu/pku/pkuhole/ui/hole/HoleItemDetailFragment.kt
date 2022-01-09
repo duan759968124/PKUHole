@@ -60,7 +60,6 @@ class HoleItemDetailFragment : BaseFragment() {
 
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
-
         return binding.root
     }
 
@@ -82,7 +81,6 @@ class HoleItemDetailFragment : BaseFragment() {
             }
         })
 
-        // 监听加载更多状态
         viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 showLoading()
@@ -109,7 +107,6 @@ class HoleItemDetailFragment : BaseFragment() {
             }
         })
 
-        // Todo：监听错误状态，好像有点问题
         // 系统网络报错
         viewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
             error.message?.let { showToast("错误-$it") }

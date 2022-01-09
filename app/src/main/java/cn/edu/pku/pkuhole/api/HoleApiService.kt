@@ -30,6 +30,15 @@ interface HoleApiService {
         @Field("password") password: String,
     ): HoleApiResponse<String?>
 
+    // login
+    // password 先进行加密，之后url encoding，最后作为password提交
+    @FormUrlEncoded
+    @POST("services/authen/loginsecure.php")
+    suspend fun loginsecure(
+        @Field("uid") uid: String,
+        @Field("password") password: String,
+    ): HoleApiResponse<String?>
+
     // 获取树洞数据，按照页（p）
 //    @GET("services/pkuhole/api.php")
 //    suspend fun getHoleList(
@@ -102,6 +111,16 @@ interface HoleApiService {
         @Field("pid") pid: Long
     ): HoleApiResponse<HoleItemModel?>
 
+
+    // 搜索
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
+    suspend fun search(
+        @Field("action") action: String = "search",
+        @Field("token") token: String,
+        @Field("keywords") keywords: String
+    ): HoleApiResponse<List<HoleItemModel>?>
+
     // 获取某条树洞下的评论列表
 //    @GET("services/pkuhole/api.php")
 //    suspend fun getCommentList(
@@ -159,6 +178,29 @@ interface HoleApiService {
         @Field("pid") pid: Long,
         @Field("reason") reason: String,
     ): HoleApiResponse<String?>
+
+    // 发树洞[带图片]
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
+    suspend fun postHoleWithImage(
+        @Field("action") action: String = "dopost",
+        @Field("token") token: String,
+        @Field("type") type: String = "image",
+        @Field("text") text: String,
+        @Field("data") data: String,
+        @Field("length") length: Int = 0,
+    ): HoleApiResponse<Long?>
+
+    // 发树洞[带图片]
+    @FormUrlEncoded
+    @POST("services/hole/api.php")
+    suspend fun postHoleOnlyText(
+        @Field("action") action: String = "dopost",
+        @Field("token") token: String,
+        @Field("type") type: String = "text",
+        @Field("text") text: String,
+        @Field("length") length: Int = 0,
+    ): HoleApiResponse<Long?>
 
 
 

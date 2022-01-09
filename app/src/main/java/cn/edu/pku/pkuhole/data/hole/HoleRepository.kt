@@ -170,12 +170,29 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.report(pid = pid, reason = reason, token = token)}
     }
 
+    suspend fun postHoleOnlyText(token: String, text: String): HoleApiResponse<Long?>{
+        return launchRequest { holeApi.postHoleOnlyText(token = token, text = text) }
+    }
+
+    suspend fun postHoleWithImage(token: String, text: String, data: String): HoleApiResponse<Long?>{
+        return launchRequest { holeApi.postHoleWithImage(token = token, text = text, data = data) }
+    }
+
+    suspend fun search(token: String, keywords: String): HoleApiResponse<List<HoleItemModel>?>{
+        return launchRequest { holeApi.search(token = token, keywords = keywords) }
+    }
+
+
 //    suspend fun login(account: String, password: String):HoleApiResponse<String?>{
 //        return holeApi.login(uid = account, password = password)
 //    }
 
     suspend fun login(account: String, password: String):HoleApiResponse<String?>{
         return launchRequest {holeApi.login(uid = account, password = password)}
+    }
+
+    suspend fun loginSecure(account: String, password: String):HoleApiResponse<String?>{
+        return launchRequest {holeApi.loginsecure(uid = account, password = password)}
     }
 
 }

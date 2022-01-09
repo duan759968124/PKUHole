@@ -8,6 +8,7 @@ import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.UserInfo
 import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.data.hole.HoleRepository
+import cn.edu.pku.pkuhole.utilities.EncryptUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class UserViewModel @Inject constructor(
     var userInfo = MutableLiveData<UserInfo>()
     var account = MutableLiveData<String>()
     var password = MutableLiveData<String>()
+    var passwordSecure = MutableLiveData<String>()
 
     // loginFragment监听 请求状态 true 跳转到nav_hole
     private val _loginSuccessNavigation = MutableLiveData<Boolean>()
@@ -40,7 +42,47 @@ class UserViewModel @Inject constructor(
 
     init {
         account.value = LocalRepository.getAccount()
-        password.value = LocalRepository.getPassword()
+        password.value = ""
+    }
+
+    fun loginSecure() {
+        if(account.value.isNullOrEmpty() or password.value.isNullOrEmpty()){
+            Timber.e("account or password is null")
+        }else{ // 对密码加密
+            passwordSecure.value = EncryptUtils.encrypt(password.value!!, EncryptUtils.getPublicKeyFromString())
+            Timber.e("click password secure %s", passwordSecure.value)
+            Timber.e("click login account %s password %s", account.value, password.value)
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    loadingStatus.postValue(true)
+                    val response =
+                        database.loginSecure(account = account.value!!, password = passwordSecure.value!!)
+                    Timber.e("login response %s", response)
+                    _loginSuccessNavigation.postValue(true)
+                    val userInfoRes = UserInfo(
+                        uid = response.uid!!,
+                        name = response.name,
+                        department = response.department,
+                        token = response.token,
+                        token_timestamp = response.token_timestamp
+                    )
+                    // 用来更新activity中显示
+                    userInfo.postValue(userInfoRes)
+                    // 将数据存到本地
+                    LocalRepository.setUserInfo(userInfoRes)
+                    LocalRepository.setAccount(account = account.value!!)
+                    LocalRepository.setPassword(password = password.value!!)
+                } catch (e: Exception) {
+                    when (e) {
+                        is ApiException -> failStatus.postValue(e)
+                        else -> errorStatus.postValue(e)
+                    }
+                } finally {
+                    loadingStatus.postValue(false)
+                    Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
+                }
+            }
+        }
     }
 
     fun login() {

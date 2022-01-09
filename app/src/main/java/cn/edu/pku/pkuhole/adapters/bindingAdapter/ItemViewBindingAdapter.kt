@@ -14,6 +14,7 @@ import cn.edu.pku.pkuhole.utilities.convertDurationToFormatted
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.navigation.NavigationView
+import java.io.File
 
 
 /**
@@ -50,6 +51,31 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
             .into(view)
     }
 }
+
+
+@BindingAdapter("hasLocalImage")
+fun bindHasLocalImage(view: View, file: File?) {
+    if (file != null) {
+        view.visibility = if (file.path.isEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+}
+
+@BindingAdapter("imageFromFile")
+fun bindImageFromFile(view: ImageView, file: File?) {
+    if (file != null) {
+        if (file.path.isNotEmpty()) {
+            Glide.with(view.context)
+                .load(file)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(view)
+        }
+    }
+}
+
 
 //@BindingAdapter("fillNavHeader")
 //fun fillNavHeader(view: NavigationView, userInfo: UserInfo?){

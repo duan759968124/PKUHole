@@ -1,8 +1,11 @@
 package cn.edu.pku.pkuhole.ui.hole
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import cn.edu.pku.pkuhole.R
@@ -12,8 +15,11 @@ import cn.edu.pku.pkuhole.adapters.HolePaperAdapter
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleViewPagerBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleViewPagerViewModel
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 /**
  *
@@ -27,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HoleViewPagerFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleViewPagerBinding
-    private val viewModel : HoleViewPagerViewModel by viewModels()
+    private val viewModel : HoleViewPagerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,36 +51,62 @@ class HoleViewPagerFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        // 创建一个dialog
-//        var dialog: AlertDialog? = null
-//        val builder = AlertDialog.Builder(context)
-//        builder.setTitle("hhhhhh")
-//        builder.setMessage("click button")
-//        dialog = builder.create()
+        val postDialog = PostHoleDialogFragment()
 
-//        viewModel.showDialogPost.observe(viewLifecycleOwner, Observer {
-//            if(it){
-//                Timber.e("show dialog")
-//                dialog.show()
-//                viewModel.showDialogPostFinished()
-//            }else{
-//                Timber.e("hide dialog")
-////                dialog.hide()
-//            }
-//        })
+        viewModel.showDialogPost.observe(viewLifecycleOwner, Observer { isShow ->
+            if(isShow){
+                Timber.e("show dialog")
+                postDialog.show(parentFragmentManager, "dialog")
+            }else{
+                if(postDialog.isVisible){
+                    postDialog.dismiss()
+                }
+
+            }
+        })
+
+        // 监听发布更新帖子
+        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
+            if(it){
+                showLoading()
+            }else{
+                dismissLoading()
+            }
+        })
+
+        // 系统网络报错
+        viewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+            error.message?.let { showToast("错误-$it") }
+        })
+
+        // api报错
+        viewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+            fail.message?.let { showToast("失败-$it") }
+        })
+        // 退出到login界面
+        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+            Timber.e("isLogin %s", isLogin)
+            if (!isLogin) {
+                // 全局导航操作
+                findNavController().navigate(R.id.action_global_nav_login)
+                viewModel.onNavigateToLoginFinish()
+            }
+        })
+
+        viewModel.postResponseMsg.observe(viewLifecycleOwner, Observer { msg ->
+            if (msg != null) {
+                showToast(msg)
+            }
+        })
 
         setHasOptionsMenu(true)
         return binding.root
     }
 
-    override fun initObserve() {
-        super.initObserve()
-
-    }
-
     override fun initData() {
 
     }
+
 
     private fun getTabList(position: Int): String? {
         return when (position) {
@@ -89,15 +121,45 @@ class HoleViewPagerFragment : BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = findNavController()
-        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-//        return when(item.itemId){
-//            R.id.app_bar_search ->{
-//                Toast.makeText(activity, "search hole", Toast.LENGTH_LONG).show()
-//                false
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
+//        val navController = findNavController()
+//        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+        return when(item.itemId){
+            R.id.button_search ->{
+//                showToast("click search")
+                showSearchDialog()
+                false
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun showSearchDialog() {
+        context?.let {
+            MaterialDialog(it).show {
+                title(R.string.search)
+                input(hintRes = R.string.hint_search_text) { dialog, text ->
+//                    Timber.e("input text %s", text)
+                    // 检查文本并发送回复文本请求
+                    checkSearchAndRequest(text)
+//
+                }
+                negativeButton(R.string.cancelReply)
+//                { dialog ->
+//                    dialog.hide()
+//                }
+                positiveButton(R.string.search)
+            }
+        }
+    }
+
+    private fun checkSearchAndRequest(text: CharSequence) {
+        if(text.isEmpty()){
+            showToast("关键词不可为空")
+        } else{
+            //跳转到搜索界面
+            findNavController().navigate(HoleViewPagerFragmentDirections.actionNavHoleToNavSearchResult(text.toString()))
+        }
     }
 
 }
