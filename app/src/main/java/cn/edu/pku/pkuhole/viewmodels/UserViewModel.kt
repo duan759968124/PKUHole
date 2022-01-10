@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
+import java.net.URLEncoder
 import javax.inject.Inject
 
 /**
@@ -41,15 +42,21 @@ class UserViewModel @Inject constructor(
 
 
     init {
-        account.value = LocalRepository.getAccount()
-        password.value = ""
+//        account.value = LocalRepository.getAccount()
+//        password.value = ""
+        account.value = "1906194042"
+        password.value = "qhd1230its"
     }
 
     fun loginSecure() {
+//        EncryptUtils.getPublicKeyFromFile()
+
         if(account.value.isNullOrEmpty() or password.value.isNullOrEmpty()){
             Timber.e("account or password is null")
         }else{ // 对密码加密
-            passwordSecure.value = EncryptUtils.encrypt(password.value!!, EncryptUtils.getPublicKeyFromString())
+            passwordSecure.value = URLEncoder.encode(EncryptUtils.encrypt(password.value!!, EncryptUtils.getPublicKeyFromString()),
+                "utf-8"
+            )
             Timber.e("click password secure %s", passwordSecure.value)
             Timber.e("click login account %s password %s", account.value, password.value)
             viewModelScope.launch(Dispatchers.IO) {
@@ -86,36 +93,39 @@ class UserViewModel @Inject constructor(
     }
 
     fun login() {
-        // Todo: 做一个账号密码检查
-        Timber.e("click login account %s password %s", account.value, password.value)
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                loadingStatus.postValue(true)
-                val response =
-                    database.login(account = account.value!!, password = password.value!!)
-                Timber.e("login response %s", response)
-                _loginSuccessNavigation.postValue(true)
-                val userInfoRes = UserInfo(
-                    uid = response.uid!!,
-                    name = response.name,
-                    department = response.department,
-                    token = response.token,
-                    token_timestamp = response.token_timestamp
-                )
-                // 用来更新activity中显示
-                userInfo.postValue(userInfoRes)
-                // 将数据存到本地
-                LocalRepository.setUserInfo(userInfoRes)
-                LocalRepository.setAccount(account = account.value!!)
-                LocalRepository.setPassword(password = password.value!!)
-            } catch (e: Exception) {
-                when (e) {
-                    is ApiException -> failStatus.postValue(e)
-                    else -> errorStatus.postValue(e)
+        if(account.value.isNullOrEmpty() or password.value.isNullOrEmpty()){
+            Timber.e("account or password is null")
+        }else { // 对密码加密
+            Timber.e("click login account %s password %s", account.value, password.value)
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    loadingStatus.postValue(true)
+                    val response =
+                        database.login(account = account.value!!, password = password.value!!)
+                    Timber.e("login response %s", response)
+                    _loginSuccessNavigation.postValue(true)
+                    val userInfoRes = UserInfo(
+                        uid = response.uid!!,
+                        name = response.name,
+                        department = response.department,
+                        token = response.token,
+                        token_timestamp = response.token_timestamp
+                    )
+                    // 用来更新activity中显示
+                    userInfo.postValue(userInfoRes)
+                    // 将数据存到本地
+                    LocalRepository.setUserInfo(userInfoRes)
+                    LocalRepository.setAccount(account = account.value!!)
+                    LocalRepository.setPassword(password = password.value!!)
+                } catch (e: Exception) {
+                    when (e) {
+                        is ApiException -> failStatus.postValue(e)
+                        else -> errorStatus.postValue(e)
+                    }
+                } finally {
+                    loadingStatus.postValue(false)
+                    Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
                 }
-            } finally {
-                loadingStatus.postValue(false)
-                Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
             }
         }
     }

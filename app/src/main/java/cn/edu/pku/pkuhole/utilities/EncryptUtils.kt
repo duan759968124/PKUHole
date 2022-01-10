@@ -1,5 +1,6 @@
 package cn.edu.pku.pkuhole.utilities
 
+import android.content.Context
 import android.util.Base64
 import java.security.KeyFactory
 import java.security.PublicKey
@@ -7,9 +8,18 @@ import java.security.spec.X509EncodedKeySpec
 import java.io.IOException
 import java.security.GeneralSecurityException
 import javax.crypto.Cipher
+import android.R
+import timber.log.Timber
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.StringBuilder
 
 
 object EncryptUtils {
+
+
+    val PUBLIC_KEY_PASTH = "projectpasswd.key.pub"
 
     val publicK : String = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA6HcEQA3OMytGT/gvmdq1\n" +
             "2ITpgcmi8qnXA0NfpDNrBBo17NIM2it5IJ7e7Xl5lNRL75giJPKJhXYcB69KGCRX\n" +
@@ -22,13 +32,34 @@ object EncryptUtils {
             "wgPiUQp5/rFJR0bYtn/UPgYzQCHC/NJtCf/qh3IKCN6ggYwzBC+B1Y1eynbWt4cN\n" +
             "LEVzIV688/hcqZB3xKedbW2Tt03yepacHHoEMCM0yoTOrk+7OqGDX3xF7YIQJ0wH\n" +
             "+ZvtiwrQDqSBUCExNiC2p49kYL6qcbhMiRR+QQsXPkDzeudxu+sP3n3zhurWIk1a\n" +
-            "0Io8JgPxs+yiBTyv1gjx9J0CAwEAAQ=="
+            "0Io8JgPxs+yiBTyv1gjx9J0CAwEAAQ==\n"
 
     fun getPublicKeyFromString(): PublicKey {
         val publicBytes: ByteArray = Base64.decode(publicK, Base64.DEFAULT)
         val keySpec: X509EncodedKeySpec = X509EncodedKeySpec(publicBytes)
         val keyFactory: KeyFactory = KeyFactory.getInstance("RSA")
         return keyFactory.generatePublic(keySpec)
+    }
+
+    fun getPublicKeyFromFile(context: Context): String{
+        val inputSteam: InputStream = context.assets.open(PUBLIC_KEY_PASTH)
+        val br:BufferedReader = BufferedReader(InputStreamReader(inputSteam))
+        var lines : MutableList<String> = ArrayList()
+        var line : String? = null
+        while ((br.readLine().also { line = it })!=null){
+            line?.let { lines.add(it) }
+        }
+        // removes the first and last lines of the file (comments)
+        if (lines.size > 1 && lines[0].startsWith("-----") && lines[lines.size -1].startsWith("-----")) {
+            lines.removeAt(0);
+            lines.removeAt(lines.size - 1);
+        }
+        // concats the remaining lines to a single String
+        val sb = StringBuilder()
+        for (aLine in lines) sb.append(aLine)
+        val keyString = sb.toString()
+        Timber.e("keyString:$keyString")
+        return keyString
     }
 
 
