@@ -51,8 +51,6 @@ class HoleItemDetailFragment : BaseFragment() {
 //        binding.holeItemDetailViewModel = holeItemDetailViewModel
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-
         adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
@@ -199,7 +197,7 @@ class HoleItemDetailFragment : BaseFragment() {
 //                { dialog ->
 //                    dialog.hide()
 //                }
-                positiveButton(R.string.reply)
+                positiveButton(R.string.report)
             }
         }
     }

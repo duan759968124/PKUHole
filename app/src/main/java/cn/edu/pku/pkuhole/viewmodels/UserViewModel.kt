@@ -49,12 +49,10 @@ class UserViewModel @Inject constructor(
     }
 
     fun loginSecure() {
-//        EncryptUtils.getPublicKeyFromFile()
-
         if(account.value.isNullOrEmpty() or password.value.isNullOrEmpty()){
             Timber.e("account or password is null")
         }else{ // 对密码加密
-            passwordSecure.value = URLEncoder.encode(EncryptUtils.encrypt(password.value!!, EncryptUtils.getPublicKeyFromString()),
+            passwordSecure.value = URLEncoder.encode(EncryptUtils.encrypt(password.value!!, EncryptUtils.getPublicKeyFromString(EncryptUtils.key_Pub)),
                 "utf-8"
             )
             Timber.e("click password secure %s", passwordSecure.value)
