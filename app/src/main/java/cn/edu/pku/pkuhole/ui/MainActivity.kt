@@ -80,12 +80,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
+//        navHeaderBinding.navHeaderUserName.text = LocalRepository.getUserInfo().name
+//        navHeaderBinding.navHeaderUserDepartment.text = LocalRepository.getUserInfo().department
 
         viewModel.userInfo.observe(this, Observer { userInfo ->
             Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
-            navHeaderBinding.navHeaderUserName.text = userInfo.name
-            navHeaderBinding.navHeaderUserDepartment.text = userInfo.department
+            if(userInfo.uid.isNotEmpty()){
+                navHeaderBinding.navHeaderUserName.text = userInfo.name
+                navHeaderBinding.navHeaderUserDepartment.text = userInfo.department
+            }
+
+
 //            run {
 //                Timber.e("userInfo %s %s", userInfo.name, userInfo.department)
 //                if (userInfo.name == "Test") {

@@ -74,6 +74,7 @@ class LoginFragment : BaseFragment() {
 
 
     override fun initData() {
+        userViewModel.initData()
 //        val navController = findNavController()
 //        val savedStateHandle = navController.previousBackStackEntry!!.savedStateHandle
 //

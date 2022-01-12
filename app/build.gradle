@@ -16,7 +16,7 @@ android {
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         vectorDrawables.useSupportLibrary true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -37,13 +37,11 @@ android {
     }
     buildFeatures {
         dataBinding true
-        viewBinding = true
+        viewBinding true
     }
 }
 
 dependencies {
-    implementation 'androidx.preference:preference:1.1.1'
-
 
     // Support libraries
     def appCompatVersion = '1.4.0'
@@ -80,7 +78,7 @@ dependencies {
     kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.8.0"
 
     // base64
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+//    implementation group: 'commons-codec', name: 'commons-codec', version: '1.11'
 
 
     // Android KTX
@@ -91,17 +89,15 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
 
-    // Reflection
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+    // Reflection【isSubclassOf没用到】
+//    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+
     // loadsir 加载反馈页管理框架
+    // Todo: 后续需要删除掉或者使用它
     implementation 'com.kingja.loadsir:loadsir:1.3.8'
 
     // MMKV key-value 组件[1.2.11 mmkv-static与mmkv相同]
     implementation "com.tencent:mmkv-static:1.2.11"
-    // 工具类
-    implementation group: 'com.blankj', name: 'utilcodex', version: '1.31.0'
-
-
 
     // Lifecycle and Navigation dependencies
     // lifecycle-extensions 中的 API 已弃用
@@ -169,6 +165,9 @@ dependencies {
     def glideVersion = '4.12.0'
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    // markdown
+//    implementation 'com.github.mukeshsolanki:MarkdownView-Android:<latest-version>'
 
 
 

@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <!--    <dimen name="fab_margin">16dp</dimen>-->
     <dimen name="nav_header_text_padding">8dp</dimen>
+    <dimen name="fab_margin">8dp</dimen>
 
     <!--card-->
     <dimen name="card_side_margin">8dp</dimen>
@@ -18,16 +18,18 @@
     <dimen name="card_pid_height">25dp</dimen>
     <dimen name="card_inside_margin_large">8dp</dimen>
 
-    <dimen name="fab_margin">8dp</dimen>
+<!--    post hole dialog-->
     <dimen name="dialog_margin">32dp</dimen>
     <dimen name="dialog_corners">4dp</dimen>
-    <dimen name="fab_elevation">4dp</dimen>
-    <dimen name="fab_pressed_translation">8dp</dimen>
+<!--    <dimen name="fab_elevation">4dp</dimen>-->
+<!--    <dimen name="fab_pressed_translation">8dp</dimen>-->
 
 <!--    settings-->
     <dimen name="setting_item_padding_top">12dp</dimen>
     <dimen name="setting_item_padding_bottom">12dp</dimen>
     <dimen name="setting_item_padding_left_right">15dp</dimen>
+<!--    copyright-->
+    <dimen name="copyright_margin">14dp</dimen>
 
 
 </resources>

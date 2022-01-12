@@ -108,6 +108,7 @@ class HoleViewPagerViewModel @Inject constructor(
     fun clearContent() {
         postTextContent.value = ""
         localPicFile.value = null
+        localPicBase64.value = null
     }
 
 }

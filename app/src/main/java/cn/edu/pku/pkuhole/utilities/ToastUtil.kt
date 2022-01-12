@@ -8,7 +8,7 @@ import android.widget.Toast
  * @Author:         HuidongQin
  * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/29
- * @Desc:
+ * @Desc:           暂时没用到
  * @Version:        1.0
  */
 object ToastUtil {

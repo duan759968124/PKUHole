@@ -48,7 +48,7 @@ class SettingsFragment : BaseFragment() {
         // Todo: copyright
         viewModel.navigationToCopyright.observe(viewLifecycleOwner, Observer {
             if(it){
-                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavAboutUs())
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavCopyright())
                 viewModel.onNavigateToCopyrightFinish()
             }
         })

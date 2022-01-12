@@ -5,17 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.pkuhole.base.BaseViewModel
 import cn.edu.pku.pkuhole.base.network.ApiException
-import cn.edu.pku.pkuhole.data.UserInfo
 import cn.edu.pku.pkuhole.data.LocalRepository
+import cn.edu.pku.pkuhole.data.UserInfo
 import cn.edu.pku.pkuhole.data.hole.HoleRepository
 import cn.edu.pku.pkuhole.utilities.EncryptUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
-import java.net.URLEncoder
 import javax.inject.Inject
+
 
 /**
  *
@@ -28,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     holeRepository: HoleRepository,
-) : BaseViewModel(holeRepository=holeRepository) {
+) : BaseViewModel(holeRepository = holeRepository) {
 
     var userInfo = MutableLiveData<UserInfo>()
     var account = MutableLiveData<String>()
@@ -42,26 +41,29 @@ class UserViewModel @Inject constructor(
 
 
     init {
-//        account.value = LocalRepository.getAccount()
+
+//        account.value = "1906194042"
 //        password.value = ""
-        account.value = "1906194042"
-        password.value = "qhd1230its"
     }
 
     fun loginSecure() {
-        if(account.value.isNullOrEmpty() or password.value.isNullOrEmpty()){
+        if (account.value.isNullOrEmpty() or password.value.isNullOrEmpty()) {
             Timber.e("account or password is null")
-        }else{ // 对密码加密
-            passwordSecure.value = URLEncoder.encode(EncryptUtils.encrypt(password.value!!, EncryptUtils.getPublicKeyFromString(EncryptUtils.key_Pub)),
-                "utf-8"
-            )
+        } else { // 对密码加密
+            // kotlin 加密
+            passwordSecure.value = password.value?.let { EncryptUtils.encrypt(it.trim(), EncryptUtils.getPublicKeyFromString(EncryptUtils.key_Pub)) }
+            // java 加密
+//            val publicKey: RSAPublicKey = getPublicKeyFromString(key_Pub)
+//            passwordSecure.value = encrypt(password.value, publicKey)
             Timber.e("click password secure %s", passwordSecure.value)
-            Timber.e("click login account %s password %s", account.value, password.value)
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     loadingStatus.postValue(true)
                     val response =
-                        database.loginSecure(account = account.value!!, password = passwordSecure.value!!)
+                        database.loginSecure(
+                            account = account.value!!,
+                            passwordSecure = passwordSecure.value!!
+                        )
                     Timber.e("login response %s", response)
                     _loginSuccessNavigation.postValue(true)
                     val userInfoRes = UserInfo(
@@ -76,7 +78,7 @@ class UserViewModel @Inject constructor(
                     // 将数据存到本地
                     LocalRepository.setUserInfo(userInfoRes)
                     LocalRepository.setAccount(account = account.value!!)
-                    LocalRepository.setPassword(password = password.value!!)
+                    LocalRepository.setPasswordSecure(pwdSecure = passwordSecure.value!!)
                 } catch (e: Exception) {
                     when (e) {
                         is ApiException -> failStatus.postValue(e)
@@ -91,9 +93,9 @@ class UserViewModel @Inject constructor(
     }
 
     fun login() {
-        if(account.value.isNullOrEmpty() or password.value.isNullOrEmpty()){
+        if (account.value.isNullOrEmpty() or password.value.isNullOrEmpty()) {
             Timber.e("account or password is null")
-        }else { // 对密码加密
+        } else { // 对密码加密
             Timber.e("click login account %s password %s", account.value, password.value)
             viewModelScope.launch(Dispatchers.IO) {
                 try {
@@ -139,13 +141,17 @@ class UserViewModel @Inject constructor(
         userInfo.value = UserInfo("", "", "", "", 0L)
         Timber.e("checkLoginStatus")
         Timber.e("uid %s", LocalRepository.getUid())
-        if(LocalRepository.getUid().isEmpty()){
+        if (LocalRepository.getUid().isEmpty()) {
             //未登录，跳转到登录界面
             _loginStatus.value = false
-        }
-        else{
+        } else {
             userInfo.value = LocalRepository.getUserInfo()
         }
+    }
+
+    fun initData() {
+        account.value = LocalRepository.getAccount()
+        password.value = ""
     }
 
     // mainActivity持有

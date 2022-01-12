@@ -45,8 +45,10 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
         viewModelScope.launch(Dispatchers.IO){
             database.clear()
             // 设置为未登录状态
-            // 清楚localRepository所有数据
+            // 清楚localRepository所有数据,
+            val account = LocalRepository.getAccount()
             LocalRepository.clearAll()
+            LocalRepository.setAccount(account = account)
             _loginStatus.postValue(false)
         }
     }

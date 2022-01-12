@@ -191,8 +191,8 @@ class HoleRepository @Inject constructor(
         return launchRequest {holeApi.login(uid = account, password = password)}
     }
 
-    suspend fun loginSecure(account: String, password: String):HoleApiResponse<String?>{
-        return launchRequest {holeApi.loginsecure(uid = account, password = password)}
+    suspend fun loginSecure(account: String, passwordSecure: String):HoleApiResponse<String?>{
+        return launchRequest {holeApi.loginsecure(uid = account, password = passwordSecure)}
     }
 
 }

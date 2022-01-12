@@ -92,9 +92,9 @@ open class BaseViewModel @Inject internal constructor(
         if (token.isNotEmpty()) {
             emit(token)
         } else {
-            val response = database.login(
+            val response = database.loginSecure(
                 account = LocalRepository.getAccount(),
-                password = LocalRepository.getPassword()
+                passwordSecure = LocalRepository.getPasswordSecure()
             )
             val userInfoRes = UserInfo(
                 uid = response.uid!!,
@@ -112,7 +112,7 @@ open class BaseViewModel @Inject internal constructor(
         .catch { exception ->
             run {
                 when (exception) {
-                    is ApiException -> handleTokenFailResponse(exception as ApiException)
+                    is ApiException -> handleTokenFailResponse(exception)
                     else -> errorStatus.postValue(exception)
                 }
             }

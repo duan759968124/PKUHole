@@ -50,6 +50,7 @@ object LocalRepository : MMKVOwner {
 
     fun getValidToken(): String{
         val durationMilli = System.currentTimeMillis() - localTokenTimestamp * 1000
+//        return ""
         return if(durationMilli < ONE_HOUR_MILLIS){
             // 上次获取token时间小于一个小时，有效
             localToken
@@ -90,11 +91,11 @@ object LocalRepository : MMKVOwner {
     fun getAccount(): String{
         return localAccount
     }
-    fun getPassword(): String{
-        return localPassword
-    }
     fun setAccount(account: String){
         localAccount = account
+    }
+    fun getPassword(): String{
+        return localPassword
     }
     fun setPassword(password: String){
         localPassword = password
