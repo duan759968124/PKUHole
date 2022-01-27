@@ -11,6 +11,8 @@ import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentSettingsBinding
 import cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragmentDirections
+import cn.edu.pku.pkuhole.utilities.PRIVACY_POLICY_URL
+import cn.edu.pku.pkuhole.utilities.USER_AGREEMENT_URL
 import cn.edu.pku.pkuhole.viewmodels.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -38,6 +40,23 @@ class SettingsFragment : BaseFragment() {
     }
 
     override fun initObserve() {
+
+        viewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner, Observer {
+            if(it){
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                    getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
+                viewModel.onNavigateToPrivacyPolicyFinish()
+            }
+        })
+
+        viewModel.navigationToUserAgreement.observe(viewLifecycleOwner, Observer {
+            if(it){
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                    getString(R.string.user_agreement), USER_AGREEMENT_URL))
+                viewModel.onNavigateToUserAgreementFinish()
+            }
+        })
+
         viewModel.navigationToAboutUs.observe(viewLifecycleOwner, Observer {
             if(it){
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavAboutUs())
@@ -45,7 +64,6 @@ class SettingsFragment : BaseFragment() {
             }
         })
 
-        // Todo: copyright
         viewModel.navigationToCopyright.observe(viewLifecycleOwner, Observer {
             if(it){
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavCopyright())

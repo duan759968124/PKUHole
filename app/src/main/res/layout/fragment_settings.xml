@@ -34,6 +34,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:onClick="@{()->viewModel.navigateToPrivacyPolicy()}"
                     android:paddingStart="@dimen/setting_item_padding_left_right"
                     android:paddingTop="@dimen/setting_item_padding_top"
                     android:paddingEnd="@dimen/setting_item_padding_left_right"
@@ -44,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/privacy_policy"
-                        android:textColor="@color/setting_text_grey"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -72,6 +73,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:onClick="@{()->viewModel.navigateToUserAgreement()}"
                     android:paddingStart="@dimen/setting_item_padding_left_right"
                     android:paddingTop="@dimen/setting_item_padding_top"
                     android:paddingEnd="@dimen/setting_item_padding_left_right"
@@ -82,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/user_agreement"
-                        android:textColor="@color/setting_text_grey"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
 
                     <ImageView

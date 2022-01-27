@@ -16,6 +16,13 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
     BaseViewModel(holeRepository = holeRepository) {
 
+    private var _navigationToPrivacyPolicy = MutableLiveData<Boolean>()
+    val navigationToPrivacyPolicy: LiveData<Boolean>
+        get() = _navigationToPrivacyPolicy
+
+    private var _navigationToUserAgreement = MutableLiveData<Boolean>()
+    val navigationToUserAgreement: LiveData<Boolean>
+        get() = _navigationToUserAgreement
 
     private var _navigationToCopyright = MutableLiveData<Boolean>()
     val navigationToCopyright: LiveData<Boolean>
@@ -24,6 +31,24 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
     private var _navigationToAboutUs = MutableLiveData<Boolean>()
     val navigationToAboutUs: LiveData<Boolean>
         get() = _navigationToAboutUs
+
+
+    fun navigateToPrivacyPolicy(){
+        _navigationToPrivacyPolicy.value = true
+    }
+
+    fun onNavigateToPrivacyPolicyFinish(){
+        _navigationToPrivacyPolicy.value = false
+    }
+
+
+    fun navigateToUserAgreement(){
+        _navigationToUserAgreement.value = true
+    }
+
+    fun onNavigateToUserAgreementFinish(){
+        _navigationToUserAgreement.value = false
+    }
 
     fun navigateToCopyright(){
         _navigationToCopyright.value = true

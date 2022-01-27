@@ -270,6 +270,9 @@ class PostHoleDialogFragment : DialogFragment() {
             .maxSelectNum(1)// 最大图片选择数量
             .minSelectNum(0)// 最小选择数量
             .isCompress(true)
+            .compressQuality(85)
+            .minimumCompressSize(1024)
+            .synOrAsy(false)//开启同步or异步压缩
             .imageSpanCount(4)// 每行显示个数
             .isReturnEmpty(false)// 未选择数据时点击按钮是否可以返回
             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)// 设置相册Activity方向，不设置默认使用系统
@@ -281,8 +284,6 @@ class PostHoleDialogFragment : DialogFragment() {
             .isPreviewImage(true)
             .isCamera(false)
             .isZoomAnim(true)
-            .minimumCompressSize(1024)
-            .synOrAsy(true)//开启同步or异步压缩
             .forResult(MyResultCallback(viewModel))
     }
 
@@ -297,6 +298,7 @@ class PostHoleDialogFragment : DialogFragment() {
             for (media in result) {
                 Timber.e("是否压缩:" + media.isCompressed)
                 Timber.e("压缩:" + media.compressPath)
+                Timber.e("名称:" + media.fileName)
                 Timber.e("原图:" + media.path)
                 Timber.e("绝对路径:" + media.realPath)
                 Timber.e("是否裁剪:" + media.isCut)
@@ -305,7 +307,8 @@ class PostHoleDialogFragment : DialogFragment() {
                 Timber.e("原图路径:" + media.originalPath)
                 Timber.e("Android Q 特有Path:" + media.androidQToPath)
                 Timber.e("宽高: " + media.width + "x" + media.height)
-                Timber.e("Size: " + media.size)
+                Timber.e("Size: " + media.size/1024)
+                Timber.e("mimeType" + media.mimeType)
             }
             if(result.isNotEmpty()){
                 viewModelCallback.finishSelectPicture(result[0])

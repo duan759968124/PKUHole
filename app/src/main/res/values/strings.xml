@@ -47,7 +47,7 @@
     <string name="report">举报</string>
     <string name="report_title">举报树洞</string>
     <string name="hint_report_text">请输入举报原因</string>
-    <string name="hint_account">学号/职工号/北大邮箱/手机号</string>
+    <string name="hint_account">学号/职工号/北大邮箱</string>
     <string name="password">密码</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -66,7 +66,7 @@
 
     <!--    settings-->
     <string name="privacy_policy">隐私政策</string>
-    <string name="user_agreement">用户协议</string>
+    <string name="user_agreement">服务协议</string>
     <string name="copyright_info">版权信息</string>
     <string name="about_us">关于我们</string>
     <string name="exit_login">退出登录</string>

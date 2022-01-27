@@ -129,7 +129,7 @@ public class GlideEngine implements ImageEngine {
                 .override(180, 180)
                 .centerCrop()
                 .sizeMultiplier(0.5f)
-                .placeholder(R.drawable.picture_image_placeholder)
+//                .placeholder(R.drawable.picture_image_placeholder)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -159,7 +159,7 @@ public class GlideEngine implements ImageEngine {
                 .load(url)
                 .override(200, 200)
                 .centerCrop()
-                .placeholder(R.drawable.picture_image_placeholder)
+//                .placeholder(R.drawable.picture_image_placeholder)
                 .into(imageView);
     }
 

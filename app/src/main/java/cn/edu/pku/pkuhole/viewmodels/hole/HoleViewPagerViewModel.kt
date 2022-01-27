@@ -59,7 +59,6 @@ class HoleViewPagerViewModel @Inject constructor(
     var localPicBase64 = MutableLiveData<String?>()
 
     fun postNewHole(){
-        // Todo: 是否为空检查【图片和文本 】
         showDialogPost.value = false
         postResponseMsg.value = null
         if(localPicBase64.value.isNullOrEmpty() and postTextContent.value.isNullOrEmpty()){
@@ -97,10 +96,12 @@ class HoleViewPagerViewModel @Inject constructor(
 
     fun finishSelectPicture(localMedia: LocalMedia) {
         _openPictureSelect.value = false
-        var file: File? = File(localMedia.path)
-        if (SdkVersionUtils.isQ()) { //android Q路径变
-            file = File(localMedia.androidQToPath)
-        }
+//        var file: File? = File(localMedia.path)
+//        if (SdkVersionUtils.isQ()) { //android Q路径变
+//            file = File(localMedia.androidQToPath)
+//        }
+//         使用压缩路径
+        var file: File? = File(localMedia.compressPath)
         localPicFile.value = file
         localPicBase64.value = file?.let { ImageUtils.encodeImage(it) }
     }

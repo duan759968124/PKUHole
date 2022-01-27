@@ -11,72 +11,127 @@
 
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:id="@+id/drawer_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        tools:openDrawer="start">-->
+
+<!--&lt;!&ndash;        <include&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/app_bar_main"&ndash;&gt;-->
+<!--&lt;!&ndash;            layout="@layout/app_bar_main"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent" />&ndash;&gt;-->
+<!--        <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            tools:context=".ui.MainActivity">-->
+
+<!--        <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:elevation="0dp"-->
+<!--            android:theme="@style/Theme.PKUHole.AppBarOverlay">-->
+
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                android:background="?attr/colorPrimary"-->
+<!--                app:popupTheme="@style/Theme.PKUHole.PopupOverlay" />-->
+
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
+
+<!--&lt;!&ndash;        <include&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/content_main"&ndash;&gt;-->
+<!--&lt;!&ndash;            layout="@layout/content_main" />&ndash;&gt;-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+<!--                <fragment-->
+<!--                    android:id="@+id/nav_host_fragment"-->
+<!--                    android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    app:defaultNavHost="true"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintRight_toRightOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:navGraph="@navigation/navigation" />-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+<!--        <com.google.android.material.navigation.NavigationView-->
+<!--            android:id="@+id/nav_view"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:headerLayout="@layout/nav_header_main"-->
+<!--            app:menu="@menu/activity_main_drawer" />-->
+<!--&lt;!&ndash;            app:model="@{viewModel.userInfo}"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:fillNavHeader="@{viewModel.userInfo}"&ndash;&gt;-->
+<!--&lt;!&ndash;             app:headerLayout="@layout/nav_header_main"&ndash;&gt;-->
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottom_nav"-->
+<!--        app:menu="@menu/menu_bottom_nav" />-->
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+        tools:context=".ui.MainActivity">
 
-<!--        <include-->
-<!--            android:id="@+id/app_bar_main"-->
-<!--            layout="@layout/app_bar_main"-->
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:elevation="0dp"-->
+<!--        android:theme="@style/Theme.PKUHole.AppBarOverlay">-->
+
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
 <!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:background="?attr/colorPrimary"-->
+<!--            app:popupTheme="@style/Theme.PKUHole.PopupOverlay" />-->
+
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.MainActivity">
+            android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp"
-            android:theme="@style/Theme.PKUHole.AppBarOverlay">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <fragment
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/Theme.PKUHole.PopupOverlay" />
+                android:layout_height="wrap_content"
+                app:defaultNavHost="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/nav_view"
+                app:navGraph="@navigation/navigation" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-<!--        <include-->
-<!--            android:id="@+id/content_main"-->
-<!--            layout="@layout/content_main" />-->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/nav_view"
+                app:menu="@menu/activity_main_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <fragment
-                    android:id="@+id/nav_host_fragment"
-                    android:name="androidx.navigation.fragment.NavHostFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:defaultNavHost="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:navGraph="@navigation/navigation" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" />
-<!--            app:model="@{viewModel.userInfo}"-->
-<!--        app:fillNavHeader="@{viewModel.userInfo}"-->
-<!--             app:headerLayout="@layout/nav_header_main"-->
-    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

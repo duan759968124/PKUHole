@@ -61,4 +61,26 @@ object EncryptUtils {
         return Base64.encodeToString(cipher.doFinal(rawText.toByteArray(charset("UTF-8"))), Base64.DEFAULT)
     }
 
+//    public static RSAPublicKey getPublicKeyFromString(String key) throws IOException, GeneralSecurityException {
+//        String publicKeyPEM = key;
+//        publicKeyPEM = publicKeyPEM.replace("-----BEGIN PUBLIC KEY-----\n", "");
+//        publicKeyPEM = publicKeyPEM.replace("-----END PUBLIC KEY-----", "");
+//        byte[] encoded = Base64.decodeBase64(publicKeyPEM);
+//        KeyFactory kf = KeyFactory.getInstance("RSA");
+//        RSAPublicKey pubKey = (RSAPublicKey) kf.generatePublic(new X509EncodedKeySpec(encoded));
+//        return pubKey;
+//    }
+//
+//    public static String encrypt(String rawText, PublicKey publicKey) throws IOException, GeneralSecurityException {
+////        Cipher cipher = Cipher.getInstance("RSA");
+////        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+//        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+////        Cipher cipher = Cipher.getInstance("RSA/None/PKCS1Padding");
+////        cipher.init(Cipher.ENCRYPT_MODE, publicKey, new
+////                OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA1,
+////                PSource.PSpecified.DEFAULT));
+//        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+//        return Base64.encodeBase64String(cipher.doFinal(rawText.getBytes(StandardCharsets.UTF_8)));
+//    }
+
 }

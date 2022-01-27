@@ -23,3 +23,7 @@ const val ISOP_HOST_ADDRESS = "https://isop.pku.edu.cn/"
 const val HTTP_TIMEOUT_CONNECT : Long = 15
 // 读取数据超时时间
 const val HTTP_TIMEOUT_READ : Long = 15
+
+// webview
+const val USER_AGREEMENT_URL = "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_User_Agreement.html"
+const val PRIVACY_POLICY_URL = "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_Privacy_Policy.html"

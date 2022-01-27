@@ -76,7 +76,29 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_nav_settings_to_simpleWebviewFragment"
+            app:destination="@id/nav_simple_webview"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
+
+    <fragment
+        android:id="@+id/nav_simple_webview"
+        android:name="cn.edu.pku.pkuhole.ui.webview.SimpleWebviewFragment"
+        android:label="{webview_module_name}"
+        tools:layout="@layout/fragment_simple_webview">
+        <argument
+            android:name="webview_module_name"
+            app:argType="string" />
+        <argument
+            android:name="webview_module_url"
+            app:argType="string" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/nav_about_us"
@@ -106,6 +128,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
     <action
         android:id="@+id/action_global_nav_login"
         app:destination="@id/nav_login"
