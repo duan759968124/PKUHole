@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentSettingsBinding
+import cn.edu.pku.pkuhole.databinding.FragmentSplashBinding
 import cn.edu.pku.pkuhole.viewmodels.SettingsViewModel
 
 /**
@@ -17,18 +18,16 @@ import cn.edu.pku.pkuhole.viewmodels.SettingsViewModel
  * @Desc:
  * @Version:        1.0
  */
-class splashFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentSettingsBinding
-    private val viewModel: SettingsViewModel by viewModels()
+class SplashFragment : BaseFragment() {
+    private lateinit var binding: FragmentSplashBinding
+//    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
-//        viewModel =  ViewModelProvider(this).get(SettingsViewModel::class.java)
+        binding = FragmentSplashBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,7 +37,9 @@ class splashFragment : BaseFragment() {
 
 
     override fun initData() {
+        // 是否第一次启动,显示对话框
 
+        // 是否已经登录,是跳转到登录页还是跳转到hole
     }
 
 }

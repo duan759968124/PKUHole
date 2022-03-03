@@ -19,9 +19,7 @@ import timber.log.Timber
 class SimpleWebviewFragment : BaseFragment() {
 
     val args: SimpleWebviewFragmentArgs by navArgs()
-
     private lateinit var binding: FragmentSimpleWebviewBinding
-
     private lateinit var mWebViewWV: WebView
 //    private lateinit var mWebViewClient: WebViewClient
 //    private lateinit var mWebChromeClient: WebChromeClient

@@ -1,12 +1,9 @@
 package cn.edu.pku.pkuhole.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,12 +11,9 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import cn.edu.pku.pkuhole.R
-import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
-import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.viewmodels.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -37,8 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-//        binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 //        navHeaderBinding = NavHeaderMainBinding.bind(binding.navView.getHeaderView(0))
 
 //        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -49,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 //        binding.lifecycleOwner = this
         setContentView(binding.root)
 //        设置toolbar
-//        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
 //        setSupportActionBar(binding.appBarMain.toolbar)
 ////        drawerLayout侧边栏组件
 //        val drawerLayout= binding.drawerLayout
@@ -79,18 +73,24 @@ class MainActivity : AppCompatActivity() {
 //        navView.setupWithNavController(navController)
 //
 ////        设置每个界面的toolbar是否存在导航抽屉是否可用
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            when (destination.id) {
-//                R.id.nav_login -> {
-//                    binding.toolbar.visibility = View.GONE
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.nav_login -> {
+                    binding.toolbar.visibility = View.GONE
+                    navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-//                }
-//                else -> {
-//                    binding.toolbar.visibility = View.VISIBLE
+                }
+                R.id.nav_hole, R.id.nav_settings ->{
+                    binding.toolbar.visibility = View.VISIBLE
+                    navView.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.toolbar.visibility = View.VISIBLE
+                    navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-//                }
-//            }
-//        }
+                }
+            }
+        }
 //        navHeaderBinding.navHeaderUserName.text = LocalRepository.getUserInfo().name
 //        navHeaderBinding.navHeaderUserDepartment.text = LocalRepository.getUserInfo().department
 
@@ -138,10 +138,10 @@ class MainActivity : AppCompatActivity() {
 //    }
 
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        //点击侧边栏按钮
-//        val navController = findNavController(R.id.nav_host_fragment)
-//        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-//    }
+    override fun onSupportNavigateUp(): Boolean {
+        //点击侧边栏按钮
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
 
 }
