@@ -76,17 +76,19 @@ class HoleRepository @Inject constructor(
     fun getHoleItem(pid: Long) = holeListDao.get(pid)
 //    fun getHoleItem(pid: Long) = holeListDao.get(pid).map { it?.asDomainModel() }
 
-    private suspend fun updateHoleItemModel(holeItemModel: HoleItemModel) = holeListDao.updateModel(holeItemModel)
+    private suspend fun updateOrInsertHoleItemModel(holeItemModel: HoleItemModel) = holeListDao.upsertModel(holeItemModel)
+
 
     fun getCommentList(pid: Long) = commentDao.getCommentListByPid(pid)
     private suspend fun insertCommentList(commentList: List<CommentItemBean>) = commentDao.insertCommentList(commentList)
 
-    // 获取一条树洞详情,【这条数据一定存在，并且isHole或者isAttention一定存在，所以直接更新】并更新数据库
+    // 获取一条树洞详情,【这条数据如果出现在树洞列表或者关注列表中，一定存在数据库中，并且isHole或者isAttention一定存在，所以直接更新】并更新数据库
+    // 如果是搜索列表中的数据，则不一定存在。点击搜索列表结果请求，要把这条数据插入到数据库中，isHole或者isAttention可能存在可能不存在，需要插入或者更新。
     suspend fun getOneHoleFromNetToDatabase(pid: Long, token: String){
         withContext(Dispatchers.IO){
             val holeResponse = launchRequest {holeApi.getOneHole(pid = pid, token = token)}
 //            holeResponse.data?.let { it.reply = 100 }
-            holeResponse.data?.let { updateHoleItemModel(it) }
+            holeResponse.data?.let { updateOrInsertHoleItemModel(it) }
         }
     }
 

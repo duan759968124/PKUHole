@@ -23,6 +23,7 @@ interface HoleApiService {
 
 
     // login
+    @Deprecated("please using loginsecure")
     @FormUrlEncoded
     @POST("services/authen/login.php")
     suspend fun login(

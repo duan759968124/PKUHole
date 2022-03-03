@@ -69,7 +69,7 @@ interface HoleListDao {
     suspend fun upsertModel(itemModel: HoleItemModel){
         val pid = insert(itemModel.asDatabaseBean())
         if (pid == -1L){
-            upsertModel(itemModel)
+            updateModel(itemModel)
         }
     }
 

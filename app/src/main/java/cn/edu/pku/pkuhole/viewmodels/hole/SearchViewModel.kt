@@ -23,7 +23,7 @@ class SearchViewModel @Inject internal constructor(
         private const val SEARCH_KEY_WORDS = "keywords"
     }
 
-    private val keywords : String = savedStateHandle.get<String>(SearchViewModel.SEARCH_KEY_WORDS)!!
+    private val keywords : String = savedStateHandle.get<String>(SEARCH_KEY_WORDS)!!
 
     var searchList = MutableLiveData<List<HoleItemBean?>>()
 
