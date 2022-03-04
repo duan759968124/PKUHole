@@ -19,6 +19,7 @@ import cn.edu.pku.pkuhole.databinding.FragmentSearchBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.AttentionViewModel
 
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleListViewModel
+import cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener
 import cn.edu.pku.pkuhole.viewmodels.hole.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -37,7 +38,10 @@ class SearchFragment : BaseFragment() {
     ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         context ?: return binding.root
-        adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
+        adapter = HoleAdapter(
+            HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
+            PictureClickListener { url -> previewPicture(url) }
+        )
         binding.fragmentSearchListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentSearchListRecycler.layoutManager = manager

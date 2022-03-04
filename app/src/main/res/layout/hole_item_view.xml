@@ -12,6 +12,11 @@
         <variable
             name="clickListener"
             type="cn.edu.pku.pkuhole.adapters.HoleItemListener" />
+
+        <variable
+            name="pictureClickListener"
+            type="cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener" />
+
 <!--        <variable-->
 <!--            name="clickListener"-->
 <!--            type="android.view.View.OnClickListener" />-->
@@ -70,6 +75,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_margin="@dimen/card_inside_margin_large"
                 android:padding="@dimen/card_inside_padding"
+                android:onClick="@{()->pictureClickListener.onClick(holeItemBean)}"
                 app:imageFromUrl="@{holeItemBean.url}"
                 app:hasImage="@{holeItemBean.url}"
                 tools:src="@drawable/bg_drawer_header"

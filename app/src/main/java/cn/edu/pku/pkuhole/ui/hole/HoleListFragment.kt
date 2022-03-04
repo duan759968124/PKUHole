@@ -1,6 +1,7 @@
 package cn.edu.pku.pkuhole.ui.hole
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +15,13 @@ import cn.edu.pku.pkuhole.adapters.HoleAdapter
 import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleListBinding
+import cn.edu.pku.pkuhole.utilities.GlideEngine
+import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleListViewModel
+import cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.entity.LocalMedia
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -34,7 +40,9 @@ class HoleListFragment : BaseFragment() {
         binding = FragmentHoleListBinding.inflate(inflater, container, false)
         context ?: return binding.root
 //        val adapter = HoleAdapter()
-        adapter = HoleAdapter(HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) })
+        adapter = HoleAdapter(
+            HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
+            PictureClickListener { url -> previewPicture(url) })
         binding.fragmentHoleListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentHoleListRecycler.layoutManager = manager

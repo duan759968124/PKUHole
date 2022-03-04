@@ -2,16 +2,14 @@ package cn.edu.pku.pkuhole.api
 
 import cn.edu.pku.pkuhole.BuildConfig
 import cn.edu.pku.pkuhole.api.interceptor.AddHeaderInterceptor
-import cn.edu.pku.pkuhole.api.interceptor.ChangeBaseUrlInterceptor
 import cn.edu.pku.pkuhole.api.interceptor.LocalCookieJar
 import cn.edu.pku.pkuhole.data.hole.AttentionItemBean
 import cn.edu.pku.pkuhole.data.hole.CommentItemBean
 import cn.edu.pku.pkuhole.data.hole.HoleItemModel
 import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
-import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.HTTP_TIMEOUT_CONNECT
 import cn.edu.pku.pkuhole.utilities.HTTP_TIMEOUT_READ
-import cn.edu.pku.pkuhole.utilities.Hole_NEW_HOST_ADDRESS
+import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -224,7 +222,7 @@ interface HoleApiService {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl(Hole_NEW_HOST_ADDRESS)
+                .baseUrl(HOLE_HOST_ADDRESS)
                 .client(okHttpclient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

@@ -1,6 +1,7 @@
 package cn.edu.pku.pkuhole.ui.hole
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -13,18 +14,19 @@ import cn.edu.pku.pkuhole.adapters.CommentAdapter
 import cn.edu.pku.pkuhole.adapters.CommentItemListener
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
+import cn.edu.pku.pkuhole.utilities.GlideEngine
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
+import com.luck.picture.lib.PictureSelector
 import timber.log.Timber
+import com.luck.picture.lib.entity.LocalMedia
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HoleItemDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
+
+
 @AndroidEntryPoint
 class HoleItemDetailFragment : BaseFragment() {
 
@@ -37,7 +39,7 @@ class HoleItemDetailFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHoleItemDetailBinding.inflate(inflater, container, false)
@@ -96,6 +98,23 @@ class HoleItemDetailFragment : BaseFragment() {
                 showReplyDialog(prefillStr)
             }
 //            viewModel.onCommentDialogFinished()
+        })
+        // 监听是否预览图片
+        viewModel.previewPicture.observe(viewLifecycleOwner, Observer {
+            if(!it.isNullOrEmpty()){
+                val localMedia = LocalMedia()
+                localMedia.path = it
+                localMedia.setPosition(0)
+                val selectList: ArrayList<LocalMedia> = ArrayList(1)
+                selectList.add(localMedia)
+                PictureSelector.create(this)
+                    .themeStyle(R.style.picture_WeChat_style)
+                    .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .isNotPreviewDownload(true)
+                    .imageEngine(GlideEngine.createGlideEngine())
+                    .openExternalPreview(0, selectList)
+                viewModel.finishPreviewPic()
+            }
         })
 
 //         监听关注请求返回结果

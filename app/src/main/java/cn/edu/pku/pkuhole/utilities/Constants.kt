@@ -13,10 +13,9 @@ const val DATABASE_NAME = "pku_hole_db"
 const val PRE_POPULATE_HOLE_LIST_DATA = "hole_all_list.js"
 
 // API
-const val HOLE_HOST_ADDRESS = "http://pkuhelper.pku.edu.cn/"
-const val Hole_NEW_HOST_ADDRESS = "https://pkuhelper.pku.edu.cn/"
+//const val HOLE_HOST_ADDRESS = "http://pkuhelper.pku.edu.cn/"
+const val HOLE_HOST_ADDRESS = "https://pkuhelper.pku.edu.cn/"
 
-//const val HOLE_HOST_ADDRESS = "https://pkuhole.pku.edu.cn/"
 const val ISOP_HOST_ADDRESS = "https://isop.pku.edu.cn/"
 
 // 连接超时时间

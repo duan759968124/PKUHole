@@ -6,6 +6,7 @@ import cn.edu.pku.pkuhole.adapters.HoleItemListener
 import cn.edu.pku.pkuhole.base.BaseViewModel
 import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.hole.*
+import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.singleOrNull
@@ -39,6 +40,11 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val replyDialogToName: LiveData<String?>
         get() = _replyDialogToName
+
+    private var _previewPicture = MutableLiveData("")
+
+    val previewPicture: LiveData<String>
+        get() = _previewPicture
 
     private var _responseMsg = MutableLiveData<String?>()
     val responseMsg: LiveData<String?>
@@ -77,6 +83,14 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val holeItemClickListener = HoleItemListener{
         _replyDialogToName.value = ""
+    }
+
+    val pictureClickListener = PictureClickListener{
+        // 预览图片
+        if (it.isNotEmpty()) {
+            _previewPicture.value = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + it
+        }
+
     }
 
     fun onCommentItemClicked(commentItem: CommentItemBean) {
@@ -161,8 +175,13 @@ class HoleItemDetailViewModel @Inject constructor(
         }
     }
 
+    fun finishPreviewPic() {
+        _previewPicture.value = ""
+    }
+
 //    fun onReplyResponseFinished() {
 //        _replyResponse.value = null
 //    }
 
 }
+

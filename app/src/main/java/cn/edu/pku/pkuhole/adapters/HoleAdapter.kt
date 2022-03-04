@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cn.edu.pku.pkuhole.data.hole.HoleItemBean
 import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
+import cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener
 
 /**
  *
@@ -17,7 +18,7 @@ import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
  * @Version:        1.0
  */
 
-class HoleAdapter(private val clickListener: HoleItemListener) :
+class HoleAdapter(private val clickListener: HoleItemListener, private val pictureClickListener: PictureClickListener) :
     ListAdapter<HoleItemBean, HoleAdapter.ViewHolder>(HoleDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 //        init {
@@ -33,13 +34,14 @@ class HoleAdapter(private val clickListener: HoleItemListener) :
 //            view.findNavController().navigate(direction)
 //        }
 
-        fun bind(listItem: HoleItemBean, clickListener: HoleItemListener) {
+        fun bind(listItem: HoleItemBean, clickListener: HoleItemListener, pictureClickListener: PictureClickListener) {
 //            binding.apply{
 //                holeListItemBean = listItem
 //                executePendingBindings()
 //            }
             binding.holeItemBean = listItem
             binding.clickListener = clickListener
+            binding.pictureClickListener = pictureClickListener
             binding.executePendingBindings()
         }
 
@@ -57,7 +59,7 @@ class HoleAdapter(private val clickListener: HoleItemListener) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), clickListener)
+        holder.bind(getItem(position), clickListener, pictureClickListener)
 //        holder.bind(getItem(position))
     }
 

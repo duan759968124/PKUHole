@@ -71,6 +71,8 @@ dependencies {
     implementation "com.afollestad.material-dialogs:input:$materialDialogVersion"
 
     // picture gallery
+    // 可以考虑升级为3.0.5
+    // 参考https://github.com/LuckSiege/PictureSelector/blob/version_component/README_CN.md
     implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc10'
 
     // 权限申请

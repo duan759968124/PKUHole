@@ -1,19 +1,13 @@
 package cn.edu.pku.pkuhole.adapters.bindingAdapter
 
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import cn.edu.pku.pkuhole.R
-import cn.edu.pku.pkuhole.data.UserInfo
-import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
-import cn.edu.pku.pkuhole.databinding.NavHeaderMainBinding
 import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.convertDurationToFormatted
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.google.android.material.navigation.NavigationView
 import java.io.File
 
 

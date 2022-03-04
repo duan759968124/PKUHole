@@ -1,6 +1,7 @@
 package cn.edu.pku.pkuhole.base
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,7 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.pkuhole.R
+import cn.edu.pku.pkuhole.utilities.GlideEngine
+import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.LoadingDialog
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.entity.LocalMedia
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -42,9 +47,22 @@ abstract class BaseFragment: Fragment() {
 //                baseViewModel.onNavigateToLoginFinish()
 //            }
 //        })
+    }
 
-
-
+    open fun previewPicture(url: String) {
+        if(url.isNotEmpty()) {
+            val localMedia = LocalMedia()
+            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
+            localMedia.setPosition(0)
+            val selectList: ArrayList<LocalMedia> = ArrayList(1)
+            selectList.add(localMedia)
+            PictureSelector.create(this)
+                .themeStyle(R.style.picture_WeChat_style)
+                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .isNotPreviewDownload(true)
+                .imageEngine(GlideEngine.createGlideEngine())
+                .openExternalPreview(0, selectList)
+        }
     }
 
     override fun onAttach(context: Context) {
