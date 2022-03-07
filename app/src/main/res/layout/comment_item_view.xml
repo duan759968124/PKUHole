@@ -71,6 +71,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="14sp"
+                android:textIsSelectable="true"
                 android:textColor="@color/black"
                 android:text="@{commentItemBean.text}"
                 tools:text="@string/hole_test_text" />
