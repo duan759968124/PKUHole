@@ -2,6 +2,11 @@ package cn.edu.pku.pkuhole.utilities
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
+import android.os.Build
+import cn.edu.pku.pkuhole.BuildConfig
+import cn.edu.pku.pkuhole.data.LocalRepository
+import timber.log.Timber
 import java.lang.reflect.InvocationTargetException
 
 /**
@@ -13,25 +18,71 @@ import java.lang.reflect.InvocationTargetException
  * @Version:        1.0
  */
 object AppUtil {
-    private var sApplication: Application? = null
+//    private var sApplication: Application? = null
+//
+//    @SuppressLint("PrivateApi")
+//    fun getApplication(): Application? {
+//        if (sApplication == null) {
+//            try {
+//                sApplication = Class.forName("android.app.ActivityThread")
+//                    .getMethod("currentApplication")
+//                    .invoke(null, null as Array<Any?>?) as Application
+//            } catch (e: IllegalAccessException) {
+//                e.printStackTrace()
+//            } catch (e: InvocationTargetException) {
+//                e.printStackTrace()
+//            } catch (e: NoSuchMethodException) {
+//                e.printStackTrace()
+//            } catch (e: ClassNotFoundException) {
+//                e.printStackTrace()
+//            }
+//        }
+//        return sApplication
+//    }
 
-    @SuppressLint("PrivateApi")
-    fun getApplication(): Application? {
-        if (sApplication == null) {
-            try {
-                sApplication = Class.forName("android.app.ActivityThread")
-                    .getMethod("currentApplication")
-                    .invoke(null, null as Array<Any?>?) as Application
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            } catch (e: InvocationTargetException) {
-                e.printStackTrace()
-            } catch (e: NoSuchMethodException) {
-                e.printStackTrace()
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
+    // 安卓版本
+    val deviceAndroidVersion: String
+        get() = Build.VERSION.RELEASE
+
+
+    // 型号
+    val deviceModel: String
+        get() {
+            val model = Build.MODEL
+            return if(model.isNullOrEmpty()){
+                "unknown"
+            } else{
+                model.trim().replace("\\s*".toRegex(), "").replace("_".toRegex(), "-")
             }
         }
-        return sApplication
+
+    // 品牌
+    val deviceBrand: String
+        get() {
+            val brand = Build.BRAND
+            return if(brand.isNullOrEmpty()){
+                "unknown"
+            } else{
+                brand.trim().replace("\\s*".toRegex(), "").replace("_".toRegex(), "-")
+            }
+        }
+
+    // app版本
+    val appVersion: String
+        get() = BuildConfig.VERSION_NAME
+
+    // app版本号
+    val appVersionCode: Int
+        get() = BuildConfig.VERSION_CODE
+
+    // 包名
+    val appPackage: String
+        get() = BuildConfig.APPLICATION_ID
+
+
+    fun getUserAgent(): String {
+        return APP_NAME + "_" + appVersion + "_" + deviceModel + "Of" + deviceBrand +
+                "_Android" + deviceAndroidVersion + "_" + LocalRepository.getAppInstallId()
     }
+
 }

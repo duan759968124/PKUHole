@@ -147,7 +147,7 @@ open class BaseViewModel @Inject internal constructor(
         viewModelScope.launch(Dispatchers.IO){
             database.clear()
             // 设置为未登录状态
-            // 清楚localRepository所有数据
+            // 清楚localRepository部分数据
             LocalRepository.clearAll()
             _loginStatus.postValue(false)
             failStatus.postValue(apiException)

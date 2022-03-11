@@ -1,5 +1,6 @@
 package cn.edu.pku.pkuhole.api.interceptor
 
+import cn.edu.pku.pkuhole.utilities.AppUtil
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -10,8 +11,8 @@ class AddHeaderInterceptor : Interceptor {
             .newBuilder()
             .addHeader("X-PKUHelper-API", "3.0")
             .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8")
-//  Todo: 需要重新生成userAgent
-            .addHeader("User-Agent", "Android3.0.8_Xiaomi9_455089410")
+//            .addHeader("User-Agent", "Android3.0.8_Xiaomi9_455089410")
+            .addHeader("User-Agent", AppUtil.getUserAgent())
             .build()
         return chain.proceed(newRequest)
     }

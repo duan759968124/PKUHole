@@ -1,11 +1,9 @@
 package cn.edu.pku.pkuhole.utilities
 
-import android.annotation.SuppressLint
 import android.content.res.Resources
 import cn.edu.pku.pkuhole.R
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.TimeUnit
+
 //
 /**
  *
@@ -19,7 +17,6 @@ val ONE_MINUTE_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES)
 val ONE_HOUR_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
 val ONE_DAY_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)
 
-//Todo: endTimeMilli 当前时间
 fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Resources): String {
     val durationMilli = endTimeMilli - startTimeMilli * 1000
 //    val weekdayString = SimpleDateFormat("EEEE", Locale.getDefault()).format(startTimeMilli)

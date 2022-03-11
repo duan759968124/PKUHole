@@ -70,6 +70,26 @@ fun bindImageFromFile(view: ImageView, file: File?) {
     }
 }
 
+//@BindingAdapter("handleHoleText")
+//fun bindHandleHoleText(view: TextView, holeText: String?){
+//    if (holeText != null) {
+//        if(holeText.isNotEmpty()){
+//            val spannableString = SpannableString(holeText)
+//            //正则查找所有的树洞号，并标记下来，设置为可点击
+//            val holeNumMap = regexHoleText(holeText)
+//            holeNumMap.forEach { (value, indexRange) ->
+//                val pid = value.substring(1)
+//                Timber.e("$pid  $indexRange")
+//                spannableString.setSpan(HoleTextClickSpan(pid), indexRange.first, indexRange.last + 1,
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//            }
+//            view.text = spannableString
+//            view.movementMethod = LinkMovementMethod()
+//
+//        }
+//    }
+//}
+
 
 //@BindingAdapter("fillNavHeader")
 //fun fillNavHeader(view: NavigationView, userInfo: UserInfo?){

@@ -17,9 +17,14 @@
             name="pictureClickListener"
             type="cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener" />
 
-<!--        <variable-->
-<!--            name="clickListener"-->
-<!--            type="android.view.View.OnClickListener" />-->
+        <variable
+            name="longClickListener"
+            type="android.view.View.OnLongClickListener" />
+
+        <variable
+            name="holeNumberClickListener"
+            type="cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextClickSpan.OnClickListener" />
+
     </data>
 <!--     android:onClick="@{clickListener}"-->
     <com.google.android.material.card.MaterialCardView
@@ -94,11 +99,15 @@
                 app:layout_constraintTop_toBottomOf="@id/hole_content_image"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:onClick="@{()->clickListener.onClick(holeItemBean)}"
                 android:textIsSelectable="true"
+                android:autoLink="web"
+                binding_hole_text="@{holeItemBean.text}"
+                binding_hole_number_listener="@{holeNumberClickListener}"
                 android:textSize="14sp"
                 android:textColor="@color/black"
-                android:text="@{holeItemBean.text}"
-                tools:text="@string/hole_test_text" />
+                tools:text="@string/hole_test_text"
+                />
             <View
                 android:id="@+id/card_line_two"
                 android:layout_margin="@dimen/card_inside_margin"

@@ -1,6 +1,7 @@
 package cn.edu.pku.pkuhole.data
 
 import cn.edu.pku.pkuhole.utilities.*
+import java.util.*
 
 /**
  *
@@ -83,7 +84,7 @@ object LocalRepository : MMKVOwner {
     // 登录信息数据
     // account
     // password
-    // Todo:后续需要替换为加密后的password
+    // passwordSecure
     private var localAccount by mmkvString("")
     private var localPassword by mmkvString("")
     private var localPasswordSecure by mmkvString("")
@@ -109,8 +110,26 @@ object LocalRepository : MMKVOwner {
         localPasswordSecure = pwdSecure
     }
 
+    // install uuid 设备唯一设备码
+    private var localAppInstallId by mmkvString("")
+    fun getAppInstallId(): String{
+        if(localAppInstallId.isEmpty()){
+            setAppInstallId(UUID.randomUUID().toString())
+        }
+        return localAppInstallId
+    }
+
+    fun setAppInstallId(appInstallId: String){
+        localAppInstallId = appInstallId
+    }
+
     fun clearAll(){
+        // 清理全部数据前需要保留的数据: 用户账号、uuid
+        val account = getAccount()
+        val appInstallId = getAppInstallId()
         kv.clearAll()
+        setAccount(account = account)
+        setAppInstallId(appInstallId = appInstallId)
     }
 
 

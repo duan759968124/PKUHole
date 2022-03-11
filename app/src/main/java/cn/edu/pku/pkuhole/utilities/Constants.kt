@@ -13,7 +13,6 @@ const val DATABASE_NAME = "pku_hole_db"
 const val PRE_POPULATE_HOLE_LIST_DATA = "hole_all_list.js"
 
 // API
-//const val HOLE_HOST_ADDRESS = "http://pkuhelper.pku.edu.cn/"
 const val HOLE_HOST_ADDRESS = "https://pkuhelper.pku.edu.cn/"
 
 const val ISOP_HOST_ADDRESS = "https://isop.pku.edu.cn/"
@@ -26,3 +25,6 @@ const val HTTP_TIMEOUT_READ : Long = 15
 // webview
 const val USER_AGREEMENT_URL = "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_User_Agreement.html"
 const val PRIVACY_POLICY_URL = "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_Privacy_Policy.html"
+
+// App Info
+const val APP_NAME: String = "PKUHOLE"
