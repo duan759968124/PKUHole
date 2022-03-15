@@ -4,46 +4,38 @@ import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import cn.edu.pku.pkuhole.NavigationDirections
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.adapters.CommentAdapter
 import cn.edu.pku.pkuhole.adapters.CommentItemListener
-import cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
 import cn.edu.pku.pkuhole.utilities.GlideEngine
 import cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.luck.picture.lib.PictureSelector
-import timber.log.Timber
 import com.luck.picture.lib.entity.LocalMedia
-
-
-
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
-class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickListener {
+class HoleItemDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleItemDetailBinding
-    private val viewModel : HoleItemDetailViewModel by viewModels()
-    private lateinit var adapter : CommentAdapter
+    private val viewModel: HoleItemDetailViewModel by viewModels()
+    private lateinit var adapter: CommentAdapter
 
-    private var isAttention : Int = 0
+    private var isAttention: Int = 0
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentHoleItemDetailBinding.inflate(inflater, container, false)
         context ?: return binding.root
@@ -60,7 +52,6 @@ class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickLi
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentCommentListRecycler.layoutManager = manager
-        binding.originCard.holeNumberClickListener = this
 
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
@@ -69,32 +60,32 @@ class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickLi
 
     override fun initObserve() {
         // 监听holeList变化并更新UI
-        viewModel.commentList.observe(viewLifecycleOwner, Observer {
+        viewModel.commentList.observe(viewLifecycleOwner, {
             it?.let {
                 adapter.submitList(it)
             }
         })
 
         // 监听currentHoleItem变化
-        viewModel.currentHoleItem.observe(viewLifecycleOwner, Observer {
+        viewModel.currentHoleItem.observe(viewLifecycleOwner, {
             it?.let {
-                if(it.isAttention != null){
+                if (it.isAttention != null) {
                     isAttention = it.isAttention!!
                     requireActivity().invalidateOptionsMenu()
                 }
             }
         })
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
-            if(it){
+        viewModel.loadingStatus.observe(viewLifecycleOwner, {
+            if (it) {
                 showLoading()
-            }else{
+            } else {
                 dismissLoading()
             }
         })
 
         // 监听是否显示对话框
-        viewModel.replyDialogToName.observe(viewLifecycleOwner, Observer {
+        viewModel.replyDialogToName.observe(viewLifecycleOwner, {
             if (it.isNullOrEmpty()) {
                 showReplyDialog("")
             } else {
@@ -104,8 +95,8 @@ class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickLi
 //            viewModel.onCommentDialogFinished()
         })
         // 监听是否预览图片
-        viewModel.previewPicture.observe(viewLifecycleOwner, Observer {
-            if(!it.isNullOrEmpty()){
+        viewModel.previewPicture.observe(viewLifecycleOwner, {
+            if (!it.isNullOrEmpty()) {
                 val localMedia = LocalMedia()
                 localMedia.path = it
                 localMedia.setPosition(0)
@@ -122,23 +113,23 @@ class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickLi
         })
 
 //         监听关注请求返回结果
-        viewModel.responseMsg.observe(viewLifecycleOwner, Observer {
+        viewModel.responseMsg.observe(viewLifecycleOwner, {
             if (it != null) {
                 showToast(it)
             }
         })
 
         // 系统网络报错
-        viewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.errorStatus.observe(viewLifecycleOwner, { error ->
             error.message?.let { showToast("错误-$it") }
         })
 
         // api报错
-        viewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+        viewModel.failStatus.observe(viewLifecycleOwner, { fail ->
             fail.message?.let { showToast("失败-$it") }
         })
         // 退出到login界面
-        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+        viewModel.loginStatus.observe(viewLifecycleOwner, { isLogin ->
             Timber.e("isLogin %s", isLogin)
             if (!isLogin) {
                 // 全局导航操作
@@ -273,11 +264,6 @@ class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickLi
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onSpanClick(widget: View, pid: String) {
-        widget.findNavController()
-            .navigate(NavigationDirections.actionGlobalNavHoleDetail(pid.toLong()))
     }
 
 }

@@ -1,14 +1,10 @@
 package cn.edu.pku.pkuhole.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import cn.edu.pku.pkuhole.NavigationDirections
-import cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan
 import cn.edu.pku.pkuhole.data.hole.HoleItemBean
 import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener
@@ -28,8 +24,8 @@ class HoleAdapter(
     private val pictureClickListener: PictureClickListener,
 ) :
     ListAdapter<HoleItemBean, HoleAdapter.ViewHolder>(HoleDiffCallback()) {
-    class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root),
-        HoleTextNumberClickSpan.OnClickListener {
+    class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+//      暂时没用到
 //        init {
 //            binding.setClickListener {
 //                binding.holeListItemBean?.let { holeItem ->
@@ -37,11 +33,6 @@ class HoleAdapter(
 //                }
 //            }
 //        }
-//      暂时没用到
-        init {
-            binding.holeNumberClickListener = this
-        }
-
 //        private fun navigateToHoleItemDetail(HoleItemBean: HoleItemBean, view: View) {
 //            val direction = HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(HoleItemBean.pid)
 //            view.findNavController().navigate(direction)
@@ -71,12 +62,6 @@ class HoleAdapter(
                 return ViewHolder(binding)
             }
         }
-
-        override fun onSpanClick(widget: View, pid: String) {
-            widget.findNavController()
-                .navigate(NavigationDirections.actionGlobalNavHoleDetail(pid.toLong()))
-        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

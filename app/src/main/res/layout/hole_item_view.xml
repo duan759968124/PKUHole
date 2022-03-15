@@ -17,9 +17,9 @@
             name="pictureClickListener"
             type="cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener" />
 
-        <variable
-            name="holeNumberClickListener"
-            type="cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan.OnClickListener" />
+        <!--        <variable-->
+        <!--            name="holeNumberClickListener"-->
+        <!--            type="cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan.OnClickListener" />-->
 
     </data>
 <!--     android:onClick="@{clickListener}"-->
@@ -83,6 +83,7 @@
                 />
 
             <!--android:onClick="@{()->clickListener.onClick(holeItemBean)}"-->
+            <!--            binding_hole_number_listener="@{holeNumberClickListener}"-->
             <TextView
                 android:id="@+id/hole_content"
                 android:layout_marginStart="@dimen/card_inside_margin"
@@ -98,7 +99,6 @@
                 android:textIsSelectable="true"
                 android:autoLink="web"
                 binding_hole_text="@{holeItemBean.text}"
-                binding_hole_number_listener="@{holeNumberClickListener}"
                 android:linksClickable="false"
                 android:textSize="14sp"
                 android:textColor="@color/black"
@@ -156,7 +156,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="@dimen/card_inside_margin"
                 android:layout_marginBottom="@dimen/card_inside_margin"
-                android:layout_marginRight="@dimen/card_inside_margin"
+                android:layout_marginEnd="@dimen/card_inside_margin"
                 android:padding="@dimen/card_inside_padding"
                 app:layout_constraintRight_toLeftOf="@id/hole_reply_image"
                 app:layout_constraintTop_toBottomOf="@id/card_line_two"
