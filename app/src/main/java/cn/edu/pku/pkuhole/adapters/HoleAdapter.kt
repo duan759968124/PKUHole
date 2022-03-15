@@ -1,24 +1,17 @@
 package cn.edu.pku.pkuhole.adapters
 
-import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context.CLIPBOARD_SERVICE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cn.edu.pku.pkuhole.NavigationDirections
+import cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan
 import cn.edu.pku.pkuhole.data.hole.HoleItemBean
 import cn.edu.pku.pkuhole.databinding.HoleItemViewBinding
 import cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener
-import android.view.MotionEvent
-import android.view.View.OnTouchListener
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
-import cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextClickSpan
-import timber.log.Timber
 
 
 /**
@@ -30,9 +23,13 @@ import timber.log.Timber
  * @Version:        1.0
  */
 
-class HoleAdapter(private val clickListener: HoleItemListener, private val pictureClickListener: PictureClickListener) :
+class HoleAdapter(
+    private val itemClickListener: HoleItemListener,
+    private val pictureClickListener: PictureClickListener,
+) :
     ListAdapter<HoleItemBean, HoleAdapter.ViewHolder>(HoleDiffCallback()) {
-    class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root),
+        HoleTextNumberClickSpan.OnClickListener {
 //        init {
 //            binding.setClickListener {
 //                binding.holeListItemBean?.let { holeItem ->
@@ -41,28 +38,27 @@ class HoleAdapter(private val clickListener: HoleItemListener, private val pictu
 //            }
 //        }
 //      暂时没用到
-        init{
-            binding.setLongClickListener {
-                Timber.e("long click textview")
-                true
-            }
+        init {
+            binding.holeNumberClickListener = this
         }
-//        init {
-//            binding.holeNumberClickListener = HoleTextClickSpan.
-//        }
 
 //        private fun navigateToHoleItemDetail(HoleItemBean: HoleItemBean, view: View) {
 //            val direction = HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(HoleItemBean.pid)
 //            view.findNavController().navigate(direction)
 //        }
 
-        fun bind(listItem: HoleItemBean, clickListener: HoleItemListener, pictureClickListener: PictureClickListener) {
+
+        fun bind(
+            listItem: HoleItemBean,
+            itemClickListener: HoleItemListener,
+            pictureClickListener: PictureClickListener,
+        ) {
 //            binding.apply{
 //                holeListItemBean = listItem
 //                executePendingBindings()
 //            }
             binding.holeItemBean = listItem
-            binding.clickListener = clickListener
+            binding.clickListener = itemClickListener
             binding.pictureClickListener = pictureClickListener
 
             binding.executePendingBindings()
@@ -75,6 +71,12 @@ class HoleAdapter(private val clickListener: HoleItemListener, private val pictu
                 return ViewHolder(binding)
             }
         }
+
+        override fun onSpanClick(widget: View, pid: String) {
+            widget.findNavController()
+                .navigate(NavigationDirections.actionGlobalNavHoleDetail(pid.toLong()))
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -82,9 +84,10 @@ class HoleAdapter(private val clickListener: HoleItemListener, private val pictu
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), clickListener, pictureClickListener)
+        holder.bind(getItem(position), itemClickListener, pictureClickListener)
 //        holder.bind(getItem(position))
     }
+
 
 }
 

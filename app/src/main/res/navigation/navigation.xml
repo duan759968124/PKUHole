@@ -10,13 +10,13 @@
         android:name="cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragment"
         android:label="@string/hole_title"
         tools:layout="@layout/fragment_hole_view_pager">
-        <action
-            android:id="@+id/action_nav_hole_to_nav_hole_detail"
-            app:destination="@id/nav_hole_detail"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+<!--        <action-->
+<!--            android:id="@+id/action_nav_hole_to_nav_hole_detail"-->
+<!--            app:destination="@id/nav_hole_detail"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right" />-->
         <action
             android:id="@+id/action_nav_hole_to_nav_search_result"
             app:destination="@id/nav_search_result"
@@ -34,13 +34,13 @@
         <argument
             android:name="keywords"
             app:argType="string" />
-        <action
-            android:id="@+id/action_nav_search_result_to_nav_hole_detail"
-            app:destination="@id/nav_hole_detail"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+<!--        <action-->
+<!--            android:id="@+id/action_nav_search_result_to_nav_hole_detail"-->
+<!--            app:destination="@id/nav_hole_detail"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"/>-->
     </fragment>
 
     <fragment
@@ -132,6 +132,14 @@
     <action
         android:id="@+id/action_global_nav_login"
         app:destination="@id/nav_login"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+
+    <action
+        android:id="@+id/action_global_nav_hole_detail"
+        app:destination="@id/nav_hole_detail"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import cn.edu.pku.pkuhole.NavigationDirections
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.adapters.HoleAdapter
 import cn.edu.pku.pkuhole.adapters.HoleItemListener
@@ -103,8 +104,9 @@ class HoleListFragment : BaseFragment() {
 
         viewModel.navigationToHoleItemDetail.observe(viewLifecycleOwner, Observer { pid ->
             pid?.let {
-                findNavController()
-                    .navigate(HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(pid))
+//                findNavController()
+//                    .navigate(HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(pid))
+                findNavController().navigate(NavigationDirections.actionGlobalNavHoleDetail(pid))
                 viewModel.onHoleItemDetailNavigated()
             }
         })

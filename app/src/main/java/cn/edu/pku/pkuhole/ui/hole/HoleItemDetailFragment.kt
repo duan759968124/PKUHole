@@ -7,11 +7,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import cn.edu.pku.pkuhole.NavigationDirections
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.adapters.CommentAdapter
 import cn.edu.pku.pkuhole.adapters.CommentItemListener
+import cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.databinding.FragmentHoleItemDetailBinding
 import cn.edu.pku.pkuhole.utilities.GlideEngine
@@ -28,7 +31,7 @@ import com.luck.picture.lib.entity.LocalMedia
 
 
 @AndroidEntryPoint
-class HoleItemDetailFragment : BaseFragment() {
+class HoleItemDetailFragment : BaseFragment(), HoleTextNumberClickSpan.OnClickListener {
 
     private lateinit var binding: FragmentHoleItemDetailBinding
     private val viewModel : HoleItemDetailViewModel by viewModels()
@@ -57,6 +60,7 @@ class HoleItemDetailFragment : BaseFragment() {
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentCommentListRecycler.layoutManager = manager
+        binding.originCard.holeNumberClickListener = this
 
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
@@ -263,13 +267,17 @@ class HoleItemDetailFragment : BaseFragment() {
                 false
             }
             R.id.button_report -> {
-                // Todo: 举报功能没有测试
                 // 弹出对话框发网络请求到服务器投诉举报，并处理结果。
                 showReportDialog()
                 false
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onSpanClick(widget: View, pid: String) {
+        widget.findNavController()
+            .navigate(NavigationDirections.actionGlobalNavHoleDetail(pid.toLong()))
     }
 
 }
