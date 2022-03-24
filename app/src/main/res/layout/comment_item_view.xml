@@ -72,6 +72,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="14sp"
                 android:textIsSelectable="true"
+                binding_hole_text="@{commentItemBean.text}"
+                android:autoLink="web"
                 android:textColor="@color/black"
                 android:text="@{commentItemBean.text}"
                 tools:text="@string/hole_test_text" />

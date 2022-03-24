@@ -53,6 +53,32 @@ object HoleNumberLinkHelper {
     }
 }
 
+//object HoleNormalTextHelper {
+//    class HoleNormalTextClickSpan : ClickableSpan() {
+//        var clickListener: OnClickListener? = null
+//
+//        interface OnClickListener {
+//            fun onSpanClick(widget: View)
+//        }
+//
+//        override fun onClick(widget: View) {
+//            Timber.e("click normal text ")
+//            clickListener?.onSpanClick(widget)
+//        }
+//
+//        override fun updateDrawState(ds: TextPaint) {
+//            super.updateDrawState(ds)
+//            ds.color = Color.GREEN
+//            ds.isUnderlineText = false
+//        }
+//    }
+//
+//    fun setHoleNormalTextClickListener(spanned: Spanned, listener: HoleNormalTextClickSpan.OnClickListener?) {
+//        spanned.getSpans(0, spanned.length, HoleNormalTextClickSpan::class.java)
+//            .forEach { it.clickListener = listener }
+//    }
+//}
+
 //@BindingAdapter(value = ["binding_hole_text", "binding_hole_number_listener"], requireAll = true)
 //fun TextView.setHandleHoleText(holeText: String?, listener: HoleNumberLinkHelper.HoleTextClickSpan.OnClickListener?){
 @BindingAdapter(value = ["binding_hole_text"], requireAll = true)
@@ -62,14 +88,28 @@ fun TextView.setHandleHoleText(holeText: String?) {
             val spannableString = SpannableString(holeText)
             //正则查找所有的树洞号，并标记下来，设置为可点击
             val holeNumMap = HoleNumberLinkHelper.regexHoleText(holeText)
+//            var lastStartIndex = 0
             holeNumMap.forEach { (value, indexRange) ->
+//                if(indexRange.first != 0 && lastStartIndex == 0){
+//                    spannableString.setSpan(HoleNormalTextHelper.HoleNormalTextClickSpan(),
+//                        lastStartIndex,
+//                        indexRange.first - 1,
+//                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//                }
                 val pid = value.substring(1)
                 Timber.e("$pid  $indexRange")
                 spannableString.setSpan(HoleNumberLinkHelper.HoleTextClickSpan(pid),
                     indexRange.first,
                     indexRange.last + 1,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//                lastStartIndex = indexRange.last + 1
             }
+//            if(lastStartIndex != spannableString.lastIndex){
+//                spannableString.setSpan(HoleNormalTextHelper.HoleNormalTextClickSpan(),
+//                    lastStartIndex,
+//                    spannableString.length,
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//            }
             text = spannableString
             movementMethod = LinkMovementMethod()
         }
