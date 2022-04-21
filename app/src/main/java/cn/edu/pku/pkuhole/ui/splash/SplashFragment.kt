@@ -16,8 +16,8 @@ import timber.log.Timber
 import android.graphics.Color
 
 import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.widget.TextView
+import cn.edu.pku.pkuhole.utilities.PRIVACY_POLICY_URL
+import cn.edu.pku.pkuhole.utilities.USER_AGREEMENT_URL
 
 
 /**
@@ -36,7 +36,7 @@ class SplashFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -44,7 +44,7 @@ class SplashFragment : BaseFragment() {
 
     override fun initData() {
         // 是否第一次启动,显示对话框
-        LocalRepository.setISFirstStart(true)
+//        LocalRepository.setISFirstStart(true)
         if (LocalRepository.isFirstStart()) {
             Timber.e("isFirstStart true")
             // 弹框
@@ -56,32 +56,41 @@ class SplashFragment : BaseFragment() {
     }
 
     private fun showLaunchWarnDialog() {
-        val launchWarnTextSpan = SpannableStringBuilder()
-        val launchWarnText = getString(R.string.launchWarnText)
-        launchWarnTextSpan.append(launchWarnText);
-        //第一个出现的位置
-        val start = launchWarnText.indexOf("《");
-        Timber.e("%s : index %d  %d", launchWarnText, start, launchWarnText.length)
-        launchWarnTextSpan.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                //用户服务协议点击事件
-                Timber.e("onclick span 服务协议")
-            }
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                //设置文件颜色
-                ds.color = Color.BLUE
-                // 去掉下划线
-                ds.isUnderlineText = false
-            }
-        }, start, start + 6, 0)
-        // Todo: 更换dialog
+//        val launchWarnTextSpan = SpannableStringBuilder()
+//        val launchWarnText = getString(R.string.launchWarnText)
+//        launchWarnTextSpan.append(launchWarnText);
+//        //第一个出现的位置
+//        val start = launchWarnText.indexOf("《");
+//        Timber.e("%s : index %d  %d", launchWarnText, start, launchWarnText.length)
+//        launchWarnTextSpan.setSpan(object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                //用户服务协议点击事件
+//                Timber.e("onclick span 服务协议")
+//            }
+//
+//            override fun updateDrawState(ds: TextPaint) {
+//                super.updateDrawState(ds)
+//                //设置文件颜色
+//                ds.color = Color.BLUE
+//                // 去掉下划线
+//                ds.isUnderlineText = false
+//            }
+//        }, start, start + 6, 0)
         context?.let {
             MaterialDialog(it).show {
                 cancelable(false)
                 title(R.string.launchWarnTitle)
                 message(R.string.launchWarnText) {
-                    html{ clickText -> Timber.e("Clicked link: $clickText")}
+                    html { clickText ->
+                        if (clickText == "user_agreement") {
+                            findNavController().navigate(SplashFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                                getString(R.string.user_agreement), USER_AGREEMENT_URL))
+                        } else {
+                            findNavController().navigate(SplashFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                                getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
+                        }
+                        dismiss()
+                    }
                     lineSpacing(1.4f)
                 }
                 positiveButton(R.string.agree) {
