@@ -137,17 +137,17 @@ class UserViewModel @Inject constructor(
     }
 
     // mainActivity检查登录状态
-    fun checkLoginStatus() {
-        userInfo.value = UserInfo("", "", "", "", 0L)
-        Timber.e("checkLoginStatus")
-        Timber.e("uid %s", LocalRepository.getUid())
-        if (LocalRepository.getUid().isEmpty()) {
-            //未登录，跳转到登录界面
-            _loginStatus.value = false
-        } else {
-            userInfo.value = LocalRepository.getUserInfo()
-        }
-    }
+//    fun checkLoginStatus() {
+//        userInfo.value = UserInfo("", "", "", "", 0L)
+//        Timber.e("checkLoginStatus")
+//        Timber.e("uid %s", LocalRepository.getUid())
+//        if (LocalRepository.getUid().isEmpty()) {
+//            //未登录，跳转到登录界面
+//            _loginStatus.value = false
+//        } else {
+//            userInfo.value = LocalRepository.getUserInfo()
+//        }
+//    }
 
     fun initData() {
         account.value = LocalRepository.getAccount()

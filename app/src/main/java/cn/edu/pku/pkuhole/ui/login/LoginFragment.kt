@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.pkuhole.base.BaseFragment
@@ -26,7 +27,7 @@ class LoginFragment : BaseFragment() {
 
     private lateinit var binding: FragmentLoginBinding
 
-    private val userViewModel : UserViewModel by activityViewModels()
+    private val userViewModel : UserViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -52,22 +53,22 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun initObserve() {
-        userViewModel.loadingStatus.observe(viewLifecycleOwner, Observer { loading ->
+        userViewModel.loadingStatus.observe(viewLifecycleOwner, { loading ->
             if(loading){
                 showLoading()
             }else{
                 dismissLoading()
             }
         })
-        userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner, Observer { loginSuccess ->
+        userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner, { loginSuccess ->
             if(loginSuccess)
                 navigateToHole()
         })
-        userViewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+        userViewModel.failStatus.observe(viewLifecycleOwner, { fail ->
             fail.message?.let { showToast("失败-$it") }
         })
 
-        userViewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+        userViewModel.errorStatus.observe(viewLifecycleOwner, { error ->
             error.message?.let { showToast("错误-$it") }
         })
     }

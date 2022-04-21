@@ -56,6 +56,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    // 官方splash
+//    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+
     // UI 下拉刷新框架
     def refreshVersion = '2.0.5'
     implementation  "io.github.scwang90:refresh-layout-kernel:$refreshVersion"
@@ -95,7 +99,6 @@ dependencies {
 //    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 
     // loadsir 加载反馈页管理框架
-    // Todo: 后续需要删除掉或者使用它
 //    implementation 'com.kingja.loadsir:loadsir:1.3.8'
 
     // MMKV key-value 组件[1.2.11 mmkv-static与mmkv相同]

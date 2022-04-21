@@ -71,10 +71,6 @@ object AppUtil {
     val appVersion: String
         get() = BuildConfig.VERSION_NAME
 
-    // app版本号
-    val appVersionCode: Int
-        get() = BuildConfig.VERSION_CODE
-
     // 包名
     val appPackage: String
         get() = BuildConfig.APPLICATION_ID

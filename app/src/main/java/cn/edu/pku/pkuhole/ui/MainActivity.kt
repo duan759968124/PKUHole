@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 //    private lateinit var navHeaderBinding: NavHeaderMainBinding
 
-//    private lateinit var viewModel: MainViewModel
-    private val viewModel: UserViewModel by viewModels()
+    //    private lateinit var viewModel: MainViewModel
+//    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 ////        navView 侧边栏菜单组件
 //        val navView: NavigationView = binding.navView
 
-        val navView: BottomNavigationView= binding.navView
+        val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -75,12 +75,12 @@ class MainActivity : AppCompatActivity() {
 ////        设置每个界面的toolbar是否存在导航抽屉是否可用
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_login -> {
+                R.id.nav_login, R.id.nav_splash -> {
                     binding.toolbar.visibility = View.GONE
                     navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 }
-                R.id.nav_hole, R.id.nav_settings ->{
+                R.id.nav_hole, R.id.nav_settings -> {
                     binding.toolbar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
                 }
@@ -111,25 +111,24 @@ class MainActivity : AppCompatActivity() {
 ////                }
 ////            }
 //        })
-
-        viewModel.loginStatus.observe(this, Observer { isLogin ->
-            Timber.e("isLogin %s", isLogin)
-            if (!isLogin) {
-                // 全局导航操作
-                navController.navigate(R.id.action_global_nav_login)
-                viewModel.onNavigateToLoginFinish()
-            }
-        })
+        navController.navigate(R.id.nav_splash)
+//        viewModel.loginStatus.observe(this, { isLogin ->
+//            Timber.e("isLogin %s", isLogin)
+//            if (!isLogin) {
+//                // 全局导航操作
+//                navController.navigate(R.id.action_global_nav_login)
+//                viewModel.onNavigateToLoginFinish()
+//            }
+//        })
     }
 
     override fun onStart() {
         super.onStart()
-        Timber.e("main activity onstart")
-        viewModel.checkLoginStatus()
+        Timber.e("main activity onStart")
+//        viewModel.checkLoginStatus()
 //        navHeaderBinding.navHeaderUserName.text = LocalRepository.getUserInfo().name
 //        navHeaderBinding.navHeaderUserDepartment.text = LocalRepository.getUserInfo().department
     }
-
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
 //        // Inflate the menu; this adds items to the action bar if it is present.

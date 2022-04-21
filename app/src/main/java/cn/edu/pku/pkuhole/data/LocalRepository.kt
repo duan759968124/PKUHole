@@ -1,6 +1,10 @@
 package cn.edu.pku.pkuhole.data
 
+import android.annotation.SuppressLint
+import android.text.TextUtils
+import cn.edu.pku.pkuhole.BuildConfig
 import cn.edu.pku.pkuhole.utilities.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -127,12 +131,74 @@ object LocalRepository : MMKVOwner {
         // 清理全部数据前需要保留的数据: 用户账号、uuid
         val account = getAccount()
         val appInstallId = getAppInstallId()
+        val saveVersionCode = getLastAppVersionCode()
+        val saveStartAppDate = getLastAppStartDate()
         kv.clearAll()
+        firstStartApp = false
+        setLastAppVersionCode(versioncode=saveVersionCode)
+        setLastAppStartDate(lastAppStartDate=saveStartAppDate)
         setAccount(account = account)
         setAppInstallId(appInstallId = appInstallId)
     }
 
+    // firstStartApp  是否第一次安装启动
+    private var firstStartApp by mmkvBool(true)
 
+    fun setISFirstStart(isFirstStart: Boolean){
+        firstStartApp = isFirstStart
+    }
 
+    fun isFirstStart(): Boolean{
+        if(firstStartApp){
+            // 改变是否是第一次启动状态【不改变了，手动改变】
+//            firstStartApp = false
+            return true
+        }
+        return false
+    }
+
+    // 当前版本是不是第一次启动
+    private var localLastAppVersionCode by mmkvInt(0)
+
+    private fun getLastAppVersionCode(): Int{
+        return localLastAppVersionCode
+    }
+
+    private fun setLastAppVersionCode(versioncode: Int){
+        localLastAppVersionCode = versioncode
+    }
+
+    fun isFirstStartCurVersion(): Boolean{
+        val curVersionCode: Int = BuildConfig.VERSION_CODE
+        if(curVersionCode > getLastAppVersionCode()){
+            // 当前版本大于上次版本code, 该版本属于第一次启动
+            setLastAppVersionCode(curVersionCode)
+            return true
+        }
+        return false
+    }
+
+    // 是不是今天第一次启动
+    private var localLastAppStartDate by mmkvString("2022-04-06")
+
+    private fun getLastAppStartDate(): String{
+        return localLastAppStartDate
+    }
+
+    private fun setLastAppStartDate(lastAppStartDate: String){
+        localLastAppStartDate = lastAppStartDate
+    }
+
+     @SuppressLint("SimpleDateFormat")
+     fun isFirstStartToday(): Boolean{
+         val today: String = SimpleDateFormat("yyyy-MM-dd").format(Date())
+         if(!TextUtils.isEmpty(today)&&!TextUtils.isEmpty(getLastAppStartDate())){
+             if(localLastAppStartDate != today){
+                 setLastAppStartDate(today)
+                 return true
+             }
+         }
+         return false
+     }
 
 }

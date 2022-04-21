@@ -6,6 +6,22 @@
     app:startDestination="@+id/nav_hole">
 
     <fragment
+        android:id="@+id/nav_splash"
+        android:name="cn.edu.pku.pkuhole.ui.splash.SplashFragment"
+        android:label="@string/hole_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_nav_splash_to_nav_hole"
+            app:destination="@id/nav_hole"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/nav_hole"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_hole"
         android:name="cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragment"
         android:label="@string/hole_title"

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cn.edu.pku.pkuhole.api.DataState
 import cn.edu.pku.pkuhole.base.network.ApiException
 import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.data.UserInfo
@@ -12,8 +11,10 @@ import cn.edu.pku.pkuhole.data.hole.HoleRepository
 import cn.edu.pku.pkuhole.utilities.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
