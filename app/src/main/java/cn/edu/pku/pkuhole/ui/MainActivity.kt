@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_hole, R.id.nav_settings
+                R.id.nav_hole, R.id.nav_webView, R.id.nav_settings
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -83,6 +83,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_hole, R.id.nav_settings -> {
                     binding.toolbar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
+                }
+                R.id.nav_webView ->{
+                    binding.toolbar.visibility = View.VISIBLE
+                    navView.visibility = View.VISIBLE
+                    destination.addArgument("")
+                    destination.displayName
                 }
                 else -> {
                     binding.toolbar.visibility = View.VISIBLE

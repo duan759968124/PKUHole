@@ -22,7 +22,7 @@
 
         <action
             android:id="@+id/action_nav_settings_to_simpleWebviewFragment"
-            app:destination="@id/nav_simple_webview"
+            app:destination="@id/nav_simple_webView"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -79,14 +79,24 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_webView"
+        android:name="cn.edu.pku.pkuhole.ui.webview.WebViewFragment"
+        android:label="{module_name}"
+        tools:layout="@layout/fragment_web_view">
+        <argument
+            android:name="module_name"
+            app:argType="string" />
+        <argument
+            android:name="module_url"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_settings"
         android:name="cn.edu.pku.pkuhole.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right">
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_nav_settings_to_nav_about_us"
             app:destination="@id/nav_about_us"
@@ -103,7 +113,7 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_nav_settings_to_simpleWebviewFragment"
-            app:destination="@id/nav_simple_webview"
+            app:destination="@id/nav_simple_webView"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -112,15 +122,15 @@
 
 
     <fragment
-        android:id="@+id/nav_simple_webview"
-        android:name="cn.edu.pku.pkuhole.ui.webview.SimpleWebviewFragment"
-        android:label="{webview_module_name}"
-        tools:layout="@layout/fragment_simple_webview">
+        android:id="@+id/nav_simple_webView"
+        android:name="cn.edu.pku.pkuhole.ui.webview.SimpleWebViewFragment"
+        android:label="{module_name}"
+        tools:layout="@layout/fragment_web_view">
         <argument
-            android:name="webview_module_name"
+            android:name="module_name"
             app:argType="string" />
         <argument
-            android:name="webview_module_url"
+            android:name="module_url"
             app:argType="string" />
     </fragment>
 
@@ -153,6 +163,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
+
 
     <action
         android:id="@+id/action_global_nav_login"

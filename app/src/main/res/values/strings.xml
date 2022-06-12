@@ -94,5 +94,6 @@
     <string name="agree">同意</string>
     <string name="reject">不同意</string>
     <string name="hole_splash">Splash</string>
+    <string name="menu_score">成绩</string>
 
 </resources>
