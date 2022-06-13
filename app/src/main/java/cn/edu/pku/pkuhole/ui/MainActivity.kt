@@ -12,11 +12,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.databinding.ActivityMainBinding
-import cn.edu.pku.pkuhole.viewmodels.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,9 +52,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_hole, R.id.nav_webView, R.id.nav_settings
+                R.id.nav_hole, R.id.nav_score, R.id.nav_course, R.id.nav_settings
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -84,11 +83,9 @@ class MainActivity : AppCompatActivity() {
                     binding.toolbar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
                 }
-                R.id.nav_webView ->{
+                R.id.nav_score, R.id.nav_course ->{
                     binding.toolbar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
-                    destination.addArgument("")
-                    destination.displayName
                 }
                 else -> {
                     binding.toolbar.visibility = View.VISIBLE

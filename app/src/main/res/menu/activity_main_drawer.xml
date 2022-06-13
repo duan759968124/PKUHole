@@ -10,9 +10,15 @@
             android:title="@string/menu_hole" />
 
         <item
-            android:id="@+id/nav_webView"
+            android:id="@+id/nav_score"
             android:icon="@drawable/ic_menu_score"
             android:title="@string/menu_score"
+            />
+
+        <item
+            android:id="@+id/nav_course"
+            android:icon="@drawable/ic_menu_score"
+            android:title="@string/menu_course"
             />
 
         <item

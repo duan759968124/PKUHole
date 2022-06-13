@@ -79,16 +79,25 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_webView"
+        android:id="@+id/nav_score"
         android:name="cn.edu.pku.pkuhole.ui.webview.WebViewFragment"
-        android:label="{module_name}"
+        android:label="@string/menu_score"
         tools:layout="@layout/fragment_web_view">
         <argument
             android:name="module_name"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="成绩"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_course"
+        android:name="cn.edu.pku.pkuhole.ui.webview.WebViewFragment"
+        android:label="@string/menu_course"
+        tools:layout="@layout/fragment_web_view">
         <argument
-            android:name="module_url"
-            app:argType="string" />
+            android:name="module_name"
+            app:argType="string"
+            android:defaultValue="课表"/>
 
     </fragment>
 

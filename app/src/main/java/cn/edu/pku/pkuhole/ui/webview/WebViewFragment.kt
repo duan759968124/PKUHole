@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import androidx.navigation.fragment.navArgs
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.FragmentWebViewBinding
@@ -17,7 +18,7 @@ import java.net.URLEncoder
 
 class WebViewFragment : BaseFragment() {
 
-//    val args: WebviewFragmentArgs by navArgs()
+    val args: WebViewFragmentArgs by navArgs()
     private lateinit var binding: FragmentWebViewBinding
     private lateinit var mWebViewWV: WebView
 
@@ -31,11 +32,26 @@ class WebViewFragment : BaseFragment() {
         binding = FragmentWebViewBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
-//        moduleName = args.webviewModuleName
-//        moduleUrl = args.webviewModuleUrl
-        moduleName = "成绩"
-        moduleUrl = "http://162.105.209.242/web/score?uid=" + LocalRepository.getUid() + "&password=" + URLEncoder.encode(LocalRepository.getPasswordSecure(), "utf-8")
-//        moduleUrl = "http://162.105.209.242/web/score?uid=01999091&password=" + URLEncoder.encode("b9b0fIJabbdB3pgACl/u+4ic7NKBn3Bx9BH1C70TqvpgmhCR8yaEEKjqGlmaE0GebieZRD4mvrf+IeBey4PEiyzRxfeUTWUUNd7LMVM+OihiKs1/+EMEy1h110Hmg/uFnYHsGuIbXYYwEXD0MEQOi3fi7uwtau1jUQA9yc4F2oSJk27ZKQwR3y4nrbWumETf0l/4ju7ZTosjR4ftVA7IJcTB/nPEYDAewIvLynHd4vzquowXfZvTzy7xCUmPmmVAhV2fgoNobuw1LuS0U6ObzommIlzwf1y7VkYL5R1Fzez1lZEGah82905ZePY/UWsPbAdiCh64YikUqKOrs8x2suGlGmMdLTIxVNjosyr44p5Iy87Bzqg+PrlSFrCRHBNmz9B0i+G6B9zI9JKywfqhIXTUldboAm5sVtbP157JV4r1JsJOihS3aBwChESio1pxc3Byr8idbNT7zBYbo3O5s+KzuhQn/l1MKZPmETdVsjvujarTwAIjVNwX635tesFOGj5sCAyqWNBcoM1PyOqazSzw3eUYyuxiOfzNlk7rIGjpyqhrcYWobY+842Zf/7WMAyeTA8hdrP+RV3/QLQPAnowdjJY7mYvKrgsvgVvQE4wYdzg0e7Fvn1jdBMv9MREszgULb1LNRqA/UmuyQAMhYh1rGSuQhr+lM4njxRV7Ft0=", "utf-8")
+        moduleName = args.moduleName
+//        moduleName = "成绩"
+        when (moduleName) {
+            "成绩" -> {
+                moduleUrl =
+                    "http://162.105.209.242/web/score?uid=" + LocalRepository.getUid() + "&password=" + URLEncoder.encode(
+                        LocalRepository.getPasswordSecure(),
+                        "utf-8"
+                    )
+//                moduleUrl = "http://162.105.209.242/web/score?uid=01999091&password=" + URLEncoder.encode("b9b0fIJabbdB3pgACl/u+4ic7NKBn3Bx9BH1C70TqvpgmhCR8yaEEKjqGlmaE0GebieZRD4mvrf+IeBey4PEiyzRxfeUTWUUNd7LMVM+OihiKs1/+EMEy1h110Hmg/uFnYHsGuIbXYYwEXD0MEQOi3fi7uwtau1jUQA9yc4F2oSJk27ZKQwR3y4nrbWumETf0l/4ju7ZTosjR4ftVA7IJcTB/nPEYDAewIvLynHd4vzquowXfZvTzy7xCUmPmmVAhV2fgoNobuw1LuS0U6ObzommIlzwf1y7VkYL5R1Fzez1lZEGah82905ZePY/UWsPbAdiCh64YikUqKOrs8x2suGlGmMdLTIxVNjosyr44p5Iy87Bzqg+PrlSFrCRHBNmz9B0i+G6B9zI9JKywfqhIXTUldboAm5sVtbP157JV4r1JsJOihS3aBwChESio1pxc3Byr8idbNT7zBYbo3O5s+KzuhQn/l1MKZPmETdVsjvujarTwAIjVNwX635tesFOGj5sCAyqWNBcoM1PyOqazSzw3eUYyuxiOfzNlk7rIGjpyqhrcYWobY+842Zf/7WMAyeTA8hdrP+RV3/QLQPAnowdjJY7mYvKrgsvgVvQE4wYdzg0e7Fvn1jdBMv9MREszgULb1LNRqA/UmuyQAMhYh1rGSuQhr+lM4njxRV7Ft0=", "utf-8")
+
+            }
+            "课表" -> {
+                moduleUrl = "https://www.pku.edu.cn"
+            }
+            else -> {
+                showToast("module name and module url is null")
+            }
+        }
+
         Timber.e("moduleName %s", moduleName)
         Timber.e("moduleUrl %s", moduleUrl)
 //        activity?.actionBar?.title = moduleName
@@ -79,7 +95,7 @@ class WebViewFragment : BaseFragment() {
 //            webSettings.setMixedContentMode(WebSettings.LOAD_NORMAL);
     }
 
-    private class MyWebViewClient: WebViewClient(){
+    private class MyWebViewClient : WebViewClient() {
         override fun shouldOverrideUrlLoading(
             view: WebView?,
             request: WebResourceRequest?
