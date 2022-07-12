@@ -42,7 +42,8 @@ object HoleNumberLinkHelper {
     fun regexHoleText(text: String): HashMap<String, IntRange> {
         //设置正则获取多个树洞号
         val holeNumberMap = HashMap<String, IntRange>()
-        val holeNumberPattern = "#[0-9]+".toRegex()
+//        val holeNumberPattern = "#[0-9]+".toRegex()
+        val holeNumberPattern = "[1-9]\\d{5,6}(?!\\d)".toRegex()
         val found = holeNumberPattern.findAll(text)
         found.forEach { f ->
             val m = f.value

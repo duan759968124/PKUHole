@@ -59,7 +59,7 @@ abstract class BaseFragment: Fragment() {
             PictureSelector.create(this)
                 .themeStyle(R.style.picture_WeChat_style)
                 .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-//                .isNotPreviewDownload(true)
+                .isNotPreviewDownload(false)
                 .imageEngine(GlideEngine.createGlideEngine())
                 .openExternalPreview(0, selectList)
         }
