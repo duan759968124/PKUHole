@@ -2,6 +2,7 @@ package cn.edu.pku.pkuhole.ui.hole
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Bundle
@@ -21,25 +22,14 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.animators.AnimationType
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.luck.picture.lib.style.PictureCropParameterStyle
 import com.luck.picture.lib.style.PictureParameterStyle
 import com.luck.picture.lib.style.PictureWindowAnimationStyle
 import dagger.hilt.android.AndroidEntryPoint
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
-import com.luck.picture.lib.entity.LocalMedia
-
-import android.app.Activity
-import android.app.Dialog
-import android.content.DialogInterface
-
-import android.content.Intent
-import android.widget.ImageView
-import cn.edu.pku.pkuhole.adapters.bindingAdapter.bindHasImage
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-
-import com.luck.picture.lib.listener.OnResultCallbackListener
 import timber.log.Timber
 
 

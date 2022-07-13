@@ -1,5 +1,6 @@
 package cn.edu.pku.pkuhole.base
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -16,6 +17,8 @@ import cn.edu.pku.pkuhole.utilities.LoadingDialog
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
 import dagger.hilt.android.AndroidEntryPoint
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 
 /**
  *
@@ -26,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * @Version:        1.0
  */
 //@AndroidEntryPoint
+@RuntimePermissions
 abstract class BaseFragment: Fragment() {
 
     private lateinit var mLoadingDialog: LoadingDialog
@@ -49,6 +53,7 @@ abstract class BaseFragment: Fragment() {
 //        })
     }
 
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     open fun previewPicture(url: String) {
         if(url.isNotEmpty()) {
             val localMedia = LocalMedia()
@@ -59,7 +64,7 @@ abstract class BaseFragment: Fragment() {
             PictureSelector.create(this)
                 .themeStyle(R.style.picture_WeChat_style)
                 .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .isNotPreviewDownload(false)
+                .isNotPreviewDownload(true)
                 .imageEngine(GlideEngine.createGlideEngine())
                 .openExternalPreview(0, selectList)
         }
