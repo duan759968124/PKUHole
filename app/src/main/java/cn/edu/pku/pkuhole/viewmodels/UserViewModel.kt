@@ -34,6 +34,8 @@ class UserViewModel @Inject constructor(
     var password = MutableLiveData<String>()
     var passwordSecure = MutableLiveData<String>()
 
+    var agreementStatus = MutableLiveData<Boolean>().apply {  value = false }
+
     // loginFragment监听 请求状态 true 跳转到nav_hole
     private val _loginSuccessNavigation = MutableLiveData<Boolean>()
     val loginSuccessNavigation: LiveData<Boolean>

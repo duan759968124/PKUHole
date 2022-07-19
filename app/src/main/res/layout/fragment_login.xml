@@ -40,7 +40,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_pku_hole_icon" />
+            android:src="@drawable/pku_hole_logo"
+            app:shapeAppearanceOverlay="@style/RoundedStyle"/>
 
         <TextView
             android:id="@+id/tv_content"
@@ -94,6 +95,7 @@
             android:layout_marginTop="24dp"
             android:onClick="@{()->viewModel.loginSecure()}"
             android:text="@string/login"
+            app:loginButtonIsClickable="@{viewModel.agreementStatus}"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -101,6 +103,48 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_pwd"
             app:layout_goneMarginTop="72dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <CheckBox
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:checked="@={viewModel.agreementStatus}"
+                android:id="@+id/agreement_cb"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/TextAppearance.Small"
+                android:text="已阅读并同意 "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="隐私政策"
+                android:id="@+id/activity_login_policy_tv"
+                android:textColor="@color/pku_hole_logo_red"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 和 "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="用户协议"
+                android:id="@+id/activity_login_user_agreement_tv"
+                android:textColor="@color/pku_hole_logo_red"/>
+        </LinearLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

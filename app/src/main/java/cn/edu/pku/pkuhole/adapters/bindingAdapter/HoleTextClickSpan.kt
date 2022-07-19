@@ -97,7 +97,7 @@ fun TextView.setHandleHoleText(holeText: String?) {
 //                        indexRange.first - 1,
 //                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 //                }
-                val pid = value.substring(1)
+                val pid = value.substring(0)
                 Timber.e("$pid  $indexRange")
                 spannableString.setSpan(HoleNumberLinkHelper.HoleTextClickSpan(pid),
                     indexRange.first,

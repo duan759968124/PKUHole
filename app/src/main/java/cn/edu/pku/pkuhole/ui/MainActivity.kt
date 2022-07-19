@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 //    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_PKUHole_NoActionBar)
         super.onCreate(savedInstanceState)
 //        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
