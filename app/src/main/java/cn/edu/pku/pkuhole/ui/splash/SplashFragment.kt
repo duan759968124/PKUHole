@@ -1,8 +1,6 @@
 package cn.edu.pku.pkuhole.ui.splash
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +9,10 @@ import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.base.BaseFragment
 import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.FragmentSplashBinding
-import com.afollestad.materialdialogs.MaterialDialog
-import timber.log.Timber
-import android.graphics.Color
-
-import android.text.TextPaint
 import cn.edu.pku.pkuhole.utilities.PRIVACY_POLICY_URL
 import cn.edu.pku.pkuhole.utilities.USER_AGREEMENT_URL
+import com.afollestad.materialdialogs.MaterialDialog
+import timber.log.Timber
 
 
 /**
@@ -83,10 +78,10 @@ class SplashFragment : BaseFragment() {
                 message(R.string.launchWarnText) {
                     html { clickText ->
                         if (clickText == "user_agreement") {
-                            findNavController().navigate(SplashFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                            findNavController().navigate(SplashFragmentDirections.actionNavSplashToSimpleWebviewFragment(
                                 getString(R.string.user_agreement), USER_AGREEMENT_URL))
                         } else {
-                            findNavController().navigate(SplashFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                            findNavController().navigate(SplashFragmentDirections.actionNavSplashToSimpleWebviewFragment(
                                 getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
                         }
                         dismiss()

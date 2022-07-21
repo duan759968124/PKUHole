@@ -1,12 +1,9 @@
 package cn.edu.pku.pkuhole.adapters.bindingAdapter
 
-import android.content.res.Resources
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.convertDurationToFormatted
 import com.bumptech.glide.Glide
@@ -70,15 +67,6 @@ fun bindImageFromFile(view: ImageView, file: File?) {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view)
         }
-    }
-}
-
-@BindingAdapter("loginButtonIsClickable")
-fun loginIsClickable(btn: Button, agreement: Boolean) {
-    btn.text =  if (agreement) {
-         "可点击登录"
-    }else{
-        "不可点击登录"
     }
 }
 

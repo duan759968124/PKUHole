@@ -10,8 +10,10 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#ff878787</color>
 
     <color name="hole_blue">#437BCE</color>
+    <!--    <color name="hole_blue">#9A0001</color>-->
     <color name="hole_blue_2">#3E83EA</color>
 
     <color name="transparent_grey">#80000000</color>

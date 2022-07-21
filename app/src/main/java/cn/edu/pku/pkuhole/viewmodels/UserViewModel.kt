@@ -34,7 +34,11 @@ class UserViewModel @Inject constructor(
     var password = MutableLiveData<String>()
     var passwordSecure = MutableLiveData<String>()
 
-    var agreementStatus = MutableLiveData<Boolean>().apply {  value = false }
+    var agreementStatus = MutableLiveData<Boolean>().apply { value = false }
+
+    private val _loginInfoIsNull = MutableLiveData<Boolean>()
+    val loginInfoIsNull: LiveData<Boolean>
+        get() = _loginInfoIsNull
 
     // loginFragment监听 请求状态 true 跳转到nav_hole
     private val _loginSuccessNavigation = MutableLiveData<Boolean>()
@@ -51,9 +55,15 @@ class UserViewModel @Inject constructor(
     fun loginSecure() {
         if (account.value.isNullOrEmpty() or password.value.isNullOrEmpty()) {
             Timber.e("account or password is null")
-        } else { // 对密码加密
+            _loginInfoIsNull.value = true
+        } else {
+            _loginInfoIsNull.value = false
+            // 对密码加密
             // kotlin 加密
-            passwordSecure.value = password.value?.let { EncryptUtils.encrypt(it.trim(), EncryptUtils.getPublicKeyFromString(EncryptUtils.key_Pub)) }
+            passwordSecure.value = password.value?.let {
+                EncryptUtils.encrypt(it.trim(),
+                    EncryptUtils.getPublicKeyFromString(EncryptUtils.key_Pub))
+            }
             // java 加密
 //            val publicKey: RSAPublicKey = getPublicKeyFromString(key_Pub)
 //            passwordSecure.value = encrypt(password.value, publicKey)
@@ -130,6 +140,33 @@ class UserViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+
+    private var _navigationToPrivacyPolicy = MutableLiveData<Boolean>()
+    val navigationToPrivacyPolicy: LiveData<Boolean>
+        get() = _navigationToPrivacyPolicy
+
+    private var _navigationToUserAgreement = MutableLiveData<Boolean>()
+    val navigationToUserAgreement: LiveData<Boolean>
+        get() = _navigationToUserAgreement
+
+
+    fun navigateToPrivacyPolicy() {
+        _navigationToPrivacyPolicy.value = true
+    }
+
+    fun onNavigateToPrivacyPolicyFinish() {
+        _navigationToPrivacyPolicy.value = false
+    }
+
+
+    fun navigateToUserAgreement() {
+        _navigationToUserAgreement.value = true
+    }
+
+    fun onNavigateToUserAgreementFinish() {
+        _navigationToUserAgreement.value = false
     }
 
 

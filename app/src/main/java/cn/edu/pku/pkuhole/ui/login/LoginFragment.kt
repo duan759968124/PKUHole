@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.base.BaseFragment
-import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.FragmentLoginBinding
+import cn.edu.pku.pkuhole.utilities.PRIVACY_POLICY_URL
+import cn.edu.pku.pkuhole.utilities.USER_AGREEMENT_URL
 import cn.edu.pku.pkuhole.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,8 +33,8 @@ class LoginFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+    ): View {
 
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         context ?: return binding.root
@@ -61,7 +61,7 @@ class LoginFragment : BaseFragment() {
             }
         })
         userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner, { loginSuccess ->
-            if(loginSuccess)
+            if (loginSuccess)
                 navigateToHole()
         })
         userViewModel.failStatus.observe(viewLifecycleOwner, { fail ->
@@ -70,6 +70,28 @@ class LoginFragment : BaseFragment() {
 
         userViewModel.errorStatus.observe(viewLifecycleOwner, { error ->
             error.message?.let { showToast("错误-$it") }
+        })
+
+        userViewModel.loginInfoIsNull.observe(viewLifecycleOwner, { isNull ->
+            if (isNull) {
+                showToast("账号或者密码不能为空！")
+            }
+        })
+
+        userViewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner, {
+            if (it) {
+                findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavSimpleWebView2(
+                    getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
+                userViewModel.onNavigateToPrivacyPolicyFinish()
+            }
+        })
+
+        userViewModel.navigationToUserAgreement.observe(viewLifecycleOwner, {
+            if (it) {
+                findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavSimpleWebView2(
+                    getString(R.string.user_agreement), USER_AGREEMENT_URL))
+                userViewModel.onNavigateToUserAgreementFinish()
+            }
         })
     }
 
