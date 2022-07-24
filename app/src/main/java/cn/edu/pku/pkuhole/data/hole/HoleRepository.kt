@@ -1,13 +1,11 @@
 package cn.edu.pku.pkuhole.data.hole
 
-import androidx.lifecycle.LiveData
 import cn.edu.pku.pkuhole.api.HoleApiResponse
 import cn.edu.pku.pkuhole.api.HoleApiService
 import cn.edu.pku.pkuhole.base.BaseRepository
-import cn.edu.pku.pkuhole.base.network.StateLiveData
+import cn.edu.pku.pkuhole.data.UpdateInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -180,7 +178,7 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.postHoleWithImage(token = token, text = text, data = data) }
     }
 
-    suspend fun search(token: String, keywords: String): HoleApiResponse<List<HoleItemModel>?>{
+    suspend fun search(token: String, keywords: String): HoleApiResponse<List<HoleItemModel>?> {
         return launchRequest { holeApi.search(token = token, keywords = keywords) }
     }
 
@@ -189,12 +187,16 @@ class HoleRepository @Inject constructor(
 //        return holeApi.login(uid = account, password = password)
 //    }
 
-    suspend fun login(account: String, password: String):HoleApiResponse<String?>{
-        return launchRequest {holeApi.login(uid = account, password = password)}
+    suspend fun login(account: String, password: String): HoleApiResponse<String?> {
+        return launchRequest { holeApi.login(uid = account, password = password) }
     }
 
-    suspend fun loginSecure(account: String, passwordSecure: String):HoleApiResponse<String?>{
-        return launchRequest {holeApi.loginsecure(uid = account, password = passwordSecure)}
+    suspend fun loginSecure(account: String, passwordSecure: String): HoleApiResponse<String?> {
+        return launchRequest { holeApi.loginsecure(uid = account, password = passwordSecure) }
+    }
+
+    suspend fun checkUpdate(): HoleApiResponse<UpdateInfo?> {
+        return launchRequest { holeApi.checkUpdate() }
     }
 
 }

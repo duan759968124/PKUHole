@@ -11,5 +11,4 @@ import cn.edu.pku.pkuhole.api.HoleApiResponse
  * @Desc:
  * @Version:        1.0
  */
-class StateLiveData<T> : MutableLiveData<HoleApiResponse<T>>() {
-}
+class StateLiveData<T> : MutableLiveData<HoleApiResponse<T>>()

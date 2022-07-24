@@ -2,23 +2,32 @@ package cn.edu.pku.pkuhole.api
 
 import cn.edu.pku.pkuhole.BuildConfig
 import cn.edu.pku.pkuhole.api.interceptor.AddHeaderInterceptor
+import cn.edu.pku.pkuhole.api.interceptor.ChangeBaseUrlInterceptor
 import cn.edu.pku.pkuhole.api.interceptor.LocalCookieJar
+import cn.edu.pku.pkuhole.data.UpdateInfo
 import cn.edu.pku.pkuhole.data.hole.AttentionItemBean
 import cn.edu.pku.pkuhole.data.hole.CommentItemBean
 import cn.edu.pku.pkuhole.data.hole.HoleItemModel
 import cn.edu.pku.pkuhole.data.hole.HoleListItemBean
+import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.pkuhole.utilities.HTTP_TIMEOUT_CONNECT
 import cn.edu.pku.pkuhole.utilities.HTTP_TIMEOUT_READ
-import cn.edu.pku.pkuhole.utilities.HOLE_HOST_ADDRESS
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 interface HoleApiService {
 
+    // check update
+    @GET("pku_hole_app/version_pkuhole_android.txt")
+    suspend fun checkUpdate(
+    ): HoleApiResponse<UpdateInfo?>
 
     // login
     @Deprecated("please using loginsecure")
@@ -213,7 +222,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-//                .addInterceptor(ChangeBaseUrlInterceptor())
+                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())

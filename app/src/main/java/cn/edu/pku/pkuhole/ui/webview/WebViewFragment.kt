@@ -28,7 +28,7 @@ class WebViewFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentWebViewBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
@@ -91,7 +91,7 @@ class WebViewFragment : BaseFragment() {
         // 而且数据存储在本地无需经常和服务器进行交互，存储安全、便捷。可用于存储临时的简单数据。作用机制类似于SharedPreference。
         webSettings.domStorageEnabled = true
         //在LOLLIPOP 版本开始需要开启图片混合加载(http 和 https 不开启会导致图片无法加载)
-        webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW;
+        webSettings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 //            webSettings.setMixedContentMode(WebSettings.LOAD_NORMAL);
     }
 
@@ -104,7 +104,7 @@ class WebViewFragment : BaseFragment() {
         }
 
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            Timber.e("WebViewClient  -- onPageStarted  - %s", url);
+            Timber.e("WebViewClient  -- onPageStarted  - %s", url)
             super.onPageStarted(view, url, favicon)
         }
 

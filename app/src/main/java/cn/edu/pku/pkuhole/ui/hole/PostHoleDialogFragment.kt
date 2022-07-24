@@ -13,7 +13,6 @@ import androidx.camera.core.impl.utils.ContextUtil.getApplicationContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.databinding.DialogHolePostBinding
 import cn.edu.pku.pkuhole.utilities.GlideEngine
@@ -66,24 +65,24 @@ class PostHoleDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+    ): View {
         binding = DialogHolePostBinding.inflate(inflater, container, false)
         context ?: return binding.root
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        getWeChatStyle();
+        getWeChatStyle()
 //        binding.btnHolePostSend.setOnClickListener(DialogInterface.OnClickListener { dialog, id ->
 //            Timber.e("click send btn %d", id)
 //            dialog.dismiss()
 //        })
 //        binding.btnHolePostImage.setOnClickListener()
 //        return inflater.inflate(R.layout.dialog_hole_post, container, false)
-        viewModel.openPictureSelect.observe(viewLifecycleOwner, Observer { openPicureGallery ->
+        viewModel.openPictureSelect.observe(viewLifecycleOwner) { openPicureGallery ->
             if (openPicureGallery) {
                 openPicGalleryWithPermissionCheck()
             }
-        })
+        }
 
         return binding.root
     }

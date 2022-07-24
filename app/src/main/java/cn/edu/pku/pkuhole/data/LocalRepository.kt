@@ -77,13 +77,15 @@ object LocalRepository : MMKVOwner {
     }
 
     // 目前应该用这个函数作为唯一的更新数据操作
-    fun setUserInfo(userInfo: UserInfo){
+    fun setUserInfo(userInfo: UserInfo) {
         localUid = userInfo.uid
         localName = userInfo.name ?: ""
         localDepartment = userInfo.department ?: ""
-        localToken = userInfo.token?: ""
+        localToken = userInfo.token ?: ""
         localTokenTimestamp = userInfo.token_timestamp ?: 0L
     }
+
+    var localUpdateInfo by mmkvParcelable<UpdateInfo>()
 
     // 登录信息数据
     // account
@@ -93,10 +95,11 @@ object LocalRepository : MMKVOwner {
     private var localPassword by mmkvString("")
     private var localPasswordSecure by mmkvString("")
 
-    fun getAccount(): String{
+    fun getAccount(): String {
         return localAccount
     }
-    fun setAccount(account: String){
+
+    fun setAccount(account: String) {
         localAccount = account
     }
     fun getPassword(): String{

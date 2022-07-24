@@ -1,9 +1,11 @@
 package cn.edu.pku.pkuhole.ui.splash
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.pkuhole.R
 import cn.edu.pku.pkuhole.base.BaseFragment
@@ -11,7 +13,10 @@ import cn.edu.pku.pkuhole.data.LocalRepository
 import cn.edu.pku.pkuhole.databinding.FragmentSplashBinding
 import cn.edu.pku.pkuhole.utilities.PRIVACY_POLICY_URL
 import cn.edu.pku.pkuhole.utilities.USER_AGREEMENT_URL
+import cn.edu.pku.pkuhole.viewmodels.SplashViewModel
 import com.afollestad.materialdialogs.MaterialDialog
+import com.azhon.appupdate.manager.DownloadManager
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 
@@ -24,30 +29,86 @@ import timber.log.Timber
  * @Version:        1.0
  */
 
+@AndroidEntryPoint
 class SplashFragment : BaseFragment() {
     private lateinit var binding: FragmentSplashBinding
-//    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: SplashViewModel by viewModels()
+    private var manager: DownloadManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
         return binding.root
     }
 
 
     override fun initData() {
         // 是否第一次启动,显示对话框
-//        LocalRepository.setISFirstStart(true)
+        LocalRepository.setISFirstStart(true)
         if (LocalRepository.isFirstStart()) {
-            Timber.e("isFirstStart true")
             // 弹框
             showLaunchWarnDialog()
         } else {
-            Timber.e("isFirstStart false")
             checkLoginStatus()
         }
+    }
+
+    override fun initObserve() {
+        viewModel.loadingStatus.observe(viewLifecycleOwner) { loading ->
+            if (loading) {
+                showLoading()
+            } else {
+                dismissLoading()
+            }
+        }
+        viewModel.failStatus.observe(viewLifecycleOwner) { fail ->
+            fail.message?.let { showToast("失败-$it") }
+        }
+        viewModel.errorStatus.observe(viewLifecycleOwner) { error ->
+            error.message?.let { showToast("错误-$it") }
+        }
+        viewModel.canUpdate.observe(viewLifecycleOwner) { updateFlag ->
+            if (updateFlag == 1) {
+                showUpdateDialog()
+            }
+            if (updateFlag == 0) {
+                checkLoginStatus()
+            }
+        }
+    }
+
+    private fun showUpdateDialog() {
+        manager = DownloadManager.Builder(activity!!).run {
+            LocalRepository.localUpdateInfo!!.app_file_url?.let { apkUrl(it) }
+            apkName("PKU_Hole.apk")
+            smallIcon(R.mipmap.ic_launcher)
+            showNewerToast(false)
+            apkVersionCode(1)
+//            apkVersionCode(LocalRepository.localUpdateInfo!!.app_version_code)
+            LocalRepository.localUpdateInfo!!.app_version_name?.let { apkVersionName(it) }
+//            apkSize("7.4")
+            LocalRepository.localUpdateInfo!!.update_log?.let { apkDescription(it) }
+            //apkMD5("DC501F04BBAA458C9DC33008EFED5E7F")
+
+            //flow are unimportant filed
+            enableLog(true)
+            //httpManager()
+            jumpInstallPage(true)
+//            dialogImage(R.drawable.ic_dialog)
+//            dialogButtonColor(Color.parseColor("#E743DA"))
+//            dialogProgressBarColor(Color.parseColor("#E743DA"))
+            dialogButtonTextColor(Color.WHITE)
+            showNotification(true)
+            showBgdToast(false)
+            forcedUpgrade(true)
+//            onDownloadListener(listenerAdapter)
+//            onButtonClickListener(this@MainActivity)
+            build()
+        }
+        manager?.download()
     }
 
     private fun showLaunchWarnDialog() {
@@ -78,19 +139,26 @@ class SplashFragment : BaseFragment() {
                 message(R.string.launchWarnText) {
                     html { clickText ->
                         if (clickText == "user_agreement") {
+                            dismiss()
                             findNavController().navigate(SplashFragmentDirections.actionNavSplashToSimpleWebviewFragment(
                                 getString(R.string.user_agreement), USER_AGREEMENT_URL))
-                        } else {
+
+                        }
+                        if (clickText == "privacy_policy") {
+                            dismiss()
                             findNavController().navigate(SplashFragmentDirections.actionNavSplashToSimpleWebviewFragment(
                                 getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
+
                         }
-                        dismiss()
+
                     }
                     lineSpacing(1.4f)
                 }
                 positiveButton(R.string.agree) {
                     LocalRepository.setISFirstStart(false)
-                    checkLoginStatus()
+//                    checkLoginStatus()
+                    // 检查更新
+                    viewModel.checkUpdate()
                 }
                 negativeButton(R.string.reject) {
                     activity?.finish()

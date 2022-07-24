@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 //    id 'androidx.navigation.safeargs'
 }
 
@@ -174,6 +175,8 @@ dependencies {
     // markdown
 //    implementation 'com.github.mukeshsolanki:MarkdownView-Android:<latest-version>'
 
+    // update
+    implementation 'com.github.azhon:AppUpdate:4.2.0'
 
 
 
