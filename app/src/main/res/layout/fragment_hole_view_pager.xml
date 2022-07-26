@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="cn.edu.pku.pkuhole.viewmodels.hole.HoleViewPagerViewModel" />
+            type="cn.edu.pku.treehole.viewmodels.hole.HoleViewPagerViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="cn.edu.pku.pkuhole.viewmodels.hole.HoleItemDetailViewModel" />
+            type="cn.edu.pku.treehole.viewmodels.hole.HoleItemDetailViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView

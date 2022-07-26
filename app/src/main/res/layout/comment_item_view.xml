@@ -7,10 +7,10 @@
 
         <variable
             name="commentItemBean"
-            type="cn.edu.pku.pkuhole.data.hole.CommentItemBean" />
+            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />
         <variable
             name="clickListener"
-            type="cn.edu.pku.pkuhole.adapters.CommentItemListener" />
+            type="cn.edu.pku.treehole.adapters.CommentItemListener" />
     </data>
 
 

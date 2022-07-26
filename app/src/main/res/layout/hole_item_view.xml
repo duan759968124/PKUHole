@@ -7,15 +7,15 @@
 
         <variable
             name="holeItemBean"
-            type="cn.edu.pku.pkuhole.data.hole.HoleItemBean" />
+            type="cn.edu.pku.treehole.data.hole.HoleItemBean" />
 
         <variable
             name="clickListener"
-            type="cn.edu.pku.pkuhole.adapters.HoleItemListener" />
+            type="cn.edu.pku.treehole.adapters.HoleItemListener" />
 
         <variable
             name="pictureClickListener"
-            type="cn.edu.pku.pkuhole.viewmodels.hole.PictureClickListener" />
+            type="cn.edu.pku.treehole.viewmodels.hole.PictureClickListener" />
 
         <!--        <variable-->
         <!--            name="holeNumberClickListener"-->

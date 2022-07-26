@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_splash"
-        android:name="cn.edu.pku.pkuhole.ui.splash.SplashFragment"
+        android:name="cn.edu.pku.treehole.ui.splash.SplashFragment"
         android:label="@string/hole_splash"
         tools:layout="@layout/fragment_splash">
         <action
@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/nav_hole"
-        android:name="cn.edu.pku.pkuhole.ui.hole.HoleViewPagerFragment"
+        android:name="cn.edu.pku.treehole.ui.hole.HoleViewPagerFragment"
         android:label="@string/hole_title"
         tools:layout="@layout/fragment_hole_view_pager">
 <!--        <action-->
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/nav_search_result"
-        android:name="cn.edu.pku.pkuhole.ui.hole.SearchFragment"
+        android:name="cn.edu.pku.treehole.ui.hole.SearchFragment"
         android:label="@string/search_title"
         tools:layout="@layout/fragment_search">
         <argument
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/nav_hole_detail"
-        android:name="cn.edu.pku.pkuhole.ui.hole.HoleItemDetailFragment"
+        android:name="cn.edu.pku.treehole.ui.hole.HoleItemDetailFragment"
         android:label="@string/hole_detail"
         tools:layout="@layout/fragment_hole_item_detail">
         <argument
@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/nav_score"
-        android:name="cn.edu.pku.pkuhole.ui.webview.WebViewFragment"
+        android:name="cn.edu.pku.treehole.ui.webview.WebViewFragment"
         android:label="@string/menu_score"
         tools:layout="@layout/fragment_web_view">
         <argument
@@ -91,7 +91,7 @@
 
     <fragment
         android:id="@+id/nav_course"
-        android:name="cn.edu.pku.pkuhole.ui.webview.WebViewFragment"
+        android:name="cn.edu.pku.treehole.ui.webview.WebViewFragment"
         android:label="@string/menu_course"
         tools:layout="@layout/fragment_web_view">
         <argument
@@ -103,7 +103,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="cn.edu.pku.pkuhole.ui.settings.SettingsFragment"
+        android:name="cn.edu.pku.treehole.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -132,7 +132,7 @@
 
     <fragment
         android:id="@+id/nav_simple_webView"
-        android:name="cn.edu.pku.pkuhole.ui.webview.SimpleWebViewFragment"
+        android:name="cn.edu.pku.treehole.ui.webview.SimpleWebViewFragment"
         android:label="{module_name}"
         tools:layout="@layout/fragment_web_view">
         <argument
@@ -146,20 +146,20 @@
 
     <fragment
         android:id="@+id/nav_about_us"
-        android:name="cn.edu.pku.pkuhole.ui.settings.AboutUsFragment"
+        android:name="cn.edu.pku.treehole.ui.settings.AboutUsFragment"
         android:label="@string/about_us_title"
         tools:layout="@layout/fragment_about_us">
     </fragment>
 
     <fragment
         android:id="@+id/nav_copyright"
-        android:name="cn.edu.pku.pkuhole.ui.settings.CopyrightFragment"
+        android:name="cn.edu.pku.treehole.ui.settings.CopyrightFragment"
         android:label="@string/copyright_info"
         tools:layout="@layout/fragment_copyright" />
 
     <fragment
         android:id="@+id/nav_login"
-        android:name="cn.edu.pku.pkuhole.ui.login.LoginFragment"
+        android:name="cn.edu.pku.treehole.ui.login.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login">
         <action
