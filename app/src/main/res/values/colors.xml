@@ -22,7 +22,7 @@
     <color name="card_inside_line_color">#EDE7E6</color>
 
     <color name="pku_hole_logo_red">#9A0001</color>
-
+    <color name="pku_red">#94070A</color>
 <!--    post dialog-->
     <color name="dialogBackgroundColor">#fffafafa</color>
     <color name="dialogAddonsBackgroundColor">#ffd0d0d0</color>

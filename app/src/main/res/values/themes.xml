@@ -2,11 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.PKUHole" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/hole_blue</item>
-        <item name="colorPrimaryVariant">@color/hole_blue</item>
+        <!--        <item name="colorPrimary">@color/hole_blue</item>-->
+        <!--        <item name="colorPrimaryVariant">@color/hole_blue</item>-->
+        <item name="colorPrimary">@color/pku_hole_logo_red</item>
+        <item name="colorPrimaryVariant">@color/pku_red</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/hole_blue</item>
+        <item name="colorSecondary">@color/pku_hole_logo_red</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
