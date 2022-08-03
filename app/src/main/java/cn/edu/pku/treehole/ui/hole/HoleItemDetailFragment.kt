@@ -60,32 +60,32 @@ class HoleItemDetailFragment : BaseFragment() {
 
     override fun initObserve() {
         // 监听holeList变化并更新UI
-        viewModel.commentList.observe(viewLifecycleOwner, {
+        viewModel.commentList.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
             }
-        })
+        }
 
         // 监听currentHoleItem变化
-        viewModel.currentHoleItem.observe(viewLifecycleOwner, {
+        viewModel.currentHoleItem.observe(viewLifecycleOwner) {
             it?.let {
-                if (it.isAttention != null) {
-                    isAttention = it.isAttention!!
+                if (it.is_follow != null) {
+                    isAttention = it.is_follow!!
                     requireActivity().invalidateOptionsMenu()
                 }
             }
-        })
+        }
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner, {
+        viewModel.loadingStatus.observe(viewLifecycleOwner) {
             if (it) {
                 showLoading()
             } else {
                 dismissLoading()
             }
-        })
+        }
 
         // 监听是否显示对话框
-        viewModel.replyDialogToName.observe(viewLifecycleOwner, {
+        viewModel.replyDialogToName.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 showReplyDialog("")
             } else {
@@ -93,9 +93,9 @@ class HoleItemDetailFragment : BaseFragment() {
                 showReplyDialog(prefillStr)
             }
 //            viewModel.onCommentDialogFinished()
-        })
+        }
         // 监听是否预览图片
-        viewModel.previewPicture.observe(viewLifecycleOwner, {
+        viewModel.previewPicture.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 val localMedia = LocalMedia()
                 localMedia.path = it
@@ -110,35 +110,33 @@ class HoleItemDetailFragment : BaseFragment() {
                     .openExternalPreview(0, selectList)
                 viewModel.finishPreviewPic()
             }
-        })
+        }
 
 //         监听关注请求返回结果
-        viewModel.responseMsg.observe(viewLifecycleOwner, {
+        viewModel.responseMsg.observe(viewLifecycleOwner) {
             if (it != null) {
                 showToast(it)
             }
-        })
+        }
 
         // 系统网络报错
-        viewModel.errorStatus.observe(viewLifecycleOwner, { error ->
+        viewModel.errorStatus.observe(viewLifecycleOwner) { error ->
             error.message?.let { showToast("错误-$it") }
-        })
+        }
 
         // api报错
-        viewModel.failStatus.observe(viewLifecycleOwner, { fail ->
+        viewModel.failStatus.observe(viewLifecycleOwner) { fail ->
             fail.message?.let { showToast("失败-$it") }
-        })
+        }
         // 退出到login界面
-        viewModel.loginStatus.observe(viewLifecycleOwner, { isLogin ->
+        viewModel.loginStatus.observe(viewLifecycleOwner) { isLogin ->
             Timber.e("isLogin %s", isLogin)
             if (!isLogin) {
                 // 全局导航操作
                 findNavController().navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
             }
-        })
-
-
+        }
 
 
     }

@@ -37,7 +37,7 @@ class HoleViewPagerFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHoleViewPagerBinding.inflate(inflater, container, false)
         val tabLayout = binding.tabs
         val viewPager = binding.viewPager
@@ -78,18 +78,18 @@ class HoleViewPagerFragment : BaseFragment() {
         })
 
         // api报错
-        viewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+        viewModel.failStatus.observe(viewLifecycleOwner) { fail ->
             fail.message?.let { showToast("失败-$it") }
-        })
+        }
         // 退出到login界面
-        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+        viewModel.loginStatus.observe(viewLifecycleOwner) { isLogin ->
             Timber.e("isLogin %s", isLogin)
             if (!isLogin) {
                 // 全局导航操作
                 findNavController().navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
             }
-        })
+        }
 
         viewModel.postResponseMsg.observe(viewLifecycleOwner, Observer { msg ->
             if (msg != null) {

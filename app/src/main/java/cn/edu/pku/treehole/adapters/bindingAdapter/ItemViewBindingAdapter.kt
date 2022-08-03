@@ -33,10 +33,10 @@ fun bindHasImage(view: View, url: String?) {
     }
 }
 
-@BindingAdapter("imageFromUrl")
-fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
+@BindingAdapter(value = ["imageUrl", "imagePid"])
+fun bindImageFromUrl(view: ImageView, imageUrl: String?, imagePid: Long?) {
     if (!imageUrl.isNullOrEmpty()) {
-        val url = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + imageUrl
+        val url = HOLE_HOST_ADDRESS + "api/pku_image/" + imagePid
         Glide.with(view.context)
             .load(url)
 //            .placeholder(R.drawable.bg_drawer_header)

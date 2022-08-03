@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName
 
 data class HoleApiResponse<T> (
     @field:SerializedName("code") val code: Int = 0,
-    @field:SerializedName("msg") val msg: String? = null,
-
-    @field:SerializedName("timestamp") val timestamp: Long? = null,
     @field:SerializedName("data") val data: T? = null,
-    @field:SerializedName("count") val count : Int? = null,
-    @field:SerializedName("attention") val attention: Int? = null,
-    @field:SerializedName("captcha") val captcha: Boolean? = null,
-
-    @field:SerializedName("uid") val uid: String? = null,
-    @field:SerializedName("name") val name: String? = null,
-    @field:SerializedName("department") val department: String? = null,
-    @field:SerializedName("token") val token: String? = null,
-    @field:SerializedName("token_timestamp") val token_timestamp: Long? = null,
+    @field:SerializedName("message") val msg: String? = null,
+    @field:SerializedName("success") val success: Boolean? = null,
+    @field:SerializedName("timestamp") val timestamp: Long? = null,
+//    @field:SerializedName("count") val count : Int? = null,
+//    @field:SerializedName("attention") val attention: Int? = null,
+//    @field:SerializedName("captcha") val captcha: Boolean? = null,
+//
+//    @field:SerializedName("uid") val uid: String? = null,
+//    @field:SerializedName("name") val name: String? = null,
+//    @field:SerializedName("department") val department: String? = null,
+//    @field:SerializedName("token") val token: String? = null,
+//    @field:SerializedName("token_timestamp") val token_timestamp: Long? = null,
 
     var dataState: DataState? = null,
     var error: Throwable? = null

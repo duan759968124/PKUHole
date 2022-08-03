@@ -24,7 +24,7 @@ class SearchViewModel @Inject internal constructor(
 
     private val keywords : String = savedStateHandle.get<String>(SEARCH_KEY_WORDS)!!
 
-    var searchList = MutableLiveData<List<HoleItemBean?>>()
+    var searchList = MutableLiveData<List<HoleItemBean?>>().apply { value = arrayListOf() }
 
     private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
     val navigationToHoleItemDetail: MutableLiveData<Long?>
@@ -36,6 +36,8 @@ class SearchViewModel @Inject internal constructor(
     fun onHoleItemDetailNavigated() {
         _navigationToHoleItemDetail.value = null
     }
+
+    var currentPage : Long = 0
 
     init {
         getSearchList()
@@ -49,8 +51,16 @@ class SearchViewModel @Inject internal constructor(
                 loadingStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let { token ->
-                    val response = database.search(token=token, keywords = keywords)
-                    searchList.postValue(response.data?.map { it.asDatabaseBean() })
+                    val response =
+                        if(keywords[0] == '#' && (keywords.length == 7 || keywords.length == 8))
+                        {
+                            database.searchPid(pid = keywords.substring(1))
+                        }else{
+                            database.search(keywords = keywords, page = currentPage + 1)
+                        }
+                    currentPage = response.data?.current_page ?: 1
+                    val searchAllList = searchList.value?.plus(response.data?.data!!.map { it.asDatabaseBean() })
+                    searchList.postValue(searchAllList)
                 }
             }catch (e: Exception){
                 when(e){

@@ -37,7 +37,7 @@ class SearchFragment : BaseFragment() {
         context ?: return binding.root
         adapter = HoleAdapter(
             HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
-            PictureClickListener { url -> previewPicture(url) }
+            PictureClickListener { holeItem -> previewPicture(holeItem) }
         )
         binding.fragmentSearchListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
@@ -49,6 +49,12 @@ class SearchFragment : BaseFragment() {
 
     override fun initObserve() {
 
+        // 加载更多监听
+        binding.fragmentSearchSrl.setOnLoadMoreListener {
+            viewModel.getSearchList()
+            Timber.e("监听到加载更多了")
+//            it.finishLoadMore(false)
+        }
 
         // 监听holeList变化并更新UI
         viewModel.searchList.observe(viewLifecycleOwner, Observer {
@@ -67,11 +73,24 @@ class SearchFragment : BaseFragment() {
         })
 
         // 正在加载数据
+//        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
+//            if(it){
+//                showLoading()
+//            }else{
+//                dismissLoading()
+//            }
+//        })
+
+        // 监听加载更多状态
         viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
             if(it){
-                showLoading()
+                Timber.e("show loading")
+//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
             }else{
-                dismissLoading()
+                Timber.e("hide loading")
+//                dismissLoading()
+                binding.fragmentSearchSrl.finishLoadMore(1000)
             }
         })
 

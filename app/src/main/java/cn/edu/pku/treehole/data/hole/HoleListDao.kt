@@ -107,7 +107,7 @@ interface HoleListDao {
     @Query("Select * from hole_list_table where isHole = 1 ORDER BY pid DESC")
     fun getHoleList(): Flow<List<HoleItemBean>>
 
-    @Query("Select * from hole_list_table where isAttention = 1 ORDER BY pid DESC")
+    @Query("Select * from hole_list_table where is_follow = 1 ORDER BY pid DESC")
     fun getAttentionList(): Flow<List<HoleItemBean>>
 
     @Query("DELETE FROM hole_list_table")

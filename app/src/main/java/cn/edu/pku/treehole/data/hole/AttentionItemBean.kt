@@ -1,6 +1,7 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -53,13 +54,15 @@ data class AttentionItemBean(
     @ColumnInfo(name = "tag")
     var tag: String?,
 
-    // 关注列表 单独属性
-    @field:SerializedName("attention_tag")
-    @ColumnInfo(name = "attention_tag")
-    var attention_tag: String?,
+//    @field:SerializedName("label_info")
+////    @ColumnInfo(name = "label_info_id")
+////    var label_info_id: Int?,
+//    @Embedded(prefix = "label_info_")
+//    var label_info: LabelInfoBean?,
 
-    @ColumnInfo(name = "isAttention")
-    var isAttention: Int? = 1
+    @field:SerializedName("is_follow")
+    @ColumnInfo(name = "is_follow")
+    var is_follow: Int? = 1
 )
 
 
@@ -76,11 +79,12 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             extra = it.extra,
             url = it.url,
             tag = it.tag,
-            hot = null,
-            hidden = null,
-            attention_tag = it.attention_tag,
+            is_top = null,
             isHole = 0,
-            isAttention = 1
+            is_follow = it.is_follow,
+            anonymous = null,
+            label = null
+//            label_info = null,
         )
     }
 }
@@ -97,11 +101,12 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
             extra = it.extra,
             url = it.url,
             tag = it.tag,
-            hot = null,
-            hidden = null,
-            attention_tag = it.attention_tag,
+            is_top = null,
             isHole = 0,
-            isAttention = 1
+            is_follow = it.is_follow,
+            anonymous = null,
+//            label_info = null,
+            label = null
         )
     }
 }

@@ -41,7 +41,8 @@ class AttentionViewModel @Inject internal constructor(
             try {
                 refreshStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
-                token?.let { database.getAttentionListFromNetToDatabase(it) }
+                token?.let {
+                    database.getAttentionListFromNetToDatabase() }
             }catch (e: Exception){
                 when(e){
                     is ApiException -> handleHoleFailResponse(e)

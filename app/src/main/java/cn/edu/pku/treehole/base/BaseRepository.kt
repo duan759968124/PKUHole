@@ -154,14 +154,21 @@ open class BaseRepository {
         return try {
             block()
         } catch (e: Exception){
-            when(e){
-                is UnknownHostException -> Timber.e(e.message)
-                is ConnectException -> Timber.e(e.message)
-                else -> Timber.e(e.message)
+            if(e.message?.contains("401") == true){
+                Timber.e("error exception: " + e.message)
+                throw ApiException(401, "Unauthorized")
+            }else{
+                when(e){
+                    is UnknownHostException -> Timber.e(e.message)
+                    is ConnectException -> Timber.e(e.message)
+                    else -> Timber.e(e.message)
+                }
+                throw e
             }
-            throw e
+
         }.run {
-            if(code == 0){
+//            if(code == 0){
+            if(code == 0 || code == 20000){
                 this
             }else{
                 throw ApiException(code, msg)

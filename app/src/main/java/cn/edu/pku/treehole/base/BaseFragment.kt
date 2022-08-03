@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import cn.edu.pku.treehole.R
+import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.GlideEngine
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.LoadingDialog
@@ -50,10 +51,12 @@ abstract class BaseFragment: Fragment() {
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    open fun previewPicture(url: String) {
-        if(url.isNotEmpty()) {
+    open fun previewPicture(holeItem: HoleItemBean) {
+        if(!holeItem.url.isNullOrEmpty()) {
             val localMedia = LocalMedia()
-            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
+//            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
+            localMedia.path = HOLE_HOST_ADDRESS + "api/pku_image/" + holeItem.pid
+
             localMedia.setPosition(0)
             val selectList: ArrayList<LocalMedia> = ArrayList(1)
             selectList.add(localMedia)

@@ -53,46 +53,47 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun initObserve() {
-        userViewModel.loadingStatus.observe(viewLifecycleOwner, { loading ->
-            if(loading){
+        userViewModel.loadingStatus.observe(viewLifecycleOwner) { loading ->
+            if (loading) {
                 showLoading()
-            }else{
+            } else {
                 dismissLoading()
             }
-        })
-        userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner, { loginSuccess ->
+        }
+        userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner) { loginSuccess ->
             if (loginSuccess)
                 navigateToHole()
-        })
-        userViewModel.failStatus.observe(viewLifecycleOwner, { fail ->
+//                showToast("login success")
+        }
+        userViewModel.failStatus.observe(viewLifecycleOwner) { fail ->
             fail.message?.let { showToast("失败-$it") }
-        })
+        }
 
-        userViewModel.errorStatus.observe(viewLifecycleOwner, { error ->
+        userViewModel.errorStatus.observe(viewLifecycleOwner) { error ->
             error.message?.let { showToast("错误-$it") }
-        })
+        }
 
-        userViewModel.loginInfoIsNull.observe(viewLifecycleOwner, { isNull ->
+        userViewModel.loginInfoIsNull.observe(viewLifecycleOwner) { isNull ->
             if (isNull) {
                 showToast("账号或者密码不能为空！")
             }
-        })
+        }
 
-        userViewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner, {
+        userViewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavSimpleWebView2(
                     getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
                 userViewModel.onNavigateToPrivacyPolicyFinish()
             }
-        })
+        }
 
-        userViewModel.navigationToUserAgreement.observe(viewLifecycleOwner, {
+        userViewModel.navigationToUserAgreement.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavSimpleWebView2(
                     getString(R.string.user_agreement), USER_AGREEMENT_URL))
                 userViewModel.onNavigateToUserAgreementFinish()
             }
-        })
+        }
     }
 
 

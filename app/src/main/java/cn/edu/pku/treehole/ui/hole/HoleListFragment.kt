@@ -38,7 +38,7 @@ class HoleListFragment : BaseFragment() {
 //        val adapter = HoleAdapter()
         adapter = HoleAdapter(
             HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
-            PictureClickListener { url -> previewPicture(url) })
+            PictureClickListener { holeItem -> previewPicture(holeItem) })
         binding.fragmentHoleListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentHoleListRecycler.layoutManager = manager

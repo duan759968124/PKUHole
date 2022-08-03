@@ -66,8 +66,8 @@ class HoleItemDetailViewModel @Inject constructor(
                 loadingStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
-                    database.getOneHoleFromNetToDatabase(pid, it)
-                    database.getCommentListFromNetToDatabase(pid, it)
+                    database.getOneHoleFromNetToDatabase(pid)
+                    database.getCommentListFromNetToDatabase(pid)
                 }
 
             }catch (e: Exception){
@@ -87,8 +87,8 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val pictureClickListener = PictureClickListener{
         // 预览图片
-        if (it.isNotEmpty()) {
-            _previewPicture.value = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + it
+        if (!it.url.isNullOrEmpty()) {
+            _previewPicture.value = HOLE_HOST_ADDRESS + "api/pku_image/" + it.pid
         }
 
     }
@@ -112,7 +112,7 @@ class HoleItemDetailViewModel @Inject constructor(
             try {
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
-                    val response = database.sendReplyComment(pid, text.toString(), it)
+                    val response = database.sendReplyComment(pid, text.toString())
                     Timber.e("reply result %s", response.toString())
 //                        _replyResponseMsg.postValue("回复成功")
                     response.data?.let {
@@ -155,15 +155,15 @@ class HoleItemDetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _responseMsg.postValue(null)
-                if(currentHoleItem.value?.isAttention == null){
-                    currentHoleItem.value?.isAttention = 0
+                if(currentHoleItem.value?.is_follow == null){
+                    currentHoleItem.value?.is_follow = 0
                 }
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
                     val response = database.switchAttentionStatus(
                             currentHoleItem.value!!,
-                            kotlin.math.abs(currentHoleItem.value!!.isAttention!! - 1), it)
-                        _responseMsg.postValue("操作成功")
+                            kotlin.math.abs(currentHoleItem.value!!.is_follow!! - 1), it)
+                        _responseMsg.postValue(response.data)
                 }
             }catch (e: Exception){
                 when(e){

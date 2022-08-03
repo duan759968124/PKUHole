@@ -12,8 +12,11 @@ data class HoleItemModel (
     var reply: Int,
     var likenum: Int,
     var extra: Int?,
+    var anonymous: Int?,
     var url: String?,
-    var tag: String?,
+    var is_top: Int?,
+    var label: Int?,
+    var is_follow: Int?
 )
 
 
@@ -28,12 +31,13 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             likenum = it.likenum,
             extra = it.extra,
             url = it.url,
-            tag = it.tag,
-            hot = null,
-            hidden = null,
-            attention_tag = null,
+            tag = null,
             isHole = 0,
-            isAttention = 0
+            is_top = it.is_top,
+            is_follow = it.is_follow,
+            anonymous = it.anonymous,
+            label = it.label,
+//            label_info = null,
         )
     }
 }

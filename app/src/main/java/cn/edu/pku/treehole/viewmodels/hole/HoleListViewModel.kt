@@ -91,7 +91,7 @@ class HoleListViewModel @Inject internal constructor(
                 }
                 val token = getValidTokenWithFlow().singleOrNull()
                 Timber.e("valid token %s", token)
-                token?.let { database.getHoleListFromNetToDatabase(currentPage, it) }
+                token?.let { database.getHoleListFromNetToDatabase(currentPage) }
                 currentPage ++
                 Timber.e("launch IO in first %d", currentPage)
             }catch (e: Exception){
@@ -118,7 +118,10 @@ class HoleListViewModel @Inject internal constructor(
             try {
                 refreshStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
-                token?.let { database.refreshHoleListFromNetToDatabase(it) }
+                token?.let {
+                    // 清理数据库中所有数据
+                    database.clear()
+                    database.refreshHoleListFromNetToDatabase() }
             }catch (e: Exception){
                 when(e){
                     is ApiException -> handleHoleFailResponse(e)

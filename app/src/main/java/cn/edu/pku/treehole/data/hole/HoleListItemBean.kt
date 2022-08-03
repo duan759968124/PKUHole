@@ -1,6 +1,7 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -46,23 +47,31 @@ data class HoleListItemBean(
     @ColumnInfo(name = "extra")
     var extra: Int?,
 
+    @field:SerializedName("anonymous")
+    @ColumnInfo(name = "anonymous")
+    var anonymous: Int?,
+
     @field:SerializedName("url")
     @ColumnInfo(name = "url")
     var url: String?,
 
-    // 树洞列表 单独属性
-    @field:SerializedName("hot")
-    @ColumnInfo(name = "hot")
-    var hot: Long?,
+    @field:SerializedName("is_top")
+    @ColumnInfo(name = "is_top")
+    var is_top: Int?,
 
-    // 树洞列表 单独属性
-    @field:SerializedName("hidden")
-    @ColumnInfo(name = "hidden")
-    var hidden: Int?,
+    @field:SerializedName("label")
+    @ColumnInfo(name = "label")
+    var label: Int?,
 
-    @field:SerializedName("tag")
-    @ColumnInfo(name = "tag")
-    var tag: String?,
+    @field:SerializedName("is_follow")
+    @ColumnInfo(name = "is_follow")
+    var is_follow: Int?,  //本人是否关注 1 是 ，0 未关注
+
+//    @field:SerializedName("label_info")
+////    @ColumnInfo(name = "label_info_id")
+////    var label_info_id: Int?,
+//    @Embedded(prefix = "label_info_")
+//    var label_info: LabelInfoBean?,
 
     @ColumnInfo(name = "isHole")
     var isHole : Int? = 1
@@ -79,13 +88,14 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
             reply = it.reply,
             likenum = it.likenum,
             extra = it.extra,
+            anonymous = it.anonymous,
             url = it.url,
-            tag = it.tag,
-            hot = it.hot,
-            hidden = it.hidden,
-            attention_tag = null,
+            is_top = it.is_top,
+            is_follow = it.is_follow,
+            label = it.label,
+//            label_info = it.label_info,
             isHole = 1,
-            isAttention = 0
+            tag = null
         )
     }
 }
@@ -100,13 +110,14 @@ fun HoleListItemBean.asDatabaseBean():HoleItemBean{
             reply = it.reply,
             likenum = it.likenum,
             extra = it.extra,
+            anonymous = it.anonymous,
             url = it.url,
-            tag = it.tag,
-            hot = it.hot,
-            hidden = it.hidden,
-            attention_tag = null,
+            is_top = it.is_top,
+            is_follow = it.is_follow,
+            label = it.label,
+//            label_info = it.label_info,
             isHole = 1,
-            isAttention = 0
+            tag = null
         )
     }
 }

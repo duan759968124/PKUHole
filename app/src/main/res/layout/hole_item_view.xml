@@ -77,7 +77,8 @@
                 android:layout_margin="@dimen/card_inside_margin_large"
                 android:padding="@dimen/card_inside_padding"
                 android:onClick="@{()->pictureClickListener.onClick(holeItemBean)}"
-                app:imageFromUrl="@{holeItemBean.url}"
+                app:imageUrl="@{holeItemBean.url}"
+                app:imagePid="@{holeItemBean.pid}"
                 app:hasImage="@{holeItemBean.url}"
                 tools:src="@drawable/bg_drawer_header"
                 />

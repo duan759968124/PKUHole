@@ -23,10 +23,11 @@ object LocalRepository : MMKVOwner {
     // token
     // token_timestamp
     private var localUid by mmkvString("")
-    private var localName by mmkvString("")
-    private var localDepartment by mmkvString("")
-    private var localToken by mmkvString("")
-    private var localTokenTimestamp by mmkvLong(0L)
+//    private var localName by mmkvString("")
+//    private var localDepartment by mmkvString("")
+//    private var localToken by mmkvString("")
+    var localUserInfo by mmkvParcelable<UserInfo>()
+    var localJwtTimestamp by mmkvLong(0L)
 //    private var userInfo by mmkvParcelable<UserInfo>()
 //    @Parcelize
 //    data class User(val id: Long, val name: String) : Parcelable
@@ -35,30 +36,17 @@ object LocalRepository : MMKVOwner {
     fun getUid(): String{
         return localUid
     }
-//    fun setUid(uid : String){
-//        uidFromUserInfo = uid
-//    }
+    fun setUid(uid : String){
+        localUid = uid
+    }
 
-//    fun getName(): String{
-//        return nameFromUserInfo
-//    }
-//    fun setName(name : String){
-//        nameFromUserInfo = name
-//    }
-
-//    fun getDepartment(): String{
-//        return nameFromUserInfo
-//    }
-//    fun setDepartment(department : String){
-//        departmentFromUserInfo = department
-//    }
 
     fun getValidToken(): String{
-        val durationMilli = System.currentTimeMillis() - localTokenTimestamp * 1000
+        val durationMilli = System.currentTimeMillis() - localJwtTimestamp * 1000
 //        return ""
         return if(durationMilli < ONE_HOUR_MILLIS){
             // 上次获取token时间小于一个小时，有效
-            localToken
+            localUserInfo!!.jwt
         }else{
             ""
         }
@@ -68,22 +56,22 @@ object LocalRepository : MMKVOwner {
 //        tokenFromUserInfo = token
 //    }
 
-    fun getUserInfo(): UserInfo {
-        return UserInfo(uid = localUid,
-            name = localName,
-            department = localDepartment,
-            token = getValidToken(),
-            token_timestamp = localTokenTimestamp)
-    }
+//    fun getUserInfo(): UserInfo {
+//        return UserInfo(uid = localUid,
+//            name = localName,
+//            department = localDepartment,
+//            token = getValidToken(),
+//            )
+//    }
 
     // 目前应该用这个函数作为唯一的更新数据操作
-    fun setUserInfo(userInfo: UserInfo) {
-        localUid = userInfo.uid
-        localName = userInfo.name ?: ""
-        localDepartment = userInfo.department ?: ""
-        localToken = userInfo.token ?: ""
-        localTokenTimestamp = userInfo.token_timestamp ?: 0L
-    }
+//    fun setUserInfo(userInfo: UserInfo) {
+//        localUid = userInfo.uid
+//        localName = userInfo.name ?: ""
+//        localDepartment = userInfo.department ?: ""
+//        localToken = userInfo.token ?: ""
+//        localTokenTimestamp = userInfo.token_timestamp ?: 0L
+//    }
 
     var localUpdateInfo by mmkvParcelable<UpdateInfo>()
 
@@ -92,7 +80,6 @@ object LocalRepository : MMKVOwner {
     // password
     // passwordSecure
     private var localAccount by mmkvString("")
-    private var localPassword by mmkvString("")
     private var localPasswordSecure by mmkvString("")
 
     fun getAccount(): String {
@@ -101,12 +88,6 @@ object LocalRepository : MMKVOwner {
 
     fun setAccount(account: String) {
         localAccount = account
-    }
-    fun getPassword(): String{
-        return localPassword
-    }
-    fun setPassword(password: String){
-        localPassword = password
     }
 
     fun getPasswordSecure(): String{
@@ -126,22 +107,8 @@ object LocalRepository : MMKVOwner {
         return localAppInstallId
     }
 
-    fun setAppInstallId(appInstallId: String){
+    private fun setAppInstallId(appInstallId: String){
         localAppInstallId = appInstallId
-    }
-
-    fun clearAll(){
-        // 清理全部数据前需要保留的数据: 用户账号、uuid
-        val account = getAccount()
-        val appInstallId = getAppInstallId()
-        val saveVersionCode = getLastAppVersionCode()
-        val saveStartAppDate = getLastAppStartDate()
-        kv.clearAll()
-        firstStartApp = false
-        setLastAppVersionCode(versioncode=saveVersionCode)
-        setLastAppStartDate(lastAppStartDate=saveStartAppDate)
-        setAccount(account = account)
-        setAppInstallId(appInstallId = appInstallId)
     }
 
     // firstStartApp  是否第一次安装启动
@@ -203,5 +170,19 @@ object LocalRepository : MMKVOwner {
          }
          return false
      }
+
+    fun clearAll(){
+        // 清理全部数据前需要保留的数据: 用户账号、uuid
+        val account = getAccount()
+        val appInstallId = getAppInstallId()
+        val saveVersionCode = getLastAppVersionCode()
+//        val saveStartAppDate = getLastAppStartDate()
+        kv.clearAll()
+        firstStartApp = false
+        setLastAppVersionCode(versioncode=saveVersionCode)
+//        setLastAppStartDate(lastAppStartDate=saveStartAppDate)
+        setAccount(account = account)
+        setAppInstallId(appInstallId = appInstallId)
+    }
 
 }

@@ -1,6 +1,7 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -47,33 +48,37 @@ data class HoleItemBean(
     @ColumnInfo(name = "extra")
     var extra: Int?,
 
+    @field:SerializedName("anonymous")
+    @ColumnInfo(name = "anonymous")
+    var anonymous: Int?,
+
     @field:SerializedName("url")
     @ColumnInfo(name = "url")
     var url: String?,
 
-    // 树洞列表 单独属性
-    @field:SerializedName("hot")
-    @ColumnInfo(name = "hot")
-    var hot: Long?,
+    @field:SerializedName("is_top")
+    @ColumnInfo(name = "is_top")
+    var is_top: Int?,
 
-    // 树洞列表 单独属性
-    @field:SerializedName("hidden")
-    @ColumnInfo(name = "hidden")
-    var hidden: Int?,
+    @field:SerializedName("is_follow")
+    @ColumnInfo(name = "is_follow")
+    var is_follow: Int?,  //本人是否关注 1 是 ，0 未关注
+
+//    @field:SerializedName("label_info")
+////    @ColumnInfo(name = "label_info_id")
+////    var label_info_id: Int?,
+//    @Embedded(prefix = "label_info_")
+//    var label_info: LabelInfoBean?,
+    @field:SerializedName("label")
+    @ColumnInfo(name = "label")
+    var label: Int?,
 
     @field:SerializedName("tag")
     @ColumnInfo(name = "tag")
     var tag: String?,
 
-    // 关注列表 单独属性
-    @field:SerializedName("attention_tag")
-    @ColumnInfo(name = "attention_tag")
-    var attention_tag: String?,
-
     @ColumnInfo(name = "isHole")
     var isHole : Int?,
-    @ColumnInfo(name = "isAttention")
-    var isAttention : Int?
 )
 
 

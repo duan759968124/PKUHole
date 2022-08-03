@@ -40,4 +40,8 @@ data class CommentItemBean (
     @ColumnInfo(name = "name")
     var name: String,
 
+    @field:SerializedName("hidden")
+    @ColumnInfo(name = "hidden")
+    var hidden: Int
+
 )

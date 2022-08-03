@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -97,16 +98,21 @@ open class BaseViewModel @Inject internal constructor(
                 account = LocalRepository.getAccount(),
                 passwordSecure = LocalRepository.getPasswordSecure()
             )
-            val userInfoRes = UserInfo(
-                uid = response.uid!!,
-                name = response.name,
-                department = response.department,
-                token = response.token,
-                token_timestamp = response.token_timestamp
-            )
+//            val userInfoRes = UserInfo(
+//                uid = response.uid!!,
+//                name = response.name,
+//                department = response.department,
+//                token = response.token,
+//                token_timestamp = response.token_timestamp
+//            )
             // 将数据存到本地
-            LocalRepository.setUserInfo(userInfoRes)
-            emit(response.token)
+//            LocalRepository.setUserInfo(userInfoRes)
+//            emit(response.token)
+            // 数据存到本地
+            LocalRepository.localUserInfo = response.data
+            response.data?.let { LocalRepository.setUid(it.uid) }
+            LocalRepository.localJwtTimestamp = response.timestamp!!
+            response.data?.let { emit(it.jwt) }
         }
     }
     .flowOn(Dispatchers.IO)
@@ -127,6 +133,7 @@ open class BaseViewModel @Inject internal constructor(
             2 -> clearDataAndReLogin(apiException)
             4 -> clearDataAndReLogin(apiException)
             100 -> clearDataAndReLogin(apiException)
+            401 -> clearDataAndReLogin(apiException)
             // 其他fragment需要监听failStatus状态变化，并toast出来
             else -> failStatus.postValue(apiException)
         }
@@ -137,7 +144,8 @@ open class BaseViewModel @Inject internal constructor(
         Timber.e("exec handleHoleFailResponse %d %s", apiException.code, apiException.msg)
         when(apiException.code){
             // 错误请求code 2 [会话无效，请重新登录]
-            2 -> clearDataAndReLogin(apiException)
+//            2 -> clearDataAndReLogin(apiException)
+            401 -> clearDataAndReLogin(apiException)
             // 其他fragment需要监听failStatus状态变化，并toast出来
             else -> failStatus.postValue(apiException)
         }
