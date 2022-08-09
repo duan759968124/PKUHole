@@ -162,8 +162,8 @@ object LocalRepository : MMKVOwner {
      @SuppressLint("SimpleDateFormat")
      fun isFirstStartToday(): Boolean{
          val today: String = SimpleDateFormat("yyyy-MM-dd").format(Date())
-         if(!TextUtils.isEmpty(today)&&!TextUtils.isEmpty(getLastAppStartDate())){
-             if(localLastAppStartDate != today){
+         if (!TextUtils.isEmpty(today) && !TextUtils.isEmpty(getLastAppStartDate())) {
+             if (localLastAppStartDate != today) {
                  setLastAppStartDate(today)
                  return true
              }
@@ -171,7 +171,27 @@ object LocalRepository : MMKVOwner {
          return false
      }
 
-    fun clearAll(){
+    var localRandomTip by mmkvString("")
+    var hiddenRandomTipToday by mmkvBool(false)
+    var localShowTipDay by mmkvString("2022-04-06")
+
+    fun checkIsShowTip(): Boolean {
+        // 今天不显示的条件:已经显示过并且点击了复选框
+        val today: String = SimpleDateFormat("yyyy-MM-dd").format(Date())
+        if (!TextUtils.isEmpty(today) && !TextUtils.isEmpty(localShowTipDay)) {
+            return if (localShowTipDay != today) {
+                localShowTipDay = today
+                hiddenRandomTipToday = false
+                true
+            } else {
+                !hiddenRandomTipToday
+            }
+        }
+        return true
+    }
+
+
+    fun clearAll() {
         // 清理全部数据前需要保留的数据: 用户账号、uuid
         val account = getAccount()
         val appInstallId = getAppInstallId()
@@ -179,7 +199,7 @@ object LocalRepository : MMKVOwner {
 //        val saveStartAppDate = getLastAppStartDate()
         kv.clearAll()
         firstStartApp = false
-        setLastAppVersionCode(versioncode=saveVersionCode)
+        setLastAppVersionCode(versioncode = saveVersionCode)
 //        setLastAppStartDate(lastAppStartDate=saveStartAppDate)
         setAccount(account = account)
         setAppInstallId(appInstallId = appInstallId)

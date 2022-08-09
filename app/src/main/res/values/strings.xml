@@ -49,20 +49,6 @@
     <string name="hint_report_text">请输入举报原因</string>
     <string name="hint_account">学号/职工号/北大邮箱</string>
     <string name="password">密码</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <!--    settings-->
     <string name="privacy_policy">隐私政策</string>
@@ -78,8 +64,7 @@
     <string name="copyright_department">北京大学</string>
     <string name="hint_search_text">请输入关键词，多词以空格分隔</string>
     <string name="search_title">搜索结果</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="copyright_info_content">北大树洞 Copyright © 2021-现在，北京大学</string>
     <string name="mmkv_copyright_title">MMKV</string>
     <string name="mmkv_copyright_content">Tencent is pleased to support the open source community by making MMKV available. Copyright © 2018 THL A29 Limited, a Tencent company. All rights reserved. If you have downloaded a copy of the MMKV binary from Tencent, please note that the MMKV binary is licensed under the BSD 3-Clause License. If you have downloaded a copy of the MMKV source code from Tencent, please note that MMKV source code is licensed under the BSD 3-Clause License, except for the third-party components listed below which are subject to different license terms.  Your integration of MMKV into your own projects may require compliance with the BSD 3-Clause License, as well as the other licenses applicable to the third-party components included within MMKV.</string>
@@ -88,7 +73,7 @@
     <string name="open_source_title">开源库</string>
     <string name="open_source_content">SmartRefreshLayout Material-dialogs Gson PictureSelector PermissionsDispatcher Timber Dagger OkHttp Retrofit</string>
 
-<!--    launch warn text-->
+    <!--    launch warn text-->
     <string name="launchWarnText"><![CDATA[本应用尊重并保护所有用户的个人隐私权，为了给您提供更优质的服务，本应用会按照用户协议和隐私政策的规定使用您的个人信息。想了解详细信息，请阅读<a href="user_agreement">《用户协议》</a>和<a href="privacy_policy">《隐私政策》</a>。]]></string>
     <string name="launchWarnTitle">用户协议与隐私政策</string>
     <string name="agree">同意</string>
@@ -96,5 +81,9 @@
     <string name="hole_splash">Splash</string>
     <string name="menu_score">成绩</string>
     <string name="menu_course">课表</string>
+    <string name="hole_practice">树洞规范</string>
+
+    <string name="confirm">确定</string>
+    <string name="hiddenDialogToday">今天不再显示</string>
 
 </resources>

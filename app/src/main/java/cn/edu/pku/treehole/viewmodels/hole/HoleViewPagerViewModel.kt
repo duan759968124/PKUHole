@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.utilities.ImageUtils
 import cn.edu.pku.treehole.utilities.SingleLiveData
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -38,16 +38,47 @@ class HoleViewPagerViewModel @Inject constructor(
     val openPictureSelect: LiveData<Boolean>
         get() = _openPictureSelect
 
+    private val _getRandomTipFromNet = MutableLiveData<Boolean>().apply { value = false }
+    val getRandomTipFromNet: LiveData<Boolean>
+        get() = _getRandomTipFromNet
+
 
     val postResponseMsg = SingleLiveData<String?>()
 
-
-    // 发帖之后要涉及到更新hole数据和关注数据【自动关注的】
     init {
+        // 获取一条随机的树洞管理规范
+        getRandomHoleManagementPractice()
+    }
+
+    private fun getRandomHoleManagementPractice() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+                    val response =
+                        database.getRandomHoleManagementPractice()
+                    LocalRepository.localRandomTip = response.data?.desc ?: ""
+                    Timber.e("response tip: %s", response.data?.desc)
+                    Timber.e("localRandomTip tip: %s", LocalRepository.localRandomTip)
+                    _getRandomTipFromNet.postValue(true)
+                }
+            } catch (e: Exception) {
+                when (e) {
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
+            } finally {
+            }
+        }
 
     }
 
-    fun onClickUploadFab(){
+    fun closeRandomTipDialog() {
+        _getRandomTipFromNet.value = false
+    }
+
+
+    fun onClickUploadFab() {
         Timber.e("start dialog post hole!!!")
         showDialogPost.value = true
     }

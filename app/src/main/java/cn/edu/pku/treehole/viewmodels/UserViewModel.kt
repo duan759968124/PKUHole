@@ -46,6 +46,10 @@ class UserViewModel @Inject constructor(
         get() = _loginSuccessNavigation
 
 
+    private val _showInputValidCode = MutableLiveData<Boolean>().apply { value = false }
+    val showInputValidCode: LiveData<Boolean>
+        get() = _showInputValidCode
+
     init {
 
 //        account.value = "1906194042"
@@ -77,7 +81,6 @@ class UserViewModel @Inject constructor(
                             passwordSecure = passwordSecure.value!!
                         )
                     Timber.e("login response %s", response)
-                    _loginSuccessNavigation.postValue(true)
 //                    val userInfoRes = UserInfo(
 //                        uid = response.uid!!,
 //                        name = response.name,
@@ -93,6 +96,12 @@ class UserViewModel @Inject constructor(
                     LocalRepository.setPasswordSecure(pwdSecure = passwordSecure.value!!)
                     // 用来更新activity中显示
                     userInfo.postValue(LocalRepository.localUserInfo)
+//                    // 发送手机验证码
+//                    val responseSMSCode =
+//                        database.sendSMSVerificationCode()
+//                    Timber.e("send SMS Code %s", responseSMSCode)
+//                    _showInputValidCode.postValue(true)
+                    _loginSuccessNavigation.postValue(true)
                 } catch (e: Exception) {
                     when (e) {
                         is ApiException -> failStatus.postValue(e)
@@ -105,44 +114,6 @@ class UserViewModel @Inject constructor(
             }
         }
     }
-
-//    fun login() {
-//        if (account.value.isNullOrEmpty() or password.value.isNullOrEmpty()) {
-//            Timber.e("account or password is null")
-//        } else { // 对密码加密
-//            Timber.e("click login account %s password %s", account.value, password.value)
-//            viewModelScope.launch(Dispatchers.IO) {
-//                try {
-//                    loadingStatus.postValue(true)
-//                    val response =
-//                        database.login(account = account.value!!, password = password.value!!)
-//                    Timber.e("login response %s", response)
-//                    _loginSuccessNavigation.postValue(true)
-//                    val userInfoRes = UserInfo(
-//                        uid = response.uid!!,
-//                        name = response.name,
-//                        department = response.department,
-//                        token = response.token,
-//                        token_timestamp = response.token_timestamp
-//                    )
-//                    // 用来更新activity中显示
-//                    userInfo.postValue(userInfoRes)
-//                    // 将数据存到本地
-//                    LocalRepository.setUserInfo(userInfoRes)
-//                    LocalRepository.setAccount(account = account.value!!)
-//                    LocalRepository.setPassword(password = password.value!!)
-//                } catch (e: Exception) {
-//                    when (e) {
-//                        is ApiException -> failStatus.postValue(e)
-//                        else -> errorStatus.postValue(e)
-//                    }
-//                } finally {
-//                    loadingStatus.postValue(false)
-//                    Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
-//                }
-//            }
-//        }
-//    }
 
 
     private var _navigationToPrivacyPolicy = MutableLiveData<Boolean>()

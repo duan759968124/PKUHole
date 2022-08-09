@@ -23,14 +23,25 @@
         app:cardElevation="@dimen/card_elevation"
         app:strokeColor="@color/card_stroke_color"
         app:rippleColor="@color/card_ripper_color"
-        android:onClick="@{()->clickListener.onClick(commentItemBean)}"
-        >
+        android:onClick="@{()->clickListener.onClick(commentItemBean)}">
+
+
+        <!--        android:layout_margin="@dimen/card_inside_margin"-->
+        <!--        android:padding="@dimen/card_inside_padding">-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_inside_margin"
-            android:padding="@dimen/card_inside_padding">
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/comment_lz_title"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:showLzIcon="@{commentItemBean.islz}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:src="@drawable/lz" />
+
 
             <TextView
                 android:id="@+id/comment_cid"

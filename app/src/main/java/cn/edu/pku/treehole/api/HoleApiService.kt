@@ -4,6 +4,8 @@ import cn.edu.pku.treehole.BuildConfig
 import cn.edu.pku.treehole.api.interceptor.AddHeaderInterceptor
 import cn.edu.pku.treehole.api.interceptor.ChangeBaseUrlInterceptor
 import cn.edu.pku.treehole.api.interceptor.LocalCookieJar
+import cn.edu.pku.treehole.data.EmptyBean
+import cn.edu.pku.treehole.data.HoleManagementPracticeBean
 import cn.edu.pku.treehole.data.UpdateInfo
 import cn.edu.pku.treehole.data.UserInfo
 import cn.edu.pku.treehole.data.hole.*
@@ -31,26 +33,29 @@ interface HoleApiService {
     suspend fun loginSecure(
         @Field("uid") uid: String,
         @Field("password") password: String,
-        @Field("agreement") agreement: Int = 1
+        @Field("agreement") agreement: Int = 1,
     ): HoleApiResponse<UserInfo?>
 
-    // 获取树洞数据，按照页（p）
-//    @GET("services/pkuhole/api.php")
-//    suspend fun getHoleList(
-//        @Query("action") action: String = "getlist",
-//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-//        @Query("p") page: Int,
-////        @Query("token") token: String = TEST_TOKEN
-//    ): HoleApiResponse<List<HoleListItemBean>>
 
-    // 获取树洞数据，按照页（p）
-//    @FormUrlEncoded
-//    @POST("services/hole/api.php")
-//    suspend fun getHoleList(
-//        @Field("action") action: String = "getlist",
-//        @Field("token") token: String,
-//        @Field("p") page: Int,
-//    ): HoleApiResponse<List<HoleListItemBean>?>
+    // 发送短信验证码
+    @FormUrlEncoded
+    @POST("api/jwt_send_msg")
+    suspend fun sendSMSValidCode(
+        @Field("empty_param") empty_param: String = "",
+    ): HoleApiResponse<EmptyBean?>
+
+    // 短信验证
+    @FormUrlEncoded
+    @POST("api/jwt_msg_verify")
+    suspend fun verifySMSValidCode(
+        @Field("valid_code") valid_code: String,
+    ): HoleApiResponse<EmptyBean?>
+
+    // 随机显示树洞管理规范
+    @GET("api/pku/manager_spec")
+    suspend fun getRandomHoleManagementPractice(
+    ): HoleApiResponse<HoleManagementPracticeBean?>
+
 
     // 获取树洞数据，按照页（p）
     @GET("api/pku_hole")
@@ -77,6 +82,12 @@ interface HoleApiService {
 //        @Field("token") token: String,
 //        @Field("timestamp") timestamp : Long,
 //    ): HoleApiResponse<List<HoleListItemBean>?>
+
+    // 刷新树洞数据
+    @GET("api/pku_hold_refresh")
+    suspend fun refreshHoleList(
+        @Query("timestamp") timestamp: Long,
+    ): HoleApiResponse<List<HoleListItemBean>?>
 
 //    // 获取关注数据
 //    @GET("services/pkuhole/api.php")
@@ -191,7 +202,7 @@ interface HoleApiService {
     @POST("api/pku_attention/{pid}")
     suspend fun switchAttentionStatus(
         @Path("pid") pid: Long,
-        @Field("switch") switch: Int,
+        @Field("empty_param") empty_param: String = "",
     ): HoleApiResponse<String?>
 
 
@@ -201,7 +212,7 @@ interface HoleApiService {
     suspend fun report(
         @Path("pid") pid: Long,
         @Field("reason") reason: String,
-    ): HoleApiResponse<HoleItemModel?>
+    ): HoleApiResponse<EmptyBean?>
 
     // 发树洞[带图片]
     @FormUrlEncoded

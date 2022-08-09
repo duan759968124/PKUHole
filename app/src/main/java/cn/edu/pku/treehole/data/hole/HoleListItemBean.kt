@@ -1,7 +1,6 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -74,7 +73,10 @@ data class HoleListItemBean(
 //    var label_info: LabelInfoBean?,
 
     @ColumnInfo(name = "isHole")
-    var isHole : Int? = 1
+    var isHole: Int? = 1,
+
+    @ColumnInfo(name = "isRead")
+    var isRead: Int?,  // 0 or 1
 )
 
 
@@ -95,7 +97,8 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
             label = it.label,
 //            label_info = it.label_info,
             isHole = 1,
-            tag = null
+            tag = null,
+            isRead = it.isRead
         )
     }
 }
@@ -117,7 +120,8 @@ fun HoleListItemBean.asDatabaseBean():HoleItemBean{
             label = it.label,
 //            label_info = it.label_info,
             isHole = 1,
-            tag = null
+            tag = null,
+            isRead = it.isRead
         )
     }
 }

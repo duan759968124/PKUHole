@@ -99,7 +99,7 @@
             android:layout_marginTop="24dp"
             android:onClick="@{()->viewModel.loginSecure()}"
             android:text="@string/login"
-            android:backgroundTint="@{viewModel.agreementStatus? @color/hole_blue : @color/grey}"
+            android:backgroundTint="@{viewModel.agreementStatus? @color/pku_hole_logo_red : @color/grey}"
             android:clickable="@{viewModel.agreementStatus}"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -121,6 +121,7 @@
             <CheckBox
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
+                app:buttonTint="@color/pku_hole_logo_red"
                 android:checked="@={viewModel.agreementStatus}"
                 android:id="@+id/agreement_cb"
                 />

@@ -1,15 +1,18 @@
 package cn.edu.pku.treehole.viewmodels.hole
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
-import cn.edu.pku.treehole.data.hole.*
+import cn.edu.pku.treehole.data.hole.HoleItemBean
+import cn.edu.pku.treehole.data.hole.HoleRepository
+import cn.edu.pku.treehole.data.hole.asDatabaseBean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,16 +53,16 @@ class SearchViewModel @Inject internal constructor(
             try {
                 loadingStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
-                token?.let { token ->
+                token?.let { _ ->
                     val response =
-                        if(keywords[0] == '#' && (keywords.length == 7 || keywords.length == 8))
-                        {
+                        if (keywords[0] == '#' && (keywords.length == 7 || keywords.length == 8)) {
                             database.searchPid(pid = keywords.substring(1))
-                        }else{
+                        } else {
                             database.search(keywords = keywords, page = currentPage + 1)
                         }
                     currentPage = response.data?.current_page ?: 1
-                    val searchAllList = searchList.value?.plus(response.data?.data!!.map { it.asDatabaseBean() })
+                    val searchAllList =
+                        searchList.value?.plus(response.data?.data!!.map { it.asDatabaseBean() })
                     searchList.postValue(searchAllList)
                 }
             }catch (e: Exception){

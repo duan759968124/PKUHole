@@ -1,7 +1,6 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -83,7 +82,8 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             isHole = 0,
             is_follow = it.is_follow,
             anonymous = null,
-            label = null
+            label = null,
+            isRead = null
 //            label_info = null,
         )
     }
@@ -106,7 +106,8 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
             is_follow = it.is_follow,
             anonymous = null,
 //            label_info = null,
-            label = null
+            label = null,
+            isRead = null
         )
     }
 }

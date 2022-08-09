@@ -1,16 +1,17 @@
 package cn.edu.pku.treehole.viewmodels.hole
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
-import cn.edu.pku.treehole.data.hole.*
+import cn.edu.pku.treehole.data.hole.HoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -120,7 +121,7 @@ class HoleListViewModel @Inject internal constructor(
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
                     // 清理数据库中所有数据
-                    database.clear()
+//                    database.clear()
                     database.refreshHoleListFromNetToDatabase() }
             }catch (e: Exception){
                 when(e){

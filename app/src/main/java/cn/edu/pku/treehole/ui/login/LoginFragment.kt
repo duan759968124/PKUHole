@@ -65,6 +65,15 @@ class LoginFragment : BaseFragment() {
                 navigateToHole()
 //                showToast("login success")
         }
+
+        userViewModel.showInputValidCode.observe(viewLifecycleOwner) { showInputValidCode ->
+            if (showInputValidCode) {
+
+            } else {
+
+            }
+        }
+
         userViewModel.failStatus.observe(viewLifecycleOwner) { fail ->
             fail.message?.let { showToast("失败-$it") }
         }

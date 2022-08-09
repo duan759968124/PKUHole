@@ -5,14 +5,14 @@ import androidx.lifecycle.*
 import cn.edu.pku.treehole.adapters.HoleItemListener
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
-import cn.edu.pku.treehole.data.hole.*
+import cn.edu.pku.treehole.data.hole.CommentItemBean
+import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -161,8 +161,8 @@ class HoleItemDetailViewModel @Inject constructor(
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
                     val response = database.switchAttentionStatus(
-                            currentHoleItem.value!!,
-                            kotlin.math.abs(currentHoleItem.value!!.is_follow!! - 1), it)
+                        currentHoleItem.value!!,
+                        kotlin.math.abs(currentHoleItem.value!!.is_follow!! - 1))
                         _responseMsg.postValue(response.data)
                 }
             }catch (e: Exception){

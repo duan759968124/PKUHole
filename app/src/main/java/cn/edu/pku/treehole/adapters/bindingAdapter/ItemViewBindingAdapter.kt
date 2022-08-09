@@ -70,6 +70,24 @@ fun bindImageFromFile(view: ImageView, file: File?) {
     }
 }
 
+@BindingAdapter("showLzIcon")
+fun showLzIcon(view: ImageView, isLz: Int?) {
+    view.visibility = if (isLz == 1) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
+@BindingAdapter(value = ["showDotIsHole", "showDotIsRead"])
+fun showDot(view: ImageView, isHole: Int, isRead: Int) {
+    view.visibility = if (isHole == 1 && isRead == 0) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
 //@BindingAdapter("handleHoleText")
 //fun bindHandleHoleText(view: TextView, holeText: String?){
 //    if (holeText != null) {

@@ -3,6 +3,8 @@ package cn.edu.pku.treehole.data.hole
 import cn.edu.pku.treehole.api.HoleApiResponse
 import cn.edu.pku.treehole.api.HoleApiService
 import cn.edu.pku.treehole.base.BaseRepository
+import cn.edu.pku.treehole.data.EmptyBean
+import cn.edu.pku.treehole.data.HoleManagementPracticeBean
 import cn.edu.pku.treehole.data.UpdateInfo
 import cn.edu.pku.treehole.data.UserInfo
 import kotlinx.coroutines.Dispatchers
@@ -37,27 +39,36 @@ class HoleRepository @Inject constructor(
 
 
     // 记录获取第一页或者刷新时间，作为请求刷新的一个参数
+    private var getFirstPageOrRefreshHoleListTimestamp: Long = 0L
 
     suspend fun getHoleListFromNetToDatabase(page: Int){
         withContext(Dispatchers.IO){
-            val holeListResponse = launchRequest {holeApi.getHoleList(page = page, limit = 15)}
-            holeListResponse.data!!.data?.map { it.isHole = 1 }
+            val holeListResponse = launchRequest { holeApi.getHoleList(page = page, limit = 15) }
+            holeListResponse.data!!.data?.map {
+                it.isHole = 1
+                it.isRead = 1
+            }
             holeListResponse.data.data?.let { updateOrInsertHoleList(it) }
+            if (page == 1) {
+                holeListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
+                getFirstPageOrRefreshHoleListTimestamp =
+                    holeListResponse.data.data?.get(5)!!.timestamp
+            }
         }
     }
 
     suspend fun refreshHoleListFromNetToDatabase(){
-//        withContext(Dispatchers.IO){
-//            val refreshHoleListResponse = launchRequest {holeApi.refreshHoleList(timestamp = getFirstPageOrRefreshHoleListTimestamp, token = token)}
-//            refreshHoleListResponse.data?.map { it.isHole = 1 }
-//            refreshHoleListResponse.data?.let { updateOrInsertHoleList(it) }
-//            refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
-//
-//        }
-        withContext(Dispatchers.IO){
-            val holeListResponse = launchRequest {holeApi.getHoleList(page = 1, limit = 15)}
-            holeListResponse.data!!.data?.map { it.isHole = 1 }
-            holeListResponse.data.data?.let { updateOrInsertHoleList(it) }
+        withContext(Dispatchers.IO) {
+//            Timber.e("getFirstPageOrRefreshHoleListTimestamp: $getFirstPageOrRefreshHoleListTimestamp")
+            val refreshHoleListResponse =
+                launchRequest { holeApi.refreshHoleList(timestamp = getFirstPageOrRefreshHoleListTimestamp) }
+            refreshHoleListResponse.data?.map {
+                it.isHole = 1
+                it.isRead = 0
+            }
+            refreshHoleListResponse.data?.let { updateOrInsertHoleList(it) }
+            refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
+
         }
     }
 
@@ -91,6 +102,7 @@ class HoleRepository @Inject constructor(
         withContext(Dispatchers.IO){
             val holeResponse = launchRequest {holeApi.getOneHole(pid = pid)}
 //            holeResponse.data?.let { it.reply = 100 }
+            holeResponse.data?.let { it.isRead = 1 }
             holeResponse.data?.let { updateOrInsertHoleItemModel(it) }
         }
     }
@@ -111,10 +123,9 @@ class HoleRepository @Inject constructor(
     suspend fun switchAttentionStatus(
         holeItemBean: HoleItemBean,
         switch: Int,
-        token: String
     ): HoleApiResponse<String?> {
         val holeResponse =
-            launchRequest { holeApi.switchAttentionStatus(pid = holeItemBean.pid, switch = switch)}
+            launchRequest { holeApi.switchAttentionStatus(pid = holeItemBean.pid) }
         if (holeResponse.code == 0 || holeResponse.code == 20000) {
             // 表示操作成功，变更数据库表中数据
             Timber.e("switchAttentionStatus response %s", holeResponse.toString())
@@ -175,8 +186,8 @@ class HoleRepository @Inject constructor(
      * 举报，不向数据库写数据
      * 举报成功返回数据
      */
-    suspend fun report(pid: Long, reason: String, token: String):HoleApiResponse<HoleItemModel?>{
-        return launchRequest { holeApi.report(pid = pid, reason = reason)}
+    suspend fun report(pid: Long, reason: String, token: String): HoleApiResponse<EmptyBean?> {
+        return launchRequest { holeApi.report(pid = pid, reason = reason) }
     }
 
     suspend fun postHoleOnlyText(token: String, text: String): HoleApiResponse<String?>{
@@ -203,6 +214,19 @@ class HoleRepository @Inject constructor(
     suspend fun loginSecure(account: String, passwordSecure: String): HoleApiResponse<UserInfo?> {
         return launchRequest { holeApi.loginSecure(uid = account, password = passwordSecure) }
     }
+
+    suspend fun sendSMSValidCode(): HoleApiResponse<EmptyBean?> {
+        return launchRequest { holeApi.sendSMSValidCode() }
+    }
+
+    suspend fun verifySMSValidCode(valid_code: String): HoleApiResponse<EmptyBean?> {
+        return launchRequest { holeApi.verifySMSValidCode(valid_code = valid_code) }
+    }
+
+    suspend fun getRandomHoleManagementPractice(): HoleApiResponse<HoleManagementPracticeBean?> {
+        return launchRequest { holeApi.getRandomHoleManagementPractice() }
+    }
+
 
     suspend fun checkUpdate(): HoleApiResponse<UpdateInfo?> {
         return launchRequest { holeApi.checkUpdate() }

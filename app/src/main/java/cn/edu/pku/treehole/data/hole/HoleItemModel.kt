@@ -3,7 +3,7 @@ package cn.edu.pku.treehole.data.hole
 /**
  * 最小的实体
  */
-data class HoleItemModel (
+data class HoleItemModel(
 
     var pid: Long,
     var text: String?,
@@ -16,7 +16,8 @@ data class HoleItemModel (
     var url: String?,
     var is_top: Int?,
     var label: Int?,
-    var is_follow: Int?
+    var is_follow: Int?,
+    var isRead: Int?,
 )
 
 
@@ -37,6 +38,7 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             is_follow = it.is_follow,
             anonymous = it.anonymous,
             label = it.label,
+            isRead = it.isRead
 //            label_info = null,
         )
     }

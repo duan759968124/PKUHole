@@ -1,7 +1,6 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -78,7 +77,10 @@ data class HoleItemBean(
     var tag: String?,
 
     @ColumnInfo(name = "isHole")
-    var isHole : Int?,
+    var isHole: Int?,
+
+    @ColumnInfo(name = "isRead")
+    var isRead: Int?,  // 0 or 1
 )
 
 

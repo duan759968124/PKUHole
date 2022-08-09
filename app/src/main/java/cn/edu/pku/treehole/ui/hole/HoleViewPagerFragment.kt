@@ -11,9 +11,11 @@ import cn.edu.pku.treehole.adapters.HOLE_LIST_INDEX
 import cn.edu.pku.treehole.adapters.HOLE_MY_ATTENTION_INDEX
 import cn.edu.pku.treehole.adapters.HolePaperAdapter
 import cn.edu.pku.treehole.base.BaseFragment
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentHoleViewPagerBinding
 import cn.edu.pku.treehole.viewmodels.hole.HoleViewPagerViewModel
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.input
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,8 +99,32 @@ class HoleViewPagerFragment : BaseFragment() {
             }
         })
 
+        viewModel.getRandomTipFromNet.observe(viewLifecycleOwner) {
+            if (it) {
+                showRandomTipDialog()
+                viewModel.closeRandomTipDialog()
+            }
+        }
+
         setHasOptionsMenu(true)
         return binding.root
+    }
+
+    private fun showRandomTipDialog() {
+        if (LocalRepository.checkIsShowTip()) {
+            context?.let {
+                MaterialDialog(it).show {
+                    title(R.string.hole_practice)
+                    cancelable(false)
+                    cancelOnTouchOutside(false)
+                    message(text = LocalRepository.localRandomTip)
+                    checkBoxPrompt(R.string.hiddenDialogToday) { checked ->
+                        LocalRepository.hiddenRandomTipToday = checked
+                    }
+                    positiveButton(R.string.confirm)
+                }
+            }
+        }
     }
 
     override fun initData() {
