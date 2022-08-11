@@ -66,9 +66,11 @@ class SplashFragment : BaseFragment() {
         }
         viewModel.failStatus.observe(viewLifecycleOwner) { fail ->
             fail.message?.let { showToast("失败-$it") }
+            checkLoginStatus()
         }
         viewModel.errorStatus.observe(viewLifecycleOwner) { error ->
             error.message?.let { showToast("错误-$it") }
+            checkLoginStatus()
         }
         viewModel.canUpdate.observe(viewLifecycleOwner) { updateFlag ->
             if (updateFlag == 1) {

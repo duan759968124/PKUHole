@@ -45,12 +45,13 @@ class LoginFragment : BaseFragment() {
 
     }
 
-    private fun navigateToHole() {
-        showToast("登录成功")
-        findNavController()
-            .navigate(LoginFragmentDirections.actionNavLoginToNavHole())
-        userViewModel.onLoginSuccessComplete()
-    }
+//    private fun navigateToHole() {
+//        showToast("登录成功")
+//        findNavController()
+//            .navigate(LoginFragmentDirections.actionNavLoginToNavHole())
+//        userViewModel.onLoginSuccessComplete()
+//    }
+
 
     override fun initObserve() {
         userViewModel.loadingStatus.observe(viewLifecycleOwner) { loading ->
@@ -60,17 +61,17 @@ class LoginFragment : BaseFragment() {
                 dismissLoading()
             }
         }
-        userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner) { loginSuccess ->
-            if (loginSuccess)
-                navigateToHole()
-//                showToast("login success")
-        }
+//        userViewModel.loginSuccessNavigation.observe(viewLifecycleOwner) { loginSuccess ->
+//            if (loginSuccess)
+////                navigateToHole()
+////                showToast("login success")
+//        }
 
         userViewModel.showInputValidCode.observe(viewLifecycleOwner) { showInputValidCode ->
             if (showInputValidCode) {
-
-            } else {
-
+                findNavController()
+                    .navigate(LoginFragmentDirections.actionNavLoginToNavInputValidCode())
+                userViewModel.onNavigateToInputValidCodeComplete()
             }
         }
 

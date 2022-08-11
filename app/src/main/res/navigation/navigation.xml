@@ -14,7 +14,7 @@
             android:id="@+id/action_nav_splash_to_nav_hole"
             app:destination="@id/nav_hole"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/nav_hole"
+            app:popUpTo="@+id/nav_hole"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -163,10 +163,8 @@
         android:label="@string/login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_nav_login_to_nav_hole"
-            app:destination="@id/nav_hole"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/nav_hole"
+            android:id="@+id/action_nav_login_to_nav_input_valid_code"
+            app:destination="@id/nav_input_valid_code"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -180,12 +178,28 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_input_valid_code"
+        android:name="cn.edu.pku.treehole.ui.login.InputValidCodeFragment"
+        android:label="@string/input_valid_code"
+        tools:layout="@layout/fragment_input_valid_code">
+        <action
+            android:id="@+id/action_nav_input_valid_code_to_nav_hole"
+            app:destination="@id/nav_hole"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/nav_hole"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
 
     <action
         android:id="@+id/action_global_nav_login"
         app:popUpToInclusive="true"
-        app:popUpTo="@id/nav_login"
+        app:popUpTo="@+id/nav_hole"
+        app:launchSingleTop="true"
         app:destination="@id/nav_login"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"

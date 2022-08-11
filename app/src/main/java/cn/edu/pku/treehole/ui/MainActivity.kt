@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 ////        设置每个界面的toolbar是否存在导航抽屉是否可用
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_login, R.id.nav_splash -> {
+                R.id.nav_login, R.id.nav_splash, R.id.nav_input_valid_code -> {
                     binding.toolbar.visibility = View.GONE
                     navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

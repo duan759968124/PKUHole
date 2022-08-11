@@ -85,5 +85,8 @@
 
     <string name="confirm">确定</string>
     <string name="hiddenDialogToday">今天不再显示</string>
+    <string name="input_valid_code">请输入验证码</string>
+    <string name="verify">验证</string>
+    <string name="get_valid_code">获取验证码</string>
 
 </resources>

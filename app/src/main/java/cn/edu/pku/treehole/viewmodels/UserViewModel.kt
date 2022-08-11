@@ -50,6 +50,22 @@ class UserViewModel @Inject constructor(
     val showInputValidCode: LiveData<Boolean>
         get() = _showInputValidCode
 
+    private val _sendValidCodeSuccess = MutableLiveData<Boolean>().apply { value = false }
+    val sendValidCodeSuccess: LiveData<Boolean>
+        get() = _sendValidCodeSuccess
+
+    private val _clickVerifyCode = MutableLiveData<Boolean>().apply { value = false }
+    val clickVerifyCode: LiveData<Boolean>
+        get() = _clickVerifyCode
+
+    private val _verifySuccessNavigation = MutableLiveData<Boolean>().apply { value = false }
+    val verifySuccessNavigation: LiveData<Boolean>
+        get() = _verifySuccessNavigation
+
+
+    private var isCompleteInput: Boolean = false
+    var validCodeString: String = ""
+
     init {
 
 //        account.value = "1906194042"
@@ -90,18 +106,14 @@ class UserViewModel @Inject constructor(
 //                    )
                     // 数据存到本地
                     LocalRepository.localUserInfo = response.data
-                    response.data?.let { LocalRepository.setUid(it.uid) }
+//                    response.data?.let { LocalRepository.setUid(it.uid) }
                     LocalRepository.localJwtTimestamp = response.timestamp!!
                     LocalRepository.setAccount(account = account.value!!)
                     LocalRepository.setPasswordSecure(pwdSecure = passwordSecure.value!!)
                     // 用来更新activity中显示
                     userInfo.postValue(LocalRepository.localUserInfo)
-//                    // 发送手机验证码
-//                    val responseSMSCode =
-//                        database.sendSMSVerificationCode()
-//                    Timber.e("send SMS Code %s", responseSMSCode)
-//                    _showInputValidCode.postValue(true)
-                    _loginSuccessNavigation.postValue(true)
+                    _showInputValidCode.postValue(true)
+//                    _loginSuccessNavigation.postValue(true)
                 } catch (e: Exception) {
                     when (e) {
                         is ApiException -> failStatus.postValue(e)
@@ -112,6 +124,63 @@ class UserViewModel @Inject constructor(
 //                    Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
                 }
             }
+        }
+    }
+
+    fun inputStatus(completeStatus: Boolean, code: String) {
+        isCompleteInput = completeStatus
+        validCodeString = code
+    }
+
+    fun finishInputIncompleteToast() {
+        _clickVerifyCode.value = false
+    }
+
+    fun finishSendValidCode() {
+        _sendValidCodeSuccess.value = false
+    }
+
+
+    fun getValidCode() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // 发送手机验证码
+                val responseSMSCode = database.sendSMSValidCode()
+                Timber.e("send SMS Code %s", responseSMSCode)
+                _sendValidCodeSuccess.postValue(responseSMSCode.success)
+            } catch (e: Exception) {
+                when (e) {
+                    is ApiException -> failStatus.postValue(e)
+                    else -> errorStatus.postValue(e)
+                }
+            } finally {
+            }
+
+        }
+    }
+
+    fun verifyValidCode() {
+        Timber.e("validCodeString: $validCodeString")
+        if (isCompleteInput) {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    loadingStatus.postValue(true)
+                    val response = database.verifySMSValidCode(valid_code = validCodeString)
+                    Timber.e("verify response: %s", response)
+                    LocalRepository.localUserInfo?.let { LocalRepository.setUid(it.uid) }
+                    _verifySuccessNavigation.postValue(response.success)
+                } catch (e: Exception) {
+                    when (e) {
+                        is ApiException -> failStatus.postValue(e)
+                        else -> errorStatus.postValue(e)
+                    }
+                } finally {
+                    loadingStatus.postValue(false)
+                }
+            }
+        } else {
+            // Toast出来
+            _clickVerifyCode.value = true
         }
     }
 
@@ -140,6 +209,14 @@ class UserViewModel @Inject constructor(
 
     fun onNavigateToUserAgreementFinish() {
         _navigationToUserAgreement.value = false
+    }
+
+    fun onNavigateToInputValidCodeComplete() {
+        _showInputValidCode.value = false
+    }
+
+    fun onVerifySuccessComplete() {
+        _verifySuccessNavigation.value = false
     }
 
 

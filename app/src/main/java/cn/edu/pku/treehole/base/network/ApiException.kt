@@ -9,7 +9,7 @@ package cn.edu.pku.treehole.base.network
  * @Version:        1.0
  */
 
-class ApiException(val code: Int, val msg: String?): Exception() {
+class ApiException(val code: Int, var msg: String?) : Exception() {
     override val message: String?
         get() = msg
 }

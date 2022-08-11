@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.network.ApiException
 import cn.edu.pku.treehole.data.LocalRepository
-import cn.edu.pku.treehole.data.UserInfo
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.utilities.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -142,10 +140,14 @@ open class BaseViewModel @Inject internal constructor(
 
     fun handleHoleFailResponse(apiException: ApiException) {
         Timber.e("exec handleHoleFailResponse %d %s", apiException.code, apiException.msg)
-        when(apiException.code){
+        when (apiException.code) {
             // 错误请求code 2 [会话无效，请重新登录]
 //            2 -> clearDataAndReLogin(apiException)
             401 -> clearDataAndReLogin(apiException)
+            40002 -> {
+                apiException.msg = "请重新登录并进行手机短信验证"
+                clearDataAndReLogin(apiException)
+            }
             // 其他fragment需要监听failStatus状态变化，并toast出来
             else -> failStatus.postValue(apiException)
         }
