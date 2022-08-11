@@ -88,5 +88,6 @@
     <string name="input_valid_code">请输入验证码</string>
     <string name="verify">验证</string>
     <string name="get_valid_code">获取验证码</string>
+    <string name="download">下载</string>
 
 </resources>

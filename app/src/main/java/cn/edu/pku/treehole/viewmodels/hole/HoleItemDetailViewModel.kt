@@ -41,9 +41,9 @@ class HoleItemDetailViewModel @Inject constructor(
     val replyDialogToName: LiveData<String?>
         get() = _replyDialogToName
 
-    private var _previewPicture = MutableLiveData("")
+    private var _previewPicture = MutableLiveData(0L)
 
-    val previewPicture: LiveData<String>
+    val previewPicture: LiveData<Long>
         get() = _previewPicture
 
     private var _responseMsg = MutableLiveData<String?>()
@@ -88,7 +88,9 @@ class HoleItemDetailViewModel @Inject constructor(
     val pictureClickListener = PictureClickListener{
         // 预览图片
         if (!it.url.isNullOrEmpty()) {
-            _previewPicture.value = HOLE_HOST_ADDRESS + "api/pku_image/" + it.pid
+//            _previewPicture.value = HOLE_HOST_ADDRESS + "api/pku_image/" + it.pid
+            _previewPicture.value = it.pid
+
         }
 
     }
@@ -176,7 +178,7 @@ class HoleItemDetailViewModel @Inject constructor(
     }
 
     fun finishPreviewPic() {
-        _previewPicture.value = ""
+        _previewPicture.value = 0L
     }
 
 //    fun onReplyResponseFinished() {

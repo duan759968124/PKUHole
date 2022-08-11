@@ -127,11 +127,11 @@ open class BaseViewModel @Inject internal constructor(
         Timber.e("exec handleTokenFailResponse %d %s", apiException.code, apiException.msg)
         when(apiException.code){
             // 错误请求code 1 2 4 100
-            1 -> clearDataAndReLogin(apiException)
-            2 -> clearDataAndReLogin(apiException)
-            4 -> clearDataAndReLogin(apiException)
-            100 -> clearDataAndReLogin(apiException)
-            401 -> clearDataAndReLogin(apiException)
+//            1 -> clearDataAndReLogin(apiException)
+//            2 -> clearDataAndReLogin(apiException)
+//            4 -> clearDataAndReLogin(apiException)
+//            100 -> clearDataAndReLogin(apiException)
+            40001 -> clearDataAndReLogin(apiException)
             // 其他fragment需要监听failStatus状态变化，并toast出来
             else -> failStatus.postValue(apiException)
         }

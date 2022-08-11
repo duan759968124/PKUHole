@@ -77,6 +77,9 @@ data class HoleListItemBean(
 
     @ColumnInfo(name = "isRead")
     var isRead: Int?,  // 0 or 1
+
+    @ColumnInfo(name = "pic_data")
+    var pic_data: String?
 )
 
 
@@ -98,7 +101,8 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
 //            label_info = it.label_info,
             isHole = 1,
             tag = null,
-            isRead = it.isRead
+            isRead = it.isRead,
+            pic_data = it.pic_data
         )
     }
 }
@@ -121,7 +125,8 @@ fun HoleListItemBean.asDatabaseBean():HoleItemBean{
 //            label_info = it.label_info,
             isHole = 1,
             tag = null,
-            isRead = it.isRead
+            isRead = it.isRead,
+            pic_data = it.pic_data
         )
     }
 }

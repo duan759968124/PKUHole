@@ -52,7 +52,7 @@ class SplashFragment : BaseFragment() {
             // 弹框
             showLaunchWarnDialog()
         } else {
-            checkLoginStatus()
+            viewModel.checkUpdate()
         }
     }
 

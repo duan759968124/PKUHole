@@ -18,6 +18,7 @@ data class HoleItemModel(
     var label: Int?,
     var is_follow: Int?,
     var isRead: Int?,
+    var pic_data: String?
 )
 
 
@@ -38,7 +39,8 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             is_follow = it.is_follow,
             anonymous = it.anonymous,
             label = it.label,
-            isRead = it.isRead
+            isRead = it.isRead,
+            pic_data = it.pic_data
 //            label_info = null,
         )
     }

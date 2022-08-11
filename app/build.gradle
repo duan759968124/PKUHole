@@ -13,7 +13,7 @@ android {
     compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
-        applicationId "cn.edu.pku.pkuhole"
+        applicationId "cn.edu.pku.treehole"
         minSdk rootProject.minSdkVersion
         targetSdk rootProject.targetSdkVersion
         versionCode 1

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentWebViewBinding
+import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import timber.log.Timber
 import java.net.URLEncoder
 
@@ -37,7 +38,7 @@ class WebViewFragment : BaseFragment() {
         when (moduleName) {
             "成绩" -> {
                 moduleUrl =
-                    "http://162.105.209.242/web/score?uid=" + LocalRepository.getUid() + "&password=" + URLEncoder.encode(
+                    HOLE_HOST_ADDRESS + "web/score?uid=" + LocalRepository.getUid() + "&password=" + URLEncoder.encode(
                         LocalRepository.getPasswordSecure(),
                         "utf-8"
                     )

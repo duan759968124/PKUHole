@@ -61,7 +61,10 @@ data class AttentionItemBean(
 
     @field:SerializedName("is_follow")
     @ColumnInfo(name = "is_follow")
-    var is_follow: Int? = 1
+    var is_follow: Int? = 1,
+
+    @ColumnInfo(name = "pic_data")
+    var pic_data: String?
 )
 
 
@@ -83,7 +86,8 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             is_follow = it.is_follow,
             anonymous = null,
             label = null,
-            isRead = null
+            isRead = null,
+            pic_data = it.pic_data
 //            label_info = null,
         )
     }
@@ -107,7 +111,8 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
             anonymous = null,
 //            label_info = null,
             label = null,
-            isRead = null
+            isRead = null,
+            pic_data = it.pic_data
         )
     }
 }

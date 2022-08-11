@@ -4,9 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.GlideEngine
@@ -52,20 +55,21 @@ abstract class BaseFragment: Fragment() {
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     open fun previewPicture(holeItem: HoleItemBean) {
-        if(!holeItem.url.isNullOrEmpty()) {
-            val localMedia = LocalMedia()
-//            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
-            localMedia.path = HOLE_HOST_ADDRESS + "api/pku_image/" + holeItem.pid
-
-            localMedia.setPosition(0)
-            val selectList: ArrayList<LocalMedia> = ArrayList(1)
-            selectList.add(localMedia)
-            PictureSelector.create(this)
-                .themeStyle(R.style.picture_WeChat_style)
-                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .isNotPreviewDownload(true)
-                .imageEngine(GlideEngine.createGlideEngine())
-                .openExternalPreview(0, selectList)
+        if(!holeItem.pic_data.isNullOrEmpty()) {
+//            val localMedia = LocalMedia()
+////            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
+//            val uri = holeItem.pic_data!!.split(',')[1]
+//            localMedia.path = uri
+//            localMedia.setPosition(0)
+//            val selectList: ArrayList<LocalMedia> = ArrayList(1)
+//            selectList.add(localMedia)
+//            PictureSelector.create(this)
+//                .themeStyle(R.style.picture_WeChat_style)
+//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+//                .isNotPreviewDownload(true)
+//                .imageEngine(GlideEngine.createGlideEngine())
+//                .openExternalPreview(0, selectList)
+            findNavController().navigate(NavigationDirections.actionGlobalNavPreviewPicture(holeItem.pid))
         }
     }
 

@@ -78,6 +78,18 @@
             app:argType="long" />
     </fragment>
 
+
+    <fragment
+        android:id="@+id/nav_preview"
+        android:name="cn.edu.pku.treehole.ui.hole.PreviewPictureFragment"
+        android:label="@string/picture_preview"
+        tools:layout="@layout/fragment_preview_picture">
+        <argument
+            android:name="pid"
+            app:argType="long" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/nav_score"
         android:name="cn.edu.pku.treehole.ui.webview.WebViewFragment"
@@ -201,6 +213,14 @@
         app:popUpTo="@+id/nav_hole"
         app:launchSingleTop="true"
         app:destination="@id/nav_login"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/action_global_nav_preview_picture"
+        app:destination="@id/nav_preview"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

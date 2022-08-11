@@ -81,6 +81,9 @@ data class HoleItemBean(
 
     @ColumnInfo(name = "isRead")
     var isRead: Int?,  // 0 or 1
+
+    @ColumnInfo(name = "pic_data")
+    var pic_data: String?,
 )
 
 

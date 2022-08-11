@@ -47,12 +47,19 @@ class HoleRepository @Inject constructor(
             holeListResponse.data!!.data?.map {
                 it.isHole = 1
                 it.isRead = 1
+                if(!it.url.isNullOrEmpty()){
+                    val pictureResponse =  launchRequestPic { holeApi.getPictureFromPid(it.pid)}
+                    if(pictureResponse.code == 20000){
+                        it.pic_data = pictureResponse.data
+                    }
+                }
             }
             holeListResponse.data.data?.let { updateOrInsertHoleList(it) }
             if (page == 1) {
                 holeListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
-                getFirstPageOrRefreshHoleListTimestamp =
-                    holeListResponse.data.data?.get(5)!!.timestamp
+                //测试小黄点
+//                getFirstPageOrRefreshHoleListTimestamp =
+//                    holeListResponse.data.data?.get(5)!!.timestamp
             }
         }
     }
@@ -65,6 +72,12 @@ class HoleRepository @Inject constructor(
             refreshHoleListResponse.data?.map {
                 it.isHole = 1
                 it.isRead = 0
+                if(!it.url.isNullOrEmpty()){
+                    val pictureResponse =  launchRequestPic { holeApi.getPictureFromPid(it.pid)}
+                    if(pictureResponse.code == 20000){
+                        it.pic_data = pictureResponse.data
+                    }
+                }
             }
             refreshHoleListResponse.data?.let { updateOrInsertHoleList(it) }
             refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }
@@ -77,7 +90,15 @@ class HoleRepository @Inject constructor(
         withContext(Dispatchers.IO){
             val attentionListResponse = launchRequest {holeApi.getAttentionList()}
 //            attentionListResponse.data?.map { it.is_follow = 1 }
-            attentionListResponse.data?.data.let {
+            attentionListResponse.data!!.data?.map {
+                if(!it.url.isNullOrEmpty()){
+                    val pictureResponse =  launchRequestPic { holeApi.getPictureFromPid(it.pid)}
+                    if(pictureResponse.code == 20000){
+                        it.pic_data = pictureResponse.data
+                    }
+                }
+            }
+            attentionListResponse.data.data.let {
                 if (it != null) {
                     updateOrInsertAttentionList(it)
                 }
@@ -102,7 +123,15 @@ class HoleRepository @Inject constructor(
         withContext(Dispatchers.IO){
             val holeResponse = launchRequest {holeApi.getOneHole(pid = pid)}
 //            holeResponse.data?.let { it.reply = 100 }
-            holeResponse.data?.let { it.isRead = 1 }
+            holeResponse.data?.let {
+                it.isRead = 1
+                if(!it.url.isNullOrEmpty()){
+                    val pictureResponse =  launchRequestPic { holeApi.getPictureFromPid(it.pid)}
+                    if(pictureResponse.code == 20000){
+                        it.pic_data = pictureResponse.data
+                    }
+                }
+            }
             holeResponse.data?.let { updateOrInsertHoleItemModel(it) }
         }
     }
@@ -190,11 +219,11 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.report(pid = pid, reason = reason) }
     }
 
-    suspend fun postHoleOnlyText(token: String, text: String): HoleApiResponse<String?>{
+    suspend fun postHoleOnlyText(text: String): HoleApiResponse<String?>{
         return launchRequest { holeApi.postHoleOnlyText(text = text) }
     }
 
-    suspend fun postHoleWithImage(token: String, text: String, data: String): HoleApiResponse<String?>{
+    suspend fun postHoleWithImage(text: String, data: String): HoleApiResponse<String?>{
         return launchRequest { holeApi.postHoleWithImage(text = text, data = data) }
     }
 
@@ -227,6 +256,9 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.getRandomHoleManagementPractice() }
     }
 
+    suspend fun getPictureData(pid: Long): HoleApiResponse<String?> {
+        return launchRequestPic { holeApi.getPictureFromPid(pid = pid) }
+    }
 
     suspend fun checkUpdate(): HoleApiResponse<UpdateInfo?> {
         return launchRequest { holeApi.checkUpdate() }

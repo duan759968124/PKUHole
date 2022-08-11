@@ -46,9 +46,37 @@ class HoleViewPagerViewModel @Inject constructor(
     val postResponseMsg = SingleLiveData<String?>()
 
     init {
-        // 获取一条随机的树洞管理规范
-        getRandomHoleManagementPractice()
+
+        if(LocalRepository.getUid().isNotEmpty()){
+            // 获取一条随机的树洞管理规范
+            getRandomHoleManagementPractice()
+            // 获取标签列表
+//            getLabelList()
+        }
+
     }
+
+//    private fun getLabelList() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val token = getValidTokenWithFlow().singleOrNull()
+//                token?.let {
+//                    val response =
+//                        database.()
+//                    LocalRepository.localRandomTip = response.data?.desc ?: ""
+//                    Timber.e("response tip: %s", response.data?.desc)
+//                    Timber.e("localRandomTip tip: %s", LocalRepository.localRandomTip)
+//                    _getRandomTipFromNet.postValue(true)
+//                }
+//            } catch (e: Exception) {
+//                when (e) {
+//                    is ApiException -> handleHoleFailResponse(e)
+//                    else -> errorStatus.postValue(e)
+//                }
+//            } finally {
+//            }
+//        }
+//    }
 
     private fun getRandomHoleManagementPractice() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -99,9 +127,9 @@ class HoleViewPagerViewModel @Inject constructor(
                     val token = getValidTokenWithFlow().singleOrNull()
                     token?.let {
                         val response = if(localPicBase64.value.isNullOrEmpty()){
-                            database.postHoleOnlyText(token = it, text = postTextContent.value!!)
+                            database.postHoleOnlyText(text = postTextContent.value!!)
                         }else{
-                            database.postHoleWithImage(token = it, text = postTextContent.value?:"",data=localPicBase64.value!!)
+                            database.postHoleWithImage(text = postTextContent.value?:"",data=localPicBase64.value!!)
                         }
                         Timber.e("reply result %s", response.toString())
                         postResponseMsg.postValue("发布成功")
@@ -130,9 +158,9 @@ class HoleViewPagerViewModel @Inject constructor(
 //            file = File(localMedia.androidQToPath)
 //        }
 //         使用压缩路径
-        var file: File? = File(localMedia.compressPath)
+        val file = File(localMedia.compressPath)
         localPicFile.value = file
-        localPicBase64.value = file?.let { ImageUtils.encodeImage(it) }
+        localPicBase64.value = file.let { ImageUtils.encodeImage(it) }
     }
 
     fun clearContent() {

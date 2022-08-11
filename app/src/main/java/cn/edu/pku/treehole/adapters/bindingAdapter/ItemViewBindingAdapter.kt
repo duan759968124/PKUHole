@@ -1,14 +1,23 @@
 package cn.edu.pku.treehole.adapters.bindingAdapter
 
+import android.util.Base64
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import cn.edu.pku.treehole.R
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.convertDurationToFormatted
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import java.io.File
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+import okio.ByteString.Companion.decodeBase64
 
 
 /**
@@ -33,18 +42,44 @@ fun bindHasImage(view: View, url: String?) {
     }
 }
 
-@BindingAdapter(value = ["imageUrl", "imagePid"])
-fun bindImageFromUrl(view: ImageView, imageUrl: String?, imagePid: Long?) {
-    if (!imageUrl.isNullOrEmpty()) {
-        val url = HOLE_HOST_ADDRESS + "api/pku_image/" + imagePid
+@BindingAdapter("imagePicData")
+fun bindImageFromUrl(view: ImageView, imagePicData: String?) {
+    if (!imagePicData.isNullOrEmpty()) {
+//        val url = HOLE_HOST_ADDRESS + "api/pku_image/" + imagePid
+//        val glideUrl = GlideUrl(
+//            url,
+//    LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+//        )
+        val uri = imagePicData.split(',')[1]
+        val imageByteArray: ByteArray = Base64.decode(uri, Base64.DEFAULT)
+//    val imageByteArray = imagePicData?.decodeBase64()
         Glide.with(view.context)
-            .load(url)
-//            .placeholder(R.drawable.bg_drawer_header)
+            .asBitmap()
+            .load(imageByteArray)
+            .placeholder(R.drawable.bg_drawer_header)
 //            .error(R.drawable.ic_broken_image_24)
-            .transition(DrawableTransitionOptions.withCrossFade())
+//            .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
+//        val decodedString: ByteArray = Base64.decode(imagePicData, Base64.DEFAULT)
+//        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+//        view.setImageBitmap(decodedByte)
     }
+
 }
+
+//val url:String="https://URL.com/" + data[position].image_path;
+//
+//val glideUrl = GlideUrl(
+//    url,
+//    LazyHeaders.Builder()
+//        .addHeader("Authorization", "Bearer $token")
+//        .build()
+//)
+//
+//
+//Glide.with(mContext)
+//.load(glideUrl)
+//.into(holder.binding.img);
 
 
 @BindingAdapter("hasLocalImage")

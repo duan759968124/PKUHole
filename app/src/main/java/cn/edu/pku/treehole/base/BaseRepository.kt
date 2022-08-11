@@ -155,13 +155,13 @@ open class BaseRepository {
             block()
         } catch (e: Exception){
             if(e.message?.contains("401") == true){
-                Timber.e("error exception: " + e.message)
+                Timber.e("error exception: %s", e.message)
                 throw ApiException(401, "Unauthorized")
             }else{
                 when(e){
-                    is UnknownHostException -> Timber.e(e.message)
-                    is ConnectException -> Timber.e(e.message)
-                    else -> Timber.e(e.message)
+                    is UnknownHostException -> Timber.e(e)
+                    is ConnectException -> Timber.e(e)
+                    else -> Timber.e(e)
                 }
                 throw e
             }
@@ -169,6 +169,37 @@ open class BaseRepository {
         }.run {
 //            if(code == 0){
             if(code == 0 || code == 20000){
+                this
+            }else{
+                throw ApiException(code, msg)
+            }
+        }
+    }
+
+    /**
+     * 带返回值的单个请求
+     */
+    suspend inline fun <reified T: Any> launchRequestPic(
+        crossinline block : suspend () -> HoleApiResponse<T?>
+    ): HoleApiResponse<T?> {
+        return try {
+            block()
+        } catch (e: Exception){
+            if(e.message?.contains("401") == true){
+                Timber.e("error exception: %s", e.message)
+                throw ApiException(401, "Unauthorized")
+            }else{
+                when(e){
+                    is UnknownHostException -> Timber.e(e)
+                    is ConnectException -> Timber.e(e)
+                    else -> Timber.e(e)
+                }
+                throw e
+            }
+
+        }.run {
+//            if(code == 0){
+            if(code == 0 || code == 20000 || code == 40001){
                 this
             }else{
                 throw ApiException(code, msg)
