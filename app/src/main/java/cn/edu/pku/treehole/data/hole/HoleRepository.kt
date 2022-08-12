@@ -207,7 +207,7 @@ class HoleRepository @Inject constructor(
      * 纯网络接口，不向数据库写数据
      * 评论成功返回数据
      */
-    suspend fun sendReplyComment(pid: Long, comment: String): HoleApiResponse<String?> {
+    suspend fun sendReplyComment(pid: Long, comment: String): HoleApiResponse<EmptyBean?> {
         return launchRequest { holeApi.sendReplyComment(pid = pid, text = comment)}
     }
 
@@ -219,11 +219,11 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.report(pid = pid, reason = reason) }
     }
 
-    suspend fun postHoleOnlyText(text: String): HoleApiResponse<String?>{
+    suspend fun postHoleOnlyText(text: String): HoleApiResponse<EmptyBean?>{
         return launchRequest { holeApi.postHoleOnlyText(text = text) }
     }
 
-    suspend fun postHoleWithImage(text: String, data: String): HoleApiResponse<String?>{
+    suspend fun postHoleWithImage(text: String, data: String): HoleApiResponse<EmptyBean?>{
         return launchRequest { holeApi.postHoleWithImage(text = text, data = data) }
     }
 

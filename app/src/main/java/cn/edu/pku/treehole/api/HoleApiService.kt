@@ -202,7 +202,7 @@ interface HoleApiService {
     suspend fun sendReplyComment(
         @Field("pid") pid: Long,
         @Field("text") text: String,
-    ): HoleApiResponse<String?>
+    ): HoleApiResponse<EmptyBean?>
 
     // Attention状态变化【关注或者取消关注】
     @FormUrlEncoded
@@ -229,7 +229,7 @@ interface HoleApiService {
         @Field("text") text: String,
         @Field("data") data: String,
         @Field("data_type") data_type: String = "base64"
-    ): HoleApiResponse<String?>
+    ): HoleApiResponse<EmptyBean?>
 
     // 发树洞[不带图片]
     @FormUrlEncoded
@@ -237,7 +237,7 @@ interface HoleApiService {
     suspend fun postHoleOnlyText(
         @Field("type") type: String = "text",
         @Field("text") text: String,
-    ): HoleApiResponse<String?>
+    ): HoleApiResponse<EmptyBean?>
 
     // 标签列表
     @GET("api/pku/tags")

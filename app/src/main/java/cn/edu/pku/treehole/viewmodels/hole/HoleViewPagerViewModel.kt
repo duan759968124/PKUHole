@@ -160,7 +160,7 @@ class HoleViewPagerViewModel @Inject constructor(
 //         使用压缩路径
         val file = File(localMedia.compressPath)
         localPicFile.value = file
-        localPicBase64.value = file.let { ImageUtils.encodeImage(it) }
+        localPicBase64.value = file.let { "data:image/jpeg;base64," + ImageUtils.encodeImage(it) }
     }
 
     fun clearContent() {

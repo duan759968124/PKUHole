@@ -56,7 +56,7 @@ fun bindImageFromUrl(view: ImageView, imagePicData: String?) {
         Glide.with(view.context)
             .asBitmap()
             .load(imageByteArray)
-            .placeholder(R.drawable.bg_drawer_header)
+//            .placeholder(R.drawable.bg_drawer_header)
 //            .error(R.drawable.ic_broken_image_24)
 //            .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
