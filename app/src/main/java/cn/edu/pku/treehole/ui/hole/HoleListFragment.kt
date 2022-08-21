@@ -14,10 +14,13 @@ import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.HoleAdapter
 import cn.edu.pku.treehole.adapters.HoleItemListener
 import cn.edu.pku.treehole.base.BaseFragment
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentHoleListBinding
 
 import cn.edu.pku.treehole.viewmodels.hole.HoleListViewModel
 import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -62,6 +65,13 @@ class HoleListFragment : BaseFragment() {
             viewModel.getHoleList()
             Timber.e("监听到加载更多了")
 //            it.finishLoadMore(false)
+        }
+
+        viewModel.getRandomTipFromNet.observe(viewLifecycleOwner) {
+            if (it) {
+                showRandomTipDialog()
+                viewModel.closeRandomTipDialog()
+            }
         }
 
         // 监听holeList变化并更新UI
@@ -126,6 +136,23 @@ class HoleListFragment : BaseFragment() {
             }
         })
 
+    }
+
+    private fun showRandomTipDialog() {
+        if (LocalRepository.checkIsShowTip()) {
+            context?.let {
+                MaterialDialog(it).show {
+                    title(R.string.hole_practice)
+                    cancelable(false)
+                    cancelOnTouchOutside(false)
+                    message(text = LocalRepository.localRandomTip)
+                    checkBoxPrompt(R.string.hiddenDialogToday) { checked ->
+                        LocalRepository.hiddenRandomTipToday = checked
+                    }
+                    positiveButton(R.string.confirm)
+                }
+            }
+        }
     }
 
     override fun initData() {

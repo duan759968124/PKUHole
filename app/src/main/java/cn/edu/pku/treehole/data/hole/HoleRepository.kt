@@ -27,6 +27,7 @@ import javax.inject.Singleton
 class HoleRepository @Inject constructor(
     private val holeListDao: HoleListDao,
     private val commentDao: CommentDao,
+    private val tagDao: TagDao,
     private val holeApi : HoleApiService,
     ): BaseRepository() {
 
@@ -39,7 +40,7 @@ class HoleRepository @Inject constructor(
 
 
     // 记录获取第一页或者刷新时间，作为请求刷新的一个参数
-    private var getFirstPageOrRefreshHoleListTimestamp: Long = 0L
+    private var getFirstPageOrRefreshHoleListTimestamp: Long = 1660289350
 
     suspend fun getHoleListFromNetToDatabase(page: Int){
         withContext(Dispatchers.IO){
@@ -179,11 +180,29 @@ class HoleRepository @Inject constructor(
         return holeResponse
     }
 
+    fun getTagItem(tid: Long) = tagDao.get(tid)
+    fun getTagIdByTest(tagName: String) = tagDao.getTagIdByTest()
+    fun getTagIdByName(tagName: String) = tagDao.getTagIdByName(tagName)
+    fun getTagList() : Flow<List<TagBean>> = tagDao.getTagList()
+    fun getTagNameList(): Flow<List<String>> = tagDao.getTagNameList()
+
+    private suspend fun insertTagList(tagList: List<TagBean>) = tagDao.insertTagList(tagList)
+
+    // 获取Tag列表，并插入到数据库中【这里不用更新】
+    suspend fun getTagListFromNetToDatabase(){
+        withContext(Dispatchers.IO){
+            val tagResponse = launchRequest {holeApi.getTagList()}
+            tagResponse.data?.let { insertTagList(it) }
+        }
+    }
+
+
 
     // 清理该repository所有数据
     suspend fun clear() {
         holeListDao.clear()
         commentDao.clear()
+        tagDao.clear()
     }
 
 
@@ -219,16 +238,17 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.report(pid = pid, reason = reason) }
     }
 
-    suspend fun postHoleOnlyText(text: String): HoleApiResponse<EmptyBean?>{
-        return launchRequest { holeApi.postHoleOnlyText(text = text) }
+    suspend fun postHoleOnlyText(text: String, labelId: Long?): HoleApiResponse<EmptyBean?>{
+        return launchRequest { holeApi.postHoleOnlyText(text = text, labelId = labelId) }
     }
 
-    suspend fun postHoleWithImage(text: String, data: String): HoleApiResponse<EmptyBean?>{
-        return launchRequest { holeApi.postHoleWithImage(text = text, data = data) }
+    suspend fun postHoleWithImage(text: String, data: String, labelId: Long?): HoleApiResponse<EmptyBean?>{
+        return launchRequest { holeApi.postHoleWithImage(text = text, data = data, labelId = labelId) }
     }
 
-    suspend fun search(keywords: String, page: Long): HoleApiResponse<HoleListBody<HoleItemModel>?> {
-        return launchRequest { holeApi.search(keywords = keywords, page = page) }
+    suspend fun search(keywords: String, page: Long, labelId: Long?): HoleApiResponse<HoleListBody<HoleItemModel>?> {
+//        var labelId = labelName?.let { name -> getTagIdByTest(name).tid }
+        return launchRequest { holeApi.search(keywords = keywords, page = page, labelId = labelId) }
     }
 
     suspend fun searchPid(pid: String): HoleApiResponse<HoleListBody<HoleItemModel>?> {

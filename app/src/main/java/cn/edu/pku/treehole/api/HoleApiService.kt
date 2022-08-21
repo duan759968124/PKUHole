@@ -154,7 +154,8 @@ interface HoleApiService {
     @GET("api/pku_hole")
     suspend fun search(
         @Query("page") page: Long,
-        @Query("keyword") keywords: String
+        @Query("keyword") keywords: String,
+        @Query("label") labelId: Long?,
     ): HoleApiResponse<HoleListBody<HoleItemModel>?>
 
     @GET("api/pku_hole")
@@ -228,7 +229,8 @@ interface HoleApiService {
         @Field("type") type: String = "image",
         @Field("text") text: String,
         @Field("data") data: String,
-        @Field("data_type") data_type: String = "base64"
+        @Field("data_type") data_type: String = "base64",
+        @Field("label") labelId: Long?
     ): HoleApiResponse<EmptyBean?>
 
     // 发树洞[不带图片]
@@ -237,12 +239,13 @@ interface HoleApiService {
     suspend fun postHoleOnlyText(
         @Field("type") type: String = "text",
         @Field("text") text: String,
+        @Field("label") labelId: Long?
     ): HoleApiResponse<EmptyBean?>
 
     // 标签列表
     @GET("api/pku/tags")
-    suspend fun getLabelList(
-    ): HoleApiResponse<List<LabelInfoBean>?>
+    suspend fun getTagList(
+    ): HoleApiResponse<List<TagBean>?>
 
 
 

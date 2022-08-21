@@ -17,6 +17,7 @@ import cn.edu.pku.treehole.viewmodels.hole.HoleViewPagerViewModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import com.afollestad.materialdialogs.input.input
+import com.afollestad.materialdialogs.list.listItems
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -35,6 +36,13 @@ class HoleViewPagerFragment : BaseFragment() {
     private lateinit var binding: FragmentHoleViewPagerBinding
     private val viewModel : HoleViewPagerViewModel by activityViewModels()
 
+    private lateinit var searchDialog: MaterialDialog
+    private lateinit var tagSheetDialog: MaterialDialog
+
+    private var searchTagName: String = ""
+    private val tagTitle: String = "选择标签"
+    private var tagNameList = listOf<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +59,20 @@ class HoleViewPagerFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        searchDialog = context?.let {
+            MaterialDialog(it)
+                .title(R.string.search)
+                .input(hintRes = R.string.hint_search_text) { dialog, text ->
+                    // 检查文本并发送回复文本请求
+                    checkSearchAndRequest(text)
+                }
+                .negativeButton(R.string.cancelReply)
+                .positiveButton(R.string.search)
+                .neutralButton(text = tagTitle){
+                    tagSheetDialog.show()
+                }
+        }!!
+
         val postDialog = PostHoleDialogFragment()
 
         viewModel.showDialogPost.observe(viewLifecycleOwner, Observer { isShow ->
@@ -64,6 +86,20 @@ class HoleViewPagerFragment : BaseFragment() {
 
             }
         })
+
+        viewModel.tagNameList.observe(viewLifecycleOwner) {
+            it?.let {
+                tagNameList = it
+                tagSheetDialog = context?.let { context ->
+                    MaterialDialog(context)
+                        .title(text = tagTitle)
+                        .listItems(items = tagNameList){ dialog, index, text ->
+                            searchTagName = text as String
+                            searchDialog.neutralButton(text = searchTagName).show()
+                        }
+                }!!
+            }
+        }
 
         // 监听发布更新帖子
         viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
@@ -99,32 +135,8 @@ class HoleViewPagerFragment : BaseFragment() {
             }
         })
 
-        viewModel.getRandomTipFromNet.observe(viewLifecycleOwner) {
-            if (it) {
-                showRandomTipDialog()
-                viewModel.closeRandomTipDialog()
-            }
-        }
-
         setHasOptionsMenu(true)
         return binding.root
-    }
-
-    private fun showRandomTipDialog() {
-        if (LocalRepository.checkIsShowTip()) {
-            context?.let {
-                MaterialDialog(it).show {
-                    title(R.string.hole_practice)
-                    cancelable(false)
-                    cancelOnTouchOutside(false)
-                    message(text = LocalRepository.localRandomTip)
-                    checkBoxPrompt(R.string.hiddenDialogToday) { checked ->
-                        LocalRepository.hiddenRandomTipToday = checked
-                    }
-                    positiveButton(R.string.confirm)
-                }
-            }
-        }
     }
 
     override fun initData() {
@@ -159,22 +171,23 @@ class HoleViewPagerFragment : BaseFragment() {
 
     @SuppressLint("CheckResult")
     private fun showSearchDialog() {
-        context?.let {
-            MaterialDialog(it).show {
-                title(R.string.search)
-                input(hintRes = R.string.hint_search_text) { dialog, text ->
-//                    Timber.e("input text %s", text)
-                    // 检查文本并发送回复文本请求
-                    checkSearchAndRequest(text)
-//
-                }
-                negativeButton(R.string.cancelReply)
-//                { dialog ->
-//                    dialog.hide()
+        searchDialog.show()
+//        context?.let {
+//            MaterialDialog(it).show {
+//                title(R.string.search)
+//                input(hintRes = R.string.hint_search_text) { dialog, text ->
+////                    Timber.e("input text %s", text)
+//                    // 检查文本并发送回复文本请求
+//                    checkSearchAndRequest(text)
+////
 //                }
-                positiveButton(R.string.search)
-            }
-        }
+//                negativeButton(R.string.cancelReply)
+////                { dialog ->
+////                    dialog.hide()
+////                }
+//                positiveButton(R.string.search)
+//            }
+//        }
     }
 
     private fun checkSearchAndRequest(text: CharSequence) {
@@ -182,8 +195,11 @@ class HoleViewPagerFragment : BaseFragment() {
             showToast("关键词不可为空")
         } else{
             //跳转到搜索界面
-            findNavController().navigate(HoleViewPagerFragmentDirections.actionNavHoleToNavSearchResult(text.toString()))
+            findNavController().navigate(HoleViewPagerFragmentDirections.actionNavHoleToNavSearchResult(
+                keywords = text.toString(),
+                searchTagName = searchTagName))
         }
+        searchTagName = ""
     }
 
 }

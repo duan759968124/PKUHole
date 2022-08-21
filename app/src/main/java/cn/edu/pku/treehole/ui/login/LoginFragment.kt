@@ -68,9 +68,14 @@ class LoginFragment : BaseFragment() {
 //        }
 
         userViewModel.showInputValidCode.observe(viewLifecycleOwner) { showInputValidCode ->
+//            if (showInputValidCode) {
+//                findNavController()
+//                    .navigate(LoginFragmentDirections.actionNavLoginToNavInputValidCode())
+//                userViewModel.onNavigateToInputValidCodeComplete()
+//            }
             if (showInputValidCode) {
-                findNavController()
-                    .navigate(LoginFragmentDirections.actionNavLoginToNavInputValidCode())
+                showToast("登录成功")
+                findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHole())
                 userViewModel.onNavigateToInputValidCodeComplete()
             }
         }

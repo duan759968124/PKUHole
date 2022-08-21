@@ -37,7 +37,6 @@ class HoleItemDetailViewModel @Inject constructor(
     val commentList: LiveData<List<CommentItemBean>> = database.getCommentList(pid).asLiveData()
 
     private var _replyDialogToName = MutableLiveData<String?>()
-
     val replyDialogToName: LiveData<String?>
         get() = _replyDialogToName
 
@@ -112,13 +111,16 @@ class HoleItemDetailViewModel @Inject constructor(
         Timber.e("viewModel reply text: %s", text)
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                _responseMsg.postValue(null)
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
                     val response = database.sendReplyComment(pid, text.toString())
                     Timber.e("reply result %s", response.toString())
-//                        _replyResponseMsg.postValue("回复成功")
+                    _responseMsg.postValue("回复成功")
                     response.data?.let {
-                        fetchCommentDetailFromNet()
+                        //重新获取树洞数据和评论数据
+                        database.getOneHoleFromNetToDatabase(pid)
+                        database.getCommentListFromNetToDatabase(pid)
                     }
                 }
             }catch (e: Exception){

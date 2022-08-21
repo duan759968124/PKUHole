@@ -1,24 +1,73 @@
 package cn.edu.pku.treehole.data.hole
 
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+
 /**
  * 最小的实体
  */
 data class HoleItemModel(
 
+    @field:SerializedName("pid")
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "pid")
     var pid: Long,
+
+    @field:SerializedName("text")
+    @ColumnInfo(name = "text")
     var text: String?,
+
+    @field:SerializedName("type")
+    @ColumnInfo(name = "type")
     var type: String,
+
+    @field:SerializedName("timestamp")
+    @ColumnInfo(name = "timestamp")
     var timestamp: Long,
+
+    @field:SerializedName("reply")
+    @ColumnInfo(name = "reply")
     var reply: Int,
+
+    @field:SerializedName("likenum")
+    @ColumnInfo(name = "likenum")
     var likenum: Int,
+
+    @field:SerializedName("extra")
+    @ColumnInfo(name = "extra")
     var extra: Int?,
+
+    @field:SerializedName("anonymous")
+    @ColumnInfo(name = "anonymous")
     var anonymous: Int?,
+
+    @field:SerializedName("url")
+    @ColumnInfo(name = "url")
     var url: String?,
+
+    @field:SerializedName("is_top")
+    @ColumnInfo(name = "is_top")
     var is_top: Int?,
-    var label: Int?,
+
+    @field:SerializedName("is_follow")
+    @ColumnInfo(name = "is_follow")
     var is_follow: Int?,
-    var isRead: Int?,
-    var pic_data: String?
+
+    @field:SerializedName("label_info")
+    @Embedded(prefix = "label_info_")
+    var label_info: TagBean?,
+
+    @field:SerializedName("label")
+    @ColumnInfo(name = "label")
+    var label: Int?,
+
+    @ColumnInfo(name = "isRead")
+    var isRead: Int?,  // 0 or 1
+
+    @ColumnInfo(name = "pic_data")
+    var pic_data: String?,
 )
 
 
@@ -40,7 +89,8 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             anonymous = it.anonymous,
             label = it.label,
             isRead = it.isRead,
-            pic_data = it.pic_data
+            pic_data = it.pic_data,
+            label_info = it.label_info
 //            label_info = null,
         )
     }

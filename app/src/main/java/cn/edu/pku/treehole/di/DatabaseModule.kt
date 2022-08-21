@@ -4,6 +4,7 @@ import android.content.Context
 import cn.edu.pku.treehole.data.hole.AppDatabase
 import cn.edu.pku.treehole.data.hole.CommentDao
 import cn.edu.pku.treehole.data.hole.HoleListDao
+import cn.edu.pku.treehole.data.hole.TagDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,12 @@ class DatabaseModule {
 
     // 每次都是新的实例
     @Provides
+    fun provideTagDao(appDatabase: AppDatabase): TagDao {
+        return appDatabase.tagDao()
+    }
+
+    // 每次都是新的实例
+    @Provides
     fun provideHoleListDao(appDatabase: AppDatabase): HoleListDao {
         return appDatabase.holeListDao()
     }
@@ -40,4 +47,5 @@ class DatabaseModule {
     fun provideCommentDao(appDatabase: AppDatabase): CommentDao {
         return appDatabase.commentDao()
     }
+
 }

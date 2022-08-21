@@ -17,6 +17,8 @@ import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.databinding.DialogHolePostBinding
 import cn.edu.pku.treehole.utilities.GlideEngine
 import cn.edu.pku.treehole.viewmodels.hole.HoleViewPagerViewModel
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.animators.AnimationType
 import com.luck.picture.lib.config.PictureConfig
@@ -40,6 +42,10 @@ class PostHoleDialogFragment : DialogFragment() {
 
     private lateinit var mPictureParameterStyle: PictureParameterStyle
     private lateinit var mCropParameterStyle: PictureCropParameterStyle
+
+    private lateinit var tagSheetDialog: MaterialDialog
+    private var tagNameList = listOf<String>()
+    private var searchTagName: String = ""
 
     //    override fun onCreateDialog(savedInstanceState: Bundle?) : Dialog{
 //        return activity?.let {
@@ -81,6 +87,27 @@ class PostHoleDialogFragment : DialogFragment() {
         viewModel.openPictureSelect.observe(viewLifecycleOwner) { openPicureGallery ->
             if (openPicureGallery) {
                 openPicGalleryWithPermissionCheck()
+            }
+        }
+
+        viewModel.tagNameList.observe(viewLifecycleOwner) {
+            it?.let {
+                tagNameList = it
+            }
+        }
+
+        viewModel.showTagListDialog.observe(viewLifecycleOwner) {
+            if(it){
+                tagSheetDialog = context?.let { context ->
+                    MaterialDialog(context)
+                        .title(text = viewModel.tagTitle)
+                        .listItems(items = tagNameList){ dialog, index, text ->
+                            searchTagName = text as String
+                            binding.tagListTv.text = searchTagName
+                            viewModel.dismissTagListDialog(searchTagName)
+                        }
+                }!!
+                tagSheetDialog.show()
             }
         }
 

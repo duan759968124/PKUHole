@@ -3,6 +3,7 @@ package cn.edu.pku.treehole.viewmodels.hole
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
@@ -11,8 +12,9 @@ import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.data.hole.asDatabaseBean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,9 +25,11 @@ class SearchViewModel @Inject internal constructor(
 
     companion object {
         private const val SEARCH_KEY_WORDS = "keywords"
+        private const val SEARCH_TAG_NAME = "search_tag_name"
     }
 
     private val keywords : String = savedStateHandle.get<String>(SEARCH_KEY_WORDS)!!
+    private val searchTagName : String = savedStateHandle.get<String>(SEARCH_TAG_NAME)!!
 
     var searchList = MutableLiveData<List<HoleItemBean?>>().apply { value = arrayListOf() }
 
@@ -43,6 +47,7 @@ class SearchViewModel @Inject internal constructor(
     var currentPage : Long = 0
 
     init {
+        searchList.value = arrayListOf()
         getSearchList()
     }
 
@@ -52,13 +57,14 @@ class SearchViewModel @Inject internal constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 loadingStatus.postValue(true)
+                val selectedTagId = database.getTagIdByName(searchTagName).first()
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let { _ ->
                     val response =
                         if (keywords[0] == '#' && (keywords.length == 7 || keywords.length == 8)) {
                             database.searchPid(pid = keywords.substring(1))
                         } else {
-                            database.search(keywords = keywords, page = currentPage + 1)
+                            database.search(keywords = keywords, page = currentPage + 1, labelId = selectedTagId)
                         }
                     currentPage = response.data?.current_page ?: 1
                     val searchAllList =

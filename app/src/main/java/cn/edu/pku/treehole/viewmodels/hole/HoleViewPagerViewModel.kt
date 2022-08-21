@@ -2,16 +2,17 @@ package cn.edu.pku.treehole.viewmodels.hole
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
-import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.utilities.ImageUtils
 import cn.edu.pku.treehole.utilities.SingleLiveData
 import com.luck.picture.lib.entity.LocalMedia
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,80 +30,30 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HoleViewPagerViewModel @Inject constructor(
-    holeRepository: HoleRepository) : BaseViewModel(holeRepository = holeRepository) {
+    holeRepository: HoleRepository,
+) : BaseViewModel(holeRepository = holeRepository) {
 
     val showDialogPost = SingleLiveData<Boolean>()
 
 
-    private val _openPictureSelect = MutableLiveData<Boolean>(false)
+    val tagNameList = database.getTagNameList().asLiveData()
+
+    var tagTitle = "添加标签"
+    var selectedTagName = ""
+
+    private val _openPictureSelect = MutableLiveData(false)
     val openPictureSelect: LiveData<Boolean>
         get() = _openPictureSelect
 
-    private val _getRandomTipFromNet = MutableLiveData<Boolean>().apply { value = false }
-    val getRandomTipFromNet: LiveData<Boolean>
-        get() = _getRandomTipFromNet
+    private val _showTagListDialog = MutableLiveData(false)
+    val showTagListDialog: LiveData<Boolean>
+        get() = _showTagListDialog
 
 
     val postResponseMsg = SingleLiveData<String?>()
 
+
     init {
-
-        if(LocalRepository.getUid().isNotEmpty()){
-            // 获取一条随机的树洞管理规范
-            getRandomHoleManagementPractice()
-            // 获取标签列表
-//            getLabelList()
-        }
-
-    }
-
-//    private fun getLabelList() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                val token = getValidTokenWithFlow().singleOrNull()
-//                token?.let {
-//                    val response =
-//                        database.()
-//                    LocalRepository.localRandomTip = response.data?.desc ?: ""
-//                    Timber.e("response tip: %s", response.data?.desc)
-//                    Timber.e("localRandomTip tip: %s", LocalRepository.localRandomTip)
-//                    _getRandomTipFromNet.postValue(true)
-//                }
-//            } catch (e: Exception) {
-//                when (e) {
-//                    is ApiException -> handleHoleFailResponse(e)
-//                    else -> errorStatus.postValue(e)
-//                }
-//            } finally {
-//            }
-//        }
-//    }
-
-    private fun getRandomHoleManagementPractice() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val token = getValidTokenWithFlow().singleOrNull()
-                token?.let {
-                    val response =
-                        database.getRandomHoleManagementPractice()
-                    LocalRepository.localRandomTip = response.data?.desc ?: ""
-                    Timber.e("response tip: %s", response.data?.desc)
-                    Timber.e("localRandomTip tip: %s", LocalRepository.localRandomTip)
-                    _getRandomTipFromNet.postValue(true)
-                }
-            } catch (e: Exception) {
-                when (e) {
-                    is ApiException -> handleHoleFailResponse(e)
-                    else -> errorStatus.postValue(e)
-                }
-            } finally {
-            }
-        }
-
-    }
-
-    fun closeRandomTipDialog() {
-        _getRandomTipFromNet.value = false
     }
 
 
@@ -111,43 +62,67 @@ class HoleViewPagerViewModel @Inject constructor(
         showDialogPost.value = true
     }
 
+//    fun selectTagName(parent: AdapterView<*>?, view: View, pos: Int, id: Long){
+////        Timber.e("select tag how to get name %d", selectedNamePosition)
+//        Timber.e("select tag names %s", tagNameList.value)
+//        Timber.e("select tag names %d %d", pos, id)
+//        if(pos >= 0){
+//            Timber.e("tag name %s", tagNameList.value?.get(pos) ?: "null")
+//        }
+//    }
+
+    fun selectTagName() {
+        _showTagListDialog.value = true
+    }
+
+    fun dismissTagListDialog(tagName: String) {
+        _showTagListDialog.value = false
+        selectedTagName = tagName
+    }
+
+
     var postTextContent = MutableLiveData<String?>()
     var localPicFile = MutableLiveData<File?>()
     var localPicBase64 = MutableLiveData<String?>()
 
-    fun postNewHole(){
+    fun postNewHole() {
         showDialogPost.value = false
         postResponseMsg.value = null
-        if(localPicBase64.value.isNullOrEmpty() and postTextContent.value.isNullOrEmpty()){
+        if (localPicBase64.value.isNullOrEmpty() and postTextContent.value.isNullOrEmpty()) {
             postResponseMsg.value = "输入内容为空"
-        }else{
+        } else {
             Timber.e("click post new hole to server %s", postTextContent.value)
             viewModelScope.launch(Dispatchers.IO) {
                 try {
+                    val selectedTagId = database.getTagIdByName(selectedTagName).first()
                     val token = getValidTokenWithFlow().singleOrNull()
                     token?.let {
-                        val response = if(localPicBase64.value.isNullOrEmpty()){
-                            database.postHoleOnlyText(text = postTextContent.value!!)
-                        }else{
-                            database.postHoleWithImage(text = postTextContent.value?:"",data=localPicBase64.value!!)
+                        val response = if (localPicBase64.value.isNullOrEmpty()) {
+                            database.postHoleOnlyText(text = postTextContent.value!!,
+                                labelId = selectedTagId)
+                        } else {
+                            database.postHoleWithImage(text = postTextContent.value ?: "",
+                                data = localPicBase64.value!!,
+                                labelId = selectedTagId)
                         }
                         Timber.e("reply result %s", response.toString())
                         postResponseMsg.postValue("发布成功")
                     }
-                }catch (e: Exception){
-                    when(e){
+                } catch (e: Exception) {
+                    when (e) {
                         is ApiException -> handleHoleFailResponse(e)
                         else -> errorStatus.postValue(e)
                     }
-                }finally {
+                } finally {
                     postTextContent.postValue("")
                     localPicFile.postValue(null)
+                    selectedTagName = ""
                 }
             }
         }
     }
 
-    fun getLocalPicture(){
+    fun getLocalPicture() {
         _openPictureSelect.value = true
     }
 
@@ -167,6 +142,7 @@ class HoleViewPagerViewModel @Inject constructor(
         postTextContent.value = ""
         localPicFile.value = null
         localPicBase64.value = null
+        selectedTagName = ""
     }
 
 }

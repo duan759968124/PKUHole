@@ -1,8 +1,6 @@
 package cn.edu.pku.treehole.data.hole
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -15,7 +13,14 @@ import com.google.gson.annotations.SerializedName
  *
  * 最大的实体，同时是数据库实体
  */
-@Entity(tableName = "hole_list_table")
+@SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+@Entity(
+    tableName = "hole_list_table", )
+//foreignKeys = [ForeignKey(
+//        entity = TagBean::class,
+//        childColumns = ["label"],
+//        parentColumns = ["id"]
+//    )], indices = [Index("pid")]
 data class HoleItemBean(
     @field:SerializedName("pid")
     @PrimaryKey(autoGenerate = false)
@@ -63,11 +68,12 @@ data class HoleItemBean(
     @ColumnInfo(name = "is_follow")
     var is_follow: Int?,  //本人是否关注 1 是 ，0 未关注
 
-//    @field:SerializedName("label_info")
+    @field:SerializedName("label_info")
 ////    @ColumnInfo(name = "label_info_id")
-////    var label_info_id: Int?,
-//    @Embedded(prefix = "label_info_")
-//    var label_info: LabelInfoBean?,
+//    var label_info_id: Int?,
+    @Embedded(prefix = "label_info_")
+    var label_info: TagBean?,
+
     @field:SerializedName("label")
     @ColumnInfo(name = "label")
     var label: Int?,
@@ -84,7 +90,9 @@ data class HoleItemBean(
 
     @ColumnInfo(name = "pic_data")
     var pic_data: String?,
-)
+){
+//    @Ignore var tagInfo: TagBean? = null
+}
 
 
 //fun List<HoleItemBean>.asDomainModel():List<HoleItemModel>{

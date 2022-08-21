@@ -115,7 +115,6 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun initData() {
-//        viewModel.getSearchList()
     }
 
 

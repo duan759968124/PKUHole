@@ -30,6 +30,8 @@
     <dimen name="setting_item_padding_left_right">15dp</dimen>
 <!--    copyright-->
     <dimen name="copyright_margin">14dp</dimen>
+    <dimen name="tag_padding">4dp</dimen>
+    <dimen name="tag_margin">4dp</dimen>
 
 
 </resources>

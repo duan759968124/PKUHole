@@ -16,14 +16,16 @@ import cn.edu.pku.treehole.utilities.DATABASE_NAME
  */
 @Database(
 //    entities = [HoleListItemBean::class, AttentionItemBean::class],
-    entities = [HoleItemBean::class, CommentItemBean::class],
+    entities = [TagBean::class, HoleItemBean::class, CommentItemBean::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun tagDao(): TagDao
     abstract fun holeListDao(): HoleListDao
     abstract fun commentDao(): CommentDao
+
 //    abstract fun attentionDao(): AttentionDao
 
     companion object {

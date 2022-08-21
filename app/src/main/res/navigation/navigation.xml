@@ -14,7 +14,7 @@
             android:id="@+id/action_nav_splash_to_nav_hole"
             app:destination="@id/nav_hole"
             app:popUpToInclusive="true"
-            app:popUpTo="@+id/nav_hole"
+            app:popUpTo="@+id/nav_splash"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -58,6 +58,9 @@
         tools:layout="@layout/fragment_search">
         <argument
             android:name="keywords"
+            app:argType="string" />
+        <argument
+            android:name="search_tag_name"
             app:argType="string" />
 <!--        <action-->
 <!--            android:id="@+id/action_nav_search_result_to_nav_hole_detail"-->
@@ -181,6 +184,17 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_nav_login_to_nav_hole"
+            app:destination="@id/nav_hole"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/nav_login"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
         <action
             android:id="@+id/action_nav_login_to_nav_simple_webView2"
             app:destination="@id/nav_simple_webView"
@@ -195,11 +209,12 @@
         android:name="cn.edu.pku.treehole.ui.login.InputValidCodeFragment"
         android:label="@string/input_valid_code"
         tools:layout="@layout/fragment_input_valid_code">
+
         <action
             android:id="@+id/action_nav_input_valid_code_to_nav_hole"
             app:destination="@id/nav_hole"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/nav_hole"
+            app:popUpTo="@+id/nav_login"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -209,10 +224,9 @@
 
     <action
         android:id="@+id/action_global_nav_login"
+        app:destination="@id/nav_login"
         app:popUpToInclusive="true"
         app:popUpTo="@+id/nav_hole"
-        app:launchSingleTop="true"
-        app:destination="@id/nav_login"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

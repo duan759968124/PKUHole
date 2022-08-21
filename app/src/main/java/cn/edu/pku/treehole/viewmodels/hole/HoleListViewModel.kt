@@ -1,15 +1,15 @@
 package cn.edu.pku.treehole.viewmodels.hole
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
+import cn.edu.pku.treehole.data.LocalRepository
+import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,9 +20,12 @@ class HoleListViewModel @Inject internal constructor(
 ) : BaseViewModel(holeRepository = holeRepository) {
 
     private val _navigationToHoleItemDetail = MutableLiveData<Long?>()
-
     val navigationToHoleItemDetail: MutableLiveData<Long?>
         get() = _navigationToHoleItemDetail
+
+    private val _getRandomTipFromNet = MutableLiveData<Boolean>().apply { value = false }
+    val getRandomTipFromNet: LiveData<Boolean>
+        get() = _getRandomTipFromNet
 
     fun onHoleItemClicked(pid: Long) {
         _navigationToHoleItemDetail.value = pid
@@ -32,15 +35,26 @@ class HoleListViewModel @Inject internal constructor(
         _navigationToHoleItemDetail.value = null
     }
 
+    fun closeRandomTipDialog() {
+        _getRandomTipFromNet.value = false
+    }
+
     val holeList = database.getHoleList().asLiveData()
+//            value: List<HoleItemBean> -> value.forEach { it.tagInfo =
+//        it.label?.let { it1 -> database.getTagItem(it1).first()}
+//    } }.asLiveData()
 
     var currentPage : Int = 1
 
 //    val errorLiveData = MutableLiveData<Throwable>()
 
 
-
     init {
+        if(LocalRepository.getUid().isNotEmpty()){
+            // 获取一条随机的树洞管理规范
+            getRandomHoleManagementPractice()
+        }
+
         getHoleList()
 
 //        Timber.e("valid token %s", token.value)
@@ -73,6 +87,29 @@ class HoleListViewModel @Inject internal constructor(
 //        }
     }
 
+    private fun getRandomHoleManagementPractice() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+                    val response =
+                        database.getRandomHoleManagementPractice()
+                    LocalRepository.localRandomTip = response.data?.desc ?: ""
+                    Timber.e("response tip: %s", response.data?.desc)
+                    Timber.e("localRandomTip tip: %s", LocalRepository.localRandomTip)
+                    _getRandomTipFromNet.postValue(true)
+                }
+            } catch (e: Exception) {
+                when (e) {
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
+            } finally {
+            }
+        }
+
+    }
+
     // 封装toast请求，并显示在fragment中或者设置监听到BaseFragment中
     // 按页加载数据
     @SuppressLint("TimberExceptionLogging")
@@ -87,6 +124,11 @@ class HoleListViewModel @Inject internal constructor(
                     // 首次进入的话删除掉sql数据库
                     database.clear()
                     refreshStatus.postValue(true)
+                    // 首次进入删除数据库并重新获取标签数据存放到数据库中
+                    val token = getValidTokenWithFlow().singleOrNull()
+                    token?.let {
+                        database.getTagListFromNetToDatabase()
+                    }
                 }else{
                     loadingStatus.postValue(true)
                 }

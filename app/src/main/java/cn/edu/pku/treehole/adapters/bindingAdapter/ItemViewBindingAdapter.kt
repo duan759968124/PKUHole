@@ -42,6 +42,15 @@ fun bindHasImage(view: View, url: String?) {
     }
 }
 
+@BindingAdapter("hasTag")
+fun bindHasImage(view: View, labelId: Int?) {
+    view.visibility = if (labelId == null || labelId == 0) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+}
+
 @BindingAdapter("imagePicData")
 fun bindImageFromUrl(view: ImageView, imagePicData: String?) {
     if (!imagePicData.isNullOrEmpty()) {

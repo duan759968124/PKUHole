@@ -1,6 +1,7 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -53,11 +54,11 @@ data class AttentionItemBean(
     @ColumnInfo(name = "tag")
     var tag: String?,
 
-//    @field:SerializedName("label_info")
+    @field:SerializedName("label_info")
 ////    @ColumnInfo(name = "label_info_id")
 ////    var label_info_id: Int?,
-//    @Embedded(prefix = "label_info_")
-//    var label_info: LabelInfoBean?,
+    @Embedded(prefix = "label_info_")
+    var label_info: TagBean?,
 
     @field:SerializedName("is_follow")
     @ColumnInfo(name = "is_follow")
@@ -87,8 +88,8 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             anonymous = null,
             label = null,
             isRead = null,
-            pic_data = it.pic_data
-//            label_info = null,
+            pic_data = it.pic_data,
+            label_info = it.label_info,
         )
     }
 }
@@ -112,7 +113,8 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
 //            label_info = null,
             label = null,
             isRead = null,
-            pic_data = it.pic_data
+            pic_data = it.pic_data,
+            label_info = it.label_info
         )
     }
 }
