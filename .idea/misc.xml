@@ -46,6 +46,9 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/app_bar_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/attention_item_view.xml" value="0.3541666666666667" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/base_layout_empty.xml" value="0.1607638888888889" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/base_layout_error.xml" value="0.1607638888888889" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/base_layout_loading.xml" value="0.1607638888888889" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/comment_item_view.xml" value="0.264" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/content_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/dialog_hole_post.xml" value="0.176" />
@@ -61,7 +64,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_input_sms_valid_code.xml" value="0.2265625" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_input_valid_code.xml" value="0.1607638888888889" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_login.xml" value="0.264" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_preview_picture.xml" value="0.39114583333333336" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_preview_picture.xml" value="0.136" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_search.xml" value="0.20104166666666667" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_search_result.xml" value="0.23072916666666668" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_settings.xml" value="0.25" />

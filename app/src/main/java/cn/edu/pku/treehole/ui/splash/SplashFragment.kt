@@ -15,6 +15,7 @@ import cn.edu.pku.treehole.utilities.PRIVACY_POLICY_URL
 import cn.edu.pku.treehole.utilities.USER_AGREEMENT_URL
 import cn.edu.pku.treehole.viewmodels.SplashViewModel
 import com.afollestad.materialdialogs.MaterialDialog
+import com.azhon.appupdate.listener.OnButtonClickListener
 import com.azhon.appupdate.manager.DownloadManager
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -85,11 +86,11 @@ class SplashFragment : BaseFragment() {
     private fun showUpdateDialog() {
         manager = DownloadManager.Builder(activity!!).run {
             LocalRepository.localUpdateInfo!!.app_file_url?.let { apkUrl(it) }
-            apkName("PKU_Hole.apk")
+            apkName("PKU_TreeHole.apk")
             smallIcon(R.mipmap.ic_launcher)
             showNewerToast(false)
-            apkVersionCode(1)
-//            apkVersionCode(LocalRepository.localUpdateInfo!!.app_version_code)
+//            apkVersionCode(1)
+            apkVersionCode(LocalRepository.localUpdateInfo!!.app_version_code)
             LocalRepository.localUpdateInfo!!.app_version_name?.let { apkVersionName(it) }
 //            apkSize("7.4")
             LocalRepository.localUpdateInfo!!.update_log?.let { apkDescription(it) }
@@ -107,7 +108,13 @@ class SplashFragment : BaseFragment() {
             showBgdToast(false)
             forcedUpgrade(true)
 //            onDownloadListener(listenerAdapter)
-//            onButtonClickListener(this@MainActivity)
+            onButtonClickListener(object : OnButtonClickListener {
+                override fun onButtonClick(id: Int) {
+                   if(id == 1){
+                       checkLoginStatus()
+                   }
+                }
+            })
             build()
         }
         manager?.download()

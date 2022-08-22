@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 interface HoleApiService {
 
     // check update
-    @GET("pku_hole_app/version_pkuhole_android.txt")
+    @GET("version_treehole_android.txt")
     suspend fun checkUpdate(
     ): HoleApiResponse<UpdateInfo?>
 
@@ -260,7 +260,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-                .addInterceptor(ChangeBaseUrlInterceptor())
+//                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())
