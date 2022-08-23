@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,8 +24,10 @@ import com.luck.picture.lib.widget.longimage.ImageSource;
 import com.luck.picture.lib.widget.longimage.ImageViewState;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 
+import cn.edu.pku.treehole.data.hole.HoleRepository;
 
-public class GlideEngine implements ImageEngine {
+
+public class GlideEngineBase64 implements ImageEngine {
 
     /**
      * 加载图片
@@ -38,8 +41,12 @@ public class GlideEngine implements ImageEngine {
         if (!ImageLoaderUtils.assertValidRequest(context)) {
             return;
         }
+        // 获取url
+        String uri = url.split(",")[1];
+        byte[] imageByteArray = Base64.decode(uri, Base64.DEFAULT);
         Glide.with(context)
-                .load(url)
+                .asBitmap()
+                .load(imageByteArray)
                 .into(imageView);
     }
 
@@ -59,9 +66,11 @@ public class GlideEngine implements ImageEngine {
         if (!ImageLoaderUtils.assertValidRequest(context)) {
             return;
         }
+        String uri = url.split(",")[1];
+        byte[] imageByteArray = Base64.decode(uri, Base64.DEFAULT);
         Glide.with(context)
                 .asBitmap()
-                .load(url)
+                .load(imageByteArray)
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {
@@ -122,9 +131,11 @@ public class GlideEngine implements ImageEngine {
         if (!ImageLoaderUtils.assertValidRequest(context)) {
             return;
         }
+        String uri = url.split(",")[1];
+        byte[] imageByteArray = Base64.decode(uri, Base64.DEFAULT);
         Glide.with(context)
                 .asBitmap()
-                .load(url)
+                .load(imageByteArray)
                 .override(180, 180)
                 .centerCrop()
                 .sizeMultiplier(0.5f)
@@ -154,8 +165,11 @@ public class GlideEngine implements ImageEngine {
         if (!ImageLoaderUtils.assertValidRequest(context)) {
             return;
         }
+        String uri = url.split(",")[1];
+        byte[] imageByteArray = Base64.decode(uri, Base64.DEFAULT);
         Glide.with(context)
-                .load(url)
+                .asBitmap()
+                .load(imageByteArray)
                 .override(200, 200)
                 .centerCrop()
 //                .placeholder(R.drawable.picture_image_placeholder)
@@ -163,16 +177,16 @@ public class GlideEngine implements ImageEngine {
     }
 
 
-    private GlideEngine() {
+    private GlideEngineBase64() {
     }
 
-    private static GlideEngine instance;
+    private static GlideEngineBase64 instance;
 
-    public static GlideEngine createGlideEngine() {
+    public static GlideEngineBase64 createGlideEngine() {
         if (null == instance) {
-            synchronized (GlideEngine.class) {
+            synchronized (GlideEngineBase64.class) {
                 if (null == instance) {
-                    instance = new GlideEngine();
+                    instance = new GlideEngineBase64();
                 }
             }
         }

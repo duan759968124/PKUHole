@@ -106,7 +106,7 @@ class SplashFragment : BaseFragment() {
             dialogButtonTextColor(Color.WHITE)
             showNotification(true)
             showBgdToast(false)
-            forcedUpgrade(true)
+            forcedUpgrade(false)
 //            onDownloadListener(listenerAdapter)
             onButtonClickListener(object : OnButtonClickListener {
                 override fun onButtonClick(id: Int) {

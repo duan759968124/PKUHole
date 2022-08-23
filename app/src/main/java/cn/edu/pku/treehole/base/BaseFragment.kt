@@ -13,6 +13,7 @@ import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.GlideEngine
+import cn.edu.pku.treehole.utilities.GlideEngineBase64
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.LoadingDialog
 import com.luck.picture.lib.PictureSelector
@@ -57,9 +58,8 @@ abstract class BaseFragment: Fragment() {
     open fun previewPicture(holeItem: HoleItemBean) {
         if(!holeItem.pic_data.isNullOrEmpty()) {
 //            val localMedia = LocalMedia()
-////            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
-//            val uri = holeItem.pic_data!!.split(',')[1]
-//            localMedia.path = uri
+//            localMedia.path = HOLE_HOST_ADDRESS + "services/pkuhole/images/" + url
+//            localMedia.path = holeItem.pid.toString()
 //            localMedia.setPosition(0)
 //            val selectList: ArrayList<LocalMedia> = ArrayList(1)
 //            selectList.add(localMedia)
@@ -67,7 +67,7 @@ abstract class BaseFragment: Fragment() {
 //                .themeStyle(R.style.picture_WeChat_style)
 //                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
 //                .isNotPreviewDownload(true)
-//                .imageEngine(GlideEngine.createGlideEngine())
+//                .imageEngine(GlideEngineBase64.createGlideEngine())
 //                .openExternalPreview(0, selectList)
             findNavController().navigate(NavigationDirections.actionGlobalNavPreviewPicture(holeItem.pid))
         }

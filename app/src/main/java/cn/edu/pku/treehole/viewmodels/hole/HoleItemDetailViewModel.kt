@@ -105,8 +105,6 @@ class HoleItemDetailViewModel @Inject constructor(
 //        _replyDialogToName.value = null
 //    }
 
-    // Todo:正常请求成功不显示，失败了才显示
-    // Todo：如果成功非要显示，保证UI显示不冲突
     fun sendReplyComment(text: CharSequence) {
         Timber.e("viewModel reply text: %s", text)
         viewModelScope.launch(Dispatchers.IO) {

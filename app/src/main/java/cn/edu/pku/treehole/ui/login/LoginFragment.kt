@@ -68,16 +68,16 @@ class LoginFragment : BaseFragment() {
 //        }
 
         userViewModel.showInputValidCode.observe(viewLifecycleOwner) { showInputValidCode ->
-//            if (showInputValidCode) {
-//                findNavController()
-//                    .navigate(LoginFragmentDirections.actionNavLoginToNavInputValidCode())
-//                userViewModel.onNavigateToInputValidCodeComplete()
-//            }
             if (showInputValidCode) {
-                showToast("登录成功")
-                findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHole())
+                findNavController()
+                    .navigate(LoginFragmentDirections.actionNavLoginToNavInputValidCode())
                 userViewModel.onNavigateToInputValidCodeComplete()
             }
+//            if (showInputValidCode) {
+//                showToast("登录成功")
+//                findNavController().navigate(LoginFragmentDirections.actionNavLoginToNavHole())
+//                userViewModel.onNavigateToInputValidCodeComplete()
+//            }
         }
 
         userViewModel.failStatus.observe(viewLifecycleOwner) { fail ->

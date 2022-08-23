@@ -107,7 +107,7 @@ class UserViewModel @Inject constructor(
                     // 数据存到本地
                     LocalRepository.localUserInfo = response.data
                     // todo: 后续需要去掉这句话
-                    response.data?.let { LocalRepository.setUid(it.uid) }
+//                    response.data?.let { LocalRepository.setUid(it.uid) }
                     LocalRepository.localJwtTimestamp = response.timestamp!!
                     LocalRepository.setAccount(account = account.value!!)
                     LocalRepository.setPasswordSecure(pwdSecure = passwordSecure.value!!)
