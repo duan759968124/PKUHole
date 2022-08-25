@@ -1,15 +1,14 @@
 package cn.edu.pku.treehole.ui.hole
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.ActivityInfo
-import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.camera.core.impl.utils.ContextUtil.getApplicationContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -19,19 +18,28 @@ import cn.edu.pku.treehole.utilities.GlideEngine
 import cn.edu.pku.treehole.viewmodels.hole.HoleViewPagerViewModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
-import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.animators.AnimationType
-import com.luck.picture.lib.config.PictureConfig
-import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.config.SelectModeConfig
+import com.luck.picture.lib.engine.CompressFileEngine
 import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.listener.OnResultCallbackListener
-import com.luck.picture.lib.style.PictureCropParameterStyle
-import com.luck.picture.lib.style.PictureParameterStyle
-import com.luck.picture.lib.style.PictureWindowAnimationStyle
+import com.luck.picture.lib.interfaces.OnKeyValueResultCallbackListener
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.luck.picture.lib.language.LanguageConfig
+import com.luck.picture.lib.style.BottomNavBarStyle
+import com.luck.picture.lib.style.PictureSelectorStyle
+import com.luck.picture.lib.style.SelectMainStyle
+import com.luck.picture.lib.style.TitleBarStyle
+import com.luck.picture.lib.utils.DateUtils
+import com.luck.picture.lib.utils.DensityUtil
 import dagger.hilt.android.AndroidEntryPoint
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import timber.log.Timber
+import top.zibin.luban.Luban
+import top.zibin.luban.OnNewCompressListener
+import java.io.File
 
 
 @AndroidEntryPoint
@@ -40,8 +48,9 @@ class PostHoleDialogFragment : DialogFragment() {
     private lateinit var binding: DialogHolePostBinding
     private val viewModel: HoleViewPagerViewModel by activityViewModels()
 
-    private lateinit var mPictureParameterStyle: PictureParameterStyle
-    private lateinit var mCropParameterStyle: PictureCropParameterStyle
+    private lateinit var mPictureSelectorStyle: PictureSelectorStyle
+//    private lateinit var mPictureParameterStyle: PictureParameterStyle
+//    private lateinit var mCropParameterStyle: PictureCropParameterStyle
 
     private lateinit var tagSheetDialog: MaterialDialog
     private var tagNameList = listOf<String>()
@@ -84,8 +93,8 @@ class PostHoleDialogFragment : DialogFragment() {
 //        })
 //        binding.btnHolePostImage.setOnClickListener()
 //        return inflater.inflate(R.layout.dialog_hole_post, container, false)
-        viewModel.openPictureSelect.observe(viewLifecycleOwner) { openPicureGallery ->
-            if (openPicureGallery) {
+        viewModel.openPictureSelect.observe(viewLifecycleOwner) { openPictureGallery ->
+            if (openPictureGallery) {
                 openPicGalleryWithPermissionCheck()
             }
         }
@@ -114,192 +123,92 @@ class PostHoleDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    @SuppressLint("RestrictedApi")
     private fun getWeChatStyle() {
-        // 相册主题
-        mPictureParameterStyle = PictureParameterStyle()
-        // 是否改变状态栏字体颜色(黑白切换)
-        mPictureParameterStyle.isChangeStatusBarFontColor = false
-        // 是否开启右下角已完成(0/9)风格
-        mPictureParameterStyle.isOpenCompletedNumStyle = false
-        // 是否开启类似QQ相册带数字选择风格
-        mPictureParameterStyle.isOpenCheckNumStyle = true
-        // 状态栏背景色
-        mPictureParameterStyle.pictureStatusBarColor = Color.parseColor("#393a3e")
-        // 相册列表标题栏背景色
-        mPictureParameterStyle.pictureTitleBarBackgroundColor = Color.parseColor("#393a3e")
-        // 相册父容器背景色
-        mPictureParameterStyle.pictureContainerBackgroundColor =
-            ContextCompat.getColor(
-                getApplicationContext(context!!),
-                R.color.black
-            )
-        // 相册列表标题栏右侧上拉箭头
-        mPictureParameterStyle.pictureTitleUpResId = R.drawable.picture_icon_wechat_up
-        // 相册列表标题栏右侧下拉箭头
-        mPictureParameterStyle.pictureTitleDownResId = R.drawable.picture_icon_wechat_down
-        // 相册文件夹列表选中圆点
-        mPictureParameterStyle.pictureFolderCheckedDotStyle = R.drawable.picture_orange_oval
-        // 相册返回箭头
-        mPictureParameterStyle.pictureLeftBackIcon = R.drawable.picture_icon_close
-        // 标题栏字体颜色
-        mPictureParameterStyle.pictureTitleTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_white)
-        // 相册右侧按钮字体颜色  废弃 改用.pictureRightDefaultTextColor和.pictureRightDefaultTextColor
-        mPictureParameterStyle.pictureCancelTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_53575e)
-        // 相册右侧按钮字体默认颜色
-        mPictureParameterStyle.pictureRightDefaultTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_53575e)
-        // 相册右侧按可点击字体颜色,只针对isWeChatStyle 为true时有效果
-        mPictureParameterStyle.pictureRightSelectedTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_white)
-        // 相册右侧按钮背景样式,只针对isWeChatStyle 为true时有效果
-        mPictureParameterStyle.pictureUnCompleteBackgroundStyle =
-            R.drawable.picture_send_button_default_bg
-        // 相册右侧按钮可点击背景样式,只针对isWeChatStyle 为true时有效果
-        mPictureParameterStyle.pictureCompleteBackgroundStyle = R.drawable.picture_send_button_bg
-        // 选择相册目录背景样式
-        mPictureParameterStyle.pictureAlbumStyle = R.drawable.picture_new_item_select_bg
-        // 相册列表勾选图片样式
-        mPictureParameterStyle.pictureCheckedStyle = R.drawable.picture_wechat_num_selector
-        // 相册标题背景样式 ,只针对isWeChatStyle 为true时有效果
-        mPictureParameterStyle.pictureWeChatTitleBackgroundStyle = R.drawable.picture_album_bg
-        // 微信样式 预览右下角样式 ,只针对isWeChatStyle 为true时有效果
-        mPictureParameterStyle.pictureWeChatChooseStyle = R.drawable.picture_wechat_select_cb
-        // 相册返回箭头 ,只针对isWeChatStyle 为true时有效果
-        mPictureParameterStyle.pictureWeChatLeftBackStyle = R.drawable.picture_icon_back
-        // 相册列表底部背景色
-        mPictureParameterStyle.pictureBottomBgColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_grey)
-        // 已选数量圆点背景样式
-        // 已选数量圆点背景样式
-        mPictureParameterStyle.pictureCheckNumBgStyle = R.drawable.picture_num_oval
-        // 相册列表底下预览文字色值(预览按钮可点击时的色值)
-        mPictureParameterStyle.picturePreviewTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_white)
-        // 相册列表底下不可预览文字色值(预览按钮不可点击时的色值)
-        mPictureParameterStyle.pictureUnPreviewTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_9b)
-        // 相册列表已完成色值(已完成 可点击色值)
-        mPictureParameterStyle.pictureCompleteTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_white)
-        // 相册列表未完成色值(请选择 不可点击色值)
-        mPictureParameterStyle.pictureUnCompleteTextColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_53575e)
-        // 预览界面底部背景色
-        mPictureParameterStyle.picturePreviewBottomBgColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.picture_color_half_grey)
-        // 外部预览界面删除按钮样式
-        // 外部预览界面删除按钮样式
-        mPictureParameterStyle.pictureExternalPreviewDeleteStyle = R.drawable.picture_icon_delete
-        // 原图按钮勾选样式  需设置.isOriginalImageControl(true); 才有效
-        mPictureParameterStyle.pictureOriginalControlStyle =
-            R.drawable.picture_original_wechat_checkbox
-        // 原图文字颜色 需设置.isOriginalImageControl(true); 才有效
-        mPictureParameterStyle.pictureOriginalFontColor =
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.white)
-        // 外部预览界面是否显示删除按钮
-        mPictureParameterStyle.pictureExternalPreviewGonePreviewDelete = true
-        // 设置NavBar Color SDK Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP有效
-        mPictureParameterStyle.pictureNavBarColor = Color.parseColor("#393a3e")
+        mPictureSelectorStyle = PictureSelectorStyle()
+        val numberSelectMainStyle = SelectMainStyle()
+        numberSelectMainStyle.isSelectNumberStyle = true
+        numberSelectMainStyle.isPreviewSelectNumberStyle = false
+        numberSelectMainStyle.isPreviewDisplaySelectGallery = true
+        numberSelectMainStyle.selectBackground = R.drawable.ps_default_num_selector
+        numberSelectMainStyle.previewSelectBackground = R.drawable.ps_preview_checkbox_selector
+        numberSelectMainStyle.selectNormalBackgroundResources =
+            R.drawable.ps_select_complete_normal_bg
+        numberSelectMainStyle.selectNormalTextColor =
+            ContextCompat.getColor(context!!, R.color.ps_color_53575e)
+        numberSelectMainStyle.selectNormalText = getString(R.string.ps_send)
+        numberSelectMainStyle.adapterPreviewGalleryBackgroundResource =
+            R.drawable.ps_preview_gallery_bg
+        numberSelectMainStyle.adapterPreviewGalleryItemSize = DensityUtil.dip2px(context, 52F)
+        numberSelectMainStyle.previewSelectText = getString(R.string.ps_select)
+        numberSelectMainStyle.previewSelectTextSize = 14
+        numberSelectMainStyle.previewSelectTextColor =
+            ContextCompat.getColor(context!!, R.color.ps_color_white)
+        numberSelectMainStyle.previewSelectMarginRight = DensityUtil.dip2px(context, 6F)
+        numberSelectMainStyle.selectBackgroundResources = R.drawable.ps_select_complete_bg
+        numberSelectMainStyle.selectText = getString(R.string.ps_send_num)
+        numberSelectMainStyle.selectTextColor =
+            ContextCompat.getColor(context!!, R.color.ps_color_white)
+        numberSelectMainStyle.mainListBackgroundColor =
+            ContextCompat.getColor(context!!, R.color.ps_color_black)
+        numberSelectMainStyle.isCompleteSelectRelativeTop = true
+        numberSelectMainStyle.isPreviewSelectRelativeBottom = true
+        numberSelectMainStyle.isAdapterItemIncludeEdge = false
 
-        // 完成文案是否采用(%1$d/%2$d)的字符串，只允许两个占位符哟
-//        mPictureParameterStyle.isCompleteReplaceNum = true;
-        // 自定义相册右侧文本内容设置
-//        mPictureParameterStyle.pictureUnCompleteText = getString(R.string.app_wechat_send);
-        //自定义相册右侧已选中时文案 支持占位符String 但只支持两个 必须isCompleteReplaceNum为true
-//        mPictureParameterStyle.pictureCompleteText = getString(R.string.app_wechat_send_num);
-//        // 自定义相册列表不可预览文字
-//        mPictureParameterStyle.pictureUnPreviewText = "";
-//        // 自定义相册列表预览文字
-//        mPictureParameterStyle.picturePreviewText = "";
-//        // 自定义预览页右下角选择文字文案
-//        mPictureParameterStyle.pictureWeChatPreviewSelectedText = "";
+        // 头部TitleBar 风格
+        val numberTitleBarStyle = TitleBarStyle()
+        numberTitleBarStyle.isHideCancelButton = true
+        numberTitleBarStyle.isAlbumTitleRelativeLeft = true
+        numberTitleBarStyle.titleAlbumBackgroundResource = R.drawable.ps_album_bg
+        numberTitleBarStyle.titleDrawableRightResource = R.drawable.ps_ic_grey_arrow
+        numberTitleBarStyle.previewTitleLeftBackResource = R.drawable.ps_ic_normal_back
 
-//        // 自定义相册标题文字大小
-//        mPictureParameterStyle.pictureTitleTextSize = 9;
-//        // 自定义相册右侧文字大小
-//        mPictureParameterStyle.pictureRightTextSize = 9;
-//        // 自定义相册预览文字大小
-//        mPictureParameterStyle.picturePreviewTextSize = 9;
-//        // 自定义相册完成文字大小
-//        mPictureParameterStyle.pictureCompleteTextSize = 9;
-//        // 自定义原图文字大小
-//        mPictureParameterStyle.pictureOriginalTextSize = 9;
-//        // 自定义预览页右下角选择文字大小
-//        mPictureParameterStyle.pictureWeChatPreviewSelectedTextSize = 9;
+        // 底部NavBar 风格
+        val numberBottomNavBarStyle = BottomNavBarStyle()
+        numberBottomNavBarStyle.bottomPreviewNarBarBackgroundColor = ContextCompat.getColor(
+            context!!, R.color.ps_color_half_grey)
+        numberBottomNavBarStyle.bottomPreviewNormalText = getString(R.string.ps_preview)
+        numberBottomNavBarStyle.bottomPreviewNormalTextColor =
+            ContextCompat.getColor(context!!, R.color.ps_color_9b)
+        numberBottomNavBarStyle.bottomPreviewNormalTextSize = 16
+        numberBottomNavBarStyle.isCompleteCountTips = false
+        numberBottomNavBarStyle.bottomPreviewSelectText = getString(R.string.ps_preview_num)
+        numberBottomNavBarStyle.bottomPreviewSelectTextColor =
+            ContextCompat.getColor(context!!, R.color.ps_color_white)
 
-        // 裁剪主题
-
-        // 完成文案是否采用(%1$d/%2$d)的字符串，只允许两个占位符哟
-//        mPictureParameterStyle.isCompleteReplaceNum = true;
-        // 自定义相册右侧文本内容设置
-//        mPictureParameterStyle.pictureUnCompleteText = getString(R.string.app_wechat_send);
-        //自定义相册右侧已选中时文案 支持占位符String 但只支持两个 必须isCompleteReplaceNum为true
-//        mPictureParameterStyle.pictureCompleteText = getString(R.string.app_wechat_send_num);
-//        // 自定义相册列表不可预览文字
-//        mPictureParameterStyle.pictureUnPreviewText = "";
-//        // 自定义相册列表预览文字
-//        mPictureParameterStyle.picturePreviewText = "";
-//        // 自定义预览页右下角选择文字文案
-//        mPictureParameterStyle.pictureWeChatPreviewSelectedText = "";
-
-//        // 自定义相册标题文字大小
-//        mPictureParameterStyle.pictureTitleTextSize = 9;
-//        // 自定义相册右侧文字大小
-//        mPictureParameterStyle.pictureRightTextSize = 9;
-//        // 自定义相册预览文字大小
-//        mPictureParameterStyle.picturePreviewTextSize = 9;
-//        // 自定义相册完成文字大小
-//        mPictureParameterStyle.pictureCompleteTextSize = 9;
-//        // 自定义原图文字大小
-//        mPictureParameterStyle.pictureOriginalTextSize = 9;
-//        // 自定义预览页右下角选择文字大小
-//        mPictureParameterStyle.pictureWeChatPreviewSelectedTextSize = 9;
-
-        // 裁剪主题
-        mCropParameterStyle = PictureCropParameterStyle(
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.app_color_grey),
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.app_color_grey),
-            Color.parseColor("#393a3e"),
-            ContextCompat.getColor(getApplicationContext(context!!), R.color.white),
-            mPictureParameterStyle.isChangeStatusBarFontColor
-        )
+        mPictureSelectorStyle.titleBarStyle = numberTitleBarStyle
+        mPictureSelectorStyle.bottomBarStyle = numberBottomNavBarStyle
+        mPictureSelectorStyle.selectMainStyle = numberSelectMainStyle
     }
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun openPicGallery() {
         PictureSelector.create(this)
-            .openGallery(PictureMimeType.ofImage())
-            .imageEngine(GlideEngine.createGlideEngine())
-            .theme(R.style.picture_WeChat_style)
-            .isWeChatStyle(true)// 是否开启微信图片选择风格
-            .isUseCustomCamera(false)// 是否使用自定义相机
-            .setLanguage(-1)// 设置语言，默认中文
+            .openGallery(SelectMimeType.ofImage())
+            .setImageEngine(GlideEngine.createGlideEngine())
+            .setCompressEngine(ImageFileCompressEngine())
+            .setSelectorUIStyle(mPictureSelectorStyle)
+            .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)
             .isPageStrategy(true)// 是否开启分页策略 & 每页多少条；默认开启
-            .setPictureStyle(mPictureParameterStyle)// 动态自定义相册主题
-            .setPictureCropStyle(mCropParameterStyle)// 动态自定义裁剪主题
-            .setPictureWindowAnimationStyle(PictureWindowAnimationStyle())// 自定义相册启动退出动画
             .setRecyclerAnimationMode(AnimationType.DEFAULT_ANIMATION)// 列表动画效果
             .isMaxSelectEnabledMask(true)// 选择数到了最大阀值列表是否启用蒙层效果
-            .maxSelectNum(1)// 最大图片选择数量
-            .minSelectNum(0)// 最小选择数量
-            .isCompress(true)
-            .compressQuality(85)
-            .minimumCompressSize(1024)
-            .synOrAsy(false)//开启同步or异步压缩
-            .imageSpanCount(4)// 每行显示个数
-            .isReturnEmpty(false)// 未选择数据时点击按钮是否可以返回
+            .setMaxSelectNum(1)// 最大图片选择数量
+            .setMinSelectNum(0)// 最小选择数量
+//            .setCompressEngine(true)
+//            .compressQuality(85)
+//            .minimumCompressSize(1024)
+//            .synOrAsy(false)//开启同步or异步压缩
+            .setImageSpanCount(4)// 每行显示个数
+//            .setIsReturnEmpty(false)// 未选择数据时点击按钮是否可以返回
             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)// 设置相册Activity方向，不设置默认使用系统
-            .isOriginalImageControl(false)
+//            .isOriginalImageControl(false)
             .isPreviewImage(true)// 是否可预览图片
-            .selectionMode(PictureConfig.SINGLE)
-            .isSingleDirectReturn(false)
+            .setSelectionMode(SelectModeConfig.SINGLE)
+//            .isSingleDirectReturn(false)
             .isOpenClickSound(false)
             .isPreviewImage(true)
-            .isCamera(false)
-            .isZoomAnim(true)
+            .isDirectReturnSingle(false)
+//            .isCamera(false)
+//            .isZoomAnim(true)
             .forResult(MyResultCallback(viewModel))
     }
 
@@ -310,7 +219,7 @@ class PostHoleDialogFragment : DialogFragment() {
     private class MyResultCallback(viewModel: HoleViewPagerViewModel) :
         OnResultCallbackListener<LocalMedia> {
        private var viewModelCallback = viewModel
-        override fun onResult(result: List<LocalMedia>) {
+        override fun onResult(result: ArrayList<LocalMedia>) {
             for (media in result) {
                 Timber.e("是否压缩:" + media.isCompressed)
                 Timber.e("压缩:" + media.compressPath)
@@ -321,7 +230,7 @@ class PostHoleDialogFragment : DialogFragment() {
                 Timber.e("裁剪:" + media.cutPath)
                 Timber.e("是否开启原图:" + media.isOriginal)
                 Timber.e("原图路径:" + media.originalPath)
-                Timber.e("Android Q 特有Path:" + media.androidQToPath)
+                Timber.e("Android Q 特有Path:" + media.sandboxPath)
                 Timber.e("宽高: " + media.width + "x" + media.height)
                 Timber.e("Size: " + media.size/1024)
                 Timber.e("mimeType" + media.mimeType)
@@ -341,9 +250,36 @@ class PostHoleDialogFragment : DialogFragment() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    /**
+     * 自定义压缩
+     */
+    private class ImageFileCompressEngine : CompressFileEngine {
+        override fun onStartCompress(
+            context: Context?,
+            source: ArrayList<Uri?>?,
+            call: OnKeyValueResultCallbackListener?,
+        ) {
+            Luban.with(context).load(source).ignoreBy(800)
+                .setRenameListener { filePath ->
+                    val indexOf = filePath.lastIndexOf(".")
+                    val postfix = if (indexOf != -1) filePath.substring(indexOf) else ".jpg"
+                    DateUtils.getCreateFileName("CMP_").toString() + postfix
+                }.setCompressListener(object : OnNewCompressListener {
+                    override fun onStart() {}
+                    override fun onSuccess(source: String?, compressFile: File) {
+                        call?.onCallback(source, compressFile.getAbsolutePath())
+                    }
+
+                    override fun onError(source: String?, e: Throwable?) {
+                        call?.onCallback(source, null)
+                    }
+                }).launch()
+        }
     }
 }

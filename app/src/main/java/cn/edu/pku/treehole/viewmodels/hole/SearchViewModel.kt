@@ -69,12 +69,12 @@ class SearchViewModel @Inject internal constructor(
                     currentPage = response.data?.current_page ?: 1
                     val searchAllList =
                         searchList.value?.plus(response.data?.data!!.map {
-                            if(!it.url.isNullOrEmpty()){
-                                val pictureResponse =  database.getPictureData(pid = it.pid)
-                                if(pictureResponse.code == 20000){
-                                    it.pic_data = pictureResponse.data
-                                }
-                            }
+//                            if(!it.url.isNullOrEmpty()){
+//                                val pictureResponse =  database.getPictureData(pid = it.pid)
+//                                if(pictureResponse.code == 20000){
+//                                    it.pic_data = pictureResponse.data
+//                                }
+//                            }
                             it.asDatabaseBean()
                         })
                     searchList.postValue(searchAllList)

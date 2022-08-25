@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':selector')
 
     // Support libraries
     def appCompatVersion = '1.4.0'
@@ -78,7 +79,10 @@ dependencies {
     // picture gallery
     // 可以考虑升级为3.0.5
     // 参考https://github.com/LuckSiege/PictureSelector/blob/version_component/README_CN.md
-    implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc10'
+//    implementation 'io.github.lucksiege:pictureselector:v2.7.3-rc10'
+//    implementation 'io.github.lucksiege:pictureselector:v3.10.6'
+    // 图片压缩 (按需引入)
+    implementation 'io.github.lucksiege:compress:v3.10.6'
 
     // 权限申请
     implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.8.0"

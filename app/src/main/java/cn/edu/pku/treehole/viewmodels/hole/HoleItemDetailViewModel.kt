@@ -86,7 +86,7 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val pictureClickListener = PictureClickListener{
         // 预览图片
-        if (!it.url.isNullOrEmpty()) {
+        if (it.type == "image") {
 //            _previewPicture.value = HOLE_HOST_ADDRESS + "api/pku_image/" + it.pid
             _previewPicture.value = it.pid
 

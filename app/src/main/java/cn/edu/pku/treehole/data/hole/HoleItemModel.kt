@@ -43,9 +43,6 @@ data class HoleItemModel(
     @ColumnInfo(name = "anonymous")
     var anonymous: Int?,
 
-    @field:SerializedName("url")
-    @ColumnInfo(name = "url")
-    var url: String?,
 
     @field:SerializedName("is_top")
     @ColumnInfo(name = "is_top")
@@ -66,8 +63,6 @@ data class HoleItemModel(
     @ColumnInfo(name = "isRead")
     var isRead: Int?,  // 0 or 1
 
-    @ColumnInfo(name = "pic_data")
-    var pic_data: String?,
 )
 
 
@@ -81,7 +76,6 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             reply = it.reply,
             likenum = it.likenum,
             extra = it.extra,
-            url = it.url,
             tag = null,
             isHole = 0,
             is_top = it.is_top,
@@ -89,7 +83,6 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             anonymous = it.anonymous,
             label = it.label,
             isRead = it.isRead,
-            pic_data = it.pic_data,
             label_info = it.label_info
 //            label_info = null,
         )

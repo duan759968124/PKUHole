@@ -56,10 +56,6 @@ data class HoleItemBean(
     @ColumnInfo(name = "anonymous")
     var anonymous: Int?,
 
-    @field:SerializedName("url")
-    @ColumnInfo(name = "url")
-    var url: String?,
-
     @field:SerializedName("is_top")
     @ColumnInfo(name = "is_top")
     var is_top: Int?,
@@ -68,15 +64,16 @@ data class HoleItemBean(
     @ColumnInfo(name = "is_follow")
     var is_follow: Int?,  //本人是否关注 1 是 ，0 未关注
 
+    @field:SerializedName("label")
+    @ColumnInfo(name = "label")
+    var label: Int?,
+
+
     @field:SerializedName("label_info")
 ////    @ColumnInfo(name = "label_info_id")
 //    var label_info_id: Int?,
     @Embedded(prefix = "label_info_")
     var label_info: TagBean?,
-
-    @field:SerializedName("label")
-    @ColumnInfo(name = "label")
-    var label: Int?,
 
     @field:SerializedName("tag")
     @ColumnInfo(name = "tag")
@@ -88,42 +85,7 @@ data class HoleItemBean(
     @ColumnInfo(name = "isRead")
     var isRead: Int?,  // 0 or 1
 
-    @ColumnInfo(name = "pic_data")
-    var pic_data: String?,
 ){
 //    @Ignore var tagInfo: TagBean? = null
 }
-
-
-//fun List<HoleItemBean>.asDomainModel():List<HoleItemModel>{
-//    return map{
-//        HoleItemModel(
-//            pid = it.pid,
-//            text = it.text,
-//            type = it.type,
-//            timestamp = it.timestamp,
-//            reply = it.reply,
-//            likenum = it.likenum,
-//            extra = it.extra,
-//            url = it.url,
-//            tag = it.tag,
-//        )
-//    }
-//}
-//
-//fun HoleItemBean.asDomainModel():HoleItemModel{
-//    return let{
-//        HoleItemModel(
-//            pid = it.pid,
-//            text = it.text,
-//            type = it.type,
-//            timestamp = it.timestamp,
-//            reply = it.reply,
-//            likenum = it.likenum,
-//            extra = it.extra,
-//            url = it.url,
-//            tag = it.tag,
-//        )
-//    }
-//}
 

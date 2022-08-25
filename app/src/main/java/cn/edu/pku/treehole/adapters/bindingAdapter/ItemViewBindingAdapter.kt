@@ -17,6 +17,7 @@ import java.io.File
 import android.graphics.BitmapFactory
 
 import android.graphics.Bitmap
+import cn.edu.pku.treehole.data.hole.HoleItemBean
 import okio.ByteString.Companion.decodeBase64
 
 
@@ -34,8 +35,8 @@ fun TextView.setPostDurationFormatted(postTimestamp : Long){
 }
 
 @BindingAdapter("hasImage")
-fun bindHasImage(view: View, url: String?) {
-    view.visibility = if (url.isNullOrEmpty()) {
+fun bindHasImage(view: View, type: String?) {
+    view.visibility = if (type != "image") {
         View.GONE
     } else {
         View.VISIBLE
@@ -43,7 +44,7 @@ fun bindHasImage(view: View, url: String?) {
 }
 
 @BindingAdapter("hasTag")
-fun bindHasImage(view: View, labelId: Int?) {
+fun bindHasTag(view: View, labelId: Int?) {
     view.visibility = if (labelId == null || labelId == 0) {
         View.GONE
     } else {
@@ -51,27 +52,25 @@ fun bindHasImage(view: View, labelId: Int?) {
     }
 }
 
-@BindingAdapter("imagePicData")
-fun bindImageFromUrl(view: ImageView, imagePicData: String?) {
-    if (!imagePicData.isNullOrEmpty()) {
-//        val url = HOLE_HOST_ADDRESS + "api/pku_image/" + imagePid
-//        val glideUrl = GlideUrl(
-//            url,
-//    LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
-//        )
-        val uri = imagePicData.split(',')[1]
-        val imageByteArray: ByteArray = Base64.decode(uri, Base64.DEFAULT)
+@BindingAdapter("showImage")
+fun bindImageFromUrl(view: ImageView, holeItemBean: HoleItemBean?) {
+    if (holeItemBean != null) {
+        if (holeItemBean.type == "image") {
+            val url = HOLE_HOST_ADDRESS + "api/pku_image/" + holeItemBean.pid
+            val glideUrl = GlideUrl(
+                url,
+                LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+            )
+//        val uri = imagePicData.split(',')[1]
+//        val imageByteArray: ByteArray = Base64.decode(uri, Base64.DEFAULT)
 //    val imageByteArray = imagePicData?.decodeBase64()
-        Glide.with(view.context)
-            .asBitmap()
-            .load(imageByteArray)
+            Glide.with(view.context)
+                .load(glideUrl)
 //            .placeholder(R.drawable.bg_drawer_header)
 //            .error(R.drawable.ic_broken_image_24)
 //            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(view)
-//        val decodedString: ByteArray = Base64.decode(imagePicData, Base64.DEFAULT)
-//        val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-//        view.setImageBitmap(decodedByte)
+                .into(view)
+        }
     }
 
 }

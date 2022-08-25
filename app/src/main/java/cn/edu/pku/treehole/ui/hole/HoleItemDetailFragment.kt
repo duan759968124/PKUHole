@@ -7,18 +7,20 @@ import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.CommentAdapter
 import cn.edu.pku.treehole.adapters.CommentItemListener
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentHoleItemDetailBinding
-import cn.edu.pku.treehole.utilities.GlideEngine
+import cn.edu.pku.treehole.utilities.GlideEngineNet
+import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.viewmodels.hole.HoleItemDetailViewModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
-import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.basic.PictureSelector
+//import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -98,18 +100,27 @@ class HoleItemDetailFragment : BaseFragment() {
         // 监听是否预览图片
         viewModel.previewPicture.observe(viewLifecycleOwner) {
             if (it != 0L) {
-//                val localMedia = LocalMedia()
-//                localMedia.path = it
-//                localMedia.setPosition(0)
-//                val selectList: ArrayList<LocalMedia> = ArrayList(1)
-//                selectList.add(localMedia)
+                val localMedia = LocalMedia()
+                localMedia.path = HOLE_HOST_ADDRESS + "api/pku_image/" + it
+                localMedia.setPosition(0)
+                val selectList: ArrayList<LocalMedia> = ArrayList(1)
+                selectList.add(localMedia)
+                PictureSelector.create(this)
+                    .openPreview()
+                    .setImageEngine(GlideEngineNet.createGlideEngine())
+                    .setExternalPreviewEventListener(object : OnExternalPreviewEventListener {
+                        override fun onPreviewDelete(position: Int) {}
+                        override fun onLongPressDownload(media: LocalMedia): Boolean {
+                            return false
+                        }
+                    }).startActivityPreview(0, true, selectList)
 //                PictureSelector.create(this)
 //                    .themeStyle(R.style.picture_WeChat_style)
 //                    .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
 //                    .isNotPreviewDownload(true)
-//                    .imageEngine(GlideEngine.createGlideEngine())
+//                    .imageEngine(GlideEngineNet.createGlideEngine())
 //                    .openExternalPreview(0, selectList)
-                findNavController().navigate(NavigationDirections.actionGlobalNavPreviewPicture(it))
+//                findNavController().navigate(NavigationDirections.actionGlobalNavPreviewPicture(it))
                 viewModel.finishPreviewPic()
             }
         }

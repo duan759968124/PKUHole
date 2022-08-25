@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/card_inside_margin_large"
             android:padding="@dimen/card_inside_padding"
-            app:imagePicData="@{viewModel.currentHoleItem.pic_data}"
+            app:showImage="@{viewModel.currentHoleItem}"
             tools:src="@drawable/bg_drawer_header" />
 
 <!--        <Button-->

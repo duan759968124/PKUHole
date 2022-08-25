@@ -13,7 +13,9 @@ import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.HTTP_TIMEOUT_CONNECT
 import cn.edu.pku.treehole.utilities.HTTP_TIMEOUT_READ
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -69,7 +71,7 @@ interface HoleApiService {
     @GET("api/pku_image/{pid}")
     suspend fun getPictureFromPid(
         @Path("pid") pid: Long,
-    ): HoleApiResponse<String?>
+    ): Call<ResponseBody>
 
 
 //    // 刷新树洞数据

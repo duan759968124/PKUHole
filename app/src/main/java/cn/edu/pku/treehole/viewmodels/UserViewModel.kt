@@ -114,6 +114,7 @@ class UserViewModel @Inject constructor(
                     // 用来更新activity中显示
                     userInfo.postValue(LocalRepository.localUserInfo)
                     _showInputValidCode.postValue(true)
+                    loadingStatus.postValue(false)
 //                    _loginSuccessNavigation.postValue(true)
                 } catch (e: Exception) {
                     when (e) {
@@ -121,7 +122,6 @@ class UserViewModel @Inject constructor(
                         else -> errorStatus.postValue(e)
                     }
                 } finally {
-                    loadingStatus.postValue(false)
 //                    Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
                 }
             }

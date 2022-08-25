@@ -37,18 +37,6 @@ data class AttentionItemBean(
     @field:SerializedName("extra")
     var extra: Int?,
 
-    @field:SerializedName("url")
-    var url: String?,
-
-//    // 树洞列表 单独属性
-//    @field:SerializedName("hot")
-//    @ColumnInfo(name = "hot")
-//    var hot: Long?,
-//
-//    // 树洞列表 单独属性
-//    @field:SerializedName("hidden")
-//    @ColumnInfo(name = "hidden")
-//    var hidden: Int?,
 
     @field:SerializedName("tag")
     @ColumnInfo(name = "tag")
@@ -64,8 +52,6 @@ data class AttentionItemBean(
     @ColumnInfo(name = "is_follow")
     var is_follow: Int? = 1,
 
-    @ColumnInfo(name = "pic_data")
-    var pic_data: String?
 )
 
 
@@ -80,7 +66,6 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             reply = it.reply,
             likenum = it.likenum,
             extra = it.extra,
-            url = it.url,
             tag = it.tag,
             is_top = null,
             isHole = 0,
@@ -88,7 +73,6 @@ fun List<AttentionItemBean>.asDatabaseBean():List<HoleItemBean>{
             anonymous = null,
             label = null,
             isRead = null,
-            pic_data = it.pic_data,
             label_info = it.label_info,
         )
     }
@@ -104,7 +88,6 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
             reply = it.reply,
             likenum = it.likenum,
             extra = it.extra,
-            url = it.url,
             tag = it.tag,
             is_top = null,
             isHole = 0,
@@ -113,7 +96,6 @@ fun AttentionItemBean.asDatabaseBean():HoleItemBean{
 //            label_info = null,
             label = null,
             isRead = null,
-            pic_data = it.pic_data,
             label_info = it.label_info
         )
     }

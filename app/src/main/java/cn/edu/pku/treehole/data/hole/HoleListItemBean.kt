@@ -30,7 +30,6 @@ data class HoleListItemBean(
     @ColumnInfo(name = "type")
     var type: String,
 
-//    Todo: 时间戳类型？？转化和格式
     @field:SerializedName("timestamp")
     @ColumnInfo(name = "timestamp")
     var timestamp: Long,
@@ -50,10 +49,6 @@ data class HoleListItemBean(
     @field:SerializedName("anonymous")
     @ColumnInfo(name = "anonymous")
     var anonymous: Int?,
-
-    @field:SerializedName("url")
-    @ColumnInfo(name = "url")
-    var url: String?,
 
     @field:SerializedName("is_top")
     @ColumnInfo(name = "is_top")
@@ -78,9 +73,6 @@ data class HoleListItemBean(
 
     @ColumnInfo(name = "isRead")
     var isRead: Int?,  // 0 or 1
-
-    @ColumnInfo(name = "pic_data")
-    var pic_data: String?
 )
 
 
@@ -95,7 +87,6 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
             likenum = it.likenum,
             extra = it.extra,
             anonymous = it.anonymous,
-            url = it.url,
             is_top = it.is_top,
             is_follow = it.is_follow,
             label = it.label,
@@ -103,7 +94,6 @@ fun List<HoleListItemBean>.asDatabaseBean():List<HoleItemBean>{
             isHole = 1,
             tag = null,
             isRead = it.isRead,
-            pic_data = it.pic_data
         )
     }
 }
@@ -119,7 +109,6 @@ fun HoleListItemBean.asDatabaseBean():HoleItemBean{
             likenum = it.likenum,
             extra = it.extra,
             anonymous = it.anonymous,
-            url = it.url,
             is_top = it.is_top,
             is_follow = it.is_follow,
             label = it.label,
@@ -127,7 +116,6 @@ fun HoleListItemBean.asDatabaseBean():HoleItemBean{
             isHole = 1,
             tag = null,
             isRead = it.isRead,
-            pic_data = it.pic_data
         )
     }
 }
