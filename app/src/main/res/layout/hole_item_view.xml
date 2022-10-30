@@ -80,6 +80,22 @@
                     android:background="@drawable/tag_circle_textview"
                     tools:text="tag1tag1" />
 
+                <TextView
+                    android:id="@+id/hole_top_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/tag_margin"
+                    android:padding="@dimen/tag_padding"
+                    android:text="@string/hole_top"
+                    app:hasTopTag="@{holeItemBean}"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toRightOf="@id/hole_tag_name"
+                    app:layout_constraintTop_toTopOf="@id/hole_pid"
+                    app:layout_constraintBottom_toBottomOf="@id/hole_pid"
+                    android:background="@drawable/top_circle_textview"
+                    tools:text="@string/hole_top" />
+
                 <View
                     android:id="@+id/card_line_one"
                     android:layout_width="match_parent"

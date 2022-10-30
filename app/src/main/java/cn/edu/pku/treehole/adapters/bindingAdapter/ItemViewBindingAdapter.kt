@@ -52,6 +52,19 @@ fun bindHasTag(view: View, labelId: Int?) {
     }
 }
 
+@BindingAdapter("hasTopTag")
+fun bindHasTopTag(view: View, holeItemBean: HoleItemBean?) {
+    if (holeItemBean != null) {
+        view.visibility = if (holeItemBean.is_top == 1 && holeItemBean.isHole == 1) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }else{
+        view.visibility = View.GONE
+    }
+}
+
 @BindingAdapter("showImage")
 fun bindImageFromUrl(view: ImageView, holeItemBean: HoleItemBean?) {
     if (holeItemBean != null) {

@@ -104,7 +104,7 @@ interface HoleListDao {
     @Query("Select * from hole_list_table where pid = :key")
     fun get(key: Long): Flow<HoleItemBean?>
 
-    @Query("Select * from hole_list_table where isHole = 1 ORDER BY pid DESC")
+    @Query("Select * from hole_list_table where isHole = 1 ORDER BY is_top DESC, pid DESC")
     fun getHoleList(): Flow<List<HoleItemBean>>
 
     @Query("Select * from hole_list_table where is_follow = 1 ORDER BY pid DESC")

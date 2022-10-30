@@ -46,7 +46,7 @@ class WebViewFragment : BaseFragment() {
 
             }
             "课表" -> {
-                moduleUrl = "https://www.pku.edu.cn"
+                moduleUrl = HOLE_HOST_ADDRESS + "timetableview/#/?token=" + LocalRepository.getValidToken()
             }
             else -> {
                 showToast("module name and module url is null")

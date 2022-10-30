@@ -15,11 +15,11 @@
             android:title="@string/menu_score"
             />
 
-<!--        <item-->
-<!--            android:id="@+id/nav_course"-->
-<!--            android:icon="@drawable/ic_menu_score"-->
-<!--            android:title="@string/menu_course"-->
-<!--            />-->
+        <item
+            android:id="@+id/nav_course"
+            android:icon="@drawable/ic_menu_course"
+            android:title="@string/menu_course"
+            />
 
         <item
             android:id="@+id/nav_settings"

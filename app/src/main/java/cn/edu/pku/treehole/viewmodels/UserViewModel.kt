@@ -117,11 +117,13 @@ class UserViewModel @Inject constructor(
                     loadingStatus.postValue(false)
 //                    _loginSuccessNavigation.postValue(true)
                 } catch (e: Exception) {
+                    loadingStatus.postValue(false)
                     when (e) {
                         is ApiException -> failStatus.postValue(e)
                         else -> errorStatus.postValue(e)
                     }
                 } finally {
+                    loadingStatus.postValue(false)
 //                    Timber.e("loginFinish %s", LocalRepository.getUserInfo().toString())
                 }
             }
