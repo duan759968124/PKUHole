@@ -50,10 +50,10 @@ class HoleListViewModel @Inject internal constructor(
 
 
     init {
-        if(LocalRepository.getUid().isNotEmpty()){
-            // 获取一条随机的树洞管理规范
-            getRandomHoleManagementPractice()
-        }
+//        if(LocalRepository.getUid().isNotEmpty()){
+//            // 获取一条随机的树洞管理规范
+//            getRandomHoleManagementPractice()
+//        }
 
         getHoleList()
 
