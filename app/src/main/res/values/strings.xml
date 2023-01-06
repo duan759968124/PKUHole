@@ -74,8 +74,8 @@
     <string name="open_source_content">SmartRefreshLayout Material-dialogs Gson PictureSelector PermissionsDispatcher Timber Dagger OkHttp Retrofit</string>
 
     <!--    launch warn text-->
-    <string name="launchWarnText"><![CDATA[本应用尊重并保护所有用户的个人隐私权，为了给您提供更优质的服务，本应用会按照用户协议和隐私政策的规定使用您的个人信息。想了解详细信息，请阅读<a href="user_agreement">《用户协议》</a>和<a href="privacy_policy">《隐私政策》</a>。]]></string>
-    <string name="launchWarnTitle">用户协议与隐私政策</string>
+    <string name="launchWarnText"><![CDATA[本应用尊重并保护所有用户的个人隐私权，为了给您提供更优质的服务，本应用会按照北大树洞服务协议的规定使用您的个人信息。想了解详细信息，请阅读<a href="user_agreement">《北大树洞服务协议》</a>。]]></string>
+    <string name="launchWarnTitle">北大树洞服务协议</string>
     <string name="agree">同意</string>
     <string name="reject">不同意</string>
     <string name="hole_splash">Splash</string>

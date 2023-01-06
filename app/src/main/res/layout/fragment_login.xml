@@ -130,24 +130,24 @@
                 android:layout_height="wrap_content"
                 style="@android:style/TextAppearance.Small"
                 android:text="已阅读并同意 "/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="隐私政策"
-                android:onClick="@{()->viewModel.navigateToPrivacyPolicy()}"
-                android:id="@+id/activity_login_policy_tv"
-                android:textColor="@color/pku_hole_logo_red"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 和 "/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="隐私政策"-->
+<!--                android:onClick="@{()->viewModel.navigateToPrivacyPolicy()}"-->
+<!--                android:id="@+id/activity_login_policy_tv"-->
+<!--                android:textColor="@color/pku_hole_logo_red"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text=" 和 "/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:onClick="@{()->viewModel.navigateToUserAgreement()}"
-                android:text="用户协议"
+                android:text="北大树洞服务协议"
                 android:id="@+id/activity_login_user_agreement_tv"
                 android:textColor="@color/pku_hole_logo_red"/>
         </LinearLayout>

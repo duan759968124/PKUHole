@@ -20,45 +20,45 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/fragment_settings_privacy_policy_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@color/white"
-                android:orientation="vertical">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/fragment_settings_privacy_policy_ll"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:orientation="vertical">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:onClick="@{()->viewModel.navigateToPrivacyPolicy()}"
-                    android:paddingStart="@dimen/setting_item_padding_left_right"
-                    android:paddingTop="@dimen/setting_item_padding_top"
-                    android:paddingEnd="@dimen/setting_item_padding_left_right"
-                    android:paddingBottom="@dimen/setting_item_padding_bottom">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="?android:attr/selectableItemBackground"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:onClick="@{()->viewModel.navigateToPrivacyPolicy()}"-->
+<!--                    android:paddingStart="@dimen/setting_item_padding_left_right"-->
+<!--                    android:paddingTop="@dimen/setting_item_padding_top"-->
+<!--                    android:paddingEnd="@dimen/setting_item_padding_left_right"-->
+<!--                    android:paddingBottom="@dimen/setting_item_padding_bottom">-->
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/privacy_policy"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="@string/privacy_policy"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="15sp" />-->
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_right_24" />
-                </LinearLayout>
+<!--                    <ImageView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:src="@drawable/ic_right_24" />-->
+<!--                </LinearLayout>-->
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
-            </LinearLayout>
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="1dp"-->
+<!--                    android:background="@color/card_inside_line_color" />-->
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/fragment_settings_user_agreement_ll"
