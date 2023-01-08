@@ -34,7 +34,7 @@ open class BaseViewModel @Inject internal constructor(
     val loadingStatus = MutableLiveData<Boolean>()
 
     // 刷新等待状态
-    val refreshStatus = MutableLiveData<Boolean>()
+    val refreshStatus = SingleLiveData<Boolean>()
     // error 变量
 //    val errorStatus = MutableLiveData<Throwable>()
 //    网络异常错误监听【只需要toast的异常】

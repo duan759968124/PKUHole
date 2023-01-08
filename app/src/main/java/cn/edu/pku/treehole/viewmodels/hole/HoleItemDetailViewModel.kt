@@ -62,7 +62,7 @@ class HoleItemDetailViewModel @Inject constructor(
     fun fetchCommentDetailFromNet() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                loadingStatus.postValue(true)
+//                loadingStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
                     database.getOneHoleFromNetToDatabase(pid)
@@ -75,7 +75,7 @@ class HoleItemDetailViewModel @Inject constructor(
                     else -> errorStatus.postValue(e)
                 }
             }finally {
-                loadingStatus.postValue(false)
+//                loadingStatus.postValue(false)
             }
         }
     }

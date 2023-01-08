@@ -162,8 +162,6 @@ class HoleListViewModel @Inject internal constructor(
                 refreshStatus.postValue(true)
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
-                    // 清理数据库中所有数据
-//                    database.clear()
                     database.refreshHoleListFromNetToDatabase() }
             }catch (e: Exception){
                 when(e){

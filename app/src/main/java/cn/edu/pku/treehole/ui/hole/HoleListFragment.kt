@@ -23,6 +23,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.*
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class HoleListFragment : BaseFragment() {
@@ -46,9 +48,11 @@ class HoleListFragment : BaseFragment() {
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentHoleListRecycler.layoutManager = manager
 
+//        binding.fragmentHoleListSrl.setEnableScrollContentWhenRefreshed(true);
         binding.fragmentHoleListSrl.setDisableContentWhenRefresh(false)
-        binding.fragmentHoleListSrl.setDisableContentWhenLoading(true)
-
+        binding.fragmentHoleListSrl.setDisableContentWhenLoading(false)
+//        binding.fragmentHoleListSrl.setEnableHeaderTranslationContent(true)
+//        binding.fragmentHoleListSrl.setEnableNestedScroll(true);
 //        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -82,17 +86,22 @@ class HoleListFragment : BaseFragment() {
         })
 
         // 监听刷新状态变化
-        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
-            if(it){
+        viewModel.refreshStatus.observe(viewLifecycleOwner) {
+            Timber.e("refreshStatus=$it")
+            if (it) {
                 Timber.e("show refresh")
 //                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
 //                showLoading()
-            }else{
+            } else {
                 Timber.e("hide refresh")
 //                dismissLoading()
-                binding.fragmentHoleListSrl.finishRefresh(1000)
+                binding.fragmentHoleListSrl.finishRefresh(500)
+                Timer().schedule(1500) {
+                    binding.fragmentHoleListRecycler.smoothScrollToPosition(0)
+                }
+
             }
-        })
+        }
 
         // 监听加载更多状态
         viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {

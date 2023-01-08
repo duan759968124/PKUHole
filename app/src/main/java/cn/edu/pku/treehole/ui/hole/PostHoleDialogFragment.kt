@@ -102,11 +102,6 @@ class PostHoleDialogFragment : DialogFragment() {
         viewModel.tagNameList.observe(viewLifecycleOwner) {
             it?.let {
                 tagNameList = it
-            }
-        }
-
-        viewModel.showTagListDialog.observe(viewLifecycleOwner) {
-            if(it){
                 tagSheetDialog = context?.let { context ->
                     MaterialDialog(context)
                         .title(text = viewModel.tagTitle)
@@ -115,8 +110,18 @@ class PostHoleDialogFragment : DialogFragment() {
                             binding.tagListTv.text = searchTagName
                             viewModel.dismissTagListDialog(searchTagName)
                         }
+                        .cancelable(false)
+                        .cancelOnTouchOutside(false)
+                        .negativeButton(R.string.cancelReply)
                 }!!
+            }
+        }
+
+        viewModel.showTagListDialog.observe(viewLifecycleOwner) {
+            if(it){
                 tagSheetDialog.show()
+            }else{
+                tagSheetDialog.dismiss()
             }
         }
 

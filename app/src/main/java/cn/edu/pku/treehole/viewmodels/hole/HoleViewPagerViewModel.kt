@@ -41,13 +41,14 @@ class HoleViewPagerViewModel @Inject constructor(
     var tagTitle = "添加标签"
     var selectedTagName = ""
 
-    private val _openPictureSelect = MutableLiveData(false)
-    val openPictureSelect: LiveData<Boolean>
-        get() = _openPictureSelect
-
-    private val _showTagListDialog = MutableLiveData(false)
-    val showTagListDialog: LiveData<Boolean>
-        get() = _showTagListDialog
+//    private val _openPictureSelect = MutableLiveData(false)
+//    val openPictureSelect: LiveData<Boolean>
+//        get() = _openPictureSelect
+    val openPictureSelect = SingleLiveData<Boolean>()
+//    private val _showTagListDialog = MutableLiveData(false)
+//    val showTagListDialog: LiveData<Boolean>
+//        get() = _showTagListDialog
+    val showTagListDialog = SingleLiveData<Boolean>()
 
 
     val postResponseMsg = SingleLiveData<String?>()
@@ -72,11 +73,11 @@ class HoleViewPagerViewModel @Inject constructor(
 //    }
 
     fun selectTagName() {
-        _showTagListDialog.value = true
+        showTagListDialog.value = true
     }
 
     fun dismissTagListDialog(tagName: String) {
-        _showTagListDialog.value = false
+        showTagListDialog.value = false
         selectedTagName = tagName
     }
 
@@ -123,11 +124,11 @@ class HoleViewPagerViewModel @Inject constructor(
     }
 
     fun getLocalPicture() {
-        _openPictureSelect.value = true
+        openPictureSelect.value = true
     }
 
     fun finishSelectPicture(localMedia: LocalMedia) {
-        _openPictureSelect.value = false
+        openPictureSelect.value = false
 //        var file: File? = File(localMedia.path)
 //        if (SdkVersionUtils.isQ()) { //android Q路径变
 //            file = File(localMedia.androidQToPath)

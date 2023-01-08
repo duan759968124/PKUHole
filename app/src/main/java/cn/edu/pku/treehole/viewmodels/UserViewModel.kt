@@ -114,10 +114,8 @@ class UserViewModel @Inject constructor(
                     // 用来更新activity中显示
                     userInfo.postValue(LocalRepository.localUserInfo)
                     _showInputValidCode.postValue(true)
-                    loadingStatus.postValue(false)
 //                    _loginSuccessNavigation.postValue(true)
                 } catch (e: Exception) {
-                    loadingStatus.postValue(false)
                     when (e) {
                         is ApiException -> failStatus.postValue(e)
                         else -> errorStatus.postValue(e)
