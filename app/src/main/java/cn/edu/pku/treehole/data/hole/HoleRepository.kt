@@ -44,7 +44,7 @@ class HoleRepository @Inject constructor(
 
     suspend fun getHoleListFromNetToDatabase(page: Int){
         withContext(Dispatchers.IO){
-            val holeListResponse = launchRequest { holeApi.getHoleList(page = page, limit = 15) }
+            val holeListResponse = launchRequest { holeApi.getHoleList(page = page, limit = 50) }
             holeListResponse.data!!.data?.map {
                 it.isHole = 1
                 it.isRead = 1
