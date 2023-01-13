@@ -37,6 +37,15 @@ fun bindHasImage(view: View, type: String?) {
     }
 }
 
+@BindingAdapter("hasContentText")
+fun bindHasContentText(view: View, text: String?) {
+    view.visibility = if (text.isNullOrEmpty()) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+}
+
 @BindingAdapter("hasTag")
 fun bindHasTag(view: View, labelId: Int?) {
     view.visibility = if (labelId == null || labelId == 0) {

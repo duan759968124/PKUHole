@@ -114,11 +114,6 @@ fun TextView.setHandleHoleText(holeText: String?) {
             text = spannableString
             movementMethod = LinkMovementMethod()
         }
-        else{
-            visibility = View.GONE
-        }
-    }else{
-        visibility = View.GONE
     }
 }
 

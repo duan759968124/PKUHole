@@ -125,6 +125,7 @@
                 <!--            binding_hole_number_listener="@{holeNumberClickListener}"-->
                 <TextView
                     android:id="@+id/hole_content"
+                    app:hasContentText="@{holeItemBean.text}"
                     binding_hole_text="@{holeItemBean.text}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
