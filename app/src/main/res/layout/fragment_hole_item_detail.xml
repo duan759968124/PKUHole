@@ -38,8 +38,8 @@
 <!--            >-->
             <include
                 android:id="@+id/origin_card"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="@dimen/card_inside_margin"
+                android:layout_marginEnd="@dimen/card_inside_margin"
                 android:layout_marginBottom="5dp"
                 layout="@layout/hole_item_view"
                 bind:pictureClickListener="@{viewModel.pictureClickListener}"
@@ -71,8 +71,8 @@
             android:id="@+id/fragment_comment_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/card_inside_margin"
+            android:layout_marginEnd="@dimen/card_inside_margin"
             tools:itemCount="5"
             tools:listitem="@layout/comment_item_view" />
 <!--        </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->

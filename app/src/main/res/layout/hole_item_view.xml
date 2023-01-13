@@ -58,7 +58,7 @@
                     android:padding="@dimen/card_inside_padding"
                     android:text="@{@string/pid_format(holeItemBean.pid)}"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

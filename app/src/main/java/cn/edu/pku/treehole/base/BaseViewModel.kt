@@ -43,6 +43,10 @@ open class BaseViewModel @Inject internal constructor(
     val failStatus = SingleLiveData<ApiException>()
     val database  = holeRepository
 
+    // 全局的字体大小设置[暂时没必要]
+//    var globalCurrentContentSize = MutableLiveData<Int?>().apply { value = LocalRepository.localGlobalHoleContentCurrentTextSize }
+
+
 //    token 请求前有效的token
 //    protected val _validToken = MutableLiveData<String>()
 //    val validToken: LiveData<String>

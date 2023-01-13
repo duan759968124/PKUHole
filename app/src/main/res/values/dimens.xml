@@ -14,9 +14,9 @@
     <dimen name="card_corner_radius">8dp</dimen>
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="card_inside_padding">4dp</dimen>
-    <dimen name="card_inside_margin">4dp</dimen>
+    <dimen name="card_inside_margin">6dp</dimen>
     <dimen name="card_pid_height">25dp</dimen>
-    <dimen name="card_inside_margin_large">8dp</dimen>
+    <dimen name="card_inside_margin_large">12dp</dimen>
 
 <!--    post hole dialog-->
     <dimen name="dialog_margin">32dp</dimen>

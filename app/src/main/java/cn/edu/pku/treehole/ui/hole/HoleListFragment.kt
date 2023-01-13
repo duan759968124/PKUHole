@@ -149,6 +149,12 @@ class HoleListFragment : BaseFragment() {
             }
         })
 
+//        手动设置字体大小，暂时没必要
+//        viewModel.globalCurrentContentSize.observe(viewLifecycleOwner) {
+//            Timber.e("globalCurrentContentSize: $it")
+//            adapter.setTextSizes(it)
+//        }
+
     }
 
     private fun showRandomTipDialog() {

@@ -5,7 +5,6 @@ import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,14 +13,17 @@ class ChangeTextSizeViewModel @Inject constructor(holeRepository: HoleRepository
 
     var maxContentSize = LocalRepository.localHoleContentMaxTextSize
     var minContentSize = LocalRepository.localHoleContentMinTextSize
-    var defaultContentSize = LocalRepository.localHoleContentDefaultTextSize
-    var currentContentSize = MutableLiveData<Int?>().apply { value = LocalRepository.localHoleContentCurrentTextSize }
+    var currentContentSize = MutableLiveData<Int?>().apply { value = LocalRepository.localGlobalHoleContentCurrentTextSize }
+
 
     fun onValueChanged(value: Float) {
         currentContentSize.value = value.toInt()
     }
 
     fun finishSetTextSize(){
-        LocalRepository.localHoleContentDefaultTextSize = currentContentSize.value!!
+//        localHoleContentCurrentTextSize 与 globalCurrentContentSize本质一样
+//        currentContentSize 本质表示当面界面的字体大小
+        LocalRepository.localGlobalHoleContentCurrentTextSize = currentContentSize.value!!
+//        globalCurrentContentSize.value = currentContentSize.value!!
     }
 }

@@ -1,10 +1,12 @@
 package cn.edu.pku.treehole.adapters
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.databinding.HoleItemViewBinding
 import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
@@ -22,7 +24,7 @@ import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
 class HoleAdapter(
     private val itemClickListener: HoleItemListener,
     private val pictureClickListener: PictureClickListener,
-
+    private var contentTextSize: Int = LocalRepository.localGlobalHoleContentCurrentTextSize
 ) :
     ListAdapter<HoleItemBean, HoleAdapter.ViewHolder>(HoleDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -44,15 +46,16 @@ class HoleAdapter(
             listItem: HoleItemBean,
             itemClickListener: HoleItemListener,
             pictureClickListener: PictureClickListener,
+            contentTextSize:Int
         ) {
 //            binding.apply{
 //                holeListItemBean = listItem
 //                executePendingBindings()
 //            }
             binding.holeItemBean = listItem
+            binding.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, contentTextSize.toFloat());
             binding.clickListener = itemClickListener
             binding.pictureClickListener = pictureClickListener
-
             binding.executePendingBindings()
         }
 
@@ -70,8 +73,14 @@ class HoleAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), itemClickListener, pictureClickListener)
+        holder.bind(getItem(position), itemClickListener, pictureClickListener, contentTextSize)
 //        holder.bind(getItem(position))
+    }
+
+//    暂时没必要
+    fun setTextSizes(textSize: Int) {
+        contentTextSize = textSize
+        notifyDataSetChanged()
     }
 
 

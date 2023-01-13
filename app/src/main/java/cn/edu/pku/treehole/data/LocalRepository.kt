@@ -29,7 +29,7 @@ object LocalRepository : MMKVOwner {
     var localUserInfo by mmkvParcelable<UserInfo>()
     var localJwtTimestamp by mmkvLong(0L)
 
-    var localHoleContentCurrentTextSize by mmkvInt(14)
+    var localGlobalHoleContentCurrentTextSize by mmkvInt(14)
     var localHoleContentDefaultTextSize by mmkvInt(14)
     var localHoleContentMaxTextSize by mmkvInt(22)
     var localHoleContentMinTextSize by mmkvInt(13)

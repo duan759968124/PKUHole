@@ -3,6 +3,7 @@ package cn.edu.pku.treehole.ui.hole
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,7 @@ import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.CommentAdapter
 import cn.edu.pku.treehole.adapters.CommentItemListener
 import cn.edu.pku.treehole.base.BaseFragment
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentHoleItemDetailBinding
 import cn.edu.pku.treehole.utilities.GlideEngineNet
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
@@ -55,7 +57,7 @@ class HoleItemDetailFragment : BaseFragment() {
         binding.fragmentCommentListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentCommentListRecycler.layoutManager = manager
-
+        binding.originCard.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, LocalRepository.localGlobalHoleContentCurrentTextSize.toFloat())
         // 设置导航状态监听是否有必要
         setHasOptionsMenu(true)
         return binding.root

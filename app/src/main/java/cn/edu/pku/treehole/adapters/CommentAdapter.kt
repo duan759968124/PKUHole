@@ -1,10 +1,12 @@
 package cn.edu.pku.treehole.adapters
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.databinding.CommentItemViewBinding
 
@@ -18,16 +20,19 @@ import cn.edu.pku.treehole.databinding.CommentItemViewBinding
  */
 
 //class HoleAdapter :
-class CommentAdapter(private val clickListener: CommentItemListener) :
+class CommentAdapter(
+    private val clickListener: CommentItemListener,
+    private var contentTextSize: Int = LocalRepository.localGlobalHoleContentCurrentTextSize) :
     ListAdapter<CommentItemBean, CommentAdapter.ViewHolder>(CommentDiffCallback()) {
     class ViewHolder(val binding: CommentItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(listItem: CommentItemBean, clickListener: CommentItemListener) {
+        fun bind(listItem: CommentItemBean, clickListener: CommentItemListener, contentTextSize:Int) {
 //            binding.apply{
 //                holeListItemBean = listItem
 //                executePendingBindings()
 //            }
             binding.commentItemBean = listItem
+            binding.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, contentTextSize.toFloat());
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -46,7 +51,7 @@ class CommentAdapter(private val clickListener: CommentItemListener) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), clickListener)
+        holder.bind(getItem(position), clickListener, contentTextSize)
 //        holder.bind(getItem(position))
     }
 }
