@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 //        setSupportActionBar(binding.appBarMain.toolbar)
 ////        drawerLayout侧边栏组件
 //        val drawerLayout= binding.drawerLayout
-////        navView 侧边栏菜单组件
+////        navView 侧边栏（底部导航栏）菜单组件
 //        val navView: NavigationView = binding.navView
 
         val navView: BottomNavigationView = binding.navView

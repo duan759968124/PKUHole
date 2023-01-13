@@ -92,5 +92,10 @@
     <string name="select_tag">选择标签</string>
     <string name="picture_preview">图片预览</string>
     <string name="hole_top">置顶</string>
+    <string name="edit">发布</string>
+    <string name="change_text_size">字体大小</string>
+    <string name="preview_text_size">预览字体大小</string>
+    <string name="format_text_size">%dsp</string>
+    <string name="finish">完成</string>
 
 </resources>

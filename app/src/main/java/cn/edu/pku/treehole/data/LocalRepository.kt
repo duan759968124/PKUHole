@@ -28,6 +28,11 @@ object LocalRepository : MMKVOwner {
 //    private var localToken by mmkvString("")
     var localUserInfo by mmkvParcelable<UserInfo>()
     var localJwtTimestamp by mmkvLong(0L)
+
+    var localHoleContentCurrentTextSize by mmkvInt(14)
+    var localHoleContentDefaultTextSize by mmkvInt(14)
+    var localHoleContentMaxTextSize by mmkvInt(22)
+    var localHoleContentMinTextSize by mmkvInt(13)
 //    private var userInfo by mmkvParcelable<UserInfo>()
 //    @Parcelize
 //    data class User(val id: Long, val name: String) : Parcelable

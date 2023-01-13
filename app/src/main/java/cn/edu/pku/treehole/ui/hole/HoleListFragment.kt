@@ -71,6 +71,10 @@ class HoleListFragment : BaseFragment() {
 //            it.finishLoadMore(false)
         }
 
+        binding.fab.setOnClickListener {
+            binding.fragmentHoleListRecycler.smoothScrollToPosition(0)
+        }
+
         viewModel.getRandomTipFromNet.observe(viewLifecycleOwner) {
             if (it) {
                 showRandomTipDialog()

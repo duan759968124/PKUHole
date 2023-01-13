@@ -174,4 +174,5 @@ class HoleListViewModel @Inject internal constructor(
         }
     }
 
+
 }

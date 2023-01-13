@@ -137,10 +137,10 @@
                     android:padding="@dimen/card_inside_padding"
                     android:textColor="@color/black"
                     android:textIsSelectable="true"
-                    android:textSize="14sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hole_content_image"
+                    tools:textSize="14sp"
                     tools:text="@string/hole_test_text" />
 
                 <View

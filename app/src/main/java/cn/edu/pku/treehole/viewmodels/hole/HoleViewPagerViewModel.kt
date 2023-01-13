@@ -58,10 +58,10 @@ class HoleViewPagerViewModel @Inject constructor(
     }
 
 
-    fun onClickUploadFab() {
-        Timber.e("start dialog post hole!!!")
-        showDialogPost.value = true
-    }
+//    fun onClickUpFirst() {
+//        Timber.e("return first hole!!!")
+////        showDialogPost.value = true
+//    }
 
 //    fun selectTagName(parent: AdapterView<*>?, view: View, pos: Int, id: Long){
 ////        Timber.e("select tag how to get name %d", selectedNamePosition)

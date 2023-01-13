@@ -22,6 +22,7 @@ import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
 class HoleAdapter(
     private val itemClickListener: HoleItemListener,
     private val pictureClickListener: PictureClickListener,
+
 ) :
     ListAdapter<HoleItemBean, HoleAdapter.ViewHolder>(HoleDiffCallback()) {
     class ViewHolder(val binding: HoleItemViewBinding) : RecyclerView.ViewHolder(binding.root) {

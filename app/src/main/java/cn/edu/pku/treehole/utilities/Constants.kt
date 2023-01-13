@@ -13,12 +13,8 @@ const val DATABASE_NAME = "pku_hole_db"
 const val PRE_POPULATE_HOLE_LIST_DATA = "hole_all_list.js"
 
 // API
-//const val HOLE_HOST_ADDRESS = "https://pkuhelper.pku.edu.cn/"
 const val HOLE_HOST_ADDRESS = "https://treehole.pku.edu.cn/"
-
-const val HOLE_UPDATE_HOST_ADDRESS = "https://its.pku.edu.cn/"
-
-const val ISOP_HOST_ADDRESS = "https://isop.pku.edu.cn/"
+const val TEST_HOST_ADDRESS = "http://pkusdtest.16a.top/"
 
 // 连接超时时间
 const val HTTP_TIMEOUT_CONNECT: Long = 15

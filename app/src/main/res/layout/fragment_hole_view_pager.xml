@@ -57,17 +57,19 @@
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="16dp"
-            android:onClick="@{()->viewModel.onClickUploadFab()}"
-            android:src="@drawable/ic_create_white_24"
-            app:backgroundTint="@color/pku_red"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fab"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:fabCustomSize="40dp"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            android:layout_marginEnd="@dimen/fab_margin"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:onClick="@{()->viewModel.onClickUpFirst()}"-->
+<!--            android:src="@drawable/ic_up_arrow_24_2"-->
+<!--            app:tint="@color/grey"-->
+<!--            app:backgroundTint="@color/app_color_white_transparent"-->
+<!--            app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 <!--        <FrameLayout-->
 <!--            android:id="@+id/contentFrame"-->

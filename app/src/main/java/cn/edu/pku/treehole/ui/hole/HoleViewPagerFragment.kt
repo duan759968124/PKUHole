@@ -37,6 +37,7 @@ class HoleViewPagerFragment : BaseFragment() {
     private val viewModel : HoleViewPagerViewModel by activityViewModels()
 
     private lateinit var searchDialog: MaterialDialog
+    private lateinit var postDialog: PostHoleDialogFragment
     private lateinit var tagSheetDialog: MaterialDialog
 
     private var searchTagName: String = ""
@@ -73,7 +74,7 @@ class HoleViewPagerFragment : BaseFragment() {
                 }
         }!!
 
-        val postDialog = PostHoleDialogFragment()
+        postDialog = PostHoleDialogFragment()
 
         viewModel.showDialogPost.observe(viewLifecycleOwner, Observer { isShow ->
             if(isShow){
@@ -162,33 +163,18 @@ class HoleViewPagerFragment : BaseFragment() {
         return when(item.itemId){
             R.id.button_search ->{
 //                showToast("click search")
-                showSearchDialog()
+                searchDialog.show()
+                false
+            }
+            R.id.button_edit -> {
+                Timber.e("show dialog")
+                postDialog.show(parentFragmentManager, "dialog")
                 false
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    @SuppressLint("CheckResult")
-    private fun showSearchDialog() {
-        searchDialog.show()
-//        context?.let {
-//            MaterialDialog(it).show {
-//                title(R.string.search)
-//                input(hintRes = R.string.hint_search_text) { dialog, text ->
-////                    Timber.e("input text %s", text)
-//                    // 检查文本并发送回复文本请求
-//                    checkSearchAndRequest(text)
-////
-//                }
-//                negativeButton(R.string.cancelReply)
-////                { dialog ->
-////                    dialog.hide()
-////                }
-//                positiveButton(R.string.search)
-//            }
-//        }
-    }
 
     private fun checkSearchAndRequest(text: CharSequence) {
         if(text.isEmpty()){

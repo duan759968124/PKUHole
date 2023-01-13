@@ -1,12 +1,11 @@
 package cn.edu.pku.treehole.adapters.bindingAdapter
 
-import android.util.Base64
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.LocalRepository
+import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.convertDurationToFormatted
 import com.bumptech.glide.Glide
@@ -14,11 +13,6 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import java.io.File
-import android.graphics.BitmapFactory
-
-import android.graphics.Bitmap
-import cn.edu.pku.treehole.data.hole.HoleItemBean
-import okio.ByteString.Companion.decodeBase64
 
 
 /**

@@ -73,46 +73,11 @@ interface HoleApiService {
         @Path("pid") pid: Long,
     ): Call<ResponseBody>
 
-
-//    // 刷新树洞数据
-//    @GET("services/pkuhole/api.php")
-//    suspend fun refreshHoleList(
-//        @Query("action") action: String = "refreshlist",
-//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-//        @Query("timestamp") timestamp : Long,
-////        @Query("token") token: String = TEST_TOKEN
-//    ): HoleApiResponse<List<HoleListItemBean>?>
-
-    // 刷新树洞数据
-//    @FormUrlEncoded
-//    @POST("services/hole/api.php")
-//    suspend fun refreshHoleList(
-//        @Field("action") action: String = "refreshlist",
-//        @Field("token") token: String,
-//        @Field("timestamp") timestamp : Long,
-//    ): HoleApiResponse<List<HoleListItemBean>?>
-
     // 刷新树洞数据
     @GET("api/pku_hold_refresh")
     suspend fun refreshHoleList(
         @Query("timestamp") timestamp: Long,
     ): HoleApiResponse<List<HoleListItemBean>?>
-
-//    // 获取关注数据
-//    @GET("services/pkuhole/api.php")
-//    suspend fun getAttentionList(
-//        @Query("action") action: String = "getattention",
-//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-////        @Query("token") token: String = TEST_TOKEN
-//    ): HoleApiResponse<List<AttentionItemBean>>
-
-    // 获取关注数据
-//    @FormUrlEncoded
-//    @POST("services/hole/api.php")
-//    suspend fun getAttentionList(
-//        @Field("action") action: String = "getattention",
-//        @Field("token") token: String,
-//    ): HoleApiResponse<List<AttentionItemBean>?>
 
     // 获取关注数据
     @GET("api/follow")
@@ -120,39 +85,12 @@ interface HoleApiService {
         @Query("limit") limit: Int = 10000
     ): HoleApiResponse<HoleListBody<AttentionItemBean>?>
 
-
-    // 获取一条树洞数据
-//    @GET("services/pkuhole/api.php")
-//    suspend fun getOneHole(
-//        @Query("action") action: String = "getone",
-//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-//        @Query("pid") pid: Long,
-////        @Query("token") token: String = TEST_TOKEN
-//    ): HoleApiResponse<HoleItemModel>
-
-//    // 获取一条树洞数据
-//    @FormUrlEncoded
-//    @POST("services/hole/api.php")
-//    suspend fun getOneHole(
-//        @Field("action") action: String = "getone",
-//        @Field("token") token: String,
-//        @Field("pid") pid: Long
-//    ): HoleApiResponse<HoleItemModel?>
     // 获取一条树洞数据
     @GET("api/pku/{pid}")
     suspend fun getOneHole(
     @Path("pid") pid: Long
     ): HoleApiResponse<HoleItemModel?>
 
-
-    // 搜索
-//    @FormUrlEncoded
-//    @POST("services/hole/api.php")
-//    suspend fun search(
-//        @Field("action") action: String = "search",
-//        @Field("token") token: String,
-//        @Field("keywords") keywords: String
-//    ): HoleApiResponse<List<HoleItemModel>?>
     @GET("api/pku_hole")
     suspend fun search(
         @Query("page") page: Long,
@@ -165,39 +103,12 @@ interface HoleApiService {
         @Query("pid") pid: String
     ): HoleApiResponse<HoleListBody<HoleItemModel>?>
 
-    // 获取某条树洞下的评论列表
-//    @GET("services/pkuhole/api.php")
-//    suspend fun getCommentList(
-//        @Query("action") action: String = "getcomment",
-//        @Query("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-//        @Query("pid") pid: Long,
-//    ): HoleApiResponse<List<CommentItemBean>>
-
-    // 获取某条树洞下的评论列表
-//    @FormUrlEncoded
-//    @POST("services/hole/api.php")
-//    suspend fun getCommentList(
-//        @Field("action") action: String = "getcomment",
-//        @Field("token") token: String,
-//        @Field("pid") pid: Long,
-//    ): HoleApiResponse<List<CommentItemBean>?>
-
     @GET("api/pku_comment/{pid}")
     suspend fun getCommentList(
         @Path("pid") pid: Long,
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 100000,
     ): HoleApiResponse<HoleListBody<CommentItemBean>?>
-
-//    // 回复评论
-//    @FormUrlEncoded
-//    @POST("services/pkuhole/api.php")
-//    suspend fun sendReplyComment(
-//        @Query("action") action: String = "docomment",
-//        @Field("user_token") userToken: String = "09ek80oc8hdj847ul0843nx58qolzw0l",
-//        @Field("pid") pid: Long,
-//        @Field("text") text: String,
-//    ): HoleApiResponse<Long>
 
     // 回复评论
     @FormUrlEncoded

@@ -47,6 +47,13 @@ class SettingsFragment : BaseFragment() {
             }
         })
 
+        viewModel.navigateToChangeTextSize.observe(viewLifecycleOwner, Observer {
+            if(it){
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavChangeTextSize())
+                viewModel.onNavigateToChangeTextSizeFinish()
+            }
+        })
+
         viewModel.navigationToUserAgreement.observe(viewLifecycleOwner, Observer {
             if(it){
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(

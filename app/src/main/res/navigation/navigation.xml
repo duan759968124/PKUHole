@@ -142,6 +142,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_nav_settings_to_nav_change_text_size"
+            app:destination="@id/nav_change_text_size"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
 
@@ -158,6 +165,23 @@
             app:argType="string" />
     </fragment>
 
+
+    <fragment
+        android:id="@+id/nav_change_text_size"
+        android:name="cn.edu.pku.treehole.ui.settings.ChangeTextSizeFragment"
+        android:label="@string/change_text_size"
+        tools:layout="@layout/fragment_change_text_size">
+        <action
+            android:id="@+id/action_nav_change_text_size_to_nav_settings"
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/nav_hole"
+            />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_about_us"
