@@ -37,7 +37,7 @@ import timber.log.Timber
 abstract class BaseFragment : Fragment() {
 
     private lateinit var mLoadingDialog: LoadingDialog
-    private lateinit var mContext: Context
+    lateinit var mContext: Context
 //    private val baseViewModel: BaseViewModel by viewModels()
 
 

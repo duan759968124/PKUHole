@@ -31,7 +31,7 @@ open class BaseViewModel @Inject internal constructor(
     holeRepository: HoleRepository
 ): ViewModel() {
     // 加载更多和请求加载等待状态
-    val loadingStatus = MutableLiveData<Boolean>()
+    val loadingStatus = SingleLiveData<Boolean>()
 
     // 刷新等待状态
     val refreshStatus = SingleLiveData<Boolean>()

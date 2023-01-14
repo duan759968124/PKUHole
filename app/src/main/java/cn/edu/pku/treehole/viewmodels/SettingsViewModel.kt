@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
+import cn.edu.pku.treehole.base.network.ApiException
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -74,6 +77,34 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
 
     fun onNavigateToAboutUsFinish(){
         _navigationToAboutUs.value = false
+    }
+
+    fun checkVersionUpdate(){
+//        viewModelScope.launch(Dispatchers.IO){
+//            database.clear()
+//            // 设置为未登录状态
+//            // 清楚localRepository部分数据
+//            LocalRepository.clearAll()
+//            _loginStatus.postValue(false)
+//        }
+    }
+
+    fun clearCache(){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                loadingStatus.postValue(true)
+                database.clear()
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let { database.getHoleListFromNetToDatabase(1) }
+            }catch (e: Exception){
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
+            }finally {
+                loadingStatus.postValue(false)
+            }
+        }
     }
 
     fun exitLogin(){

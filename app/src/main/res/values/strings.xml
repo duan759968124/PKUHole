@@ -97,5 +97,7 @@
     <string name="preview_text_size">预览字体大小</string>
     <string name="format_text_size">%dsp</string>
     <string name="finish">完成</string>
+    <string name="version_update">版本更新</string>
+    <string name="clear_cache">缓存清理</string>
 
 </resources>
