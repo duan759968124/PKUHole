@@ -16,8 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/1/4
  * @Desc:
  * @Version:        1.0

@@ -1,9 +1,13 @@
 package cn.edu.pku.treehole.ui.login
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
@@ -13,10 +17,9 @@ import cn.edu.pku.treehole.viewmodels.UserViewModel
 import com.fraggjkee.smsconfirmationview.SmsConfirmationView
 import dagger.hilt.android.AndroidEntryPoint
 
+
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/8/10
  * @Desc:
  * @Version:        1.0

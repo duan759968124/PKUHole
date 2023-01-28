@@ -4,8 +4,6 @@ import kotlin.Exception
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/28
  * @Desc:
  * @Version:        1.0

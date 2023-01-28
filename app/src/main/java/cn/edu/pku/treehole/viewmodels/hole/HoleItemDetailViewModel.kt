@@ -17,8 +17,6 @@ import javax.inject.Inject
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/23
  * @Desc:
  * @Version:        1.0

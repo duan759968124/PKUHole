@@ -8,8 +8,6 @@ import android.view.View
 import com.google.android.material.appbar.AppBarLayout
 
 /**
- * @Author: HuidongQin
- * @e-mail: hdqin@pku.edu.cn
  * @Time: 2022/1/2
  * @Desc:  暂时没有用到
  * @Version: 1.0

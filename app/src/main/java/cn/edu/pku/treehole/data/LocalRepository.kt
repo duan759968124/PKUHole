@@ -9,8 +9,6 @@ import java.util.*
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/1/5
  * @Desc:           存取用户信息，包括token的有效期处理
  * @Version:        1.0

@@ -14,8 +14,6 @@ import javax.inject.Singleton
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/24
  * @Desc:
  * @Version:        1.0

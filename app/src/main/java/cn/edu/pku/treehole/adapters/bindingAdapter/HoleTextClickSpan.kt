@@ -15,8 +15,6 @@ import timber.log.Timber
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/3/9
  * @Desc:
  * @Version:        1.0

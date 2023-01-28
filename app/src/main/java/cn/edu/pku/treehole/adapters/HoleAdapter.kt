@@ -14,8 +14,6 @@ import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/22
  * @Desc:
  * @Version:        1.0

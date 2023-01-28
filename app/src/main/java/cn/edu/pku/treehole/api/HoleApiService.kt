@@ -1,8 +1,8 @@
 package cn.edu.pku.treehole.api
 
+import android.annotation.SuppressLint
 import cn.edu.pku.treehole.BuildConfig
 import cn.edu.pku.treehole.api.interceptor.AddHeaderInterceptor
-import cn.edu.pku.treehole.api.interceptor.ChangeBaseUrlInterceptor
 import cn.edu.pku.treehole.api.interceptor.LocalCookieJar
 import cn.edu.pku.treehole.data.EmptyBean
 import cn.edu.pku.treehole.data.HoleManagementPracticeBean
@@ -19,7 +19,11 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 interface HoleApiService {
 
@@ -184,9 +188,38 @@ interface HoleApiService {
             return Retrofit.Builder()
                 .baseUrl(HOLE_HOST_ADDRESS)
                 .client(okHttpclient)
+//                .client(getUnsafeOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(HoleApiService::class.java)
         }
+
+        fun getUnsafeOkHttpClient(): OkHttpClient {
+            val x509TrustManager = @SuppressLint("CustomX509TrustManager")
+            object: X509TrustManager {
+                override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                }
+
+                override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    return arrayOf()
+                }
+            }
+
+            val trustManagers = arrayOf<TrustManager>(x509TrustManager)
+
+            val sslContext = SSLContext.getInstance("TLS")
+            sslContext.init(null, trustManagers, null)
+
+            val builder = OkHttpClient.Builder()
+            builder.sslSocketFactory(sslContext.socketFactory, x509TrustManager)
+            builder.hostnameVerifier { _, _ -> true }
+
+            return builder.build()
+        }
     }
+
+
 }

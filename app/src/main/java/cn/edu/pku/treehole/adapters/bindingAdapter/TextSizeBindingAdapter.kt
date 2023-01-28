@@ -8,8 +8,6 @@ import com.google.android.material.slider.Slider
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2023/01/13
  * @Desc:
  * @Version:        1.0

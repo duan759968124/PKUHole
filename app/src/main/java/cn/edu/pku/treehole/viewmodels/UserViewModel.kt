@@ -18,9 +18,6 @@ import javax.inject.Inject
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
- * @Time:           2021/12/22
  * @Desc:           loginFragment与mainActivity共用这个viewModel
  * @Version:        1.0
  */

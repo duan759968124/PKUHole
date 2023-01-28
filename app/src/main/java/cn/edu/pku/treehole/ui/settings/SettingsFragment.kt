@@ -1,5 +1,6 @@
 package cn.edu.pku.treehole.ui.settings
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentSettingsBinding
 import cn.edu.pku.treehole.utilities.ClearingDialog
-import cn.edu.pku.treehole.utilities.LoadingDialog
 import cn.edu.pku.treehole.utilities.PRIVACY_POLICY_URL
 import cn.edu.pku.treehole.utilities.USER_AGREEMENT_URL
 import cn.edu.pku.treehole.viewmodels.SettingsViewModel
+import com.afollestad.materialdialogs.MaterialDialog
+import com.azhon.appupdate.listener.OnButtonClickListener
+import com.azhon.appupdate.manager.DownloadManager
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment() {
@@ -25,6 +27,7 @@ class SettingsFragment : BaseFragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var mClearingDialog: ClearingDialog
+    private var manager: DownloadManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,39 +50,44 @@ class SettingsFragment : BaseFragment() {
     }
 
     override fun initObserve() {
-
         viewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner, Observer {
-            if(it){
-                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
-                    getString(R.string.privacy_policy), PRIVACY_POLICY_URL))
+            if (it) {
+                findNavController().navigate(
+                    SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                        getString(R.string.privacy_policy), PRIVACY_POLICY_URL
+                    )
+                )
                 viewModel.onNavigateToPrivacyPolicyFinish()
             }
         })
 
         viewModel.navigateToChangeTextSize.observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavChangeTextSize())
                 viewModel.onNavigateToChangeTextSizeFinish()
             }
         })
 
         viewModel.navigationToUserAgreement.observe(viewLifecycleOwner, Observer {
-            if(it){
-                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
-                    getString(R.string.user_agreement), USER_AGREEMENT_URL))
+            if (it) {
+                findNavController().navigate(
+                    SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
+                        getString(R.string.user_agreement), USER_AGREEMENT_URL
+                    )
+                )
                 viewModel.onNavigateToUserAgreementFinish()
             }
         })
 
         viewModel.navigationToAboutUs.observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavAboutUs())
                 viewModel.onNavigateToAboutUsFinish()
             }
         })
 
         viewModel.navigationToCopyright.observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavCopyright())
                 viewModel.onNavigateToCopyrightFinish()
             }
@@ -103,14 +111,63 @@ class SettingsFragment : BaseFragment() {
             fail.message?.let { showToast("失败-$it") }
         })
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner){
-            if(it){
+        viewModel.loadingStatus.observe(viewLifecycleOwner) {
+            if (it) {
                 mClearingDialog.showDialog(mContext, false)
             } else {
                 mClearingDialog.dismissDialog()
             }
         }
 
+        viewModel.canUpdate.observe(viewLifecycleOwner) { updateFlag ->
+            if (updateFlag == 1) {
+//                弹出一个可升级的对话框
+                showUpdateDialog()
+            }
+            if (updateFlag == 0) {
+//                弹出一个对话框
+                context?.let {
+                    MaterialDialog(it).show {
+                        title(R.string.update_title)
+                        message(R.string.no_update)
+                        positiveButton(R.string.confirm)
+                    }
+                }
+            }
+        }
+    }
+    private fun showUpdateDialog() {
+        manager = DownloadManager.Builder(activity!!).run {
+            LocalRepository.localUpdateInfo!!.app_file_url?.let { apkUrl(it) }
+            apkName("PKU_TreeHole.apk")
+            smallIcon(R.mipmap.ic_launcher)
+            showNewerToast(false)
+//            apkVersionCode(1)
+            apkVersionCode(LocalRepository.localUpdateInfo!!.app_version_code)
+            LocalRepository.localUpdateInfo!!.app_version_name?.let { apkVersionName(it) }
+//            apkSize("7.4")
+            LocalRepository.localUpdateInfo!!.update_log?.let { apkDescription(it) }
+            //apkMD5("DC501F04BBAA458C9DC33008EFED5E7F")
+
+            //flow are unimportant filed
+            enableLog(true)
+            //httpManager()
+            jumpInstallPage(true)
+//            dialogImage(R.drawable.ic_dialog)
+//            dialogButtonColor(Color.parseColor("#E743DA"))
+//            dialogProgressBarColor(Color.parseColor("#E743DA"))
+            dialogButtonTextColor(Color.WHITE)
+            showNotification(true)
+            showBgdToast(false)
+            forcedUpgrade(false)
+//            onDownloadListener(listenerAdapter)
+            onButtonClickListener(object : OnButtonClickListener {
+                override fun onButtonClick(id: Int) {
+                }
+            })
+            build()
+        }
+        manager?.download()
     }
 
 }

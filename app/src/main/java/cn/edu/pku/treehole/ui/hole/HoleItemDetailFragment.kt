@@ -1,7 +1,7 @@
 package cn.edu.pku.treehole.ui.hole
 
+//import com.luck.picture.lib.PictureSelector
 import android.annotation.SuppressLint
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -20,7 +20,6 @@ import cn.edu.pku.treehole.viewmodels.hole.HoleItemDetailViewModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.luck.picture.lib.basic.PictureSelector
-//import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener
 import dagger.hilt.android.AndroidEntryPoint

@@ -6,8 +6,6 @@ import cn.edu.pku.treehole.data.hole.*
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/01/27
  * @Desc:
  * @Version:        1.0

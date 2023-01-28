@@ -17,8 +17,6 @@ import java.io.File
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2021/12/30
  * @Desc:
  * @Version:        1.0

@@ -5,8 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/01/01
  * @Desc:
  * @Version:        1.0

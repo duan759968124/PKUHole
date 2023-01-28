@@ -23,8 +23,6 @@ import timber.log.Timber
 
 /**
  *
- * @Author:         HuidongQin
- * @e-mail:         hdqin@pku.edu.cn
  * @Time:           2022/1/5
  * @Desc:
  * @Version:        1.0
@@ -178,6 +176,8 @@ class SplashFragment : BaseFragment() {
 
     private fun checkLoginStatus() {
         Timber.e("checkLoginStatus")
+        manager?.cancel()
+        manager = null
         if (LocalRepository.getUid().isEmpty()) {
             //未登录，跳转到登录界面
             findNavController().navigate(R.id.action_global_nav_login)
