@@ -32,7 +32,7 @@ import timber.log.Timber
 class SplashFragment : BaseFragment() {
     private lateinit var binding: FragmentSplashBinding
     private val viewModel: SplashViewModel by viewModels()
-    private var manager: DownloadManager? = null
+    private lateinit var manager: DownloadManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +42,6 @@ class SplashFragment : BaseFragment() {
         binding.viewModel = viewModel
         return binding.root
     }
-
 
     override fun initData() {
         // 是否第一次启动,显示对话框
@@ -108,14 +107,14 @@ class SplashFragment : BaseFragment() {
 //            onDownloadListener(listenerAdapter)
             onButtonClickListener(object : OnButtonClickListener {
                 override fun onButtonClick(id: Int) {
-                   if(id == 1){
-                       checkLoginStatus()
-                   }
+                    if(id == 1){
+                        checkLoginStatus()
+                    }
                 }
             })
             build()
         }
-        manager?.download()
+        manager.download()
     }
 
     private fun showLaunchWarnDialog() {
@@ -176,8 +175,6 @@ class SplashFragment : BaseFragment() {
 
     private fun checkLoginStatus() {
         Timber.e("checkLoginStatus")
-        manager?.cancel()
-        manager = null
         if (LocalRepository.getUid().isEmpty()) {
             //未登录，跳转到登录界面
             findNavController().navigate(R.id.action_global_nav_login)

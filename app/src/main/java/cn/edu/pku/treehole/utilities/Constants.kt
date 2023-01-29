@@ -29,3 +29,6 @@ const val PRIVACY_POLICY_URL =
 
 // App Info
 const val APP_NAME: String = "PKUHOLE"
+
+
+const val golden_ratio_conjugate = 0.618033988749895

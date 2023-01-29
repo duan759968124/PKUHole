@@ -27,7 +27,7 @@ class SettingsFragment : BaseFragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var mClearingDialog: ClearingDialog
-    private var manager: DownloadManager? = null
+    private lateinit var manager: DownloadManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +36,7 @@ class SettingsFragment : BaseFragment() {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
 //        viewModel =  ViewModelProvider(this).get(SettingsViewModel::class.java)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -160,14 +161,9 @@ class SettingsFragment : BaseFragment() {
             showNotification(true)
             showBgdToast(false)
             forcedUpgrade(false)
-//            onDownloadListener(listenerAdapter)
-            onButtonClickListener(object : OnButtonClickListener {
-                override fun onButtonClick(id: Int) {
-                }
-            })
             build()
         }
-        manager?.download()
+        manager.download()
     }
 
 }

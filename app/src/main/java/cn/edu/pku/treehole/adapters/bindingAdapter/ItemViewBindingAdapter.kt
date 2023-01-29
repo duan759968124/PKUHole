@@ -1,10 +1,13 @@
 package cn.edu.pku.treehole.adapters.bindingAdapter
 
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import cn.edu.pku.treehole.data.LocalRepository
+import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.convertDurationToFormatted
@@ -12,7 +15,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import timber.log.Timber
 import java.io.File
+import java.util.*
 
 
 /**
@@ -145,25 +150,25 @@ fun showDot(view: ImageView, isHole: Int, isRead: Int) {
     }
 }
 
-//@BindingAdapter("handleHoleText")
-//fun bindHandleHoleText(view: TextView, holeText: String?){
-//    if (holeText != null) {
-//        if(holeText.isNotEmpty()){
-//            val spannableString = SpannableString(holeText)
-//            //正则查找所有的树洞号，并标记下来，设置为可点击
-//            val holeNumMap = regexHoleText(holeText)
-//            holeNumMap.forEach { (value, indexRange) ->
-//                val pid = value.substring(1)
-//                Timber.e("$pid  $indexRange")
-//                spannableString.setSpan(HoleTextClickSpan(pid), indexRange.first, indexRange.last + 1,
-//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//            }
-//            view.text = spannableString
-//            view.movementMethod = LinkMovementMethod()
-//
-//        }
-//    }
-//}
+@SuppressWarnings("unused")
+@BindingAdapter("setBackgroundColor")
+fun setBackgroundColor(view: ConstraintLayout, commentItemBean: CommentItemBean?) {
+    var randomH = 0.0
+    if (commentItemBean != null) {
+        randomH = if(commentItemBean.randomH.isNaN()||commentItemBean.randomH.equals(0.0)){
+            Math.random()
+        }else{
+            commentItemBean.randomH
+        }
+        var name = commentItemBean.name.lowercase(Locale.getDefault())
+        if(name == "洞主"){
+            val dzHsl = arrayListOf(Color.HSVToColor(floatArrayOf(0.0f, 0.0f, 97f/100)), Color.HSVToColor(floatArrayOf(0.0f, 0.0f, 16f/100)))
+            Timber.e("dzHSL$dzHsl")
+//            view.setBackgroundColor(dzHsl[0])
+        }
+    }
+}
+
 
 
 //@BindingAdapter("fillNavHeader")

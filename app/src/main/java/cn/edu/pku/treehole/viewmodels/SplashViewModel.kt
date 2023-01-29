@@ -26,7 +26,7 @@ class SplashViewModel @Inject constructor(holeRepository: HoleRepository) :
     fun checkUpdate() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                loadingStatus.postValue(true)
+//                loadingStatus.postValue(true)
                 val response =
                     database.checkUpdate()
                 // 将数据存到本地
@@ -43,7 +43,7 @@ class SplashViewModel @Inject constructor(holeRepository: HoleRepository) :
                     else -> errorStatus.postValue(e)
                 }
             } finally {
-                loadingStatus.postValue(false)
+//                loadingStatus.postValue(false)
             }
         }
     }

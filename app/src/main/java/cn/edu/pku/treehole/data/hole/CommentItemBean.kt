@@ -24,10 +24,6 @@ data class CommentItemBean (
     @ColumnInfo(name = "timestamp")
     var timestamp: Long,
 
-    @field:SerializedName("anonymous")
-    @ColumnInfo(name = "anonymous")
-    var anonymous: Int?,
-
     @field:SerializedName("tag")
     @ColumnInfo(name = "tag")
     var tag: String?,
@@ -40,8 +36,7 @@ data class CommentItemBean (
     @ColumnInfo(name = "name")
     var name: String,
 
-    @field:SerializedName("hidden")
-    @ColumnInfo(name = "hidden")
-    var hidden: Int
+    @ColumnInfo(name = "random_h", defaultValue = "0.0")
+    var randomH: Double,
 
 )

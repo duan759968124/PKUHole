@@ -139,6 +139,10 @@ class HoleRepository @Inject constructor(
     suspend fun getCommentListFromNetToDatabase(pid: Long){
         withContext(Dispatchers.IO){
             val holeResponse = launchRequest {holeApi.getCommentList(pid = pid)}
+            val randomH = Math.random()
+            holeResponse.data?.data?.map {
+                it.randomH = randomH
+            }
             holeResponse.data?.data.let {
                 if (it != null) {
                     insertCommentList(it)

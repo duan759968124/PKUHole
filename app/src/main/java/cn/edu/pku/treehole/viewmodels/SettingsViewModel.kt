@@ -8,6 +8,7 @@ import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleRepository
+import cn.edu.pku.treehole.utilities.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.singleOrNull
@@ -80,9 +81,8 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
         _navigationToAboutUs.value = false
     }
 
-    private val _canUpdate = MutableLiveData<Int>().apply { value = -1 }
-    val canUpdate: LiveData<Int>
-        get() = _canUpdate
+    val canUpdate = SingleLiveData<Int>().apply { value = -1 }
+
 
     fun checkVersionUpdate() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -94,9 +94,9 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
                 LocalRepository.localUpdateInfo = response.data
                 Timber.e("check update response %s", LocalRepository.localUpdateInfo!!.app_version_code)
                 if((response.data?.app_version_code ?: 1) > BuildConfig.VERSION_CODE){
-                    _canUpdate.postValue(1)
+                    canUpdate.postValue(1)
                 }else{
-                    _canUpdate.postValue(0)
+                    canUpdate.postValue(0)
                 }
             } catch (e: Exception) {
                 when (e) {

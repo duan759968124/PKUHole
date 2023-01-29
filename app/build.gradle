@@ -180,7 +180,7 @@ dependencies {
 //    implementation 'com.github.mukeshsolanki:MarkdownView-Android:<latest-version>'
 
     // update
-    implementation 'com.github.azhon:AppUpdate:4.2.0'
+    implementation "com.github.azhon:AppUpdate:4.2.2"
 
     // sms valid code
     implementation "com.github.fraggjkee:sms-confirmation-view:1.7.1"
