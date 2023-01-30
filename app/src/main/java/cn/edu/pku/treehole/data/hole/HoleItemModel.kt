@@ -63,6 +63,9 @@ data class HoleItemModel(
     @ColumnInfo(name = "isRead")
     var isRead: Int?,  // 0 or 1
 
+    @ColumnInfo(name = "tag")
+    var tag: String?,  // 0 or 1
+
 )
 
 
@@ -76,7 +79,7 @@ fun HoleItemModel.asDatabaseBean():HoleItemBean{
             reply = it.reply,
             likenum = it.likenum,
             extra = it.extra,
-            tag = null,
+            tag = it.tag,
             isHole = 0,
             is_top = it.is_top,
             is_follow = it.is_follow,

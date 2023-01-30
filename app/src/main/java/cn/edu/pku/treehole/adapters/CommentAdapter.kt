@@ -52,14 +52,39 @@ class CommentAdapter(
             binding.clickListener = clickListener
             val selectColor = getColor(listItem, namesColorMap)?.get(0) ?: Color.WHITE
             binding.commentCsl.setBackgroundColor(selectColor)
-//            if(listItem.text?.contains("Re") == true){
-//                Timber.e("String: ${listItem.text}")
-//                val spannableString = SpannableString(listItem.text)
-//                val firstIndex = spannableString.indexOf("Re")
-//                Timber.e("firstIndex: $firstIndex")
-//                spannableString.setSpan(BackgroundColorSpan(Color.parseColor("#ff3c2a")), firstIndex, firstIndex + listItem.name.length + 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-//                binding.holeContent.text = spannableString
-//            }
+            if(listItem.text?.isNotEmpty() == true) {
+                val commentText = listItem.text
+                val spannableString = SpannableString(listItem.text)
+                if (commentText?.contains("Re") == true) {
+                    val firstIndex = commentText.indexOf("Re")
+                    val endIndex = if(commentText.indexOf(":") > 0) {
+                        commentText.indexOf(":")
+                    } else {
+                        commentText.indexOf("：")
+                    }
+                    val reName = commentText.substring(firstIndex + 3, endIndex)
+                    spannableString.setSpan(
+                        BackgroundColorSpan(
+                            namesColorMap[reName.lowercase(
+                                Locale.getDefault()
+                            )]?.get(0) ?: Color.WHITE
+                        ), firstIndex + 3, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                    )
+                }
+                commentText?.let { HoleNumberLinkHelper.regexHoleText(it) }
+                    ?.forEach { (value, indexRange) ->
+                        val pid = value.substring(0)
+                        Timber.e("$pid  $indexRange")
+                        spannableString.setSpan(
+                            HoleNumberLinkHelper.HoleTextClickSpan(pid),
+                            indexRange.first,
+                            indexRange.last + 1,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                binding.holeContent.text = spannableString
+            }
+
             binding.executePendingBindings()
         }
 

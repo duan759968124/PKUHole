@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import cn.edu.pku.treehole.adapters.HoleItemListener
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
@@ -32,7 +33,9 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val currentHoleItem = database.getHoleItem(pid).asLiveData()
 
-    val commentList: LiveData<List<CommentItemBean>> = database.getCommentList(pid).asLiveData()
+//    var commentList: LiveData<List<CommentItemBean>> = database.getCommentList(pid).asLiveData()
+
+
 
     private var _replyDialogToName = MutableLiveData<String?>()
     val replyDialogToName: LiveData<String?>
@@ -90,6 +93,25 @@ class HoleItemDetailViewModel @Inject constructor(
 
         }
 
+    }
+
+//    var curCommentSort = MutableLiveData<String?>().apply { value = "逆序" }
+    private val _changeSortFlag: MutableLiveData<Boolean> by lazy{MutableLiveData(true)}
+    val commentList =_changeSortFlag.switchMap { _allComment ->
+        when(_allComment){
+            true -> database.getCommentList(pid).asLiveData()
+            else -> database.getCommentListDesc(pid).asLiveData()
+        }
+    }
+    val curCommentSort = _changeSortFlag.switchMap { _showText ->
+        when(_showText){
+            true -> MutableLiveData<String?>().apply { value = "逆序" }
+            else -> MutableLiveData<String?>().apply { value = "正序" }
+        }
+    }
+
+    fun changeCommentItemSort(){
+        _changeSortFlag.value = _changeSortFlag.value != true
     }
 
     fun onCommentItemClicked(commentItem: CommentItemBean) {

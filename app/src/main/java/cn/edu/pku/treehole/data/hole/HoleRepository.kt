@@ -114,6 +114,9 @@ class HoleRepository @Inject constructor(
 
 
     fun getCommentList(pid: Long) = commentDao.getCommentListByPid(pid)
+
+    fun getCommentListDesc(pid: Long) = commentDao.getCommentListByPidDesc(pid)
+
     private suspend fun insertCommentList(commentList: List<CommentItemBean>) = commentDao.insertCommentList(commentList)
 
     // 获取一条树洞详情,【这条数据如果出现在树洞列表或者关注列表中，一定存在数据库中，并且isHole或者isAttention一定存在，所以直接更新】并更新数据库

@@ -58,6 +58,15 @@ fun bindHasTag(view: View, labelId: Int?) {
     }
 }
 
+@BindingAdapter("hasTagStr")
+fun bindHasTagStr(view: View, tagStr: String?) {
+    view.visibility = if (tagStr.isNullOrEmpty()) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+}
+
 @BindingAdapter("hasTopTag")
 fun bindHasTopTag(view: View, holeItemBean: HoleItemBean?) {
     if (holeItemBean != null) {

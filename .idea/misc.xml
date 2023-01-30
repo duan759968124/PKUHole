@@ -51,6 +51,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/splash_background.xml" value="0.25729166666666664" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/tab_icon_color_selector.xml" value="0.33611111111111114" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/tag_circle_textview.xml" value="0.2055" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/tag_circle_textview_2.xml" value="0.285" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/top_circle_textview.xml" value="0.159" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/app_bar_main.xml" value="0.24114583333333334" />
@@ -68,7 +69,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_all_list.xml" value="0.264" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_item.xml" value="0.3541666666666667" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_item_detail.xml" value="0.335" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_item_detail.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_list.xml" value="0.2" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_hole_view_pager.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_input_sms_valid_code.xml" value="0.2265625" />

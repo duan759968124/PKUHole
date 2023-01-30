@@ -43,13 +43,6 @@ class HoleItemDetailFragment : BaseFragment() {
         // Inflate the layout for this fragment
         binding = FragmentHoleItemDetailBinding.inflate(inflater, container, false)
         context ?: return binding.root
-//        val arguments = HoleItemDetailFragmentArgs.fromBundle(requireArguments())
-//        val dataSource =
-//            AppDatabase.getInstance(requireNotNull(this.activity).application).holeAllListDao()
-//        val viewModelFactory = HoleItemDetailViewModelFactory(arguments.pid, dataSource)
-//        val holeItemDetailViewModel =
-//            ViewModelProvider(this, viewModelFactory)[HoleItemDetailViewModel::class.java]
-//        binding.holeItemDetailViewModel = holeItemDetailViewModel
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         adapter = CommentAdapter(CommentItemListener { commentItem -> viewModel.onCommentItemClicked(commentItem) })
@@ -69,6 +62,7 @@ class HoleItemDetailFragment : BaseFragment() {
                 adapter.submitList(it)
             }
         }
+
 
         // 监听currentHoleItem变化
         viewModel.currentHoleItem.observe(viewLifecycleOwner) {

@@ -46,7 +46,11 @@ object HoleNumberLinkHelper {
         found.forEach { f ->
             val m = f.value
             val idx = f.range
-            holeNumberMap[m] = idx
+            // 截取的数字串从index=0开始或者前一位不是数字
+            if(idx.first==0 || !text[idx.first-1].isDigit()){
+                holeNumberMap[m] = idx
+            }
+
         }
         return holeNumberMap
     }
