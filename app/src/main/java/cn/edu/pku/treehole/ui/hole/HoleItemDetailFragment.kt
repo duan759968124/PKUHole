@@ -3,6 +3,7 @@ package cn.edu.pku.treehole.ui.hole
 //import com.luck.picture.lib.PictureSelector
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputType
 import android.util.TypedValue
 import android.view.*
 import androidx.fragment.app.viewModels
@@ -158,7 +159,12 @@ class HoleItemDetailFragment : BaseFragment() {
         context?.let {
             MaterialDialog(it).show {
                 title(R.string.reply)
-                input(hintRes = R.string.hint_reply_text, prefill = paramString) { dialog, text ->
+                input(
+                    hintRes = R.string.hint_reply_text,
+                    prefill = paramString,
+                    inputType = InputType.TYPE_CLASS_TEXT or
+                            InputType.TYPE_TEXT_FLAG_MULTI_LINE,
+                ) { dialog, text ->
 //                    Timber.e("input text %s", text)
                     // 检查文本并发送回复文本请求
                     checkReplyAndRequest(text)
@@ -197,7 +203,11 @@ class HoleItemDetailFragment : BaseFragment() {
         context?.let {
             MaterialDialog(it).show {
                 title(R.string.report_title)
-                input(hintRes = R.string.hint_report_text) { dialog, text ->
+                input(
+                    hintRes = R.string.hint_report_text,
+                    inputType = InputType.TYPE_CLASS_TEXT or
+                            InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                ) { dialog, text ->
 //                    Timber.e("input text %s", text)
                     // 检查文本并发送回复文本请求
                     checkReportAndRequest(text)

@@ -2,6 +2,7 @@ package cn.edu.pku.treehole.ui.hole
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputType
 import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -61,7 +62,11 @@ class HoleViewPagerFragment : BaseFragment() {
         searchDialog = context?.let {
             MaterialDialog(it)
                 .title(R.string.search)
-                .input(hintRes = R.string.hint_search_text) { dialog, text ->
+                .input(
+                    hintRes = R.string.hint_search_text,
+                    inputType = InputType.TYPE_CLASS_TEXT or
+                            InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                ) { dialog, text ->
                     // 检查文本并发送回复文本请求
                     checkSearchAndRequest(text)
                 }
