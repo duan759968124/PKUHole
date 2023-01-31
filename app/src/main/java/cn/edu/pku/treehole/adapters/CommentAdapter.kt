@@ -7,6 +7,7 @@ import android.text.style.BackgroundColorSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -62,14 +63,17 @@ class CommentAdapter(
                     } else {
                         commentText.indexOf("：")
                     }
-                    val reName = commentText.substring(firstIndex + 3, endIndex)
-                    spannableString.setSpan(
-                        BackgroundColorSpan(
-                            namesColorMap[reName.lowercase(
-                                Locale.getDefault()
-                            )]?.get(0) ?: Color.WHITE
-                        ), firstIndex + 3, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-                    )
+                    if(firstIndex + 3 < endIndex){
+                        val reName = commentText.substring(firstIndex + 3, endIndex).lowercase(Locale.getDefault())
+                        if(namesColorMap.containsKey(reName)){
+                            spannableString.setSpan(
+                                BackgroundColorSpan(
+                                    namesColorMap[reName]?.get(0) ?: Color.WHITE
+                                ), firstIndex + 3, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                            )
+                        }
+
+                    }
                 }
                 commentText?.let { HoleNumberLinkHelper.regexHoleText(it) }
                     ?.forEach { (value, indexRange) ->
@@ -99,16 +103,16 @@ class CommentAdapter(
             val name = commentItemBean.name.lowercase(Locale.getDefault())
             if(name == "洞主") {
                 return arrayListOf(
-                    Color.HSVToColor(floatArrayOf(0.0f, 0.0f, 97.0f / 100)),
-                    Color.HSVToColor(floatArrayOf(0.0f, 0.0f, 16.0f / 100))
+                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
+                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
                 )
             }
             if(!namesColorMap.containsKey(name)){
                 globalRandomH += golden_ratio_conjugate
                 globalRandomH %= 1
                 namesColorMap[name] = arrayListOf(
-                    Color.HSVToColor(floatArrayOf((globalRandomH*360).toFloat(), 0.5f, 90.0f / 100)),
-                    Color.HSVToColor(floatArrayOf((globalRandomH*360).toFloat(), 0.6f, 20.0f / 100))
+                    ColorUtils.HSLToColor(floatArrayOf((globalRandomH*360).toFloat(), 0.5f, 0.9f)),
+                    ColorUtils.HSLToColor(floatArrayOf((globalRandomH*360).toFloat(), 0.6f, 0.2f))
                 )
             }
             return namesColorMap[name]
