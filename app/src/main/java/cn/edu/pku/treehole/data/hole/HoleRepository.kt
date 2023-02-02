@@ -52,6 +52,16 @@ class HoleRepository @Inject constructor(
 //                        it.pic_data = pictureResponse.data
 //                    }
 //                }
+                val holeResponse = launchRequest {holeApi.getCommentList(pid = it.pid)}
+                val randomH = Math.random()
+                holeResponse.data?.data?.map { commentItem ->
+                    commentItem.randomH = randomH
+                }
+                holeResponse.data?.data.let { listCommentItem ->
+                    if (listCommentItem != null) {
+                        insertCommentList(listCommentItem)
+                    }
+                }
             }
             holeListResponse.data.data?.let { updateOrInsertHoleList(it) }
             if (page == 1) {
@@ -71,12 +81,16 @@ class HoleRepository @Inject constructor(
             refreshHoleListResponse.data?.map {
                 it.isHole = 1
                 it.isRead = 0
-//                if(!it.url.isNullOrEmpty()){
-//                    val pictureResponse =  launchRequestPic { holeApi.getPictureFromPid(it.pid)}
-//                    if(pictureResponse.code == 20000){
-//                        it.pic_data = pictureResponse.data
-//                    }
-//                }
+                val holeResponse = launchRequest {holeApi.getCommentList(pid = it.pid)}
+                val randomH = Math.random()
+                holeResponse.data?.data?.map { commentItem ->
+                    commentItem.randomH = randomH
+                }
+                holeResponse.data?.data.let { listCommentItem ->
+                    if (listCommentItem != null) {
+                        insertCommentList(listCommentItem)
+                    }
+                }
             }
             refreshHoleListResponse.data?.let { updateOrInsertHoleList(it) }
             refreshHoleListResponse.timestamp?.let { getFirstPageOrRefreshHoleListTimestamp = it }

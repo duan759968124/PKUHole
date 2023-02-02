@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 //        navView.setupWithNavController(navController)
 //
 ////        设置每个界面的toolbar是否存在导航抽屉是否可用
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.nav_login, R.id.nav_splash, R.id.nav_input_valid_code -> {
@@ -78,11 +79,11 @@ class MainActivity : AppCompatActivity() {
                     navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 }
-                R.id.nav_hole, R.id.nav_settings -> {
+                R.id.nav_hole -> {
                     binding.toolbar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
                 }
-                R.id.nav_score, R.id.nav_course ->{
+                R.id.nav_score, R.id.nav_course, R.id.nav_settings ->{
                     binding.toolbar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
                 }

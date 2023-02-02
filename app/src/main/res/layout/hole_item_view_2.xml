@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="holeItemBean"
+            type="cn.edu.pku.treehole.data.hole.HoleItemBean" />
+
+        <variable
+            name="commentItemBean_1"
+            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />
+
+        <variable
+            name="commentItemBean_2"
+            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />
+
+        <variable
+            name="clickListener"
+            type="cn.edu.pku.treehole.adapters.HoleItemListener" />
+
+        <variable
+            name="pictureClickListener"
+            type="cn.edu.pku.treehole.viewmodels.hole.PictureClickListener" />
+
+        <!--        <variable-->
+        <!--            name="holeNumberClickListener"-->
+        <!--            type="cn.edu.pku.pkuhole.adapters.bindingAdapter.HoleTextNumberClickSpan.OnClickListener" />-->
+
+    </data>
+    <!--     android:onClick="@{clickListener}"-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/hole_item_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_side_margin_medium"
+            android:onClick="@{()->clickListener.onClick(holeItemBean)}"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:cardElevation="@dimen/card_elevation"
+            app:rippleColor="@color/card_ripper_color"
+            app:strokeColor="@color/card_stroke_color"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:strokeWidth="@dimen/card_stroke_width">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+                <!--            android:layout_margin="@dimen/card_inside_margin"-->
+                <!--            android:padding="@dimen/card_inside_padding"-->
+
+                <TextView
+                    android:id="@+id/hole_pid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/card_inside_margin"
+                    android:padding="@dimen/card_inside_padding"
+                    android:text="@{@string/pid_format(holeItemBean.pid)}"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="#2995822" />
+
+                <TextView
+                    android:id="@+id/hole_tag_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/tag_margin"
+                    android:padding="@dimen/tag_padding"
+                    android:text="@={holeItemBean.label_info.tag_name}"
+                    app:hasTag="@{holeItemBean.label}"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toRightOf="@id/hole_pid"
+                    app:layout_constraintTop_toTopOf="@id/hole_pid"
+                    app:layout_constraintBottom_toBottomOf="@id/hole_pid"
+                    android:background="@drawable/tag_circle_textview"
+                    tools:text="tag1" />
+
+                <TextView
+                    android:id="@+id/hole_tag_name_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/tag_margin"
+                    android:padding="@dimen/tag_padding"
+                    android:text="@={holeItemBean.tag}"
+                    app:hasTagStr="@{holeItemBean.tag}"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toRightOf="@id/hole_tag_name"
+                    app:layout_constraintTop_toTopOf="@id/hole_pid"
+                    app:layout_constraintBottom_toBottomOf="@id/hole_pid"
+                    android:background="@drawable/tag_circle_textview_2"
+                    tools:text="tag2" />
+
+                <TextView
+                    android:id="@+id/hole_top_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/tag_margin"
+                    android:padding="@dimen/tag_padding"
+                    android:text="@string/hole_top"
+                    app:hasTopTag="@{holeItemBean}"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toRightOf="@id/hole_tag_name_2"
+                    app:layout_constraintTop_toTopOf="@id/hole_pid"
+                    app:layout_constraintBottom_toBottomOf="@id/hole_pid"
+                    android:background="@drawable/top_circle_textview"
+                    tools:text="@string/hole_top" />
+
+                <View
+                    android:id="@+id/card_line_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/card_inside_margin"
+                    android:background="@color/card_inside_line_color"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hole_pid" />
+
+                <!--            postDurationFormatted-->
+                <ImageView
+                    android:id="@+id/hole_content_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/card_inside_margin_large"
+                    android:onClick="@{()->pictureClickListener.onClick(holeItemBean)}"
+                    android:padding="@dimen/card_inside_padding"
+                    app:hasImage="@{holeItemBean.type}"
+                    app:showImage="@{holeItemBean}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_line_one"
+                    tools:src="@drawable/bg_drawer_header" />
+
+                <!--android:onClick="@{()->clickListener.onClick(holeItemBean)}"-->
+                <!--            binding_hole_number_listener="@{holeNumberClickListener}"-->
+                <TextView
+                    android:id="@+id/hole_content"
+                    app:hasContentText="@{holeItemBean.text}"
+                    binding_hole_text="@{holeItemBean.text}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/card_inside_margin"
+                    android:layout_marginTop="@dimen/card_inside_margin_large"
+                    android:layout_marginEnd="@dimen/card_inside_margin_large"
+                    android:layout_marginBottom="@dimen/card_inside_margin_large"
+                    android:autoLink="web"
+                    android:linksClickable="false"
+                    android:padding="@dimen/card_inside_padding"
+                    android:textColor="@color/black"
+                    android:textIsSelectable="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hole_content_image"
+                    tools:textSize="14sp"
+                    tools:text="@string/hole_test_text" />
+
+                <View
+                    android:id="@+id/card_line_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/card_inside_margin"
+                    android:background="@color/card_inside_line_color"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hole_content" />
+
+                <TextView
+                    android:id="@+id/hole_post_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_margin="@dimen/card_inside_margin"
+                    android:padding="@dimen/card_inside_padding"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_line_two"
+                    app:postDurationFormatted="@{holeItemBean.timestamp}"
+                    tools:text="@string/card_test_post_time" />
+
+                <TextView
+                    android:id="@+id/hole_reply_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/card_inside_margin"
+                    android:layout_marginBottom="@dimen/card_inside_margin"
+                    android:padding="@dimen/card_inside_padding"
+                    android:text="@{String.valueOf(holeItemBean.reply)}"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_line_two"
+                    tools:text="@string/card_test_reply_num" />
+
+                <ImageView
+                    android:id="@+id/hole_reply_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/card_inside_margin"
+                    android:layout_marginBottom="@dimen/card_inside_margin"
+                    android:src="@drawable/ic_email_14"
+                    app:layout_constraintRight_toLeftOf="@id/hole_reply_num"
+                    app:layout_constraintTop_toBottomOf="@id/card_line_two" />
+
+                <TextView
+                    android:id="@+id/hole_like_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/card_inside_margin"
+                    android:layout_marginEnd="@dimen/card_inside_margin"
+                    android:layout_marginBottom="@dimen/card_inside_margin"
+                    android:padding="@dimen/card_inside_padding"
+                    android:text="@{String.valueOf(holeItemBean.likenum)}"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toLeftOf="@id/hole_reply_image"
+                    app:layout_constraintTop_toBottomOf="@id/card_line_two"
+                    tools:text="@string/card_test_reply_num" />
+
+                <ImageView
+                    android:id="@+id/hole_like_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/card_inside_margin"
+                    android:layout_marginBottom="@dimen/card_inside_margin"
+                    android:src="@drawable/ic_star_fill_14"
+                    app:layout_constraintRight_toLeftOf="@id/hole_like_num"
+                    app:layout_constraintTop_toBottomOf="@id/card_line_two" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/comment_card_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
+            android:layout_marginStart="@dimen/card_side_margin_large"
+            android:layout_marginEnd="@dimen/card_side_margin_large"
+            android:layout_marginBottom="@dimen/card_side_margin_large"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:strokeWidth="@dimen/card_stroke_width"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke_color"
+            app:rippleColor="@color/card_ripper_color"
+            app:layout_constraintTop_toBottomOf="@id/hole_item_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/comment_csl_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/comment_lz_title_1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:showLzIcon="@{commentItemBean_1.islz}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/dz" />
+
+
+                <TextView
+                    android:id="@+id/comment_cid_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/card_inside_margin"
+                    android:padding="@dimen/card_inside_padding"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:text="@{@string/pid_format(commentItemBean_1.cid)}"
+                    android:textStyle="bold"
+                    tools:text="#2995822"  />
+
+                <TextView
+                    android:id="@+id/comment_content_1"
+                    android:layout_marginStart="@dimen/card_inside_margin"
+                    android:layout_marginTop="@dimen/card_inside_margin"
+                    android:layout_marginBottom="@dimen/card_inside_margin"
+                    android:layout_marginEnd="@dimen/card_inside_margin_large"
+                    android:padding="@dimen/card_inside_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/comment_cid_1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:textSize="14sp"
+                    android:textIsSelectable="true"
+                    android:autoLink="web"
+                    android:textColor="@color/black"
+                    tools:text="@string/hole_test_text" />
+
+                <TextView
+                    android:id="@+id/comment_post_time_1"
+                    android:layout_margin="@dimen/card_inside_margin_large"
+                    android:padding="@dimen/card_inside_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    app:layout_constraintLeft_toRightOf="@id/comment_cid_1"
+                    app:layout_constraintBaseline_toBaselineOf="@id/comment_cid_1"
+                    android:textSize="12sp"
+                    app:postDurationFormatted="@{commentItemBean_1.timestamp}"
+                    tools:text="@string/card_test_post_time" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/comment_card_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_side_margin_medium"
+            android:layout_marginStart="@dimen/card_side_margin_large"
+            android:layout_marginEnd="@dimen/card_side_margin_large"
+            android:layout_marginBottom="@dimen/card_side_margin_medium"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:strokeWidth="@dimen/card_stroke_width"
+            app:cardElevation="@dimen/card_elevation"
+            app:strokeColor="@color/card_stroke_color"
+            app:rippleColor="@color/card_ripper_color"
+            app:layout_constraintTop_toBottomOf="@id/comment_card_1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/comment_csl_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/comment_lz_title_2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:showLzIcon="@{commentItemBean_2.islz}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/dz" />
+
+
+                <TextView
+                    android:id="@+id/comment_cid_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/card_inside_margin"
+                    android:padding="@dimen/card_inside_padding"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:text="@{@string/pid_format(commentItemBean_2.cid)}"
+                    android:textStyle="bold"
+                    tools:text="#2995822"  />
+
+                <TextView
+                    android:id="@+id/comment_content_2"
+                    android:layout_marginStart="@dimen/card_inside_margin"
+                    android:layout_marginTop="@dimen/card_inside_margin"
+                    android:layout_marginBottom="@dimen/card_inside_margin"
+                    android:layout_marginEnd="@dimen/card_inside_margin_large"
+                    android:padding="@dimen/card_inside_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/comment_cid_2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:textSize="14sp"
+                    android:textIsSelectable="true"
+                    android:autoLink="web"
+                    android:textColor="@color/black"
+                    tools:text="@string/hole_test_text" />
+
+                <TextView
+                    android:id="@+id/comment_post_time_2"
+                    android:layout_margin="@dimen/card_inside_margin_large"
+                    android:padding="@dimen/card_inside_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    app:layout_constraintLeft_toRightOf="@id/comment_cid_2"
+                    app:layout_constraintBaseline_toBaselineOf="@id/comment_cid_2"
+                    android:textSize="12sp"
+                    app:postDurationFormatted="@{commentItemBean_2.timestamp}"
+                    tools:text="@string/card_test_post_time" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="1dp"
+            android:src="@drawable/ic_small_dot"
+            app:showDotIsHole="@{holeItemBean.isHole}"
+            app:showDotIsRead="@{holeItemBean.isRead}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="5dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</layout>
