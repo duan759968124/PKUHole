@@ -41,6 +41,9 @@ class HoleListViewModel @Inject internal constructor(
     }
 
     val holeList = database.getHoleList().asLiveData()
+    fun getHoleListFlow(): Flow<List<HoleItemBean>> = database.getHoleList()
+
+    val commentListList = database.getCommentListList().asLiveData()
 //    val holeList = database.getHoleInfoList().asLiveData()
 //            value: List<HoleItemBean> -> value.forEach { it.tagInfo =
 //        it.label?.let { it1 -> database.getTagItem(it1).first()}

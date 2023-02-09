@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.NavigationDirections
@@ -23,6 +24,8 @@ import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.schedule
@@ -90,8 +93,21 @@ class HoleListFragment : BaseFragment() {
             it?.let {
                 Timber.e("list all data: ${it.size}")
                 adapter.submitList(it)
+                it.map { holeItemBean -> {
+
+                    }
+                }
             }
         })
+
+        viewModel.commentListList.observe(viewLifecycleOwner) {
+            Timber.e("comment list list size: ${it.size}")
+            it.map { commentList ->
+                Timber.e("comment  list item: $commentList")
+                Timber.e("comment  list size should = 2: ${commentList.size}")
+            }
+        }
+
 
         // 监听刷新状态变化
         viewModel.refreshStatus.observe(viewLifecycleOwner) {

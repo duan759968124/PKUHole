@@ -62,6 +62,15 @@ class HoleRepository @Inject constructor(
         }
         return result
     }
+
+    fun getCommentListList(): Flow<List<List<CommentItemBean>>> =
+        getHoleList()
+            .onEach { Timber.e("hole list size: ${it.size}") }
+            .map { list -> list.map { holeItemBean -> getCommentListLimit2(holeItemBean.pid) } }
+            .map { flows -> combine(flows) {
+                it.toList() } }.
+            flattenMerge()
+
 //        return getHoleList().flatMapMerge {
 //            val holeInfoList = ArrayList<HoleInfoBean>()
 //            it.forEach { holeItemBean ->
@@ -228,6 +237,8 @@ class HoleRepository @Inject constructor(
 
 
     fun getCommentList(pid: Long) = commentDao.getCommentListByPid(pid)
+
+    fun getCommentListLimit2(pid: Long) = commentDao.getCommentListByPidLimit2(pid)
 
     fun getCommentListDesc(pid: Long) = commentDao.getCommentListByPidDesc(pid)
 
