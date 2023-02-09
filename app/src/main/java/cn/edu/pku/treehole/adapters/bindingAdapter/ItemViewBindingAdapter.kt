@@ -67,6 +67,25 @@ fun bindHasTagStr(view: View, tagStr: String?) {
     }
 }
 
+@BindingAdapter("firstShow")
+fun bindFirstShow(view: View, replyNum: Int) {
+    view.visibility = if (replyNum > 0) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
+@BindingAdapter("secondShow")
+fun bindSecondShow(view: View, replyNum: Int) {
+    view.visibility = if (replyNum > 1) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
+}
+
+
 @BindingAdapter("hasTopTag")
 fun bindHasTopTag(view: View, holeItemBean: HoleItemBean?) {
     if (holeItemBean != null) {

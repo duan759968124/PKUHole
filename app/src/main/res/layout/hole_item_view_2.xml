@@ -9,21 +9,18 @@
             name="holeItemBean"
             type="cn.edu.pku.treehole.data.hole.HoleItemBean" />
 
-        <variable
-            name="commentItemBean_1"
-            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />
+<!--        <variable-->
+<!--            name="commentBean1"-->
+<!--            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />-->
+
+<!--        <variable-->
+<!--            name="commentBean2"-->
+<!--            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />-->
 
         <variable
-            name="commentItemBean_2"
-            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />
+            name="viewModel"
+            type="cn.edu.pku.treehole.viewmodels.hole.HoleListViewModel" />
 
-        <variable
-            name="clickListener"
-            type="cn.edu.pku.treehole.adapters.HoleItemListener" />
-
-        <variable
-            name="pictureClickListener"
-            type="cn.edu.pku.treehole.viewmodels.hole.PictureClickListener" />
 
         <!--        <variable-->
         <!--            name="holeNumberClickListener"-->
@@ -41,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_side_margin_medium"
-            android:onClick="@{()->clickListener.onClick(holeItemBean)}"
             app:cardCornerRadius="@dimen/card_corner_radius"
             app:cardElevation="@dimen/card_elevation"
             app:rippleColor="@color/card_ripper_color"
@@ -136,7 +132,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/card_inside_margin_large"
-                    android:onClick="@{()->pictureClickListener.onClick(holeItemBean)}"
                     android:padding="@dimen/card_inside_padding"
                     app:hasImage="@{holeItemBean.type}"
                     app:showImage="@{holeItemBean}"
@@ -241,6 +236,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            app:firstShow="@{holeItemBean.reply}"
             android:id="@+id/comment_card_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -264,7 +260,7 @@
                     android:id="@+id/comment_lz_title_1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    app:showLzIcon="@{commentItemBean_1.islz}"
+                    app:showLzIcon="@{viewModel.commentBean1.islz}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:src="@drawable/dz" />
@@ -280,7 +276,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:text="@{@string/pid_format(commentItemBean_1.cid)}"
+                    android:text="@{@string/pid_format(viewModel.commentBean1.cid)}"
                     android:textStyle="bold"
                     tools:text="#2995822"  />
 
@@ -299,6 +295,7 @@
                     tools:textSize="14sp"
                     android:textIsSelectable="true"
                     android:autoLink="web"
+                    android:text="@{viewModel.commentBean1.text}"
                     android:textColor="@color/black"
                     tools:text="@string/hole_test_text" />
 
@@ -311,7 +308,7 @@
                     app:layout_constraintLeft_toRightOf="@id/comment_cid_1"
                     app:layout_constraintBaseline_toBaselineOf="@id/comment_cid_1"
                     android:textSize="12sp"
-                    app:postDurationFormatted="@{commentItemBean_1.timestamp}"
+                    app:postDurationFormatted="@{viewModel.commentBean1.timestamp}"
                     tools:text="@string/card_test_post_time" />
 
 
@@ -320,6 +317,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            app:secondShow="@{holeItemBean.reply}"
             android:id="@+id/comment_card_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -339,11 +337,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+<!--                app:showLzIcon="@{commentItemBean_2.islz}"-->
                 <ImageView
                     android:id="@+id/comment_lz_title_2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    app:showLzIcon="@{commentItemBean_2.islz}"
+
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:src="@drawable/dz" />
@@ -359,7 +358,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:text="@{@string/pid_format(commentItemBean_2.cid)}"
+                    android:text="@{@string/pid_format(viewModel.commentBean2.cid)}"
                     android:textStyle="bold"
                     tools:text="#2995822"  />
 
@@ -378,6 +377,7 @@
                     tools:textSize="14sp"
                     android:textIsSelectable="true"
                     android:autoLink="web"
+                    android:text="@{viewModel.commentBean2.text}"
                     android:textColor="@color/black"
                     tools:text="@string/hole_test_text" />
 
@@ -390,7 +390,7 @@
                     app:layout_constraintLeft_toRightOf="@id/comment_cid_2"
                     app:layout_constraintBaseline_toBaselineOf="@id/comment_cid_2"
                     android:textSize="12sp"
-                    app:postDurationFormatted="@{commentItemBean_2.timestamp}"
+                    app:postDurationFormatted="@{viewModel.commentBean2.timestamp}"
                     tools:text="@string/card_test_post_time" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

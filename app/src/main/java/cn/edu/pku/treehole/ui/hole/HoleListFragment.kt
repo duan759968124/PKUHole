@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.HoleAdapter
+import cn.edu.pku.treehole.adapters.HoleAdapter2
 import cn.edu.pku.treehole.adapters.HoleItemListener
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
@@ -31,19 +32,20 @@ class HoleListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleListBinding
     private val viewModel: HoleListViewModel by viewModels()
-    private lateinit var adapter : HoleAdapter
+    private lateinit var adapter : HoleAdapter2
 
     @SuppressLint("TimberArgCount")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHoleListBinding.inflate(inflater, container, false)
         context ?: return binding.root
 //        val adapter = HoleAdapter()
-        adapter = HoleAdapter(
-            HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
-            PictureClickListener { holeItem -> previewPicture(holeItem) })
+//        adapter = HoleAdapter2(
+//            HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
+//            PictureClickListener { holeItem -> previewPicture(holeItem) })
+        adapter = HoleAdapter2(viewModel)
         binding.fragmentHoleListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentHoleListRecycler.layoutManager = manager
@@ -72,7 +74,8 @@ class HoleListFragment : BaseFragment() {
         }
 
         binding.fab.setOnClickListener {
-            binding.fragmentHoleListRecycler.smoothScrollToPosition(0)
+//            binding.fragmentHoleListRecycler.smoothScrollToPosition(0)
+            binding.fragmentHoleListRecycler.scrollToPosition(0)
         }
 
         viewModel.getRandomTipFromNet.observe(viewLifecycleOwner) {
@@ -85,6 +88,7 @@ class HoleListFragment : BaseFragment() {
         // 监听holeList变化并更新UI
         viewModel.holeList.observe(viewLifecycleOwner, Observer {
             it?.let {
+                Timber.e("list all data: ${it.size}")
                 adapter.submitList(it)
             }
         })

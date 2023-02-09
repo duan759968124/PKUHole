@@ -8,7 +8,7 @@ import cn.edu.pku.treehole.data.HoleManagementPracticeBean
 import cn.edu.pku.treehole.data.UpdateInfo
 import cn.edu.pku.treehole.data.UserInfo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,22 +26,116 @@ class HoleRepository @Inject constructor(
     private val holeListDao: HoleListDao,
     private val commentDao: CommentDao,
     private val tagDao: TagDao,
-    private val holeApi : HoleApiService,
-    ): BaseRepository() {
+    private val holeApi: HoleApiService,
+) : BaseRepository() {
 
-    fun getHoleList() : Flow<List<HoleItemBean>> = holeListDao.getHoleList()
-    fun getAttentionList() : Flow<List<HoleItemBean>> = holeListDao.getAttentionList()
+    fun getHoleList(): Flow<List<HoleItemBean>> = holeListDao.getHoleList()
 
-    private suspend fun updateOrInsertHoleList(holeListList: List<HoleListItemBean>) = holeListDao.upsertHoleList(holeListList)
+    fun getHoleInfoList(): Flow<ArrayList<HoleInfoBean>> {
+//        return getHoleList().map {
+//            val holeInfoList = ArrayList<HoleInfoBean>()
+//            it.forEach { holeItemBean ->
+////                getCommentList(holeItemBean.pid).collect{ commentList ->
+////                    Timber.e("commentList: $commentList")
+////                }
+//                holeInfoList.add(HoleInfoBean(holeItemBean, null))
+//            }
+//           holeInfoList
+//        }
 
-    private suspend fun updateOrInsertAttentionList(attentionList: List<AttentionItemBean>) = holeListDao.upsertAttentionList(attentionList)
+//        return getHoleList().map { holeItemList ->
+//            holeItemList.forEach {
+//                it
+//            }
+//        }.map { holeItemBean ->
+//            Timber.e("holeItemBean $holeItemBean")
+//            val holeInfoList = ArrayList<HoleInfoBean>()
+////            holeInfoList.add(HoleInfoBean(, null))
+//            holeInfoList
+//        }
+        val holeInfoList = ArrayList<HoleInfoBean>()
+        val result = getHoleList().flatMapMerge { it.asFlow() }.flatMapMerge {
+
+            holeInfoList.add(HoleInfoBean(it.pid, it, getCommentList(it.pid).first()))
+            Timber.e("HoleInfoBean size 2: ${holeInfoList.size}")
+            flowOf(holeInfoList)
+        }
+        return result
+    }
+//        return getHoleList().flatMapMerge {
+//            val holeInfoList = ArrayList<HoleInfoBean>()
+//            it.forEach { holeItemBean ->
+//                getCommentList(holeItemBean.pid).map { commentList ->
+//                    when (holeItemBean.reply) {
+//                        1 -> {
+//                            holeInfoList.add(HoleInfoBean(holeItemBean, commentList[0], null))
+//                        }
+//                        else -> {
+//                            holeInfoList.add(HoleInfoBean(holeItemBean, null, null))
+//                        }
+//                    }
+//                }
+//
+//            }
+//            Timber.e("HoleInfoBean size 2: $holeInfoList")
+//            flowOf(holeInfoList)
+//        }
+//    }
+//
+//        }
+//                    getCommentList(holeItemBean.pid).map {
+//                    when (holeItemBean.reply) {
+//                        0 -> {
+//                            HoleInfoBean(holeItemBean, null, null)
+//                        }
+//                        1 -> {
+//                        HoleInfoBean(holeItemBean, commentList[0], null)
+//                        }
+//                        else -> {
+//                            HoleInfoBean(holeItemBean, commentList[0], commentList[1])
+//                        }
+//                    }
+//            Timber.e("HoleInfoBean size 2: $holeInfoList")
+//            holeInfoList
+//        }
+//    }
+
+//        getHoleList().collect{
+//            it.forEach{ holeItemBean ->
+//                if(holeItemBean.reply == 0){
+//                    holeInfoList.add(HoleInfoBean(holeItemBean, null, null))
+//                }
+////                else if(holeItemBean.reply == 1){
+////                    getCommentList(holeItemBean.pid).collect{}
+////                }
+//            }
+//        }
+//        getHoleList().map { it.forEach { holeItemBean ->
+//            Timber.e("HoleInfoBean size 1: ${holeInfoList.size}")
+//                if(holeItemBean.reply == 0){
+//                    holeInfoList.add(HoleInfoBean(holeItemBean, null, null))
+//                }
+//            }
+//            Timber.e("HoleInfoBean size 2: ${holeInfoList.size}")
+//            return@map flowOf(holeInfoList)
+//        }
+//        return flowOf(holeInfoList)
+//    }
+
+    fun getAttentionList(): Flow<List<HoleItemBean>> = holeListDao.getAttentionList()
+
+    private suspend fun updateOrInsertHoleList(holeListList: List<HoleListItemBean>) =
+        holeListDao.upsertHoleList(holeListList)
+
+    private suspend fun updateOrInsertAttentionList(attentionList: List<AttentionItemBean>) =
+        holeListDao.upsertAttentionList(attentionList)
 
 
     // 记录获取第一页或者刷新时间，作为请求刷新的一个参数
     private var getFirstPageOrRefreshHoleListTimestamp: Long = 1660289350
 
-    suspend fun getHoleListFromNetToDatabase(page: Int){
-        withContext(Dispatchers.IO){
+    suspend fun getHoleListFromNetToDatabase(page: Int) {
+        withContext(Dispatchers.IO) {
             val holeListResponse = launchRequest { holeApi.getHoleList(page = page, limit = 30) }
             holeListResponse.data!!.data?.map {
                 it.isHole = 1
@@ -52,14 +146,17 @@ class HoleRepository @Inject constructor(
 //                        it.pic_data = pictureResponse.data
 //                    }
 //                }
-                val holeResponse = launchRequest {holeApi.getCommentList(pid = it.pid)}
-                val randomH = Math.random()
-                holeResponse.data?.data?.map { commentItem ->
-                    commentItem.randomH = randomH
-                }
-                holeResponse.data?.data.let { listCommentItem ->
-                    if (listCommentItem != null) {
-                        insertCommentList(listCommentItem)
+                if (it.reply > 0) {
+                    //存在评论
+                    val holeResponse = launchRequest { holeApi.getCommentList(pid = it.pid) }
+                    val randomH = Math.random()
+                    holeResponse.data?.data?.map { commentItem ->
+                        commentItem.randomH = randomH
+                    }
+                    holeResponse.data?.data.let { listCommentItem ->
+                        if (listCommentItem != null) {
+                            insertCommentList(listCommentItem)
+                        }
                     }
                 }
             }
@@ -73,7 +170,7 @@ class HoleRepository @Inject constructor(
         }
     }
 
-    suspend fun refreshHoleListFromNetToDatabase(){
+    suspend fun refreshHoleListFromNetToDatabase() {
         withContext(Dispatchers.IO) {
 //            Timber.e("getFirstPageOrRefreshHoleListTimestamp: $getFirstPageOrRefreshHoleListTimestamp")
             val refreshHoleListResponse =
@@ -81,14 +178,16 @@ class HoleRepository @Inject constructor(
             refreshHoleListResponse.data?.map {
                 it.isHole = 1
                 it.isRead = 0
-                val holeResponse = launchRequest {holeApi.getCommentList(pid = it.pid)}
-                val randomH = Math.random()
-                holeResponse.data?.data?.map { commentItem ->
-                    commentItem.randomH = randomH
-                }
-                holeResponse.data?.data.let { listCommentItem ->
-                    if (listCommentItem != null) {
-                        insertCommentList(listCommentItem)
+                if (it.reply > 0) {
+                    val holeResponse = launchRequest { holeApi.getCommentList(pid = it.pid) }
+                    val randomH = Math.random()
+                    holeResponse.data?.data?.map { commentItem ->
+                        commentItem.randomH = randomH
+                    }
+                    holeResponse.data?.data.let { listCommentItem ->
+                        if (listCommentItem != null) {
+                            insertCommentList(listCommentItem)
+                        }
                     }
                 }
             }
@@ -99,9 +198,9 @@ class HoleRepository @Inject constructor(
     }
 
     // 获取attention列表  更换表格insert另一个表中
-    suspend fun getAttentionListFromNetToDatabase(){
-        withContext(Dispatchers.IO){
-            val attentionListResponse = launchRequest {holeApi.getAttentionList()}
+    suspend fun getAttentionListFromNetToDatabase() {
+        withContext(Dispatchers.IO) {
+            val attentionListResponse = launchRequest { holeApi.getAttentionList() }
 //            attentionListResponse.data?.map { it.is_follow = 1 }
             attentionListResponse.data!!.data?.map {
 //                if(!it.url.isNullOrEmpty()){
@@ -124,20 +223,22 @@ class HoleRepository @Inject constructor(
     fun getHoleItem(pid: Long) = holeListDao.get(pid)
 //    fun getHoleItem(pid: Long) = holeListDao.get(pid).map { it?.asDomainModel() }
 
-    private suspend fun updateOrInsertHoleItemModel(holeItemModel: HoleItemModel) = holeListDao.upsertModel(holeItemModel)
+    private suspend fun updateOrInsertHoleItemModel(holeItemModel: HoleItemModel) =
+        holeListDao.upsertModel(holeItemModel)
 
 
     fun getCommentList(pid: Long) = commentDao.getCommentListByPid(pid)
 
     fun getCommentListDesc(pid: Long) = commentDao.getCommentListByPidDesc(pid)
 
-    private suspend fun insertCommentList(commentList: List<CommentItemBean>) = commentDao.insertCommentList(commentList)
+    private suspend fun insertCommentList(commentList: List<CommentItemBean>) =
+        commentDao.insertCommentList(commentList)
 
     // 获取一条树洞详情,【这条数据如果出现在树洞列表或者关注列表中，一定存在数据库中，并且isHole或者isAttention一定存在，所以直接更新】并更新数据库
     // 如果是搜索列表中的数据，则不一定存在。点击搜索列表结果请求，要把这条数据插入到数据库中，isHole或者isAttention可能存在可能不存在，需要插入或者更新。
-    suspend fun getOneHoleFromNetToDatabase(pid: Long){
-        withContext(Dispatchers.IO){
-            val holeResponse = launchRequest {holeApi.getOneHole(pid = pid)}
+    suspend fun getOneHoleFromNetToDatabase(pid: Long) {
+        withContext(Dispatchers.IO) {
+            val holeResponse = launchRequest { holeApi.getOneHole(pid = pid) }
 //            holeResponse.data?.let { it.reply = 100 }
             holeResponse.data?.let {
                 it.isRead = 1
@@ -153,9 +254,9 @@ class HoleRepository @Inject constructor(
     }
 
     // 获取评论列表，并插入到数据库中【这里不用更新】
-    suspend fun getCommentListFromNetToDatabase(pid: Long){
-        withContext(Dispatchers.IO){
-            val holeResponse = launchRequest {holeApi.getCommentList(pid = pid)}
+    suspend fun getCommentListFromNetToDatabase(pid: Long) {
+        withContext(Dispatchers.IO) {
+            val holeResponse = launchRequest { holeApi.getCommentList(pid = pid) }
             val randomH = Math.random()
             holeResponse.data?.data?.map {
                 it.randomH = randomH
@@ -182,10 +283,10 @@ class HoleRepository @Inject constructor(
 //                Todo：[为什么从数据库中取不出来数据？取出来结果导致无法继续下一步]
             Timber.e("attention modify before %s", holeItemBean.toString())
             holeItemBean.is_follow = switch
-            if(switch == 0){
-                holeItemBean.likenum --
-            }else{
-                holeItemBean.likenum ++
+            if (switch == 0) {
+                holeItemBean.likenum--
+            } else {
+                holeItemBean.likenum++
             }
             holeListDao.updateBean(holeItemBean)
 //                currentHoleItem.map {
@@ -202,19 +303,18 @@ class HoleRepository @Inject constructor(
     fun getTagItem(tid: Long) = tagDao.get(tid)
     fun getTagIdByTest(tagName: String) = tagDao.getTagIdByTest()
     fun getTagIdByName(tagName: String) = tagDao.getTagIdByName(tagName)
-    fun getTagList() : Flow<List<TagBean>> = tagDao.getTagList()
+    fun getTagList(): Flow<List<TagBean>> = tagDao.getTagList()
     fun getTagNameList(): Flow<List<String>> = tagDao.getTagNameList()
 
     private suspend fun insertTagList(tagList: List<TagBean>) = tagDao.insertTagList(tagList)
 
     // 获取Tag列表，并插入到数据库中【这里不用更新】
-    suspend fun getTagListFromNetToDatabase(){
-        withContext(Dispatchers.IO){
-            val tagResponse = launchRequest {holeApi.getTagList()}
+    suspend fun getTagListFromNetToDatabase() {
+        withContext(Dispatchers.IO) {
+            val tagResponse = launchRequest { holeApi.getTagList() }
             tagResponse.data?.let { insertTagList(it) }
         }
     }
-
 
 
     // 清理该repository所有数据
@@ -246,7 +346,7 @@ class HoleRepository @Inject constructor(
      * 评论成功返回数据
      */
     suspend fun sendReplyComment(pid: Long, comment: String): HoleApiResponse<EmptyBean?> {
-        return launchRequest { holeApi.sendReplyComment(pid = pid, text = comment)}
+        return launchRequest { holeApi.sendReplyComment(pid = pid, text = comment) }
     }
 
     /**
@@ -257,15 +357,29 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.report(pid = pid, reason = reason) }
     }
 
-    suspend fun postHoleOnlyText(text: String, labelId: Long?): HoleApiResponse<EmptyBean?>{
+    suspend fun postHoleOnlyText(text: String, labelId: Long?): HoleApiResponse<EmptyBean?> {
         return launchRequest { holeApi.postHoleOnlyText(text = text, labelId = labelId) }
     }
 
-    suspend fun postHoleWithImage(text: String, data: String, labelId: Long?): HoleApiResponse<EmptyBean?>{
-        return launchRequest { holeApi.postHoleWithImage(text = text, data = data, labelId = labelId) }
+    suspend fun postHoleWithImage(
+        text: String,
+        data: String,
+        labelId: Long?
+    ): HoleApiResponse<EmptyBean?> {
+        return launchRequest {
+            holeApi.postHoleWithImage(
+                text = text,
+                data = data,
+                labelId = labelId
+            )
+        }
     }
 
-    suspend fun search(keywords: String, page: Long, labelId: Long?): HoleApiResponse<HoleListBody<HoleItemModel>?> {
+    suspend fun search(
+        keywords: String,
+        page: Long,
+        labelId: Long?
+    ): HoleApiResponse<HoleListBody<HoleItemModel>?> {
 //        var labelId = labelName?.let { name -> getTagIdByTest(name).tid }
         return launchRequest { holeApi.search(keywords = keywords, page = page, labelId = labelId) }
     }

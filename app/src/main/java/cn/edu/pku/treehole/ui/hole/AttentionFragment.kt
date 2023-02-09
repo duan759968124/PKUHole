@@ -67,7 +67,8 @@ class AttentionFragment : BaseFragment() {
         })
 
         binding.fab.setOnClickListener {
-            binding.fragmentAttentionRecycler.smoothScrollToPosition(0)
+//            binding.fragmentAttentionRecycler.smoothScrollToPosition(0)
+            binding.fragmentAttentionRecycler.scrollToPosition(0)
         }
 
         // 监听刷新状态
