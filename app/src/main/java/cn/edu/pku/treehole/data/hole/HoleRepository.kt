@@ -31,106 +31,6 @@ class HoleRepository @Inject constructor(
 
     fun getHoleList(): Flow<List<HoleItemBean>> = holeListDao.getHoleList()
 
-    fun getHoleInfoList(): Flow<ArrayList<HoleInfoBean>> {
-//        return getHoleList().map {
-//            val holeInfoList = ArrayList<HoleInfoBean>()
-//            it.forEach { holeItemBean ->
-////                getCommentList(holeItemBean.pid).collect{ commentList ->
-////                    Timber.e("commentList: $commentList")
-////                }
-//                holeInfoList.add(HoleInfoBean(holeItemBean, null))
-//            }
-//           holeInfoList
-//        }
-
-//        return getHoleList().map { holeItemList ->
-//            holeItemList.forEach {
-//                it
-//            }
-//        }.map { holeItemBean ->
-//            Timber.e("holeItemBean $holeItemBean")
-//            val holeInfoList = ArrayList<HoleInfoBean>()
-////            holeInfoList.add(HoleInfoBean(, null))
-//            holeInfoList
-//        }
-        val holeInfoList = ArrayList<HoleInfoBean>()
-        val result = getHoleList().flatMapMerge { it.asFlow() }.flatMapMerge {
-
-            holeInfoList.add(HoleInfoBean(it.pid, it, getCommentList(it.pid).first()))
-            Timber.e("HoleInfoBean size 2: ${holeInfoList.size}")
-            flowOf(holeInfoList)
-        }
-        return result
-    }
-
-    fun getCommentListList(): Flow<List<List<CommentItemBean>>> =
-        getHoleList()
-            .onEach { Timber.e("hole list size: ${it.size}") }
-            .map { list -> list.map { holeItemBean -> getCommentListLimit2(holeItemBean.pid) } }
-            .map { flows -> combine(flows) {
-                it.toList() } }.
-            flattenMerge()
-
-//        return getHoleList().flatMapMerge {
-//            val holeInfoList = ArrayList<HoleInfoBean>()
-//            it.forEach { holeItemBean ->
-//                getCommentList(holeItemBean.pid).map { commentList ->
-//                    when (holeItemBean.reply) {
-//                        1 -> {
-//                            holeInfoList.add(HoleInfoBean(holeItemBean, commentList[0], null))
-//                        }
-//                        else -> {
-//                            holeInfoList.add(HoleInfoBean(holeItemBean, null, null))
-//                        }
-//                    }
-//                }
-//
-//            }
-//            Timber.e("HoleInfoBean size 2: $holeInfoList")
-//            flowOf(holeInfoList)
-//        }
-//    }
-//
-//        }
-//                    getCommentList(holeItemBean.pid).map {
-//                    when (holeItemBean.reply) {
-//                        0 -> {
-//                            HoleInfoBean(holeItemBean, null, null)
-//                        }
-//                        1 -> {
-//                        HoleInfoBean(holeItemBean, commentList[0], null)
-//                        }
-//                        else -> {
-//                            HoleInfoBean(holeItemBean, commentList[0], commentList[1])
-//                        }
-//                    }
-//            Timber.e("HoleInfoBean size 2: $holeInfoList")
-//            holeInfoList
-//        }
-//    }
-
-//        getHoleList().collect{
-//            it.forEach{ holeItemBean ->
-//                if(holeItemBean.reply == 0){
-//                    holeInfoList.add(HoleInfoBean(holeItemBean, null, null))
-//                }
-////                else if(holeItemBean.reply == 1){
-////                    getCommentList(holeItemBean.pid).collect{}
-////                }
-//            }
-//        }
-//        getHoleList().map { it.forEach { holeItemBean ->
-//            Timber.e("HoleInfoBean size 1: ${holeInfoList.size}")
-//                if(holeItemBean.reply == 0){
-//                    holeInfoList.add(HoleInfoBean(holeItemBean, null, null))
-//                }
-//            }
-//            Timber.e("HoleInfoBean size 2: ${holeInfoList.size}")
-//            return@map flowOf(holeInfoList)
-//        }
-//        return flowOf(holeInfoList)
-//    }
-
     fun getAttentionList(): Flow<List<HoleItemBean>> = holeListDao.getAttentionList()
 
     private suspend fun updateOrInsertHoleList(holeListList: List<HoleListItemBean>) =
@@ -238,9 +138,63 @@ class HoleRepository @Inject constructor(
 
     fun getCommentList(pid: Long) = commentDao.getCommentListByPid(pid)
 
-    fun getCommentListLimit2(pid: Long) = commentDao.getCommentListByPidLimit2(pid)
-
     fun getCommentListDesc(pid: Long) = commentDao.getCommentListByPidDesc(pid)
+
+    fun getFirstCommentByPid(pid: Long) = commentDao.getFirstCommentByPid(pid)
+
+    fun getSecondCommentByPid(pid: Long) = commentDao.getSecondCommentByPid(pid)
+
+    fun getCommentListList(): Flow<List<List<CommentItemBean>>> =
+        getHoleList()
+            .onEach { Timber.e("hole list size: ${it.size}") }
+            .map { list -> list.map { holeItemBean -> commentDao.getCommentListByPidLimit2(holeItemBean.pid) } }
+            .map { flows -> combine(flows) {
+                it.toList() } }
+            .flattenMerge()
+
+    fun getHoleInfoBeanList(): Flow<List<HoleInfoBean>> = getHoleList()
+            .onEach { Timber.e("hole list size: ${it.size}") }
+            .map { list ->
+                list.map { holeItemBean -> HoleInfoBean(
+                    holeItemBean.pid,
+                    holeItemBean,
+                    getFirstCommentByPid(holeItemBean.pid).first(),
+                    getSecondCommentByPid(holeItemBean.pid).first()
+                ) } }
+
+
+    fun getHoleInfoBeanList2(): Flow<ArrayList<HoleInfoBean>> {
+//        return getHoleList().map {
+//            val holeInfoList = ArrayList<HoleInfoBean>()
+//            it.forEach { holeItemBean ->
+////                getCommentList(holeItemBean.pid).collect{ commentList ->
+////                    Timber.e("commentList: $commentList")
+////                }
+//                holeInfoList.add(HoleInfoBean(holeItemBean, null))
+//            }
+//           holeInfoList
+//        }
+
+//        return getHoleList().map { holeItemList ->
+//            holeItemList.forEach {
+//                it
+//            }
+//        }.map { holeItemBean ->
+//            Timber.e("holeItemBean $holeItemBean")
+//            val holeInfoList = ArrayList<HoleInfoBean>()
+////            holeInfoList.add(HoleInfoBean(, null))
+//            holeInfoList
+//        }
+        val holeInfoList = ArrayList<HoleInfoBean>()
+        val result = getHoleList().flatMapMerge {
+            it.asFlow()
+        }.flatMapLatest {
+            holeInfoList.add(HoleInfoBean(it.pid, it, getFirstCommentByPid(it.pid).first(), getSecondCommentByPid(it.pid).first()))
+            Timber.e("HoleInfoBean size 2: ${holeInfoList.size}")
+            flowOf(holeInfoList)
+        }
+        return result
+    }
 
     private suspend fun insertCommentList(commentList: List<CommentItemBean>) =
         commentDao.insertCommentList(commentList)

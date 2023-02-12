@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
 import cn.edu.pku.treehole.data.LocalRepository
+import cn.edu.pku.treehole.data.hole.CommentDao
 import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.data.hole.HoleRepository
@@ -41,29 +42,19 @@ class HoleListViewModel @Inject internal constructor(
     }
 
     val holeList = database.getHoleList().asLiveData()
-    fun getHoleListFlow(): Flow<List<HoleItemBean>> = database.getHoleList()
-
     val commentListList = database.getCommentListList().asLiveData()
-//    val holeList = database.getHoleInfoList().asLiveData()
-//            value: List<HoleItemBean> -> value.forEach { it.tagInfo =
-//        it.label?.let { it1 -> database.getTagItem(it1).first()}
-//    } }.asLiveData()
 
-    var commentBean1 = MutableLiveData<CommentItemBean>().apply { value = CommentItemBean(11,0,"",0,"",0,"",0.0) }
-    var commentBean2 = MutableLiveData<CommentItemBean>().apply { value = CommentItemBean(22,0,"",0,"",0,"",0.0) }
-    fun getCommentList(pid: Long){
-        viewModelScope.launch(Dispatchers.IO) {
-            database.getCommentList(pid).collect{
-                if(it.size == 1){
-                    commentBean1.postValue(it.get(0))
-                }
-                if(it.size == 2){
-                    commentBean1.postValue(it.get(0))
-                    commentBean2.postValue(it.get(1))
-                }
-            }
-        }
-    }
+//    var firstComment = database.getFirstCommentByPid(4680226).asLiveData()
+//    fun getFirstCommentByPid(pid: Long): LiveData<CommentItemBean?> {
+//        firstComment = database.getFirstCommentByPid(pid).asLiveData()
+//        return database.getFirstCommentByPid(pid).asLiveData()
+//    }
+
+    fun getFirstCommentByPid(pid: Long) = database.getFirstCommentByPid(pid).asLiveData()
+
+    fun getSecondCommentByPid(pid: Long) = database.getSecondCommentByPid(pid).asLiveData()
+
+    val holeInfoList = database.getHoleInfoBeanList().asLiveData()
 
     var currentPage : Int = 1
 

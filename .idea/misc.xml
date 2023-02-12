@@ -60,6 +60,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/base_layout_error.xml" value="0.1607638888888889" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/base_layout_loading.xml" value="0.1607638888888889" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/comment_item_view.xml" value="0.264" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/comment_item_view_2.xml" value="0.165" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/content_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/dialog_hole_post.xml" value="0.176" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_about_us.xml" value="0.335" />
@@ -83,7 +84,8 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_splash.xml" value="0.152" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_activity_test.xml" value="0.264" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view.xml" value="0.25" />
-        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view_2.xml" value="0.176" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view_2.xml" value="0.25" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_item_view_3.xml" value="0.23333333333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_post_frag.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/hole_post_view.xml" value="0.264" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/item_drop.xml" value="0.1284722222222222" />

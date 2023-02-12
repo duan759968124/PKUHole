@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import cn.edu.pku.treehole.data.LocalRepository
+import cn.edu.pku.treehole.data.hole.HoleInfoBean
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.GlideEngineNet
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
@@ -58,6 +59,82 @@ abstract class BaseFragment : Fragment() {
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     open fun previewPicture(holeItem: HoleItemBean) {
         if (holeItem.type == "image") {
+            val localMedia = LocalMedia()
+            val mPictureSelectorStyle = PictureSelectorStyle()
+            localMedia.path = HOLE_HOST_ADDRESS + "api/pku_image/" + holeItem.pid
+            localMedia.fileName = LocalRepository.getValidToken()
+            localMedia.setPosition(0)
+            val selectList: ArrayList<LocalMedia> = ArrayList(1)
+            selectList.add(localMedia)
+            PictureSelector.create(this)
+                .openPreview()
+                .setImageEngine(GlideEngineNet.createGlideEngine())
+                .setSelectorUIStyle(mPictureSelectorStyle)
+                .isHidePreviewDownload(false)
+                .setExternalPreviewEventListener(object : OnExternalPreviewEventListener {
+                    override fun onPreviewDelete(position: Int) {}
+                    override fun onLongPressDownload(media: LocalMedia): Boolean {
+                        return false
+//                        // download picture dialog
+//                        Timber.e("download picture!  out")
+//                        val path = media.availablePath
+//                        val dialog = PictureCommonDialog.showDialog(context,
+//                            getString(R.string.ps_prompt),
+//                            "保存图片到手机？")
+//                        dialog.setOnDialogEventListener {
+//                            if (PictureMimeType.isHasHttp(path)) {
+//                                showLoading()
+//                            }
+//                            DownloadFileUtils.saveLocalFile(context, path, media.mimeType
+//                            ) { realPath ->
+//                                dismissLoading()
+//                                if (TextUtils.isEmpty(realPath)) {
+//                                    val errorMsg: String =
+//                                        if (PictureMimeType.isHasAudio(media.mimeType)) {
+//                                            getString(R.string.ps_save_audio_error)
+//                                        } else if (PictureMimeType.isHasVideo(media.mimeType)) {
+//                                            getString(R.string.ps_save_video_error)
+//                                        } else {
+//                                            getString(R.string.ps_save_image_error)
+//                                        }
+//                                    ToastUtils.showToast(context, errorMsg)
+//                                } else {
+//                                    PictureMediaScannerConnection(activity, realPath)
+//                                    ToastUtils.showToast(context,
+//                                        """
+//                                                       ${getString(R.string.ps_save_success)}
+//                                                       $realPath
+//                                                       """.trimIndent())
+//                                }
+//                            }
+//                        }
+////                        activity?.let {
+////                            MaterialDialog(it).show {
+////                                title(text = "提醒")
+////                                message(text = "保存图片到手机？")
+////                                positiveButton(text = "确定") {
+////                                    downloadPicture(media.fileName)
+////                                }
+////                                negativeButton(text = "取消")
+////                            }
+////                        }
+//                        return true
+                    }
+                }).startActivityPreview(0, false, selectList)
+//            PictureSelector.create(this)
+//                .themeStyle(R.style.picture_WeChat_style)
+//                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+////                todo:需要升级了，自己写下载图片的请求
+//                .isNotPreviewDownload(true)
+//                .imageEngine(GlideEngine.createGlideEngine())
+//                .openExternalPreview(0, selectList)
+//            findNavController().navigate(NavigationDirections.actionGlobalNavPreviewPicture(holeItem.pid))
+        }
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    open fun previewPicture2(holeItem: HoleInfoBean) {
+        if (holeItem.holeItemBean.type == "image") {
             val localMedia = LocalMedia()
             val mPictureSelectorStyle = PictureSelectorStyle()
             localMedia.path = HOLE_HOST_ADDRESS + "api/pku_image/" + holeItem.pid

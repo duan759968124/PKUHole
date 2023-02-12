@@ -26,7 +26,7 @@ import java.util.*
  * @Version:        1.0
  */
 
-//class HoleAdapter :
+
 class CommentAdapter(
     private val clickListener: CommentItemListener,
     private var contentTextSize: Int = LocalRepository.localGlobalHoleContentCurrentTextSize) :

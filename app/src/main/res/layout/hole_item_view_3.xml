@@ -7,8 +7,17 @@
     <data>
 
         <variable
-            name="holeItemBean"
-            type="cn.edu.pku.treehole.data.hole.HoleItemBean" />
+            name="holeInfoBean"
+            type="cn.edu.pku.treehole.data.hole.HoleInfoBean" />
+
+        <variable
+            name="clickListener"
+            type="cn.edu.pku.treehole.adapters.HoleItemListener2" />
+
+        <variable
+            name="pictureClickListener"
+            type="cn.edu.pku.treehole.viewmodels.hole.PictureClickListener2" />
+
 
         <variable
             name="viewModel"
@@ -34,6 +43,7 @@
             app:cardCornerRadius="@dimen/card_corner_radius"
             app:cardElevation="@dimen/card_elevation"
             app:rippleColor="@color/card_ripper_color"
+            android:onClick="@{()->clickListener.onClick(holeInfoBean)}"
             app:strokeColor="@color/card_stroke_color"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -53,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/card_inside_margin"
                     android:padding="@dimen/card_inside_padding"
-                    android:text="@{@string/pid_format(holeItemBean.pid)}"
+                    android:text="@{@string/pid_format(holeInfoBean.holeItemBean.pid)}"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -67,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/tag_margin"
                     android:padding="@dimen/tag_padding"
-                    android:text="@={holeItemBean.label_info.tag_name}"
-                    app:hasTag="@{holeItemBean.label}"
+                    android:text="@={holeInfoBean.holeItemBean.label_info.tag_name}"
+                    app:hasTag="@{holeInfoBean.holeItemBean.label}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@id/hole_pid"
@@ -83,8 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/tag_margin"
                     android:padding="@dimen/tag_padding"
-                    android:text="@={holeItemBean.tag}"
-                    app:hasTagStr="@{holeItemBean.tag}"
+                    android:text="@={holeInfoBean.holeItemBean.tag}"
+                    app:hasTagStr="@{holeInfoBean.holeItemBean.tag}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@id/hole_tag_name"
@@ -100,7 +110,7 @@
                     android:layout_margin="@dimen/tag_margin"
                     android:padding="@dimen/tag_padding"
                     android:text="@string/hole_top"
-                    app:hasTopTag="@{holeItemBean}"
+                    app:hasTopTag="@{holeInfoBean.holeItemBean}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@id/hole_tag_name_2"
@@ -126,8 +136,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/card_inside_margin_large"
                     android:padding="@dimen/card_inside_padding"
-                    app:hasImage="@{holeItemBean.type}"
-                    app:showImage="@{holeItemBean}"
+                    app:hasImage="@{holeInfoBean.holeItemBean.type}"
+                    app:showImage="@{holeInfoBean.holeItemBean}"
+                    android:onClick="@{()->pictureClickListener.onClick(holeInfoBean)}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_line_one"
@@ -137,8 +148,8 @@
                 <!--            binding_hole_number_listener="@{holeNumberClickListener}"-->
                 <TextView
                     android:id="@+id/hole_content"
-                    app:hasContentText="@{holeItemBean.text}"
-                    binding_hole_text="@{holeItemBean.text}"
+                    app:hasContentText="@{holeInfoBean.holeItemBean.text}"
+                    binding_hole_text="@{holeInfoBean.holeItemBean.text}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/card_inside_margin"
@@ -175,7 +186,7 @@
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_line_two"
-                    app:postDurationFormatted="@{holeItemBean.timestamp}"
+                    app:postDurationFormatted="@{holeInfoBean.holeItemBean.timestamp}"
                     tools:text="@string/card_test_post_time" />
 
                 <TextView
@@ -185,7 +196,7 @@
                     android:layout_marginTop="@dimen/card_inside_margin"
                     android:layout_marginBottom="@dimen/card_inside_margin"
                     android:padding="@dimen/card_inside_padding"
-                    android:text="@{String.valueOf(holeItemBean.reply)}"
+                    android:text="@{String.valueOf(holeInfoBean.holeItemBean.reply)}"
                     android:textSize="12sp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_line_two"
@@ -209,7 +220,7 @@
                     android:layout_marginEnd="@dimen/card_inside_margin"
                     android:layout_marginBottom="@dimen/card_inside_margin"
                     android:padding="@dimen/card_inside_padding"
-                    android:text="@{String.valueOf(holeItemBean.likenum)}"
+                    android:text="@{String.valueOf(holeInfoBean.holeItemBean.likenum)}"
                     android:textSize="12sp"
                     app:layout_constraintRight_toLeftOf="@id/hole_reply_image"
                     app:layout_constraintTop_toBottomOf="@id/card_line_two"
@@ -243,9 +254,9 @@
             app:strokeColor="@color/card_stroke_color"
             app:rippleColor="@color/card_ripper_color"
             app:layout_constraintTop_toBottomOf="@id/hole_item_card"
-            app:firstShow="@{holeItemBean.reply}"
+            app:firstShow="@{holeInfoBean.holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
-            bind:commentItemBean="@{viewModel.getFirstCommentByPid(holeItemBean.pid)}"/>
+            bind:commentItemBean="@{holeInfoBean.commentItemBean1}"/>
 
         <include
             android:id="@+id/comment_card_2"
@@ -261,9 +272,9 @@
             app:strokeColor="@color/card_stroke_color"
             app:rippleColor="@color/card_ripper_color"
             app:layout_constraintTop_toBottomOf="@id/comment_card_1"
-            app:secondShow="@{holeItemBean.reply}"
+            app:secondShow="@{holeInfoBean.holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
-            bind:commentItemBean="@{viewModel.getSecondCommentByPid(holeItemBean.pid)}"/>
+            bind:commentItemBean="@{holeInfoBean.commentItemBean2}"/>
 
         <ImageView
             android:layout_width="10dp"
@@ -271,8 +282,8 @@
             android:layout_marginTop="1dp"
             android:layout_marginStart="1dp"
             android:src="@drawable/ic_small_dot"
-            app:showDotIsHole="@{holeItemBean.isHole}"
-            app:showDotIsRead="@{holeItemBean.isRead}"
+            app:showDotIsHole="@{holeInfoBean.holeItemBean.isHole}"
+            app:showDotIsRead="@{holeInfoBean.holeItemBean.isRead}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="5dp" />

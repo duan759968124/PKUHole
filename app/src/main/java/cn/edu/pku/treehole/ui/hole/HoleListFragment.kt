@@ -7,25 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
-import cn.edu.pku.treehole.adapters.HoleAdapter
-import cn.edu.pku.treehole.adapters.HoleAdapter2
-import cn.edu.pku.treehole.adapters.HoleItemListener
+import cn.edu.pku.treehole.adapters.HoleAdapter3
+import cn.edu.pku.treehole.adapters.HoleItemListener2
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentHoleListBinding
-
 import cn.edu.pku.treehole.viewmodels.hole.HoleListViewModel
-import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
+import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.checkbox.checkBoxPrompt
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.schedule
@@ -35,7 +30,8 @@ class HoleListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHoleListBinding
     private val viewModel: HoleListViewModel by viewModels()
-    private lateinit var adapter : HoleAdapter2
+    private lateinit var adapter : HoleAdapter3
+//    var sealedDataList = ArrayList<HoleItemBean>()
 
     @SuppressLint("TimberArgCount")
     override fun onCreateView(
@@ -44,11 +40,13 @@ class HoleListFragment : BaseFragment() {
     ): View {
         binding = FragmentHoleListBinding.inflate(inflater, container, false)
         context ?: return binding.root
-//        val adapter = HoleAdapter()
-//        adapter = HoleAdapter2(
+//        adapter = HoleAdapter(
 //            HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
 //            PictureClickListener { holeItem -> previewPicture(holeItem) })
-        adapter = HoleAdapter2(viewModel)
+        adapter = HoleAdapter3(
+            HoleItemListener2 { pid -> viewModel.onHoleItemClicked(pid) },
+            PictureClickListener2 { holeItem -> previewPicture2(holeItem) })
+//        adapter = HoleAdapter2(viewModel, viewLifecycleOwner)
         binding.fragmentHoleListRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentHoleListRecycler.layoutManager = manager
@@ -58,7 +56,7 @@ class HoleListFragment : BaseFragment() {
         binding.fragmentHoleListSrl.setDisableContentWhenLoading(false)
 //        binding.fragmentHoleListSrl.setEnableHeaderTranslationContent(true)
 //        binding.fragmentHoleListSrl.setEnableNestedScroll(true);
-//        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -89,25 +87,101 @@ class HoleListFragment : BaseFragment() {
         }
 
         // 监听holeList变化并更新UI
-        viewModel.holeList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                Timber.e("list all data: ${it.size}")
-                adapter.submitList(it)
-                it.map { holeItemBean -> {
+//        viewModel.holeList.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                Timber.e("list all data: ${it.size}")
+////                adapter.submitList(it)
+//                sealedDataList.clear()
+//                it.map { holeItemBean ->
+////                    sealedDataList.add(RecyclerDataModel.SealedHoleItemBean(
+////                        pid = holeItemBean.pid,
+////                        text= holeItemBean.text,
+////                        type =holeItemBean.type,
+////                        timestamp = holeItemBean.timestamp,
+////                        reply = holeItemBean.reply,
+////                        likenum = holeItemBean.likenum,
+////                        is_top = holeItemBean.is_top,
+////                        is_follow = holeItemBean.is_follow,
+////                        label = holeItemBean.label,
+////                        label_info = holeItemBean.label_info,
+////                        tag = holeItemBean.tag,
+////                        isHole = holeItemBean.isHole,
+////                        isRead = holeItemBean.isRead))
+//                    sealedDataList.add(holeItemBean.copy())
+//                }
+////                Timber.e("sealedDataList: ${sealedDataList.size}, $sealedDataList")
+//            }
+//        })
 
-                    }
-                }
-            }
-        })
+//        viewModel.commentListList.observe(viewLifecycleOwner) {
+//            Timber.e("comment list list size: ${it.size}")
+//            val sealedDataListSubmit = ArrayList<RecyclerDataModel>()
+//            sealedDataListSubmit.clear()
+//            for(i in it.indices){
+//                val holeItemBean = sealedDataList[i]
+//                sealedDataListSubmit.add(RecyclerDataModel.SealedHoleItemBean(
+//                    pid = holeItemBean.pid,
+//                    text= holeItemBean.text,
+//                    type =holeItemBean.type,
+//                    timestamp = holeItemBean.timestamp,
+//                    reply = holeItemBean.reply,
+//                    likenum = holeItemBean.likenum,
+//                    is_top = holeItemBean.is_top,
+//                    is_follow = holeItemBean.is_follow,
+//                    label = holeItemBean.label,
+//                    label_info = holeItemBean.label_info,
+//                    tag = holeItemBean.tag,
+//                    isHole = holeItemBean.isHole,
+//                    isRead = holeItemBean.isRead))
+//                when(holeItemBean.reply){
+//                    1->{
+//                        sealedDataListSubmit.add(RecyclerDataModel.SealedCommentItemBean(
+//                            cid = it[i][0].cid,
+//                            pid = it[i][0].pid,
+//                            text= it[i][0].text,
+//                            timestamp = it[i][0].timestamp,
+//                            tag = it[i][0].tag,
+//                            islz = it[i][0].islz,
+//                            name = it[i][0].name,
+//                            randomH = it[i][0].randomH
+//                            ))
+//                    }
+//                    2->{
+//                        sealedDataListSubmit.add(RecyclerDataModel.SealedCommentItemBean(
+//                            cid = it[i][0].cid,
+//                            pid = it[i][0].pid,
+//                            text= it[i][0].text,
+//                            timestamp = it[i][0].timestamp,
+//                            tag = it[i][0].tag,
+//                            islz = it[i][0].islz,
+//                            name = it[i][0].name,
+//                            randomH = it[i][0].randomH
+//                        ))
+//                        sealedDataListSubmit.add(RecyclerDataModel.SealedCommentItemBean(
+//                            cid = it[i][1].cid,
+//                            pid = it[i][1].pid,
+//                            text= it[i][1].text,
+//                            timestamp = it[i][1].timestamp,
+//                            tag = it[i][1].tag,
+//                            islz = it[i][1].islz,
+//                            name = it[i][1].name,
+//                            randomH = it[i][1].randomH
+//                        ))
+//                    }
+//                }
+//            }
+//            Timber.e("sealedDataListSubmit list size : ${sealedDataListSubmit.size}")
+////            Timber.e("sealedDataListSubmit list item : $sealedDataListSubmit")
+////            it.map { commentList ->
+////                Timber.e("comment  list item: $commentList")
+////                Timber.e("comment  list size should = 2: ${commentList.size}")
+////            }
+//        }
 
-        viewModel.commentListList.observe(viewLifecycleOwner) {
-            Timber.e("comment list list size: ${it.size}")
-            it.map { commentList ->
-                Timber.e("comment  list item: $commentList")
-                Timber.e("comment  list size should = 2: ${commentList.size}")
-            }
+
+        viewModel.holeInfoList.observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
-
 
         // 监听刷新状态变化
         viewModel.refreshStatus.observe(viewLifecycleOwner) {

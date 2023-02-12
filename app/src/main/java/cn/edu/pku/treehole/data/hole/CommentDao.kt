@@ -27,6 +27,12 @@ interface CommentDao {
     @Query("Select * from comment_table where pid = :key ORDER BY cid ASC")
     fun getCommentListByPid(key: Long): Flow<List<CommentItemBean>>
 
+    @Query("Select * from comment_table  where pid = :key ORDER BY cid ASC limit 1")
+    fun getFirstCommentByPid(key: Long): Flow<CommentItemBean?>
+
+    @Query("Select * from comment_table  where pid = :key ORDER BY cid ASC limit 1,1")
+    fun getSecondCommentByPid(key: Long): Flow<CommentItemBean?>
+
     @Query("Select * from comment_table where pid = :key ORDER BY cid ASC limit 2")
     fun getCommentListByPidLimit2(key: Long): Flow<List<CommentItemBean>>
 

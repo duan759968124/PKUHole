@@ -12,10 +12,14 @@
 <!--                   android:type="linear"/>-->
 <!--        </shape>-->
     </item>
-    <item>
+    <item
+        android:width="100dp"
+        android:height="100dp"
+        android:gravity="center" >
         <bitmap
             android:src="@drawable/pku_hole_logo"
-            android:gravity="center" />
+            android:gravity="fill"
+            android:mipMap="true"/>
     </item>
 
 </layer-list>

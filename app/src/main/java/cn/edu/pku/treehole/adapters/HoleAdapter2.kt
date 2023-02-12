@@ -3,6 +3,7 @@ package cn.edu.pku.treehole.adapters
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,28 +27,17 @@ import timber.log.Timber
 
 class HoleAdapter2(
     private val viewModel: HoleListViewModel,
+    private val lifecycleOwner: LifecycleOwner,
     private var contentTextSize: Int = LocalRepository.localGlobalHoleContentCurrentTextSize
 ) :
     ListAdapter<HoleItemBean, HoleAdapter2.ViewHolder>(HoleDiffCallback2()) {
     class ViewHolder(val binding: HoleItemView2Binding) : RecyclerView.ViewHolder(binding.root) {
-//      暂时没用到
-//        init {
-//            binding.setClickListener {
-//                binding.holeListItemBean?.let { holeItem ->
-//                    navigateToHoleItemDetail(holeItem, it)
-//                }
-//            }
-//        }
-//        private fun navigateToHoleItemDetail(HoleItemBean: HoleItemBean, view: View) {
-//            val direction = HoleViewPagerFragmentDirections.actionNavHoleToNavHoleDetail(HoleItemBean.pid)
-//            view.findNavController().navigate(direction)
-//        }
-
 
         fun bind(
             listItem: HoleItemBean,
             viewModel: HoleListViewModel,
-            contentTextSize:Int
+            contentTextSize:Int,
+            lifecycleOwner: LifecycleOwner
         ) {
 //            binding.apply{
 //                holeListItemBean = listItem
@@ -55,23 +45,7 @@ class HoleAdapter2(
 //            }
             binding.holeItemBean = listItem
             binding.viewModel = viewModel
-            viewModel.getCommentList(listItem.pid)
-//            when(listItem.reply){
-//                0 ->{
-//                    binding.commentBean1 = emptyCommentBean
-//                    binding.commentBean2 = emptyCommentBean
-//                }
-//                1->{
-//                    Timber.e("commment info 1: ${viewModel.result.value?.get(0)}")
-//                    binding.commentBean1 = viewModel.result.value?.get(0) ?: emptyCommentBean
-//                    binding.commentBean2 = emptyCommentBean
-//                }
-//                2->{
-//                    Timber.e("commment info 2: ${viewModel.result.value?.get(0)}")
-//                    binding.commentBean1 = viewModel.result.value?.get(0) ?: emptyCommentBean
-//                    binding.commentBean2 = viewModel.result.value?.get(1) ?: emptyCommentBean
-//                }
-//            }
+            binding.lifecycleOwner = lifecycleOwner
             binding.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, contentTextSize.toFloat());
             binding.executePendingBindings()
         }
@@ -91,7 +65,7 @@ class HoleAdapter2(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 //        holder.bind(getItem(position), itemClickListener, pictureClickListener, contentTextSize)
-        holder.bind(getItem(position), viewModel, contentTextSize)
+        holder.bind(getItem(position), viewModel, contentTextSize, lifecycleOwner)
     }
 
 }
@@ -112,7 +86,3 @@ class HoleDiffCallback2 : DiffUtil.ItemCallback<HoleItemBean>() {
     }
 
 }
-
-//class HoleItemListener(val clickListener: (pid: Long) -> Unit) {
-//    fun onClick(holeItem: HoleItemBean) = clickListener(holeItem.pid)
-//}
