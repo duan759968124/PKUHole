@@ -38,15 +38,15 @@ class HoleAdapter3(
 ) :
     ListAdapter<HoleInfoBean, HoleAdapter3.ViewHolder>(HoleDiffCallback3()) {
 
-    init {
-        namesColorMap.clear()
-        globalRandomH = 0.0
-    }
+//    init {
+//        namesColorMap.clear()
+//        globalRandomH = 0.0
+//    }
 
-    companion object {
-        var namesColorMap: HashMap<String, ArrayList<Int>> = HashMap()
-        var globalRandomH: Double = 0.0
-    }
+//    companion object {
+//        var namesColorMap: HashMap<String, ArrayList<Int>> = HashMap()
+//        var globalRandomH: Double = 0.0
+//    }
 
     class ViewHolder(val binding: HoleItemView3Binding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
@@ -57,97 +57,105 @@ class HoleAdapter3(
         ) {
             binding.holeInfoBean = listItem
             binding.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, contentTextSize.toFloat());
+
+            binding.commentCard1.commentContent.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                contentTextSize.toFloat()
+            );
+            binding.commentCard2.commentContent.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                contentTextSize.toFloat()
+            );
+
             binding.clickListener = itemClickListener2
             binding.pictureClickListener = pictureClickListener2
-            namesColorMap.clear()
-            when(listItem.holeItemBean.reply) {
-                1 -> {
-                    globalRandomH = listItem.commentItemBean1?.randomH ?: 0.0
-                    binding.commentCard1.commentCsl.setBackgroundColor(
-                        listItem.commentItemBean1?.let { getColor(it) }?.get(0) ?: Color.WHITE)
-                    if(listItem.commentItemBean1?.text?.isNotEmpty() == true) {
-                        val spannableString =
-                            spannableCommentTextString(listItem.commentItemBean1!!)
-                        binding.commentCard1.commentContent.text = spannableString
-                    }
-                }
-                2 -> {
-                    globalRandomH = listItem.commentItemBean1?.randomH ?: 0.0
-                    binding.commentCard1.commentCsl.setBackgroundColor(
-                        listItem.commentItemBean1?.let { getColor(it) }?.get(0) ?: Color.WHITE)
-                    binding.commentCard2.commentCsl.setBackgroundColor(
-                        listItem.commentItemBean2?.let { getColor(it) }?.get(0) ?: Color.WHITE)
-
-                    if(listItem.commentItemBean1?.text?.isNotEmpty() == true) {
-                        val spannableString =
-                            spannableCommentTextString(listItem.commentItemBean1!!)
-                        binding.commentCard1.commentContent.text = spannableString
-                    }
-                    if(listItem.commentItemBean2?.text?.isNotEmpty() == true) {
-                        val spannableString =
-                            spannableCommentTextString(listItem.commentItemBean2!!)
-                        binding.commentCard2.commentContent.text = spannableString
-                    }
-                }
-            }
+//            namesColorMap.clear()
+//            when(listItem.holeItemBean.reply) {
+//                1 -> {
+//                    globalRandomH = listItem.commentItemBean1?.randomH ?: 0.0
+//                    binding.commentCard1.commentCsl.setBackgroundColor(
+//                        listItem.commentItemBean1?.let { getColor(it) }?.get(0) ?: Color.WHITE)
+//                    if(listItem.commentItemBean1?.text?.isNotEmpty() == true) {
+//                        val spannableString =
+//                            spannableCommentTextString(listItem.commentItemBean1!!)
+//                        binding.commentCard1.commentContent.text = spannableString
+//                    }
+//                }
+//                2 -> {
+//                    globalRandomH = listItem.commentItemBean1?.randomH ?: 0.0
+//                    binding.commentCard1.commentCsl.setBackgroundColor(
+//                        listItem.commentItemBean1?.let { getColor(it) }?.get(0) ?: Color.WHITE)
+//                    binding.commentCard2.commentCsl.setBackgroundColor(
+//                        listItem.commentItemBean2?.let { getColor(it) }?.get(0) ?: Color.WHITE)
+//
+//                    if(listItem.commentItemBean1?.text?.isNotEmpty() == true) {
+//                        val spannableString =
+//                            spannableCommentTextString(listItem.commentItemBean1!!)
+//                        binding.commentCard1.commentContent.text = spannableString
+//                    }
+//                    if(listItem.commentItemBean2?.text?.isNotEmpty() == true) {
+//                        val spannableString =
+//                            spannableCommentTextString(listItem.commentItemBean2!!)
+//                        binding.commentCard2.commentContent.text = spannableString
+//                    }
+//                }
+//            }
             binding.executePendingBindings()
         }
 
-        private fun spannableCommentTextString(comment: CommentItemBean): SpannableString {
-            val commentText = comment.text
-            val spannableString = SpannableString(comment.text)
-            if (commentText?.contains("Re") == true) {
-                val firstIndex = commentText.indexOf("Re")
-                val endIndex = if (commentText.indexOf(":") > 0) {
-                    commentText.indexOf(":")
-                } else {
-                    commentText.indexOf("：")
-                }
-                if (firstIndex + 3 < endIndex) {
-                    val reName = commentText.substring(firstIndex + 3, endIndex)
-                        .lowercase(Locale.getDefault())
-                    if (namesColorMap.containsKey(reName)) {
-                        spannableString.setSpan(
-                            BackgroundColorSpan(
-                                CommentAdapter.namesColorMap[reName]?.get(0) ?: Color.WHITE
-                            ), firstIndex + 3, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-                        )
-                    }
-                }
-            }
-            commentText?.let { HoleNumberLinkHelper.regexHoleText(it) }
-                ?.forEach { (value, indexRange) ->
-                    val pid = value.substring(0)
-                    Timber.e("$pid  $indexRange")
-                    spannableString.setSpan(
-                        HoleNumberLinkHelper.HoleTextClickSpan(pid),
-                        indexRange.first,
-                        indexRange.last + 1,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            return spannableString
-        }
+//        private fun spannableCommentTextString(comment: CommentItemBean): SpannableString {
+//            val commentText = comment.text
+//            val spannableString = SpannableString(comment.text)
+//            if (commentText?.contains("Re") == true) {
+//                val firstIndex = commentText.indexOf("Re")
+//                val endIndex = if (commentText.indexOf(":") > 0) {
+//                    commentText.indexOf(":")
+//                } else {
+//                    commentText.indexOf("：")
+//                }
+//                if (firstIndex + 3 < endIndex) {
+//                    val reName = commentText.substring(firstIndex + 3, endIndex)
+//                        .lowercase(Locale.getDefault())
+//                    if (namesColorMap.containsKey(reName)) {
+//                        spannableString.setSpan(
+//                            BackgroundColorSpan(
+//                                CommentAdapter.namesColorMap[reName]?.get(0) ?: Color.WHITE
+//                            ), firstIndex + 3, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+//                        )
+//                    }
+//                }
+//            }
+//            commentText?.let { HoleNumberLinkHelper.regexHoleText(it) }
+//                ?.forEach { (value, indexRange) ->
+//                    val pid = value.substring(0)
+//                    Timber.e("$pid  $indexRange")
+//                    spannableString.setSpan(
+//                        HoleNumberLinkHelper.HoleTextClickSpan(pid),
+//                        indexRange.first,
+//                        indexRange.last + 1,
+//                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                    )
+//                }
+//            return spannableString
+//        }
 
-        private fun getColor(commentItemBean: CommentItemBean): ArrayList<Int>? {
-            val name = commentItemBean.name.lowercase(Locale.getDefault())
-            if(name == "洞主") {
-                return arrayListOf(
-                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
-                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
-                )
-            }
-            if(!namesColorMap.containsKey(name)){
-                globalRandomH += golden_ratio_conjugate
-                globalRandomH %= 1
-                namesColorMap[name] = arrayListOf(
-                    ColorUtils.HSLToColor(floatArrayOf((globalRandomH *360).toFloat(), 0.5f, 0.9f)),
-                    ColorUtils.HSLToColor(floatArrayOf((globalRandomH *360).toFloat(), 0.6f, 0.2f))
-                )
-            }
-            Timber.e("nameColorMap: $namesColorMap")
-            return namesColorMap[name]
-        }
+//        private fun getColor(commentItemBean: CommentItemBean): ArrayList<Int>? {
+//            val name = commentItemBean.name.lowercase(Locale.getDefault())
+//            if(name == "洞主") {
+//                return arrayListOf(
+//                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
+//                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
+//                )
+//            }
+//            if(!namesColorMap.containsKey(name)){
+//                globalRandomH += golden_ratio_conjugate
+//                globalRandomH %= 1
+//                namesColorMap[name] = arrayListOf(
+//                    ColorUtils.HSLToColor(floatArrayOf((globalRandomH *360).toFloat(), 0.5f, 0.9f)),
+//                    ColorUtils.HSLToColor(floatArrayOf((globalRandomH *360).toFloat(), 0.6f, 0.2f))
+//                )
+//            }
+//            Timber.e("nameColorMap: $namesColorMap")
+//            return namesColorMap[name]
+//        }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {

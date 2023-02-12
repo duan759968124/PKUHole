@@ -5,9 +5,6 @@ import androidx.lifecycle.*
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
 import cn.edu.pku.treehole.data.LocalRepository
-import cn.edu.pku.treehole.data.hole.CommentDao
-import cn.edu.pku.treehole.data.hole.CommentItemBean
-import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -54,7 +51,7 @@ class HoleListViewModel @Inject internal constructor(
 
     fun getSecondCommentByPid(pid: Long) = database.getSecondCommentByPid(pid).asLiveData()
 
-    val holeInfoList = database.getHoleInfoBeanList().asLiveData()
+    val holeInfoList = database.getHoleInfoList().asLiveData()
 
     var currentPage : Int = 1
 

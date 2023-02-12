@@ -5,12 +5,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.convertDurationToFormatted
+import cn.edu.pku.treehole.utilities.golden_ratio_conjugate
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
@@ -178,21 +180,47 @@ fun showDot(view: ImageView, isHole: Int, isRead: Int) {
     }
 }
 
-@SuppressWarnings("unused")
 @BindingAdapter("setBackgroundColor")
 fun setBackgroundColor(view: ConstraintLayout, commentItemBean: CommentItemBean?) {
-    var randomH = 0.0
+    var randomH: Double
     if (commentItemBean != null) {
         randomH = if(commentItemBean.randomH.isNaN()||commentItemBean.randomH.equals(0.0)){
             Math.random()
         }else{
             commentItemBean.randomH
         }
-        var name = commentItemBean.name.lowercase(Locale.getDefault())
-        if(name == "洞主"){
-            val dzHsl = arrayListOf(Color.HSVToColor(floatArrayOf(0.0f, 0.0f, 97f/100)), Color.HSVToColor(floatArrayOf(0.0f, 0.0f, 16f/100)))
-            Timber.e("dzHSL$dzHsl")
-//            view.setBackgroundColor(dzHsl[0])
+        when(commentItemBean.name.lowercase(Locale.getDefault())){
+            "洞主" ->{
+                view.setBackgroundColor(arrayListOf(
+                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
+                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
+                )[0])
+            }
+            "alice" ->{
+                randomH += golden_ratio_conjugate
+                randomH %= 1
+                view.setBackgroundColor(arrayListOf(
+                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                )[0])
+            }
+            "bob" ->{
+                randomH += golden_ratio_conjugate
+                randomH %= 1
+                randomH += golden_ratio_conjugate
+                randomH %= 1
+                view.setBackgroundColor(arrayListOf(
+                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                )[0])
+            }
+            else ->{
+                randomH = Math.random()
+                view.setBackgroundColor(arrayListOf(
+                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                )[0])
+            }
         }
     }
 }

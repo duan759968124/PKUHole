@@ -118,6 +118,19 @@ class HoleRepository @Inject constructor(
 //                        it.pic_data = pictureResponse.data
 //                    }
 //                }
+                if (it.reply > 0) {
+                    //存在评论
+                    val holeResponse = launchRequest { holeApi.getCommentList(pid = it.pid) }
+                    val randomH = Math.random()
+                    holeResponse.data?.data?.map { commentItem ->
+                        commentItem.randomH = randomH
+                    }
+                    holeResponse.data?.data.let { listCommentItem ->
+                        if (listCommentItem != null) {
+                            insertCommentList(listCommentItem)
+                        }
+                    }
+                }
             }
             attentionListResponse.data.data.let {
                 if (it != null) {
@@ -152,7 +165,7 @@ class HoleRepository @Inject constructor(
                 it.toList() } }
             .flattenMerge()
 
-    fun getHoleInfoBeanList(): Flow<List<HoleInfoBean>> = getHoleList()
+    fun getHoleInfoList(): Flow<List<HoleInfoBean>> = getHoleList()
             .onEach { Timber.e("hole list size: ${it.size}") }
             .map { list ->
                 list.map { holeItemBean -> HoleInfoBean(
@@ -161,6 +174,16 @@ class HoleRepository @Inject constructor(
                     getFirstCommentByPid(holeItemBean.pid).first(),
                     getSecondCommentByPid(holeItemBean.pid).first()
                 ) } }
+
+    fun getAttentionInfoList(): Flow<List<HoleInfoBean>> = getAttentionList()
+        .onEach { Timber.e("attention list size: ${it.size}") }
+        .map { list ->
+            list.map { holeItemBean -> HoleInfoBean(
+                holeItemBean.pid,
+                holeItemBean,
+                getFirstCommentByPid(holeItemBean.pid).first(),
+                getSecondCommentByPid(holeItemBean.pid).first()
+            ) } }
 
 
     fun getHoleInfoBeanList2(): Flow<ArrayList<HoleInfoBean>> {

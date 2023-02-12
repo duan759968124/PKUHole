@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.HoleAdapter
+import cn.edu.pku.treehole.adapters.HoleAdapter3
 import cn.edu.pku.treehole.adapters.HoleItemListener
+import cn.edu.pku.treehole.adapters.HoleItemListener2
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentAttentionBinding
 import cn.edu.pku.treehole.viewmodels.hole.AttentionViewModel
 
 import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
+import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener2
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -26,7 +29,7 @@ class AttentionFragment : BaseFragment() {
 
     private lateinit var binding: FragmentAttentionBinding
     private val viewModel: AttentionViewModel by viewModels()
-    private lateinit var adapter: HoleAdapter
+    private lateinit var adapter: HoleAdapter3
 
     @SuppressLint("TimberArgCount")
     override fun onCreateView(
@@ -36,9 +39,9 @@ class AttentionFragment : BaseFragment() {
         binding = FragmentAttentionBinding.inflate(inflater, container, false)
         context ?: return binding.root
 //        val adapter = HoleAdapter()
-        adapter = HoleAdapter(
-            HoleItemListener { pid -> viewModel.onHoleItemClicked(pid) },
-            PictureClickListener { holeItem -> previewPicture(holeItem) })
+        adapter = HoleAdapter3(
+            HoleItemListener2 { pid -> viewModel.onHoleItemClicked(pid) },
+            PictureClickListener2 { holeInfoItem -> previewPicture2(holeInfoItem) })
         binding.fragmentAttentionRecycler.adapter = adapter
         val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         binding.fragmentAttentionRecycler.layoutManager = manager
@@ -60,11 +63,14 @@ class AttentionFragment : BaseFragment() {
         }
 
         // 监听holeList变化并更新UI
-        viewModel.attentionList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
-            }
-        })
+//        viewModel.attentionList.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                adapter.submitList(it)
+//            }
+//        })
+        viewModel.attentionInfoList.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
 
         binding.fab.setOnClickListener {
 //            binding.fragmentAttentionRecycler.smoothScrollToPosition(0)

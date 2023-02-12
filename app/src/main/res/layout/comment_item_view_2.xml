@@ -25,6 +25,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            setBackgroundColor="@{commentItemBean}"
             android:id="@+id/comment_csl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -53,6 +54,7 @@
                 android:textStyle="bold"
                 tools:text="#2995822"  />
 
+<!--            android:text="@{commentItemBean.text}"-->
             <TextView
                 android:id="@+id/comment_content"
                 android:layout_marginStart="@dimen/card_inside_margin"
@@ -67,7 +69,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 tools:textSize="14sp"
                 android:textIsSelectable="true"
-                android:text="@{commentItemBean.text}"
+                binding_hole_text="@{commentItemBean.text}"
                 android:autoLink="web"
                 android:textColor="@color/black"
                 tools:text="@string/hole_test_text" />

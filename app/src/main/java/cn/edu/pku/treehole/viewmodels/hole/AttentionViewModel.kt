@@ -30,6 +30,8 @@ class AttentionViewModel @Inject internal constructor(
 
     val attentionList = database.getAttentionList().asLiveData()
 
+    val attentionInfoList = database.getAttentionInfoList().asLiveData()
+
     init {
 //        getAttentionList()
     }
