@@ -31,7 +31,7 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:text="@string/get_valid_code"
-            android:backgroundTint="@color/pku_hole_logo_red"
+            android:backgroundTint="?attr/colorPrimary"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -56,7 +56,7 @@
             app:scv_showCursor="true"
             app:scv_smsDetectionMode="manual"
             app:scv_symbolBackgroundColor="@android:color/white"
-            app:scv_symbolBorderActiveColor="?colorPrimary"
+            app:scv_symbolBorderActiveColor="?attr/colorPrimary"
             app:scv_symbolBorderColor="@android:color/black"
             app:scv_symbolBorderCornerRadius="8dp"
             app:scv_symbolBorderWidth="2dp"
@@ -79,7 +79,7 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:text="@string/verify"
-            android:backgroundTint="@color/pku_hole_logo_red"
+            android:backgroundTint="?attr/colorPrimary"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />

@@ -3,7 +3,7 @@
     android:opacity="opaque">
     <item>
         <!--this is your background, you can use color, gradient etc.-->
-        <color android:color="@color/pku_hole_logo_red"/>
+        <color android:color="?attr/colorPrimary"/>
 <!--        <shape>-->
 <!--              <gradient-->
 <!--                   android:angle="315"-->
@@ -17,7 +17,7 @@
         android:height="100dp"
         android:gravity="center" >
         <bitmap
-            android:src="@drawable/pku_hole_logo"
+            android:src="@drawable/pku_hole_logo_transparent"
             android:gravity="fill"
             android:mipMap="true"/>
     </item>

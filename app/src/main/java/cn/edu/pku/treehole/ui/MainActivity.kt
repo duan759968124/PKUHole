@@ -74,21 +74,30 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_login, R.id.nav_splash, R.id.nav_input_valid_code -> {
+                R.id.nav_login, R.id.nav_input_valid_code -> {
                     binding.toolbar.visibility = View.GONE
+                    binding.appBar.visibility = View.VISIBLE
                     navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 }
+                R.id.nav_splash ->{
+                    binding.toolbar.visibility = View.GONE
+                    binding.appBar.visibility = View.GONE
+                    navView.visibility = View.GONE
+                }
                 R.id.nav_hole -> {
                     binding.toolbar.visibility = View.VISIBLE
+                    binding.appBar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
                 }
                 R.id.nav_score, R.id.nav_course, R.id.nav_settings ->{
                     binding.toolbar.visibility = View.VISIBLE
+                    binding.appBar.visibility = View.VISIBLE
                     navView.visibility = View.VISIBLE
                 }
                 else -> {
                     binding.toolbar.visibility = View.VISIBLE
+                    binding.appBar.visibility = View.VISIBLE
                     navView.visibility = View.GONE
 //                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                 }

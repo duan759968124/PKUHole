@@ -40,6 +40,10 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
     val navigateToChangeTextSize: LiveData<Boolean>
         get() = _navigateToChangeTextSize
 
+    private var _navigateToChangeDarkModel = MutableLiveData<Boolean>()
+    val navigateToChangeDarkModel: LiveData<Boolean>
+        get() = _navigateToChangeDarkModel
+
 
     fun navigateToPrivacyPolicy(){
         _navigationToPrivacyPolicy.value = true
@@ -47,6 +51,14 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
 
     fun onNavigateToPrivacyPolicyFinish(){
         _navigationToPrivacyPolicy.value = false
+    }
+
+    fun navigateToChangeDarkModel(){
+        _navigateToChangeDarkModel.value = true
+    }
+
+    fun onNavigateToChangeDarkModelFinish(){
+        _navigateToChangeDarkModel.value = false
     }
 
     fun navigateToChangeTextSize(){

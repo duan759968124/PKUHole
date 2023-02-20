@@ -12,7 +12,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/settings_background"
         tools:context=".ui.settings.SettingsFragment">
 
         <LinearLayout
@@ -25,7 +24,7 @@
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
 <!--                android:layout_marginTop="15dp"-->
-<!--                android:background="@color/white"-->
+<!--                android:background="?attr/colorSecondary"-->
 <!--                android:orientation="vertical">-->
 
 <!--                <LinearLayout-->
@@ -45,7 +44,7 @@
 <!--                        android:layout_height="wrap_content"-->
 <!--                        android:layout_weight="1"-->
 <!--                        android:text="@string/privacy_policy"-->
-<!--                        android:textColor="@color/black"-->
+<!--                        android:textColor="?attr/colorOnSecondary"-->
 <!--                        android:textSize="15sp" />-->
 
 <!--                    <ImageView-->
@@ -61,10 +60,57 @@
 <!--            </LinearLayout>-->
 
             <LinearLayout
+                android:id="@+id/fragment_settings_dark_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSecondary"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{() -> viewModel.navigateToChangeDarkModel()}"
+                    android:paddingStart="@dimen/setting_item_padding_left_right"
+                    android:paddingTop="@dimen/setting_item_padding_top"
+                    android:paddingEnd="@dimen/setting_item_padding_left_right"
+                    android:paddingBottom="@dimen/setting_item_padding_bottom">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/dark_model"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/dark_model_text"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_right_24" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/card_inside_line_color" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/fragment_settings_text_size_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -83,8 +129,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/change_text_size"
-                        android:textColor="@color/black"
+                        android:text="@string/version_update"
+                        android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -103,7 +149,7 @@
                 android:id="@+id/fragment_settings_version_update_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -123,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/version_update"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -142,7 +188,7 @@
                 android:id="@+id/fragment_settings_clear_cache_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical"
                 android:layout_marginBottom="20dp">
 
@@ -163,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/clear_cache"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -182,7 +228,7 @@
                 android:id="@+id/fragment_settings_user_agreement_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -202,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/user_agreement"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -221,7 +267,7 @@
                 android:id="@+id/fragment_settings_copyright_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -241,7 +287,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/copyright_info"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -260,7 +306,7 @@
                 android:id="@+id/fragment_settings_about_us_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -280,7 +326,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/about_us"
-                        android:textColor="@color/black"
+                        android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
                     <ImageView
@@ -299,7 +345,7 @@
                 android:id="@+id/fragment_settings_button_exit_login_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/colorSecondary"
                 android:orientation="vertical">
 
                 <LinearLayout

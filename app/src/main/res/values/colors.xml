@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="gray_50">#F5F5F5</color>
+    <color name="gray_200">#D9D9D9</color>
+    <color name="gray_300">#C4C4C4</color>
+    <color name="gray_400">#9D9D9D</color>
+    <color name="gray_500">#7B7B7B</color>
+    <color name="gray_700">#434343</color>
+    <color name="gray_800">#262626</color>
+    <color name="gray_900">#000000</color>
+
+    <color name="red_200">#E08E8A</color>
+    <color name="red_500">#D42F18</color>
+    <color name="red_700">#B61A15</color>
+    <color name="red_900">#9A0001</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -8,21 +26,16 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="grey">#ff878787</color>
 
     <color name="hole_blue">#437BCE</color>
     <!--    <color name="hole_blue">#9A0001</color>-->
     <color name="hole_blue_2">#3E83EA</color>
 
-    <color name="transparent_grey">#80000000</color>
     <color name="card_stroke_color">#EDE7E6</color>
     <color name="card_ripper_color">#2196F3</color>
     <color name="card_inside_line_color">#EDE7E6</color>
 
-    <color name="pku_hole_logo_red">#9A0001</color>
-    <color name="pku_red">#94070A</color>
 <!--    post dialog-->
     <color name="dialogBackgroundColor">#fffafafa</color>
     <color name="dialogAddonsBackgroundColor">#ffd0d0d0</color>

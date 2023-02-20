@@ -56,7 +56,7 @@
                 app:labelBehavior="gone"
                 app:thumbRadius="10dp"
                 app:thumbStrokeWidth="1dp"
-                app:thumbColor="@color/white"
+                app:thumbColor="?attr/colorSecondary"
                 />
             <TextView
                 android:layout_width="0dp"

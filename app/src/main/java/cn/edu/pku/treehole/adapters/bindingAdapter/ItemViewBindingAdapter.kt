@@ -1,12 +1,15 @@
 package cn.edu.pku.treehole.adapters.bindingAdapter
 
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.AttrRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
+import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.HoleItemBean
@@ -17,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.color.MaterialColors
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -238,3 +242,14 @@ fun setBackgroundColor(view: ConstraintLayout, commentItemBean: CommentItemBean?
 //    binding.executePendingBindings()
 //    view.addHeaderView(binding.root)
 //}
+
+@BindingAdapter("backgroundAttr")
+fun setBackgroundAttr(view: View , isSelected: Boolean) {
+    val typedValueColor = TypedValue()
+    view.context.theme.resolveAttribute(R.attr.colorPrimary, typedValueColor, true);
+    if(isSelected){
+        view.setBackgroundColor(typedValueColor.data)
+    } else {
+        view.setBackgroundColor(view.context.resources.getColor(R.color.gray_500));
+    }
+}

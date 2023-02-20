@@ -101,5 +101,7 @@
     <string name="clear_cache">缓存清理</string>
     <string name="update_title">更新</string>
     <string name="no_update">暂无更新</string>
+    <string name="dark_model">深色模式</string>
+    <string name="dark_model_text">跟随系统</string>
 
 </resources>

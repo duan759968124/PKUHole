@@ -51,7 +51,7 @@ class SettingsFragment : BaseFragment() {
     }
 
     override fun initObserve() {
-        viewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner, Observer {
+        viewModel.navigationToPrivacyPolicy.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(
                     SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
@@ -60,16 +60,23 @@ class SettingsFragment : BaseFragment() {
                 )
                 viewModel.onNavigateToPrivacyPolicyFinish()
             }
-        })
+        }
 
-        viewModel.navigateToChangeTextSize.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToChangeTextSize.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavChangeTextSize())
                 viewModel.onNavigateToChangeTextSizeFinish()
             }
-        })
+        }
 
-        viewModel.navigationToUserAgreement.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToChangeDarkModel.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavChangeTextSize())
+                viewModel.onNavigateToChangeDarkModelFinish()
+            }
+        }
+
+        viewModel.navigationToUserAgreement.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(
                     SettingsFragmentDirections.actionNavSettingsToSimpleWebviewFragment(
@@ -78,39 +85,39 @@ class SettingsFragment : BaseFragment() {
                 )
                 viewModel.onNavigateToUserAgreementFinish()
             }
-        })
+        }
 
-        viewModel.navigationToAboutUs.observe(viewLifecycleOwner, Observer {
+        viewModel.navigationToAboutUs.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavAboutUs())
                 viewModel.onNavigateToAboutUsFinish()
             }
-        })
+        }
 
-        viewModel.navigationToCopyright.observe(viewLifecycleOwner, Observer {
+        viewModel.navigationToCopyright.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavCopyright())
                 viewModel.onNavigateToCopyrightFinish()
             }
-        })
+        }
 
-        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isLogin ->
+        viewModel.loginStatus.observe(viewLifecycleOwner) { isLogin ->
             if (!isLogin) {
                 // 全局导航操作
                 findNavController().navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
             }
-        })
+        }
 
         // 系统网络报错
-        viewModel.errorStatus.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.errorStatus.observe(viewLifecycleOwner) { error ->
             error.message?.let { showToast("错误-$it") }
-        })
+        }
 
         // api报错
-        viewModel.failStatus.observe(viewLifecycleOwner, Observer { fail ->
+        viewModel.failStatus.observe(viewLifecycleOwner) { fail ->
             fail.message?.let { showToast("失败-$it") }
-        })
+        }
 
         viewModel.loadingStatus.observe(viewLifecycleOwner) {
             if (it) {

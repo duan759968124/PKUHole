@@ -4,15 +4,15 @@
         <!-- Primary brand color. -->
         <!--        <item name="colorPrimary">@color/hole_blue</item>-->
         <!--        <item name="colorPrimaryVariant">@color/hole_blue</item>-->
-        <item name="colorPrimary">@color/pku_hole_logo_red</item>
-        <item name="colorPrimaryVariant">@color/pku_red</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/red_900</item>
+        <item name="colorPrimaryVariant">@color/red_700</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/gray_200</item>
+        <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
 
     </style>
@@ -49,6 +49,10 @@
         <!--        <item name="android:backgroundDimAmount">0.6</item>-->
         <!-- 设置点击空白不消失 -->
         <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+    <style name="tabLayout_Style" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

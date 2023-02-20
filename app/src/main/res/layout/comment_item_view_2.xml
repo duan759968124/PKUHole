@@ -20,7 +20,7 @@
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:strokeWidth="@dimen/card_stroke_width"
         app:cardElevation="@dimen/card_elevation"
-        app:strokeColor="@color/card_stroke_color"
+        app:strokeColor="?attr/colorSecondary"
         app:rippleColor="@color/card_ripper_color">
 
 
@@ -48,7 +48,7 @@
                 android:padding="@dimen/card_inside_padding"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="14sp"
                 android:text="@{@string/pid_format(commentItemBean.cid)}"
                 android:textStyle="bold"
@@ -71,7 +71,7 @@
                 android:textIsSelectable="true"
                 binding_hole_text="@{commentItemBean.text}"
                 android:autoLink="web"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSecondary"
                 tools:text="@string/hole_test_text" />
 
             <TextView
