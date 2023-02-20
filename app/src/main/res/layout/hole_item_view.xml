@@ -117,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="@dimen/card_inside_margin"
-                    android:background="@color/card_inside_line_color"
+                    android:background="?attr/colorSecondaryVariant"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hole_pid" />
@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="@dimen/card_inside_margin"
-                    android:background="@color/card_inside_line_color"
+                    android:background="?attr/colorSecondaryVariant"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/hole_content" />

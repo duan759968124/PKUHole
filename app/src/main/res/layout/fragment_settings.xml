@@ -56,7 +56,7 @@
 <!--                <View-->
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="1dp"-->
-<!--                    android:background="@color/card_inside_line_color" />-->
+<!--                    android:background="?attr/colorSecondaryVariant" />-->
 <!--            </LinearLayout>-->
 
             <LinearLayout
@@ -103,7 +103,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -129,7 +129,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/version_update"
+                        android:text="@string/change_text_size"
                         android:textColor="?attr/colorOnSecondary"
                         android:textSize="15sp" />
 
@@ -142,7 +142,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -181,7 +181,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -221,7 +221,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -260,7 +260,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -299,7 +299,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -338,7 +338,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
             <LinearLayout
@@ -365,7 +365,7 @@
                         android:textAlignment="center"
                         android:layout_height="wrap_content"
                         android:text="@string/exit_login"
-                        android:textColor="@color/exit_login_red"
+                        android:textColor="@color/red_500"
                         android:textStyle="bold"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -373,7 +373,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/card_inside_line_color" />
+                    android:background="?attr/colorSecondaryVariant" />
             </LinearLayout>
 
         </LinearLayout>

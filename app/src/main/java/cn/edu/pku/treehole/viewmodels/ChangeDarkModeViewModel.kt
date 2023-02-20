@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangeDarkModelViewModel @Inject constructor(holeRepository: HoleRepository) :
+class ChangeDarkModeViewModel @Inject constructor(holeRepository: HoleRepository) :
     BaseViewModel(holeRepository = holeRepository) {
 
     var maxContentSize = LocalRepository.localHoleContentMaxTextSize

@@ -3,24 +3,23 @@ package cn.edu.pku.treehole.ui.settings
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
-import cn.edu.pku.treehole.databinding.FragmentChangeDarkModelBinding
-import cn.edu.pku.treehole.viewmodels.ChangeDarkModelViewModel
+import cn.edu.pku.treehole.databinding.FragmentChangeDarkModeBinding
+import cn.edu.pku.treehole.viewmodels.ChangeDarkModeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChangeDarkModelFragment : BaseFragment() {
+class ChangeDarkModeFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentChangeDarkModelBinding
-    private val viewModel: ChangeDarkModelViewModel by viewModels()
+    private lateinit var binding: FragmentChangeDarkModeBinding
+    private val viewModel: ChangeDarkModeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentChangeDarkModelBinding.inflate(inflater, container, false)
+        binding = FragmentChangeDarkModeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this;
         binding.viewModel = viewModel
         setHasOptionsMenu(true)

@@ -17,19 +17,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copyright_info"
-            android:textColor="?attr/colorOnPrimary"
             android:textSize="17sp"
             android:textStyle="bold"/>
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copyright_info_content"
             android:textSize="15sp" />
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mmkv_copyright_title"
@@ -37,7 +35,7 @@
             android:textStyle="bold"/>
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mmkv_copyright_content"
@@ -45,7 +43,7 @@
 
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/glide_copyright_title"
@@ -53,7 +51,7 @@
             android:textStyle="bold"/>
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/glide_copyright_content"
@@ -61,7 +59,7 @@
 
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/open_source_title"
@@ -69,7 +67,7 @@
             android:textStyle="bold"/>
         <TextView
             android:layout_marginTop="@dimen/copyright_margin"
-            android:textColor="?attr/colorOnPrimary"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/open_source_content"
