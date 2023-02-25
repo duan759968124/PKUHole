@@ -27,17 +27,12 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="grey">#ff878787</color>
-
     <color name="hole_blue">#437BCE</color>
     <!--    <color name="hole_blue">#9A0001</color>-->
     <color name="hole_blue_2">#3E83EA</color>
 
     <color name="card_ripper_color">#2196F3</color>
 
-<!--    post dialog-->
-    <color name="dialogBackgroundColor">#fffafafa</color>
-    <color name="dialogAddonsBackgroundColor">#ffd0d0d0</color>
 
 <!--  picture selector  -->
     <color name="app_color_white_transparent">#E0DBDBDB</color>

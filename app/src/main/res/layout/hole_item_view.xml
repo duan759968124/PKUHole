@@ -71,7 +71,7 @@
                     android:layout_margin="@dimen/tag_margin"
                     android:padding="@dimen/tag_padding"
                     android:text="@={holeItemBean.label_info.tag_name}"
-                    app:hasTag="@{holeItemBean.label}"
+                    app:hasTag="@{holeItemBean.label_info.tid}"
                     android:textColor="?attr/colorOnSecondary"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@id/hole_pid"

@@ -8,10 +8,13 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import cn.edu.pku.treehole.NavigationDirections
+import cn.edu.pku.treehole.R
 import timber.log.Timber
+import java.security.AccessController.getContext
 
 /**
  *
@@ -30,8 +33,11 @@ object HoleNumberLinkHelper {
         }
 
         override fun updateDrawState(ds: TextPaint) {
+
+
             super.updateDrawState(ds)
-            ds.color = Color.BLUE
+//            ds.color = Color.MAGENTA
+            ds.color = Color.parseColor("#437BCE")
             ds.isUnderlineText = true
         }
     }

@@ -3,6 +3,7 @@ package cn.edu.pku.treehole.ui.settings
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentChangeDarkModeBinding
@@ -34,8 +35,8 @@ class ChangeDarkModeFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.button_finish -> {
-//                viewModel.finishSetDarkModel()
-//                findNavController().navigate(ChangeDarkModelFragmentDirections.actionNavChangeTextSizeToNavSettings())
+                viewModel.finishChangeDarkMode()
+                findNavController().navigate(ChangeDarkModeFragmentDirections.actionNavChangeDarkModeToNavSettings())
                 false
             }
             else -> super.onOptionsItemSelected(item)

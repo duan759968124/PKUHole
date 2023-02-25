@@ -111,6 +111,7 @@
                 app:layout_constraintTop_toBottomOf="@id/hole_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textSize="12sp"
+                android:textColor="?attr/colorOnSecondary"
                 app:postDurationFormatted="@{commentItemBean.timestamp}"
                 tools:text="@string/card_test_post_time" />
 

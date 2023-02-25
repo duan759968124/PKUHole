@@ -51,7 +51,11 @@ class CommentAdapter(
             binding.commentItemBean = listItem
             binding.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, contentTextSize.toFloat());
             binding.clickListener = clickListener
-            val selectColor = getColor(listItem, namesColorMap)?.get(0) ?: Color.WHITE
+            val selectColor: Int = if(LocalRepository.localUIDarkMode){
+                getColor(listItem, namesColorMap)?.get(1) ?:Color.WHITE
+            }else{
+                getColor(listItem, namesColorMap)?.get(0) ?:Color.WHITE
+            }
             binding.commentCsl.setBackgroundColor(selectColor)
             if(listItem.text?.isNotEmpty() == true) {
                 val commentText = listItem.text
@@ -65,10 +69,15 @@ class CommentAdapter(
                     }
                     if(firstIndex + 3 < endIndex){
                         val reName = commentText.substring(firstIndex + 3, endIndex).lowercase(Locale.getDefault())
+                        val itemNameColor: Int = if(LocalRepository.localUIDarkMode){
+                            namesColorMap[reName]?.get(1) ?: Color.WHITE
+                        }else{
+                            namesColorMap[reName]?.get(0) ?: Color.WHITE
+                        }
                         if(namesColorMap.containsKey(reName)){
                             spannableString.setSpan(
                                 BackgroundColorSpan(
-                                    namesColorMap[reName]?.get(0) ?: Color.WHITE
+                                    itemNameColor
                                 ), firstIndex + 3, endIndex, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
                             )
                         }

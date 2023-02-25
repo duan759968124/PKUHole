@@ -149,6 +149,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_nav_settings_to_nav_change_dark_mode"
+            app:destination="@id/nav_change_dark_mode"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
 
@@ -182,6 +189,24 @@
             app:popUpTo="@+id/nav_settings"
             />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_change_dark_mode"
+        android:name="cn.edu.pku.treehole.ui.settings.ChangeDarkModeFragment"
+        android:label="@string/dark_model"
+        tools:layout="@layout/fragment_change_dark_mode">
+        <action
+            android:id="@+id/action_nav_change_dark_mode_to_nav_settings"
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/nav_settings"
+            />
+    </fragment>
+
 
     <fragment
         android:id="@+id/nav_about_us"

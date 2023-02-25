@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.CommentAdapter
 import cn.edu.pku.treehole.adapters.CommentItemListener
+import cn.edu.pku.treehole.adapters.bindingAdapter.setBackgroundColor
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentHoleItemDetailBinding

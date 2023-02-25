@@ -71,7 +71,7 @@ class SettingsFragment : BaseFragment() {
 
         viewModel.navigateToChangeDarkModel.observe(viewLifecycleOwner) {
             if (it) {
-                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavChangeTextSize())
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavChangeDarkMode())
                 viewModel.onNavigateToChangeDarkModelFinish()
             }
         }

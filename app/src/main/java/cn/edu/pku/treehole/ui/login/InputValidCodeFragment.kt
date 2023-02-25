@@ -61,7 +61,7 @@ class InputValidCodeFragment : BaseFragment() {
             if (it) {
                 showToast("验证码发送成功")
                 binding.btnGetCode.isClickable = false
-                binding.btnGetCode.setBackgroundColor(resources.getColor(R.color.grey))
+                binding.btnGetCode.setBackgroundColor(resources.getColor(R.color.gray_500))
                 binding.btnGetCode.text = "已发送"
                 userViewModel.finishSendValidCode()
             }

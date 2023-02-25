@@ -35,6 +35,10 @@ object LocalRepository : MMKVOwner {
 //    @Parcelize
 //    data class User(val id: Long, val name: String) : Parcelable
 //    }
+    // 0-跟随系统 1-日间模式 2-夜间模式
+    var localDarkMode by mmkvInt(0)
+    var localUIDarkMode by mmkvBool(true)
+
 
     fun getUid(): String{
         return localUid

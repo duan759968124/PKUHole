@@ -44,6 +44,8 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
     val navigateToChangeDarkModel: LiveData<Boolean>
         get() = _navigateToChangeDarkModel
 
+    var currentDarkMode = MutableLiveData<Int?>().apply { value = LocalRepository.localDarkMode }
+
 
     fun navigateToPrivacyPolicy(){
         _navigationToPrivacyPolicy.value = true

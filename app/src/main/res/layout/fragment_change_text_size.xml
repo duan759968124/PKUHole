@@ -27,7 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e2e2e2"
+            android:background="?attr/colorSecondary"
             android:orientation="horizontal"
 
             android:layout_gravity="bottom">
@@ -38,7 +38,7 @@
                 app:setBindTextSize="@{viewModel.minContentSize}"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/gray_700"
+                android:textColor="@color/gray_500"
                 android:gravity="end"
                 android:text="A" />
             <com.google.android.material.slider.Slider
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/gray_700"
+                android:textColor="@color/gray_500"
                 android:gravity="start"
                 app:setBindTextSize="@{viewModel.maxContentSize}"
                 android:layout_marginEnd="10dp"

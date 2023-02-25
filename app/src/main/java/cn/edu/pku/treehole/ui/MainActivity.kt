@@ -1,14 +1,17 @@
 package cn.edu.pku.treehole.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import cn.edu.pku.treehole.R
+import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -137,6 +140,18 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Timber.e("main activity onStart")
+        when(AppCompatDelegate.getDefaultNightMode()){
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM ->{
+                when (applicationContext?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> LocalRepository.localUIDarkMode = true
+                    Configuration.UI_MODE_NIGHT_NO -> LocalRepository.localUIDarkMode = false
+                    else -> {} //covers Configuration.UI_MODE_NIGHT_UNDEFINED
+                }
+            }
+            AppCompatDelegate.MODE_NIGHT_YES ->  LocalRepository.localUIDarkMode = true
+            AppCompatDelegate.MODE_NIGHT_NO ->  LocalRepository.localUIDarkMode = false
+        }
+
 //        viewModel.checkLoginStatus()
 //        navHeaderBinding.navHeaderUserName.text = LocalRepository.getUserInfo().name
 //        navHeaderBinding.navHeaderUserDepartment.text = LocalRepository.getUserInfo().department

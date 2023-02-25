@@ -103,5 +103,9 @@
     <string name="no_update">暂无更新</string>
     <string name="dark_model">深色模式</string>
     <string name="dark_model_text">跟随系统</string>
+    <string name="follow_system">跟随系统</string>
+    <string name="follow_system_remind">开启后，将跟随系统打开或关闭深色模式</string>
+    <string name="hand_select">手动选择</string>
+    <string name="normal_mode">普通模式</string>
 
 </resources>

@@ -56,8 +56,8 @@ fun bindHasContentText(view: View, text: String?) {
 }
 
 @BindingAdapter("hasTag")
-fun bindHasTag(view: View, labelId: Int?) {
-    view.visibility = if (labelId == null || labelId == 0) {
+fun bindHasTag(view: View, labelId: Long?) {
+    view.visibility = if (labelId == null || labelId == 0L) {
         View.GONE
     } else {
         View.VISIBLE
@@ -195,35 +195,65 @@ fun setBackgroundColor(view: ConstraintLayout, commentItemBean: CommentItemBean?
         }
         when(commentItemBean.name.lowercase(Locale.getDefault())){
             "洞主" ->{
-                view.setBackgroundColor(arrayListOf(
-                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
-                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
-                )[0])
+                if(LocalRepository.localUIDarkMode){
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
+                        ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
+                    )[1])
+                }else{
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
+                        ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
+                    )[0])
+                }
+
             }
             "alice" ->{
                 randomH += golden_ratio_conjugate
                 randomH %= 1
-                view.setBackgroundColor(arrayListOf(
-                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
-                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
-                )[0])
+                if(LocalRepository.localUIDarkMode){
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                    )[1])
+                }else{
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                    )[0])
+                }
+
             }
             "bob" ->{
                 randomH += golden_ratio_conjugate
                 randomH %= 1
                 randomH += golden_ratio_conjugate
                 randomH %= 1
-                view.setBackgroundColor(arrayListOf(
-                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
-                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
-                )[0])
+                if(LocalRepository.localUIDarkMode){
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                    )[1])
+                }else{
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                    )[0])
+                }
             }
             else ->{
                 randomH = Math.random()
-                view.setBackgroundColor(arrayListOf(
-                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
-                    ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
-                )[0])
+                if(LocalRepository.localUIDarkMode){
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                    )[1])
+                }else{
+                    view.setBackgroundColor(arrayListOf(
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.5f, 0.9f)),
+                        ColorUtils.HSLToColor(floatArrayOf((randomH *360).toFloat(), 0.6f, 0.2f))
+                    )[0])
+                }
             }
         }
     }
@@ -253,3 +283,4 @@ fun setBackgroundAttr(view: View , isSelected: Boolean) {
         view.setBackgroundColor(view.context.resources.getColor(R.color.gray_500));
     }
 }
+
