@@ -71,6 +71,7 @@
                 android:textIsSelectable="true"
                 binding_hole_text="@{commentItemBean.text}"
                 android:autoLink="web"
+                android:textColorLink="@color/hole_blue"
                 android:textColor="?attr/colorOnSecondary"
                 tools:text="@string/hole_test_text" />
 

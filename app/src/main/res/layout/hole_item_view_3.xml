@@ -157,6 +157,7 @@
                     android:layout_marginEnd="@dimen/card_inside_margin_large"
                     android:layout_marginBottom="@dimen/card_inside_margin_large"
                     android:autoLink="web"
+                    android:textColorLink="@color/hole_blue"
                     android:linksClickable="false"
                     android:padding="@dimen/card_inside_padding"
                     android:textColor="?attr/colorOnSecondary"

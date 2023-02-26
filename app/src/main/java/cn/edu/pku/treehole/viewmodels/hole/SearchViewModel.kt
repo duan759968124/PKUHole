@@ -3,7 +3,6 @@ package cn.edu.pku.treehole.viewmodels.hole
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
@@ -12,9 +11,9 @@ import cn.edu.pku.treehole.data.hole.HoleRepository
 import cn.edu.pku.treehole.data.hole.asDatabaseBean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
