@@ -59,14 +59,21 @@ class SearchViewModel @Inject internal constructor(
                 val selectedTagId = database.getTagIdByName(searchTagName).first()
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let { _ ->
+                    var isOnlyPidType = false
                     val response =
                         if (keywords[0] == '#' && (keywords.length == 7 || keywords.length == 8)) {
+                            isOnlyPidType = true
                             database.searchPid(pid = keywords.substring(1))
                         } else {
+                            isOnlyPidType = false
                             database.search(keywords = keywords, page = currentPage + 1, labelId = selectedTagId)
+
                         }
                     currentPage = response.data?.current_page ?: 1
-                    val searchAllList =
+                    val searchAllList = if(isOnlyPidType){
+                        response.data?.data!!.map { it.asDatabaseBean() }
+                    }
+                    else {
                         searchList.value?.plus(response.data?.data!!.map {
 //                            if(!it.url.isNullOrEmpty()){
 //                                val pictureResponse =  database.getPictureData(pid = it.pid)
@@ -76,6 +83,7 @@ class SearchViewModel @Inject internal constructor(
 //                            }
                             it.asDatabaseBean()
                         })
+                    }
                     searchList.postValue(searchAllList)
                 }
             }catch (e: Exception){

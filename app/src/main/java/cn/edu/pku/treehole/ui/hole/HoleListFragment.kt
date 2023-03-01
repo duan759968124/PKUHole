@@ -188,7 +188,7 @@ class HoleListFragment : BaseFragment() {
             Timber.e("refreshStatus=$it")
             if (it) {
                 Timber.e("show refresh")
-//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
 //                showLoading()
             } else {
                 Timber.e("hide refresh")

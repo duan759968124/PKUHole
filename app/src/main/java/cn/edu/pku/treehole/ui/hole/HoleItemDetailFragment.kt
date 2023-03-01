@@ -26,6 +26,9 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 @AndroidEntryPoint
@@ -58,6 +61,47 @@ class HoleItemDetailFragment : BaseFragment() {
     }
 
     override fun initObserve() {
+        // 刷新监听
+        binding.fragmentDetailListSrl.setOnRefreshListener {
+            viewModel.refreshCommentList()
+            Timber.e("监听到下拉刷新了")
+//            it.finishRefresh()
+        }
+        // 加载更多监听
+        binding.fragmentDetailListSrl.setOnLoadMoreListener {
+            viewModel.fetchCommentDetailFromNetV2()
+            Timber.e("监听到加载更多了")
+//            it.finishLoadMore(false)
+        }
+
+        // 监听刷新状态变化
+        viewModel.refreshStatus.observe(viewLifecycleOwner) {
+            Timber.e("refreshStatus=$it")
+            if (it) {
+                Timber.e("show refresh")
+//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
+            } else {
+                Timber.e("hide refresh")
+//                dismissLoading()
+                binding.fragmentDetailListSrl.finishRefresh(500)
+
+            }
+        }
+
+        // 监听加载更多状态
+        viewModel.loadingStatus.observe(viewLifecycleOwner) {
+            if(it){
+                Timber.e("show loading")
+//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
+            }else{
+                Timber.e("hide loading")
+//                dismissLoading()
+                binding.fragmentDetailListSrl.finishLoadMore(1000)
+            }
+        }
+
         // 监听holeList变化并更新UI
         viewModel.commentList.observe(viewLifecycleOwner) {
             it?.let {
@@ -76,13 +120,6 @@ class HoleItemDetailFragment : BaseFragment() {
             }
         }
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner) {
-            if (it) {
-                showLoading()
-            } else {
-                dismissLoading()
-            }
-        }
 
         // 监听是否显示对话框
         viewModel.replyDialogToName.observe(viewLifecycleOwner) {
@@ -152,7 +189,8 @@ class HoleItemDetailFragment : BaseFragment() {
     }
 
     override fun initData() {
-        viewModel.fetchCommentDetailFromNet()
+//        viewModel.fetchCommentDetailFromNet()
+        viewModel.fetchCommentDetailFromNetV2()
     }
 
     @SuppressLint("CheckResult")

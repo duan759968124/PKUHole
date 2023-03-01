@@ -1,6 +1,7 @@
 package cn.edu.pku.treehole.data.hole
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -34,7 +35,22 @@ data class CommentItemBean (
 
     @field:SerializedName("name")
     @ColumnInfo(name = "name")
-    var name: String,
+    var name: String?,
+
+    @field:SerializedName("comment_id")
+    @ColumnInfo(name = "comment_id")
+    var commentId: Long?,
+
+    @field:SerializedName("quote")
+    @Embedded(prefix = "quote_")
+    var quote: QuoteBean?,
+
+//    "quote": {
+//    "pid": 4645840,
+//    "text": "fasdffafasdfsafd",
+//    "name_tag": "Bob",
+//    "name": null
+//}
 
     @ColumnInfo(name = "random_h", defaultValue = "0.0")
     var randomH: Double,

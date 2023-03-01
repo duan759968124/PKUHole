@@ -108,4 +108,6 @@
     <string name="hand_select">手动选择</string>
     <string name="normal_mode">普通模式</string>
 
+    <string name="comment_text_format">[%1$s] %2$s</string>
+
 </resources>

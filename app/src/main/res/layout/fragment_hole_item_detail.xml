@@ -11,93 +11,107 @@
             type="cn.edu.pku.treehole.viewmodels.hole.HoleItemDetailViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/fragment_detail_list_srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.hole.HoleItemDetailFragment">
 
-        <TextView
-            android:id="@+id/detail_origin_title"
+        <com.scwang.smart.refresh.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/detail_origin_title"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content" />
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:onClick="@{()->viewModel.onHoleItemClicked()}"-->
-<!--            >-->
-            <include
-                android:id="@+id/origin_card"
-                android:layout_marginStart="@dimen/card_inside_margin"
-                android:layout_marginEnd="@dimen/card_inside_margin"
-                android:layout_marginBottom="5dp"
-                layout="@layout/hole_item_view"
-                bind:pictureClickListener="@{viewModel.pictureClickListener}"
-                bind:clickListener="@{viewModel.holeItemClickListener}"
-                bind:holeItemBean="@{viewModel.currentHoleItem}"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".ui.hole.HoleItemDetailFragment">
 
-<!--        </LinearLayout>-->
+                <TextView
+                    android:id="@+id/detail_origin_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/detail_origin_title"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+                <!--        <LinearLayout-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="match_parent"-->
+                <!--            android:onClick="@{()->viewModel.onHoleItemClicked()}"-->
+                <!--            >-->
+                <include
+                    android:id="@+id/origin_card"
+                    layout="@layout/hole_item_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/card_inside_margin"
+                    android:layout_marginEnd="@dimen/card_inside_margin"
+                    android:layout_marginBottom="5dp"
+                    bind:clickListener="@{viewModel.holeItemClickListener}"
+                    bind:holeItemBean="@{viewModel.currentHoleItem}"
+                    bind:pictureClickListener="@{viewModel.pictureClickListener}" />
 
-        <TextView
-            android:id="@+id/detail_comment_title"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/detail_comment_title"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/detail_comment_sort"
-            android:gravity="end"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@{viewModel.curCommentSort}"
-            android:onClick="@{()-> viewModel.changeCommentItemSort()}"
-            tools:text="@string/detail_comment_title"
-            android:textSize="13sp"
-            android:textColor="@color/hole_blue"/>
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/detail_comment_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/detail_comment_title"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-<!--        <com.scwang.smart.refresh.layout.SmartRefreshLayout-->
-<!--            android:id="@+id/fragment_hole_list_srl"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+                    <TextView
+                        android:id="@+id/detail_comment_sort"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:onClick="@{()-> viewModel.changeCommentItemSort()}"
+                        android:text="@{viewModel.curCommentSort}"
+                        android:textColor="@color/hole_blue"
+                        android:textSize="13sp"
+                        tools:text="@string/detail_comment_title" />
+                </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_comment_list_recycler"
+                <!--        <com.scwang.smart.refresh.layout.SmartRefreshLayout-->
+                <!--            android:id="@+id/fragment_hole_list_srl"-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="match_parent">-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_comment_list_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/card_inside_margin"
+                    android:layout_marginEnd="@dimen/card_inside_margin"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/comment_item_view" />
+                <!--        </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/card_inside_margin"
-            android:layout_marginEnd="@dimen/card_inside_margin"
-            tools:itemCount="5"
-            tools:listitem="@layout/comment_item_view" />
-<!--        </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
-    </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+            android:layout_height="wrap_content" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </layout>

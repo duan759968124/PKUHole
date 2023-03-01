@@ -193,7 +193,7 @@ fun setBackgroundColor(view: ConstraintLayout, commentItemBean: CommentItemBean?
         }else{
             commentItemBean.randomH
         }
-        when(commentItemBean.name.lowercase(Locale.getDefault())){
+        when(commentItemBean.name?.lowercase(Locale.getDefault())){
             "洞主" ->{
                 if(LocalRepository.localUIDarkMode){
                     view.setBackgroundColor(arrayListOf(

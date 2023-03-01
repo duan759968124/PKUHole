@@ -39,6 +39,11 @@ interface CommentDao {
     @Query("Select * from comment_table where pid = :key ORDER BY cid DESC")
     fun getCommentListByPidDesc(key: Long): Flow<List<CommentItemBean>>
 
+
+    @Query("DELETE FROM comment_table where pid = :key")
+    suspend fun clearCommentByPId(key: Long)
+
+
     @Query("DELETE FROM comment_table")
     suspend fun clear()
 

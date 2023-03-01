@@ -58,9 +58,9 @@ class CommentAdapter(
             }
             binding.commentCsl.setBackgroundColor(selectColor)
             if(listItem.text?.isNotEmpty() == true) {
-                val commentText = listItem.text
-                val spannableString = SpannableString(listItem.text)
-                if (commentText?.contains("Re") == true) {
+                val commentText = "[" + listItem.name  + "] " + listItem.text
+                val spannableString = SpannableString(commentText)
+                if (commentText.contains("Re")) {
                     val firstIndex = commentText.indexOf("Re")
                     val endIndex = if(commentText.indexOf(":") > 0) {
                         commentText.indexOf(":")
@@ -84,8 +84,8 @@ class CommentAdapter(
 
                     }
                 }
-                commentText?.let { HoleNumberLinkHelper.regexHoleText(it) }
-                    ?.forEach { (value, indexRange) ->
+                commentText.let { HoleNumberLinkHelper.regexHoleText(it) }
+                    .forEach { (value, indexRange) ->
                         val pid = value.substring(0)
                         Timber.e("$pid  $indexRange")
                         spannableString.setSpan(
@@ -109,7 +109,7 @@ class CommentAdapter(
                     commentItemBean.randomH
                 }
             }
-            val name = commentItemBean.name.lowercase(Locale.getDefault())
+            val name = commentItemBean.name?.lowercase(Locale.getDefault())?:"洞主"
             if(name == "洞主") {
                 return arrayListOf(
                     ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),

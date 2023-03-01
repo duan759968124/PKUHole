@@ -15,7 +15,7 @@ import cn.edu.pku.treehole.utilities.DATABASE_NAME
 @Database(
 //    entities = [HoleListItemBean::class, AttentionItemBean::class],
     entities = [TagBean::class, HoleItemBean::class, CommentItemBean::class],
-    version = 1,
+    version = 6,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

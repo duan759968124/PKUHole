@@ -20,11 +20,11 @@ class ChangeBaseUrlInterceptor : Interceptor {
 //        if(!isNewLogin){
 //            return chain.proceed(oldRequest)
 //        }
-        val isNewLogin = oldHttpUrl.toString().contains("api/encrypt_login")
+//        val isNewLogin = oldHttpUrl.toString().contains("api/encrypt_login")
+        val isNewLogin = true
         if(!isNewLogin){
             return chain.proceed(oldRequest)
         }
-        // 可能需要向PKUAndroid一样添加headerValues属性值？？需要向多个服务器处理的链接比较多的情况
         val newBaseUrl = TEST_HOST_ADDRESS.toHttpUrl()
         val newUrlBuilder = oldHttpUrl
             .newBuilder()

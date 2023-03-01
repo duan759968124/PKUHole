@@ -3,6 +3,7 @@ package cn.edu.pku.treehole.api
 import android.annotation.SuppressLint
 import cn.edu.pku.treehole.BuildConfig
 import cn.edu.pku.treehole.api.interceptor.AddHeaderInterceptor
+import cn.edu.pku.treehole.api.interceptor.ChangeBaseUrlInterceptor
 import cn.edu.pku.treehole.api.interceptor.LocalCookieJar
 import cn.edu.pku.treehole.data.EmptyBean
 import cn.edu.pku.treehole.data.HoleManagementPracticeBean
@@ -114,12 +115,29 @@ interface HoleApiService {
         @Query("limit") limit: Int = 100000,
     ): HoleApiResponse<HoleListBody<CommentItemBean>?>
 
+    @GET("api/pku_comment_v3/{pid}")
+    suspend fun getCommentListV3(
+        @Path("pid") pid: Long,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 30,
+        @Query("sort") sort: String = "asc",
+    ): HoleApiResponse<HoleListBody<CommentItemBean>?>
+
     // 回复评论
     @FormUrlEncoded
     @POST("/api/pku_comment")
     suspend fun sendReplyComment(
         @Field("pid") pid: Long,
         @Field("text") text: String,
+    ): HoleApiResponse<EmptyBean?>
+
+    // 回复评论
+    @FormUrlEncoded
+    @POST("/api/pku_comment_v3")
+    suspend fun sendReplyCommentV3(
+        @Field("pid") pid: Long,
+        @Field("text") text: String,
+        @Field("comment_id") commentId: Long?,
     ): HoleApiResponse<EmptyBean?>
 
     // Attention状态变化【关注或者取消关注】
@@ -177,7 +195,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-//                .addInterceptor(ChangeBaseUrlInterceptor())
+                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())

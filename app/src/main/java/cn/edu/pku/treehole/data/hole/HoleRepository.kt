@@ -57,7 +57,7 @@ class HoleRepository @Inject constructor(
 //                }
                 if (it.reply > 0) {
                     //存在评论
-                    val holeResponse = launchRequest { holeApi.getCommentList(pid = it.pid) }
+                    val holeResponse = launchRequest { holeApi.getCommentListV3(pid = it.pid) }
                     val randomH = Math.random()
                     holeResponse.data?.data?.map { commentItem ->
                         commentItem.randomH = randomH
@@ -79,6 +79,8 @@ class HoleRepository @Inject constructor(
         }
     }
 
+
+
     suspend fun refreshHoleListFromNetToDatabase() {
         withContext(Dispatchers.IO) {
 //            Timber.e("getFirstPageOrRefreshHoleListTimestamp: $getFirstPageOrRefreshHoleListTimestamp")
@@ -88,7 +90,7 @@ class HoleRepository @Inject constructor(
                 it.isHole = 1
                 it.isRead = 0
                 if (it.reply > 0) {
-                    val holeResponse = launchRequest { holeApi.getCommentList(pid = it.pid) }
+                    val holeResponse = launchRequest { holeApi.getCommentListV3(pid = it.pid) }
                     val randomH = Math.random()
                     holeResponse.data?.data?.map { commentItem ->
                         commentItem.randomH = randomH
@@ -120,7 +122,7 @@ class HoleRepository @Inject constructor(
 //                }
                 if (it.reply > 0) {
                     //存在评论
-                    val holeResponse = launchRequest { holeApi.getCommentList(pid = it.pid) }
+                    val holeResponse = launchRequest { holeApi.getCommentListV3(pid = it.pid) }
                     val randomH = Math.random()
                     holeResponse.data?.data?.map { commentItem ->
                         commentItem.randomH = randomH
@@ -257,6 +259,21 @@ class HoleRepository @Inject constructor(
         }
     }
 
+    suspend fun getCommentListV3FromNetToDatabase(pid: Long, page: Int, sort: String) {
+        withContext(Dispatchers.IO) {
+            val holeResponse = launchRequest { holeApi.getCommentListV3(pid = pid, page= page, sort = sort) }
+            val randomH = Math.random()
+            holeResponse.data?.data?.map {
+                it.randomH = randomH
+            }
+            holeResponse.data?.data.let {
+                if (it != null) {
+                    insertCommentList(it)
+                }
+            }
+        }
+    }
+
     // 变更关注状态，重新获取这一条的记录并塞到数据库中
     suspend fun switchAttentionStatus(
         holeItemBean: HoleItemBean,
@@ -312,6 +329,10 @@ class HoleRepository @Inject constructor(
         tagDao.clear()
     }
 
+    suspend fun clearCommentByPId(pid: Long){
+        commentDao.clearCommentByPId(key = pid)
+    }
+
 
 //    /**
 //     * @param stateLiveData 带有请求状态的LiveData
@@ -335,6 +356,10 @@ class HoleRepository @Inject constructor(
      */
     suspend fun sendReplyComment(pid: Long, comment: String): HoleApiResponse<EmptyBean?> {
         return launchRequest { holeApi.sendReplyComment(pid = pid, text = comment) }
+    }
+
+    suspend fun sendReplyCommentV3(pid: Long, comment: String, commentId: Long?): HoleApiResponse<EmptyBean?> {
+        return launchRequest { holeApi.sendReplyCommentV3(pid = pid, text = comment, commentId = commentId) }
     }
 
     /**

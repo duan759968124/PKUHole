@@ -55,8 +55,42 @@ class HoleItemDetailViewModel @Inject constructor(
         private const val HOLE_ITEM_DETAIL_PID = "pid"
     }
 
-    init {
 
+    var currentPage : Int = 1
+    fun fetchCommentDetailFromNetV2(){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // 第一次是自动加载，显示refresh
+                // 后续的请求都是加载更多数据导致的
+                if(currentPage == 1){
+                    // 首次进入的话删除掉sql数据库
+                    database.clearCommentByPId(pid = pid)
+                    refreshStatus.postValue(true)
+                    // 首次进入删除数据库并重新获取标签数据存放到数据库中
+                    val token = getValidTokenWithFlow().singleOrNull()
+                    token?.let {
+                        database.getOneHoleFromNetToDatabase(pid)
+                        database.getCommentListV3FromNetToDatabase(pid, page = currentPage, sort = if(_changeSortFlag.value == true)  "asc" else "desc")
+                    }
+                }else{
+                    loadingStatus.postValue(true)
+                }
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let { database.getCommentListV3FromNetToDatabase(pid, page = currentPage, sort =if(_changeSortFlag.value == true)  "asc" else "desc") }
+                currentPage ++
+            }catch (e: Exception){
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
+            }finally {
+                if(currentPage == 2){
+                    refreshStatus.postValue(false)
+                } else {
+                    loadingStatus.postValue(false)
+                }
+            }
+        }
     }
 
     @SuppressLint("TimberExceptionLogging")
@@ -67,7 +101,8 @@ class HoleItemDetailViewModel @Inject constructor(
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
                     database.getOneHoleFromNetToDatabase(pid)
-                    database.getCommentListFromNetToDatabase(pid)
+//                    database.getCommentListFromNetToDatabase(pid)
+                    database.getCommentListV3FromNetToDatabase(pid, page = 1, sort = "asc")
                 }
 
             }catch (e: Exception){
@@ -99,8 +134,12 @@ class HoleItemDetailViewModel @Inject constructor(
     private val _changeSortFlag: MutableLiveData<Boolean> by lazy{MutableLiveData(true)}
     val commentList =_changeSortFlag.switchMap { _allComment ->
         when(_allComment){
-            true -> database.getCommentList(pid).asLiveData()
-            else -> database.getCommentListDesc(pid).asLiveData()
+            true -> {
+                database.getCommentList(pid).asLiveData()
+            }
+            else -> {
+                database.getCommentListDesc(pid).asLiveData()
+            }
         }
     }
     val curCommentSort = _changeSortFlag.switchMap { _showText ->
@@ -112,6 +151,25 @@ class HoleItemDetailViewModel @Inject constructor(
 
     fun changeCommentItemSort(){
         _changeSortFlag.value = _changeSortFlag.value != true
+//       清理数据，设置正逆参数，
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                database.clearCommentByPId(pid)
+                currentPage = 1
+                fetchCommentDetailFromNetV2()
+//                database.getCommentListV3FromNetToDatabase(pid, 1, sort = if(_changeSortFlag.value == true)  "asc" else "desc")
+            }catch (e: Exception){
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
+            } finally {
+
+            }
+
+        }
+
+
     }
 
     fun onCommentItemClicked(commentItem: CommentItemBean) {
@@ -138,7 +196,8 @@ class HoleItemDetailViewModel @Inject constructor(
                     response.data?.let {
                         //重新获取树洞数据和评论数据
                         database.getOneHoleFromNetToDatabase(pid)
-                        database.getCommentListFromNetToDatabase(pid)
+//                        database.getCommentListFromNetToDatabase(pid)
+                        database.getCommentListV3FromNetToDatabase(pid, page = 1, sort = "asc")
                     }
                 }
             }catch (e: Exception){
@@ -204,6 +263,31 @@ class HoleItemDetailViewModel @Inject constructor(
 //    fun onReplyResponseFinished() {
 //        _replyResponse.value = null
 //    }
+
+    // 刷新数据
+    @SuppressLint("TimberExceptionLogging")
+    fun refreshCommentList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                refreshStatus.postValue(true)
+                val token = getValidTokenWithFlow().singleOrNull()
+                token?.let {
+//                    database.refreshHoleListFromNetToDatabase()
+                    database.getOneHoleFromNetToDatabase(pid)
+                    database.clearCommentByPId(pid)
+                    currentPage = 1
+                    fetchCommentDetailFromNetV2()
+                }
+            }catch (e: Exception){
+                when(e){
+                    is ApiException -> handleHoleFailResponse(e)
+                    else -> errorStatus.postValue(e)
+                }
+            }finally {
+                refreshStatus.postValue(false)
+            }
+        }
+    }
 
 }
 
