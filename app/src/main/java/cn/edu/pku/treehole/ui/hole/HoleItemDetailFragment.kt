@@ -98,7 +98,7 @@ class HoleItemDetailFragment : BaseFragment() {
             }else{
                 Timber.e("hide loading")
 //                dismissLoading()
-                binding.fragmentDetailListSrl.finishLoadMore(1000)
+                binding.fragmentDetailListSrl.finishLoadMore(500)
             }
         }
 
@@ -126,7 +126,7 @@ class HoleItemDetailFragment : BaseFragment() {
             if (it.isNullOrEmpty()) {
                 showReplyDialog("")
             } else {
-                val prefillStr = "Re $it: "
+                val prefillStr = "$it: "
                 showReplyDialog(prefillStr)
             }
 //            viewModel.onCommentDialogFinished()
@@ -197,10 +197,10 @@ class HoleItemDetailFragment : BaseFragment() {
     fun showReplyDialog(paramString: String?) {
         context?.let {
             MaterialDialog(it).show {
-                title(R.string.reply)
+                title(text = "回复$paramString")
                 input(
                     hintRes = R.string.hint_reply_text,
-                    prefill = paramString,
+//                    prefill = paramString,
                     inputType = InputType.TYPE_CLASS_TEXT or
                             InputType.TYPE_TEXT_FLAG_MULTI_LINE,
                 ) { dialog, text ->

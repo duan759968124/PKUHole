@@ -13,6 +13,7 @@ import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.HoleItemBean
+import cn.edu.pku.treehole.data.hole.QuoteBean
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.convertDurationToFormatted
 import cn.edu.pku.treehole.utilities.golden_ratio_conjugate
@@ -172,6 +173,15 @@ fun showLzIcon(view: ImageView, isLz: Int?) {
         View.VISIBLE
     } else {
         View.GONE
+    }
+}
+
+@BindingAdapter("showQuote")
+fun showQuote(view: TextView, quote: QuoteBean?) {
+    view.visibility = if (quote == null) {
+        View.GONE
+    } else {
+        View.VISIBLE
     }
 }
 

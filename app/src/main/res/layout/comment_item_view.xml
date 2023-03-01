@@ -75,6 +75,26 @@
 <!--            android:text="@{commentItemBean.text}"-->
 
             <TextView
+                android:id="@+id/hole_quote"
+                android:layout_marginTop="@dimen/card_inside_margin"
+                android:layout_marginStart="@dimen/card_inside_margin_max_large"
+                android:layout_marginEnd="@dimen/card_inside_margin_max_large"
+                android:padding="@dimen/card_inside_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/card_line_one"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="12sp"
+                app:showQuote="@{commentItemBean.quote}"
+                android:text="@{@string/comment_text_format(commentItemBean.quote.name_tag, commentItemBean.quote.text)}"
+                android:textIsSelectable="true"
+                android:background="?attr/colorSecondary"
+                android:textColor="?attr/colorOnSecondary"
+                tools:text="@string/hole_test_text" />
+
+
+            <TextView
                 android:id="@+id/hole_content"
                 android:layout_marginStart="@dimen/card_inside_margin"
                 android:layout_marginTop="@dimen/card_inside_margin"
@@ -83,7 +103,7 @@
                 android:padding="@dimen/card_inside_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/card_line_one"
+                app:layout_constraintTop_toBottomOf="@id/hole_quote"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 tools:textSize="14sp"

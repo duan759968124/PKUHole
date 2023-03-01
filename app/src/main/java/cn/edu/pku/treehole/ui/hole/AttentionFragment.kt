@@ -86,7 +86,7 @@ class AttentionFragment : BaseFragment() {
             }else{
                 Timber.e("hide refresh")
 //                dismissLoading()
-                binding.fragmentAttentionSrl.finishRefresh(1000)
+                binding.fragmentAttentionSrl.finishRefresh(500)
             }
         })
 

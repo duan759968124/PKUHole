@@ -41,6 +41,7 @@
     <string name="hole_post_commmit">发布</string>
     <string name="fab_scrolling_behavior">cn.edu.pku.pkuhole.utilities.ScrollingFabBehavior</string>
     <string name="reply">回复</string>
+    <string name="reply_format">回复%s</string>
     <string name="cancelReply">取消</string>
     <string name="hint_reply_text">请输入回复内容</string>
     <string name="star">关注</string>
@@ -109,5 +110,6 @@
     <string name="normal_mode">普通模式</string>
 
     <string name="comment_text_format">[%1$s] %2$s</string>
+
 
 </resources>

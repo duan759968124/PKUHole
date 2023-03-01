@@ -35,6 +35,7 @@
     <dimen name="copyright_margin">14dp</dimen>
     <dimen name="tag_padding">4dp</dimen>
     <dimen name="tag_margin">4dp</dimen>
+    <dimen name="card_inside_margin_max_large">16dp</dimen>
 
 
 </resources>

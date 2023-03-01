@@ -90,7 +90,7 @@ class SearchFragment : BaseFragment() {
             }else{
                 Timber.e("hide loading")
 //                dismissLoading()
-                binding.fragmentSearchSrl.finishLoadMore(1000)
+                binding.fragmentSearchSrl.finishLoadMore(500)
             }
         })
 

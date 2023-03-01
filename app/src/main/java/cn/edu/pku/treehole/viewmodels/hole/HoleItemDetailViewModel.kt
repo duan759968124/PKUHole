@@ -42,7 +42,6 @@ class HoleItemDetailViewModel @Inject constructor(
         get() = _replyDialogToName
 
     private var _previewPicture = MutableLiveData(0L)
-
     val previewPicture: LiveData<Long>
         get() = _previewPicture
 
@@ -50,11 +49,11 @@ class HoleItemDetailViewModel @Inject constructor(
     val responseMsg: LiveData<String?>
         get() = _responseMsg
 
+    private var _clickCommentId =  MutableLiveData(0L)
 
     companion object {
         private const val HOLE_ITEM_DETAIL_PID = "pid"
     }
-
 
     var currentPage : Int = 1
     fun fetchCommentDetailFromNetV2(){
@@ -118,6 +117,7 @@ class HoleItemDetailViewModel @Inject constructor(
 
     val holeItemClickListener = HoleItemListener{
         _replyDialogToName.value = ""
+        _clickCommentId.value = 0L
     }
 
     val pictureClickListener = PictureClickListener{
@@ -175,6 +175,7 @@ class HoleItemDetailViewModel @Inject constructor(
     fun onCommentItemClicked(commentItem: CommentItemBean) {
         // 弹框
         _replyDialogToName.value = commentItem.name
+        _clickCommentId.value = commentItem.cid
     }
 
 
@@ -185,19 +186,24 @@ class HoleItemDetailViewModel @Inject constructor(
 
     fun sendReplyComment(text: CharSequence) {
         Timber.e("viewModel reply text: %s", text)
+        Timber.e("viewModel reply clickCommentId: %d", _clickCommentId.value)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _responseMsg.postValue(null)
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
-                    val response = database.sendReplyComment(pid, text.toString())
+//                    val response = database.sendReplyComment(pid, text.toString())
+                    val response = database.sendReplyCommentV3(pid, text.toString(), commentId = if(_clickCommentId.value == 0L) null else _clickCommentId.value)
                     Timber.e("reply result %s", response.toString())
                     _responseMsg.postValue("回复成功")
                     response.data?.let {
                         //重新获取树洞数据和评论数据
                         database.getOneHoleFromNetToDatabase(pid)
 //                        database.getCommentListFromNetToDatabase(pid)
-                        database.getCommentListV3FromNetToDatabase(pid, page = 1, sort = "asc")
+//                        database.getCommentListV3FromNetToDatabase(pid, page = 1, sort = "asc")
+                        database.clearCommentByPId(pid)
+                        currentPage = 1
+                        fetchCommentDetailFromNetV2()
                     }
                 }
             }catch (e: Exception){

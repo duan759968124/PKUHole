@@ -210,7 +210,7 @@ class HoleListFragment : BaseFragment() {
             }else{
                 Timber.e("hide loading")
 //                dismissLoading()
-                binding.fragmentHoleListSrl.finishLoadMore(1000)
+                binding.fragmentHoleListSrl.finishLoadMore(500)
             }
         })
 
