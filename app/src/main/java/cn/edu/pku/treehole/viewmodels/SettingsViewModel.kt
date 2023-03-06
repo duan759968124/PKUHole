@@ -44,8 +44,13 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
     val navigateToChangeDarkModel: LiveData<Boolean>
         get() = _navigateToChangeDarkModel
 
+    private var _navigateToSetQuoteComment = MutableLiveData<Boolean>()
+    val navigateToSetQuoteComment: LiveData<Boolean>
+        get() = _navigateToSetQuoteComment
+
     var currentDarkMode = MutableLiveData<Int?>().apply { value = LocalRepository.localDarkMode }
 
+    var currentSetQuote = MutableLiveData<Boolean?>().apply { value = LocalRepository.localSetQuote }
 
     fun navigateToPrivacyPolicy(){
         _navigationToPrivacyPolicy.value = true
@@ -61,6 +66,14 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
 
     fun onNavigateToChangeDarkModelFinish(){
         _navigateToChangeDarkModel.value = false
+    }
+
+    fun navigateToSetQuoteComment(){
+        _navigateToSetQuoteComment.value = true
+    }
+
+    fun onNavigateToSetQuoteCommentFinish(){
+        _navigateToSetQuoteComment.value = false
     }
 
     fun navigateToChangeTextSize(){

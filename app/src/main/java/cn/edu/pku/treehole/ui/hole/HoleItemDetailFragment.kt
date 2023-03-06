@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.CommentAdapter
 import cn.edu.pku.treehole.adapters.CommentItemListener
-import cn.edu.pku.treehole.adapters.bindingAdapter.setBackgroundColor
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.FragmentHoleItemDetailBinding
@@ -26,9 +25,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnExternalPreviewEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
 
 
 @AndroidEntryPoint
@@ -69,7 +66,8 @@ class HoleItemDetailFragment : BaseFragment() {
         }
         // 加载更多监听
         binding.fragmentDetailListSrl.setOnLoadMoreListener {
-            viewModel.fetchCommentDetailFromNetV2()
+//            viewModel.fetchCommentDetailFromNetV2()
+            viewModel.loadMoreData()
             Timber.e("监听到加载更多了")
 //            it.finishLoadMore(false)
         }
@@ -99,6 +97,18 @@ class HoleItemDetailFragment : BaseFragment() {
                 Timber.e("hide loading")
 //                dismissLoading()
                 binding.fragmentDetailListSrl.finishLoadMore(500)
+            }
+        }
+
+        viewModel.loadMoreStatus.observe(viewLifecycleOwner) {
+            if(it){
+                Timber.e("show load more")
+//                binding.fragmentHoleListSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
+            }else{
+                Timber.e("hide load more")
+//                dismissLoading()
+                binding.fragmentDetailListSrl.finishLoadMoreWithNoMoreData()
             }
         }
 

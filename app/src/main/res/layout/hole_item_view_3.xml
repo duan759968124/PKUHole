@@ -258,7 +258,7 @@
             app:layout_constraintTop_toBottomOf="@id/hole_item_card"
             app:firstShow="@{holeInfoBean.holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
-            bind:commentItemBean="@{holeInfoBean.commentItemBean1}"/>
+            bind:commentItemBean="@{holeInfoBean.commentItemBeanHole1}"/>
 
         <include
             android:id="@+id/comment_card_2"
@@ -275,7 +275,7 @@
             app:layout_constraintTop_toBottomOf="@id/comment_card_1"
             app:secondShow="@{holeInfoBean.holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
-            bind:commentItemBean="@{holeInfoBean.commentItemBean2}"/>
+            bind:commentItemBean="@{holeInfoBean.commentItemBeanHole2}"/>
 
         <ImageView
             android:layout_width="10dp"

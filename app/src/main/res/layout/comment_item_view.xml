@@ -38,7 +38,7 @@
                 android:id="@+id/comment_lz_title"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:showLzIcon="@{commentItemBean.islz}"
+                app:showLzIcon="@{commentItemBean.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/dz" />

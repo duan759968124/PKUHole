@@ -7,7 +7,7 @@
 
         <variable
             name="commentItemBean"
-            type="cn.edu.pku.treehole.data.hole.CommentItemBean" />
+            type="cn.edu.pku.treehole.data.hole.CommentItemBeanHole" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -34,7 +34,7 @@
                 android:id="@+id/comment_lz_title"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:showLzIcon="@{commentItemBean.islz}"
+                app:showLzIcon="@{commentItemBean.name}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:src="@drawable/dz" />
@@ -54,7 +54,28 @@
                 android:textStyle="bold"
                 tools:text="#2995822"  />
 
-<!--            android:text="@{commentItemBean.text}"-->
+            <TextView
+                android:id="@+id/comment_quote"
+                android:layout_marginTop="@dimen/card_inside_margin"
+                android:layout_marginStart="@dimen/card_inside_margin_max_large"
+                android:layout_marginEnd="@dimen/card_inside_margin_max_large"
+                android:padding="@dimen/card_inside_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/comment_cid"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="12sp"
+                app:showQuote="@{commentItemBean.quote}"
+                android:text="@{@string/comment_text_format(commentItemBean.quote.name_tag, commentItemBean.quote.text)}"
+                android:textIsSelectable="true"
+                android:background="?attr/colorSecondary"
+                android:textColor="?attr/colorOnSecondary"
+                tools:text="@string/hole_test_text" />
+
+
+
+            <!--            android:text="@{commentItemBean.text}"-->
             <TextView
                 android:id="@+id/comment_content"
                 android:layout_marginStart="@dimen/card_inside_margin"
@@ -64,7 +85,7 @@
                 android:padding="@dimen/card_inside_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/comment_cid"
+                app:layout_constraintTop_toBottomOf="@id/comment_quote"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 tools:textSize="14sp"

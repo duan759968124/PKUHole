@@ -1,10 +1,7 @@
 package cn.edu.pku.treehole.di
 
 import android.content.Context
-import cn.edu.pku.treehole.data.hole.AppDatabase
-import cn.edu.pku.treehole.data.hole.CommentDao
-import cn.edu.pku.treehole.data.hole.HoleListDao
-import cn.edu.pku.treehole.data.hole.TagDao
+import cn.edu.pku.treehole.data.hole.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,6 +41,12 @@ class DatabaseModule {
     @Provides
     fun provideCommentDao(appDatabase: AppDatabase): CommentDao {
         return appDatabase.commentDao()
+    }
+
+    // 每次都是新的实例
+    @Provides
+    fun provideCommentHoleDao(appDatabase: AppDatabase): CommentHoleDao {
+        return appDatabase.commentHoleDao()
     }
 
 }

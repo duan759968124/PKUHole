@@ -48,7 +48,7 @@
     <string name="report">举报</string>
     <string name="report_title">举报树洞</string>
     <string name="hint_report_text">请输入举报原因</string>
-    <string name="hint_account">学号/职工号/北大邮箱</string>
+    <string name="hint_account">学号</string>
     <string name="password">密码</string>
 
     <!--    settings-->
@@ -110,6 +110,9 @@
     <string name="normal_mode">普通模式</string>
 
     <string name="comment_text_format">[%1$s] %2$s</string>
+    <string name="quote_comment">引用评论</string>
+    <string name="quote_comment_remind">开启后，将展示引用的评论</string>
+    <string name="detail_comment_only_lz">只看洞主</string>
 
 
 </resources>

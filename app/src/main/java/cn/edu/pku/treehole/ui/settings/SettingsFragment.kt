@@ -76,6 +76,13 @@ class SettingsFragment : BaseFragment() {
             }
         }
 
+        viewModel.navigateToSetQuoteComment.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(SettingsFragmentDirections.actionNavSettingsToNavSetQuoteComment())
+                viewModel.onNavigateToSetQuoteCommentFinish()
+            }
+        }
+
         viewModel.navigationToUserAgreement.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(

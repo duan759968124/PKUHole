@@ -17,6 +17,7 @@
         <item name="android:textColor">?attr/colorOnSecondary</item>
 
         <!-- Customize your theme here. -->
+        <item name="colorButtonNormal">@color/red_200</item>
 
     </style>
 

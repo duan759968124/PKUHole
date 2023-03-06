@@ -156,6 +156,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_nav_settings_to_nav_set_quote_comment"
+            app:destination="@id/nav_set_quote_comment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
 
@@ -205,6 +213,23 @@
             app:popUpToInclusive="true"
             app:popUpTo="@+id/nav_settings"
             />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_set_quote_comment"
+        android:name="cn.edu.pku.treehole.ui.settings.SetQuoteCommentFragment"
+        android:label="@string/quote_comment"
+        tools:layout="@layout/fragment_set_quote_comment">
+<!--        <action-->
+<!--            android:id="@+id/action_nav_change_dark_mode_to_nav_settings"-->
+<!--            app:destination="@id/nav_settings"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:popUpTo="@+id/nav_settings"-->
+<!--            />-->
     </fragment>
 
 

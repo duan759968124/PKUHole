@@ -27,24 +27,22 @@ interface CommentDao {
     @Query("Select * from comment_table where pid = :key ORDER BY cid ASC")
     fun getCommentListByPid(key: Long): Flow<List<CommentItemBean>>
 
-    @Query("Select * from comment_table  where pid = :key ORDER BY cid ASC limit 1")
-    fun getFirstCommentByPid(key: Long): Flow<CommentItemBean?>
+    @Query("Select * from comment_table where pid = :key ORDER BY cid DESC")
+    fun getCommentListByPidDesc(key: Long): Flow<List<CommentItemBean>>
 
-    @Query("Select * from comment_table  where pid = :key ORDER BY cid ASC limit 1,1")
-    fun getSecondCommentByPid(key: Long): Flow<CommentItemBean?>
+    @Query("Select * from comment_table where pid = :key and name = '洞主' ORDER BY cid ASC")
+    fun getCommentListByPidOnlyLz(key: Long): Flow<List<CommentItemBean>>
+
+    @Query("Select * from comment_table where pid = :key and name = '洞主'  ORDER BY cid DESC")
+    fun getCommentListByPidDescOnlyLz(key: Long): Flow<List<CommentItemBean>>
 
     @Query("Select * from comment_table where pid = :key ORDER BY cid ASC limit 2")
     fun getCommentListByPidLimit2(key: Long): Flow<List<CommentItemBean>>
 
-    @Query("Select * from comment_table where pid = :key ORDER BY cid DESC")
-    fun getCommentListByPidDesc(key: Long): Flow<List<CommentItemBean>>
-
-
     @Query("DELETE FROM comment_table where pid = :key")
     suspend fun clearCommentByPId(key: Long)
 
-
     @Query("DELETE FROM comment_table")
-    suspend fun clear()
+    suspend fun clearCommentTable()
 
 }

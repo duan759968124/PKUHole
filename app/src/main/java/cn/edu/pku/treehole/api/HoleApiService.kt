@@ -123,6 +123,14 @@ interface HoleApiService {
         @Query("sort") sort: String = "asc",
     ): HoleApiResponse<HoleListBody<CommentItemBean>?>
 
+    @GET("api/pku_comment_v3/{pid}")
+    suspend fun getCommentListHoleV3(
+        @Path("pid") pid: Long,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 30,
+        @Query("sort") sort: String = "asc",
+    ): HoleApiResponse<HoleListBody<CommentItemBeanHole>?>
+
     // 回复评论
     @FormUrlEncoded
     @POST("/api/pku_comment")

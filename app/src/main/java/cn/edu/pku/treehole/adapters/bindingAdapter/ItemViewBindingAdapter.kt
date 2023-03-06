@@ -6,12 +6,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
 import androidx.databinding.BindingAdapter
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.CommentItemBean
+import cn.edu.pku.treehole.data.hole.CommentItemBeanHole
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.data.hole.QuoteBean
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
@@ -21,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import timber.log.Timber
 import java.io.File
@@ -168,8 +171,8 @@ fun bindImageFromFile(view: ImageView, file: File?) {
 }
 
 @BindingAdapter("showLzIcon")
-fun showLzIcon(view: ImageView, isLz: Int?) {
-    view.visibility = if (isLz == 1) {
+fun showLzIcon(view: ImageView, name: String?) {
+    view.visibility = if (name == "洞主") {
         View.VISIBLE
     } else {
         View.GONE
@@ -178,7 +181,7 @@ fun showLzIcon(view: ImageView, isLz: Int?) {
 
 @BindingAdapter("showQuote")
 fun showQuote(view: TextView, quote: QuoteBean?) {
-    view.visibility = if (quote == null) {
+    view.visibility = if (!LocalRepository.localSetQuote||quote == null) {
         View.GONE
     } else {
         View.VISIBLE
@@ -195,15 +198,15 @@ fun showDot(view: ImageView, isHole: Int, isRead: Int) {
 }
 
 @BindingAdapter("setBackgroundColor")
-fun setBackgroundColor(view: ConstraintLayout, commentItemBean: CommentItemBean?) {
+fun setBackgroundColor(view: ConstraintLayout, commentItemBeanHole: CommentItemBeanHole?) {
     var randomH: Double
-    if (commentItemBean != null) {
-        randomH = if(commentItemBean.randomH.isNaN()||commentItemBean.randomH.equals(0.0)){
+    if (commentItemBeanHole != null) {
+        randomH = if(commentItemBeanHole.randomH.isNaN()||commentItemBeanHole.randomH.equals(0.0)){
             Math.random()
         }else{
-            commentItemBean.randomH
+            commentItemBeanHole.randomH
         }
-        when(commentItemBean.name?.lowercase(Locale.getDefault())){
+        when(commentItemBeanHole.name?.lowercase(Locale.getDefault())){
             "洞主" ->{
                 if(LocalRepository.localUIDarkMode){
                     view.setBackgroundColor(arrayListOf(

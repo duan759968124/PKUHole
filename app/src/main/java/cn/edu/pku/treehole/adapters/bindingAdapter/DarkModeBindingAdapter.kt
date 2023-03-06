@@ -57,3 +57,17 @@ fun TextView.bindSetDarkModeText(darkModeType: Int) {
     }
 }
 
+@BindingAdapter("setQuoteCommentText")
+fun TextView.bindSetQuoteCommentText(isShow: Boolean) {
+    when(isShow){
+        true->{
+            text = "显示"
+        }
+        false->{
+            text = "不显示"
+        }
+    }
+}
+
+
+

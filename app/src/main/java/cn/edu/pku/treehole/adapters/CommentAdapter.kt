@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.DiffUtil
@@ -50,6 +51,7 @@ class CommentAdapter(
 //            }
             binding.commentItemBean = listItem
             binding.holeContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, contentTextSize.toFloat());
+//            binding.holeQuote.visibility = if(setQuote) View.VISIBLE else View.GONE
             binding.clickListener = clickListener
             val selectColor: Int = if(LocalRepository.localUIDarkMode){
                 getColor(listItem, namesColorMap)?.get(1) ?:Color.WHITE
@@ -58,7 +60,9 @@ class CommentAdapter(
             }
             binding.commentCsl.setBackgroundColor(selectColor)
             if(listItem.text?.isNotEmpty() == true) {
-                val commentText = "[" + listItem.name  + "] " + listItem.text
+                val quoteInfo = if(listItem.quote == null) "" else "Re " + listItem.quote!!.name_tag + ": "
+                val commentText = "[" + listItem.name  + "] " + quoteInfo + listItem.text
+
                 val spannableString = SpannableString(commentText)
                 if (commentText.contains("Re")) {
                     val firstIndex = commentText.indexOf("Re")
@@ -111,6 +115,10 @@ class CommentAdapter(
             }
             val name = commentItemBean.name?.lowercase(Locale.getDefault())?:"洞主"
             if(name == "洞主") {
+                namesColorMap[name] = arrayListOf(
+                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
+                    ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))
+                )
                 return arrayListOf(
                     ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.97f)),
                     ColorUtils.HSLToColor(floatArrayOf(0.0f, 0.0f, 0.16f))

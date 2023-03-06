@@ -39,7 +39,7 @@ class HoleListViewModel @Inject internal constructor(
     }
 
     val holeList = database.getHoleList().asLiveData()
-    val commentListList = database.getCommentListList().asLiveData()
+//    val commentListList = database.getCommentListList().asLiveData()
 
 //    var firstComment = database.getFirstCommentByPid(4680226).asLiveData()
 //    fun getFirstCommentByPid(pid: Long): LiveData<CommentItemBean?> {

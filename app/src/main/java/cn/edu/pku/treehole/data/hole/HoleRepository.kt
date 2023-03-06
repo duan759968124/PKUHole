@@ -25,6 +25,7 @@ import javax.inject.Singleton
 class HoleRepository @Inject constructor(
     private val holeListDao: HoleListDao,
     private val commentDao: CommentDao,
+    private val commentHoleDao: CommentHoleDao,
     private val tagDao: TagDao,
     private val holeApi: HoleApiService,
 ) : BaseRepository() {
@@ -57,14 +58,14 @@ class HoleRepository @Inject constructor(
 //                }
                 if (it.reply > 0) {
                     //存在评论
-                    val holeResponse = launchRequest { holeApi.getCommentListV3(pid = it.pid) }
+                    val holeResponse = launchRequest { holeApi.getCommentListHoleV3(pid = it.pid) }
                     val randomH = Math.random()
                     holeResponse.data?.data?.map { commentItem ->
                         commentItem.randomH = randomH
                     }
-                    holeResponse.data?.data.let { listCommentItem ->
-                        if (listCommentItem != null) {
-                            insertCommentList(listCommentItem)
+                    holeResponse.data?.data.let { listCommentItemHole ->
+                        if (listCommentItemHole != null) {
+                            insertCommentHoleList(listCommentItemHole)
                         }
                     }
                 }
@@ -89,15 +90,17 @@ class HoleRepository @Inject constructor(
             refreshHoleListResponse.data?.map {
                 it.isHole = 1
                 it.isRead = 0
+
                 if (it.reply > 0) {
-                    val holeResponse = launchRequest { holeApi.getCommentListV3(pid = it.pid) }
+                    //存在评论
+                    val holeResponse = launchRequest { holeApi.getCommentListHoleV3(pid = it.pid) }
                     val randomH = Math.random()
                     holeResponse.data?.data?.map { commentItem ->
                         commentItem.randomH = randomH
                     }
-                    holeResponse.data?.data.let { listCommentItem ->
-                        if (listCommentItem != null) {
-                            insertCommentList(listCommentItem)
+                    holeResponse.data?.data.let { listCommentItemHole ->
+                        if (listCommentItemHole != null) {
+                            insertCommentHoleList(listCommentItemHole)
                         }
                     }
                 }
@@ -120,16 +123,17 @@ class HoleRepository @Inject constructor(
 //                        it.pic_data = pictureResponse.data
 //                    }
 //                }
+
                 if (it.reply > 0) {
                     //存在评论
-                    val holeResponse = launchRequest { holeApi.getCommentListV3(pid = it.pid) }
+                    val holeResponse = launchRequest { holeApi.getCommentListHoleV3(pid = it.pid) }
                     val randomH = Math.random()
                     holeResponse.data?.data?.map { commentItem ->
                         commentItem.randomH = randomH
                     }
-                    holeResponse.data?.data.let { listCommentItem ->
-                        if (listCommentItem != null) {
-                            insertCommentList(listCommentItem)
+                    holeResponse.data?.data.let { listCommentItemHole ->
+                        if (listCommentItemHole != null) {
+                            insertCommentHoleList(listCommentItemHole)
                         }
                     }
                 }
@@ -155,17 +159,21 @@ class HoleRepository @Inject constructor(
 
     fun getCommentListDesc(pid: Long) = commentDao.getCommentListByPidDesc(pid)
 
-    fun getFirstCommentByPid(pid: Long) = commentDao.getFirstCommentByPid(pid)
+    fun getCommentListOnlyLz(pid: Long) = commentDao.getCommentListByPidOnlyLz(pid)
 
-    fun getSecondCommentByPid(pid: Long) = commentDao.getSecondCommentByPid(pid)
+    fun getCommentListDescOnlyLz(pid: Long) = commentDao.getCommentListByPidDescOnlyLz(pid)
 
-    fun getCommentListList(): Flow<List<List<CommentItemBean>>> =
-        getHoleList()
-            .onEach { Timber.e("hole list size: ${it.size}") }
-            .map { list -> list.map { holeItemBean -> commentDao.getCommentListByPidLimit2(holeItemBean.pid) } }
-            .map { flows -> combine(flows) {
-                it.toList() } }
-            .flattenMerge()
+    fun getFirstCommentByPid(pid: Long) = commentHoleDao.getFirstCommentByPid(pid)
+
+    fun getSecondCommentByPid(pid: Long) = commentHoleDao.getSecondCommentByPid(pid)
+
+//    fun getCommentListList(): Flow<List<List<CommentItemBean>>> =
+//        getHoleList()
+//            .onEach { Timber.e("hole list size: ${it.size}") }
+//            .map { list -> list.map { holeItemBean -> commentDao.getCommentListByPidLimit2(holeItemBean.pid) } }
+//            .map { flows -> combine(flows) {
+//                it.toList() } }
+//            .flattenMerge()
 
     fun getHoleInfoList(): Flow<List<HoleInfoBean>> = getHoleList()
             .onEach { Timber.e("hole list size: ${it.size}") }
@@ -223,6 +231,10 @@ class HoleRepository @Inject constructor(
 
     private suspend fun insertCommentList(commentList: List<CommentItemBean>) =
         commentDao.insertCommentList(commentList)
+
+    private suspend fun insertCommentHoleList(commentHoleList: List<CommentItemBeanHole>) =
+        commentHoleDao.insertCommentHoleList(commentHoleList)
+
 
     // 获取一条树洞详情,【这条数据如果出现在树洞列表或者关注列表中，一定存在数据库中，并且isHole或者isAttention一定存在，所以直接更新】并更新数据库
     // 如果是搜索列表中的数据，则不一定存在。点击搜索列表结果请求，要把这条数据插入到数据库中，isHole或者isAttention可能存在可能不存在，需要插入或者更新。
@@ -325,7 +337,8 @@ class HoleRepository @Inject constructor(
     // 清理该repository所有数据
     suspend fun clear() {
         holeListDao.clear()
-        commentDao.clear()
+        commentDao.clearCommentTable()
+        commentHoleDao.clearCommentTableHole()
         tagDao.clear()
     }
 

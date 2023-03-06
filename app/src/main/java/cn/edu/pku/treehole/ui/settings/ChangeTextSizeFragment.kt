@@ -28,7 +28,7 @@ class ChangeTextSizeFragment : BaseFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_change_text_size_toolbar, menu)
+        inflater.inflate(R.menu.menu_finish, menu)
     }
 
 

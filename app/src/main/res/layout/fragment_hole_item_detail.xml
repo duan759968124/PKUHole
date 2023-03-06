@@ -71,10 +71,26 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_weight="1"
+                        android:layout_weight="5"
                         android:text="@string/detail_comment_title"
                         android:textSize="14sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/detail_comment_only_lz"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="2"
+                        android:gravity="end"
+                        android:onClick="@{()-> viewModel.onlyShowLzComment()}"
+                        android:text="@{viewModel.curCommentOnlyLz}"
+                        android:textColor="@color/hole_blue"
+                        android:textSize="13sp"
+                        tools:text="@string/detail_comment_only_lz" />
 
                     <TextView
                         android:id="@+id/detail_comment_sort"
