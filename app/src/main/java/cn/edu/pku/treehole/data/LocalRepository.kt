@@ -40,6 +40,10 @@ object LocalRepository : MMKVOwner {
     var localUIDarkMode by mmkvBool(true)
     var localSetQuote by mmkvBool(true)
 
+    var lastReplyCommentId by mmkvLong(0L)
+    var lastReplyContent by mmkvString("")
+    var lastReplyTimeStamp by mmkvLong(0L)
+
     fun getUid(): String{
         return localUid
     }

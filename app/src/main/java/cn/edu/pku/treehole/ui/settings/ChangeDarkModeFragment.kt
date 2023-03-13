@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentChangeDarkModeBinding
-import cn.edu.pku.treehole.viewmodels.ChangeDarkModeViewModel
+import cn.edu.pku.treehole.viewmodels.settings.ChangeDarkModeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

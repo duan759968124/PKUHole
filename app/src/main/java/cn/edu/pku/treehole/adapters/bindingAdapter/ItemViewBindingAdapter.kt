@@ -16,6 +16,7 @@ import cn.edu.pku.treehole.data.hole.CommentItemBean
 import cn.edu.pku.treehole.data.hole.CommentItemBeanHole
 import cn.edu.pku.treehole.data.hole.HoleItemBean
 import cn.edu.pku.treehole.data.hole.QuoteBean
+import cn.edu.pku.treehole.utilities.AppUtil
 import cn.edu.pku.treehole.utilities.HOLE_HOST_ADDRESS
 import cn.edu.pku.treehole.utilities.convertDurationToFormatted
 import cn.edu.pku.treehole.utilities.golden_ratio_conjugate
@@ -116,7 +117,10 @@ fun bindImageFromUrl(view: ImageView, holeItemBean: HoleItemBean?) {
             val url = HOLE_HOST_ADDRESS + "api/pku_image/" + holeItemBean.pid
             val glideUrl = GlideUrl(
                 url,
-                LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+                LazyHeaders.Builder()
+                    .addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}")
+                    .addHeader("User-Agent", AppUtil.getUserAgent())
+                    .build()
             )
 //        val uri = imagePicData.split(',')[1]
 //        val imageByteArray: ByteArray = Base64.decode(uri, Base64.DEFAULT)

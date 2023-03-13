@@ -1,4 +1,4 @@
-package cn.edu.pku.treehole.viewmodels
+package cn.edu.pku.treehole.viewmodels.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

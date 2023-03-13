@@ -3,11 +3,9 @@ package cn.edu.pku.treehole.ui.settings
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentSetQuoteCommentBinding
-import cn.edu.pku.treehole.viewmodels.SetQuoteCommentViewModel
+import cn.edu.pku.treehole.viewmodels.settings.SetQuoteCommentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

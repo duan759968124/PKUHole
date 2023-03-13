@@ -1,5 +1,7 @@
 package cn.edu.pku.treehole.utilities;
 
+import static cn.edu.pku.treehole.utilities.AppUtilKt.getUserAgent;
+
 import android.content.Context;
 import android.widget.ImageView;
 
@@ -34,7 +36,10 @@ public class GlideEngineNet implements ImageEngine {
         }
         GlideUrl glideUrl = new GlideUrl(
         url,
-        new LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+        new LazyHeaders.Builder()
+                .addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}")
+                .addHeader("User-Agent", getUserAgent())
+                .build()
         );
         Glide.with(context)
                 .load(glideUrl)
@@ -48,7 +53,10 @@ public class GlideEngineNet implements ImageEngine {
         }
         GlideUrl glideUrl = new GlideUrl(
                 url,
-                new LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+                new LazyHeaders.Builder()
+                        .addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}")
+                        .addHeader("User-Agent", getUserAgent())
+                        .build()
         );
         Glide.with(context)
                 .load(glideUrl)
@@ -70,7 +78,10 @@ public class GlideEngineNet implements ImageEngine {
         }
         GlideUrl glideUrl = new GlideUrl(
                 url,
-                new LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+                new LazyHeaders.Builder()
+                        .addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}")
+                        .addHeader("User-Agent", getUserAgent())
+                        .build()
         );
         Glide.with(context)
                 .asBitmap()
@@ -97,7 +108,10 @@ public class GlideEngineNet implements ImageEngine {
         }
         GlideUrl glideUrl = new GlideUrl(
                 url,
-                new LazyHeaders.Builder().addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}").build()
+                new LazyHeaders.Builder()
+                        .addHeader("Authorization", "Bearer ${LocalRepository.getValidToken()}")
+                        .addHeader("User-Agent", getUserAgent())
+                        .build()
         );
         Glide.with(context)
                 .load(glideUrl)

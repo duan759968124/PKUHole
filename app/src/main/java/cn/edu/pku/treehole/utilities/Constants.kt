@@ -22,8 +22,8 @@ const val HTTP_TIMEOUT_READ: Long = 15
 
 // webview
 const val USER_AGREEMENT_URL =
-//    "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_User_Agreement.html"
-    "https://treehole.pku.edu.cn/PKU_Hole_User_Agreement.html"
+    "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_User_Agreement.html"
+//    "https://treehole.pku.edu.cn/PKU_Hole_User_Agreement.html"
 const val PRIVACY_POLICY_URL =
     "https://its.pku.edu.cn/pku_gateway_apps/docs/PKU_Hole_Privacy_Policy.html"
 

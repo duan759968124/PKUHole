@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentChangeTextSizeBinding
-import cn.edu.pku.treehole.viewmodels.ChangeTextSizeViewModel
+import cn.edu.pku.treehole.viewmodels.settings.ChangeTextSizeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

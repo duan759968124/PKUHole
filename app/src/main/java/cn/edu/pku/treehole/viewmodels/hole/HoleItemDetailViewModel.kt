@@ -281,33 +281,42 @@ class HoleItemDetailViewModel @Inject constructor(
     fun sendReplyComment(text: CharSequence) {
         Timber.e("viewModel reply text: %s", text)
         Timber.e("viewModel reply clickCommentId: %d", _clickCommentId.value)
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                _responseMsg.postValue(null)
-                val token = getValidTokenWithFlow().singleOrNull()
-                token?.let {
+        _responseMsg.postValue(null)
+        if(text == LocalRepository.lastReplyContent && _clickCommentId.value == LocalRepository.lastReplyCommentId && System.currentTimeMillis()-LocalRepository.lastReplyTimeStamp<10*1000){
+            _responseMsg.postValue("请不要重复评论")
+        }else{
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val token = getValidTokenWithFlow().singleOrNull()
+                    token?.let {
 //                    val response = database.sendReplyComment(pid, text.toString())
-                    val response = database.sendReplyCommentV3(pid, text.toString(), commentId = if(_clickCommentId.value == 0L) null else _clickCommentId.value)
-                    Timber.e("reply result %s", response.toString())
-                    _responseMsg.postValue("回复成功")
-                    response.data?.let {
-                        //重新获取树洞数据和评论数据
-                        database.getOneHoleFromNetToDatabase(pid)
+                        val response = database.sendReplyCommentV3(pid, text.toString(), commentId = if(_clickCommentId.value == 0L) null else _clickCommentId.value)
+                        Timber.e("reply result %s", response.toString())
+                        LocalRepository.lastReplyCommentId = _clickCommentId.value!!
+                        LocalRepository.lastReplyContent = text.toString()
+                        LocalRepository.lastReplyTimeStamp = System.currentTimeMillis()
+                        _responseMsg.postValue("回复成功")
+                        response.data?.let {
+                            //重新获取树洞数据和评论数据
+                            database.getOneHoleFromNetToDatabase(pid)
 //                        database.getCommentListFromNetToDatabase(pid)
 //                        database.getCommentListV3FromNetToDatabase(pid, page = 1, sort = "asc")
 //                        database.clearCommentByPId(pid)
-                        if((_changeSortFlag.value?.rem(2) ?: 0) == 1){
-                            currentPage = 1
+                            if((_changeSortFlag.value?.rem(2) ?: 0) == 1){
+                                currentPage = 1
+                            }else{
+                                currentPage --
+                            }
+                            fetchCommentDetailFromNetV2()
                         }
-                        fetchCommentDetailFromNetV2()
                     }
+                }catch (e: Exception){
+                    when(e){
+                        is ApiException -> handleHoleFailResponse(e)
+                        else -> errorStatus.postValue(e)
+                    }
+                }finally {
                 }
-            }catch (e: Exception){
-                when(e){
-                    is ApiException -> handleHoleFailResponse(e)
-                    else -> errorStatus.postValue(e)
-                }
-            }finally {
             }
         }
     }

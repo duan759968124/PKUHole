@@ -1,4 +1,4 @@
-package cn.edu.pku.treehole.viewmodels
+package cn.edu.pku.treehole.viewmodels.settings
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,6 @@ import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.data.hole.HoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel

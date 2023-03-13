@@ -75,3 +75,8 @@ object AppUtil {
     }
 
 }
+
+fun getUserAgent(): String {
+    return "Android_" + APP_NAME + "_" + AppUtil.appVersion + "_" + AppUtil.deviceModel + "Of" + AppUtil.deviceBrand +
+            "_Android" + AppUtil.deviceAndroidVersion + "_" + LocalRepository.getAppInstallId()
+}

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
@@ -15,9 +14,8 @@ import cn.edu.pku.treehole.databinding.FragmentSettingsBinding
 import cn.edu.pku.treehole.utilities.ClearingDialog
 import cn.edu.pku.treehole.utilities.PRIVACY_POLICY_URL
 import cn.edu.pku.treehole.utilities.USER_AGREEMENT_URL
-import cn.edu.pku.treehole.viewmodels.SettingsViewModel
+import cn.edu.pku.treehole.viewmodels.settings.SettingsViewModel
 import com.afollestad.materialdialogs.MaterialDialog
-import com.azhon.appupdate.listener.OnButtonClickListener
 import com.azhon.appupdate.manager.DownloadManager
 import dagger.hilt.android.AndroidEntryPoint
 

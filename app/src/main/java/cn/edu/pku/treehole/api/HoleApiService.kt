@@ -203,7 +203,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-                .addInterceptor(ChangeBaseUrlInterceptor())
+//                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())
