@@ -17,6 +17,8 @@ data class UpdateInfo(
     var app_version_code: Int,
     @field:SerializedName("app_version_name")
     var app_version_name: String?,
+    @field:SerializedName("minimum_version")
+    var minimum_version_code: Int?,
     @field:SerializedName("app_file_url")
     var app_file_url: String?,
     @field:SerializedName("update_log")

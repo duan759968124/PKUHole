@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import cn.edu.pku.treehole.BuildConfig
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
@@ -81,6 +82,8 @@ class SplashFragment : BaseFragment() {
     }
 
     private fun showUpdateDialog() {
+        val isForceUpdate: Boolean =
+            (LocalRepository.localUpdateInfo!!.minimum_version_code ?: 1) > BuildConfig.VERSION_CODE
         manager = DownloadManager.Builder(activity!!).run {
             LocalRepository.localUpdateInfo!!.app_file_url?.let { apkUrl(it) }
             apkName("PKU_TreeHole.apk")
@@ -103,7 +106,7 @@ class SplashFragment : BaseFragment() {
             dialogButtonTextColor(Color.WHITE)
             showNotification(true)
             showBgdToast(false)
-            forcedUpgrade(false)
+            forcedUpgrade(isForceUpdate)
 //            onDownloadListener(listenerAdapter)
             onButtonClickListener(object : OnButtonClickListener {
                 override fun onButtonClick(id: Int) {

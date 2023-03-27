@@ -113,6 +113,8 @@
     <string name="quote_comment">引用评论</string>
     <string name="quote_comment_remind">开启后，将展示引用的评论</string>
     <string name="detail_comment_only_lz">只看洞主</string>
+    <string name="dialog_valid_code_title">短信验证</string>
+    <string name="hint_input_valid_code">请输入手机验证码</string>
 
 
 </resources>

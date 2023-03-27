@@ -59,7 +59,7 @@
                 </RelativeLayout>
 
                 <EditText
-                    android:id="@+id/et_hole_post"
+                    android:id="@+id/et_input_valid_code"
                     style="?android:attr/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                     android:id="@+id/img_preview"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_below="@id/et_hole_post"
+                    android:layout_below="@id/et_input_valid_code"
                     android:layout_alignParentStart="true"
                     tools:src="@drawable/bg_drawer_header"
                     app:hasLocalImage="@{viewModel.localPicFile}"

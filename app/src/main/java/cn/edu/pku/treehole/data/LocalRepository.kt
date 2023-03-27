@@ -55,8 +55,8 @@ object LocalRepository : MMKVOwner {
     fun getValidToken(): String{
         val durationMilli = System.currentTimeMillis() - localJwtTimestamp * 1000
 //        return ""
-        return if(durationMilli < 24 * ONE_HOUR_MILLIS){
-            // 上次获取token时间小于24个小时，有效
+        return if(durationMilli < 12 * ONE_HOUR_MILLIS){
+            // 上次获取token时间小于12个小时，有效
             localUserInfo!!.jwt
         }else{
             ""

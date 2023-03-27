@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : BaseFragment() {
 
     private lateinit var binding: FragmentLoginBinding
-
+//    private lateinit var validCodeDialog: ValidCodeDialogFragment
     private val userViewModel : UserViewModel by viewModels()
 
 
@@ -38,7 +38,7 @@ class LoginFragment : BaseFragment() {
         context ?: return binding.root
         binding.viewModel = userViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
+//        validCodeDialog = ValidCodeDialogFragment()
         return binding.root
 
     }
@@ -69,6 +69,8 @@ class LoginFragment : BaseFragment() {
             if (showInputValidCode) {
                 findNavController()
                     .navigate(LoginFragmentDirections.actionNavLoginToNavInputValidCode())
+                // 显示对话框
+//                validCodeDialog.show(parentFragmentManager, "dialog")
                 userViewModel.onNavigateToInputValidCodeComplete()
             }
 //            if (showInputValidCode) {

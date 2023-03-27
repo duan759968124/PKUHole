@@ -65,6 +65,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/thumb.xml" value="0.3105" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/top_circle_textview.xml" value="0.159" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/track.xml" value="0.3105" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/drawable/valid_code_button_style.xml" value="0.2585" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/app_bar_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/attention_item_view.xml" value="0.3541666666666667" />
@@ -75,6 +76,7 @@
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/comment_item_view_2.xml" value="0.335" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/content_main.xml" value="0.24114583333333334" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/dialog_hole_post.xml" value="0.176" />
+        <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/dialog_valid_code.xml" value="0.3541666666666667" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_about_us.xml" value="0.335" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_attention.xml" value="0.2" />
         <entry key="..\:/Work/Project/PKUHole/app/src/main/res/layout/fragment_change_dark_mode.xml" value="0.375" />

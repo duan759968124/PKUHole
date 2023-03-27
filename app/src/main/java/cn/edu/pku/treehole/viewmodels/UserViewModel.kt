@@ -1,5 +1,6 @@
 package cn.edu.pku.treehole.viewmodels
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -63,11 +64,38 @@ class UserViewModel @Inject constructor(
     private var isCompleteInput: Boolean = false
     var validCodeString: String = ""
 
+    var sendValidCodeBtnText = MutableLiveData<String>()
+    var totalSecond = 60
+
+    val countDownTimer = object : CountDownTimer((1000 * totalSecond).toLong(), 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            sendValidCodeBtnText.postValue("${--totalSecond}s后重新获取")
+        }
+        override fun onFinish() {
+            sendValidCodeBtnText.value = "获取短信验证码"
+            totalSecond = 60
+        }
+    }
+
     init {
 
+        sendValidCodeBtnText.value = "获取短信验证码"
 //        account.value = "1906194042"
 //        password.value = ""
     }
+
+//    private CountDownTimer countDownTimer = new CountDownTimer(TOTAL_TIME, ONECE_TIME) {
+//        @Override
+//        public void onTick(long millisUntilFinished) {
+//            String value = String.valueOf((int) (millisUntilFinished / 1000));
+//            mTvValue.setText(value);
+//        }
+//
+//        @Override
+//        public void onFinish() {
+//            mTvValue.setText(getResources().getString(R.string.done));
+//        }
+//    };
 
     fun loginSecure() {
         if (account.value.isNullOrEmpty() or password.value.isNullOrEmpty()) {
@@ -137,6 +165,12 @@ class UserViewModel @Inject constructor(
     fun finishSendValidCode() {
         _sendValidCodeSuccess.value = false
     }
+
+    fun clickSendValidCode(){
+        countDownTimer.start()
+        getValidCode()
+    }
+
 
 
     fun getValidCode() {
