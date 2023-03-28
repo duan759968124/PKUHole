@@ -176,7 +176,10 @@ class HoleItemDetailViewModel @Inject constructor(
     }
 
     fun changeCommentItemSort(){
-        _changeSortFlag.value = ((_changeSortFlag.value?.rem(2)?.plus(1))?.rem(2) ?: 0) + ((_changeSortFlag.value?.div(2))?.times(2) ?: 0)
+//        只看洞主条件下，正逆序变化不影响：只看洞主
+//        _changeSortFlag.value = ((_changeSortFlag.value?.rem(2)?.plus(1))?.rem(2) ?: 0) + ((_changeSortFlag.value?.div(2))?.times(2) ?: 0)
+//        现在只看洞主条件下，正逆序变化均还原为：全部
+        _changeSortFlag.value = (((_changeSortFlag.value?.rem(2)?.plus(1))?.rem(2) ?: 0) + ((_changeSortFlag.value?.div(2))?.times(2) ?: 0)).rem(2)
 //       清理数据，设置正逆参数，
         viewModelScope.launch(Dispatchers.IO) {
             try {

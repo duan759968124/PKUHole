@@ -1,8 +1,10 @@
 package cn.edu.pku.treehole.ui
 
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
@@ -10,9 +12,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import cn.edu.pku.treehole.BuildConfig
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.data.LocalRepository
 import cn.edu.pku.treehole.databinding.ActivityMainBinding
+import cn.edu.pku.treehole.viewmodels.UserViewModel
+import com.azhon.appupdate.listener.OnButtonClickListener
+import com.azhon.appupdate.manager.DownloadManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -24,9 +30,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 //    private lateinit var navHeaderBinding: NavHeaderMainBinding
+    private lateinit var manager: DownloadManager
 
     //    private lateinit var viewModel: MainViewModel
-//    private val viewModel: UserViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_PKUHole_NoActionBar)
@@ -135,7 +142,15 @@ class MainActivity : AppCompatActivity() {
 //                viewModel.onNavigateToLoginFinish()
 //            }
 //        })
+        viewModel.canUpdate.observe(this){ updateFlag ->
+            if (updateFlag == 1) {
+                showUpdateDialog()
+            }
+        }
     }
+
+
+
 
     override fun onStart() {
         super.onStart()
@@ -151,7 +166,9 @@ class MainActivity : AppCompatActivity() {
             AppCompatDelegate.MODE_NIGHT_YES ->  LocalRepository.localUIDarkMode = true
             AppCompatDelegate.MODE_NIGHT_NO ->  LocalRepository.localUIDarkMode = false
         }
-
+        if(LocalRepository.isNeedCheckUpdate()){
+            viewModel.checkUpdate()
+        }
 //        viewModel.checkLoginStatus()
 //        navHeaderBinding.navHeaderUserName.text = LocalRepository.getUserInfo().name
 //        navHeaderBinding.navHeaderUserDepartment.text = LocalRepository.getUserInfo().department
@@ -168,6 +185,46 @@ class MainActivity : AppCompatActivity() {
         //点击侧边栏按钮
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun showUpdateDialog() {
+        val isForceUpdate: Boolean =
+            (LocalRepository.localUpdateInfo!!.minimum_version_code ?: 1) > BuildConfig.VERSION_CODE
+        manager = DownloadManager.Builder(this).run {
+            LocalRepository.localUpdateInfo!!.app_file_url?.let { apkUrl(it) }
+            apkName("PKU_TreeHole.apk")
+            smallIcon(R.mipmap.ic_launcher)
+            showNewerToast(false)
+//            apkVersionCode(1)
+            apkVersionCode(LocalRepository.localUpdateInfo!!.app_version_code)
+            LocalRepository.localUpdateInfo!!.app_version_name?.let { apkVersionName(it) }
+//            apkSize("7.4")
+            LocalRepository.localUpdateInfo!!.update_log?.let { apkDescription(it) }
+            //apkMD5("DC501F04BBAA458C9DC33008EFED5E7F")
+
+            //flow are unimportant filed
+            enableLog(true)
+            //httpManager()
+            jumpInstallPage(true)
+//            dialogImage(R.drawable.ic_dialog)
+//            dialogButtonColor(Color.parseColor("#E743DA"))
+//            dialogProgressBarColor(Color.parseColor("#E743DA"))
+            dialogButtonTextColor(Color.WHITE)
+            showNotification(true)
+            showBgdToast(false)
+            forcedUpgrade(isForceUpdate)
+//            onDownloadListener(listenerAdapter)
+            onButtonClickListener(object : OnButtonClickListener {
+                override fun onButtonClick(id: Int) {
+                    LocalRepository.localLastCheckUpdateTimestamp = System.currentTimeMillis()
+                    if(id == 1){
+
+                    }
+                }
+            })
+            build()
+        }
+        manager.download()
     }
 
 }

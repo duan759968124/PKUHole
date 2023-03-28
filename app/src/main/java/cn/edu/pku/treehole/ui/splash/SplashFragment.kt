@@ -51,7 +51,8 @@ class SplashFragment : BaseFragment() {
             // 弹框
             showLaunchWarnDialog()
         } else {
-            viewModel.checkUpdate()
+//            viewModel.checkUpdate()
+            checkLoginStatus()
         }
     }
 
@@ -71,14 +72,14 @@ class SplashFragment : BaseFragment() {
             error.message?.let { showToast("错误-$it") }
             checkLoginStatus()
         }
-        viewModel.canUpdate.observe(viewLifecycleOwner) { updateFlag ->
-            if (updateFlag == 1) {
-                showUpdateDialog()
-            }
-            if (updateFlag == 0) {
-                checkLoginStatus()
-            }
-        }
+//        viewModel.canUpdate.observe(viewLifecycleOwner) { updateFlag ->
+//            if (updateFlag == 1) {
+//                showUpdateDialog()
+//            }
+//            if (updateFlag == 0) {
+//                checkLoginStatus()
+//            }
+//        }
     }
 
     private fun showUpdateDialog() {
@@ -165,9 +166,9 @@ class SplashFragment : BaseFragment() {
                 }
                 positiveButton(R.string.agree) {
                     LocalRepository.setISFirstStart(false)
-//                    checkLoginStatus()
+                    checkLoginStatus()
                     // 检查更新
-                    viewModel.checkUpdate()
+//                    viewModel.checkUpdate()
                 }
                 negativeButton(R.string.reject) {
                     activity?.finish()

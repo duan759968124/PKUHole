@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import cn.edu.pku.treehole.BuildConfig
 import cn.edu.pku.treehole.base.BaseViewModel
 import cn.edu.pku.treehole.base.network.ApiException
 import cn.edu.pku.treehole.data.LocalRepository
@@ -78,7 +79,6 @@ class UserViewModel @Inject constructor(
     }
 
     init {
-
         sendValidCodeBtnText.value = "获取短信验证码"
 //        account.value = "1906194042"
 //        password.value = ""
@@ -279,4 +279,36 @@ class UserViewModel @Inject constructor(
 //    fun onNavigateToLoginFinish() {
 //        _loginStatus.value = true
 //    }
+
+    // -1 表示状态未知
+    private val _canUpdate = MutableLiveData<Int>().apply { value = -1 }
+    val canUpdate: LiveData<Int>
+        get() = _canUpdate
+
+    fun checkUpdate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+//                loadingStatus.postValue(true)
+                val response =
+                    database.checkUpdate()
+                // 将数据存到本地
+                LocalRepository.localUpdateInfo = response.data
+                Timber.e("check update response %s", LocalRepository.localUpdateInfo!!.app_version_code)
+                if((response.data?.app_version_code ?: 1) > BuildConfig.VERSION_CODE){
+                    _canUpdate.postValue(1)
+                }else{
+                    _canUpdate.postValue(0)
+                }
+            } catch (e: Exception) {
+                when (e) {
+                    is ApiException -> failStatus.postValue(e)
+                    else -> errorStatus.postValue(e)
+                }
+            } finally {
+//                loadingStatus.postValue(false)
+            }
+        }
+    }
+
+
 }

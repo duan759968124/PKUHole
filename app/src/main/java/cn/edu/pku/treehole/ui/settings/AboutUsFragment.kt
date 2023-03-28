@@ -22,7 +22,7 @@ class AboutUsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAboutUsBinding.inflate(inflater, container, false)
-        binding.fragmentAboutUsVersionTv.text = "北大树洞 " + BuildConfig.VERSION_NAME
+        binding.fragmentAboutUsVersionTv.text = "北大树洞 " + BuildConfig.VERSION_NAME + "(" + BuildConfig.VERSION_CODE + ")"
         return binding.root
     }
 

@@ -63,6 +63,13 @@ object LocalRepository : MMKVOwner {
         }
     }
 
+    var localLastCheckUpdateTimestamp by mmkvLong(0L)
+    fun isNeedCheckUpdate(): Boolean{
+        val durationMilli = System.currentTimeMillis() - localLastCheckUpdateTimestamp
+        return durationMilli >= 2 * ONE_HOUR_MILLIS
+//        return durationMilli >= 1 * ONE_MINUTE_MILLIS
+    }
+
 //    fun setToken(token: String){
 //        tokenFromUserInfo = token
 //    }
