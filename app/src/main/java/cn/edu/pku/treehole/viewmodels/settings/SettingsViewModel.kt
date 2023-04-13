@@ -14,7 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.schedule
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
@@ -141,15 +143,19 @@ class SettingsViewModel @Inject constructor(holeRepository: HoleRepository) :
             try {
                 loadingStatus.postValue(true)
                 database.clear()
-                val token = getValidTokenWithFlow().singleOrNull()
-                token?.let { database.getHoleListFromNetToDatabase(1) }
+                LocalRepository.isClearHoleCache = true
+                LocalRepository.isClearAttentionCache = true
             }catch (e: Exception){
                 when(e){
                     is ApiException -> handleHoleFailResponse(e)
                     else -> errorStatus.postValue(e)
                 }
             }finally {
-                loadingStatus.postValue(false)
+                Timer().schedule(1000) {
+                    //...延时操作
+                    loadingStatus.postValue(false)
+                }
+
             }
         }
     }

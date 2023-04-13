@@ -95,6 +95,14 @@ fun bindSecondShow(view: View, replyNum: Int) {
         View.GONE
     }
 }
+@BindingAdapter("showComment")
+fun bindShowComment(view: View, commentItem: CommentItemBeanHole?) {
+    view.visibility = if (commentItem == null) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+}
 
 
 @BindingAdapter("hasTopTag")

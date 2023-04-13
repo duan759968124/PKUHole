@@ -194,7 +194,7 @@ class HoleListFragment : BaseFragment() {
                 Timber.e("hide refresh")
 //                dismissLoading()
                 binding.fragmentHoleListSrl.finishRefresh(500)
-                Timer().schedule(1500) {
+                Timer().schedule(500) {
                     binding.fragmentHoleListRecycler.smoothScrollToPosition(0)
                 }
 
@@ -269,6 +269,8 @@ class HoleListFragment : BaseFragment() {
     }
 
     override fun initData() {
+        Timber.e("hole list fragment")
+        viewModel.checkIsClearCache()
 //        viewModel.getHoleList()
 //         监听数据的状态变化
 //        viewModel.mHoleListLiveData.observe(this,

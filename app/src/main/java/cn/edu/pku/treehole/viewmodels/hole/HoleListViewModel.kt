@@ -38,7 +38,7 @@ class HoleListViewModel @Inject internal constructor(
         _getRandomTipFromNet.value = false
     }
 
-    val holeList = database.getHoleList().asLiveData()
+//    val holeList = database.getHoleList().asLiveData()
 //    val commentListList = database.getCommentListList().asLiveData()
 
 //    var firstComment = database.getFirstCommentByPid(4680226).asLiveData()
@@ -59,11 +59,12 @@ class HoleListViewModel @Inject internal constructor(
 
 
     init {
+        Timber.e("hole list view model")
 //        if(LocalRepository.getUid().isNotEmpty()){
 //            // 获取一条随机的树洞管理规范
 //            getRandomHoleManagementPractice()
 //        }
-
+//        currentPage = LocalRepository.localHoleListPage
         getHoleList()
 
 //        Timber.e("valid token %s", token.value)
@@ -94,6 +95,16 @@ class HoleListViewModel @Inject internal constructor(
 ////            }
 ////            Timber.e("fetch data result: %s", holeGetList.toString())
 //        }
+    }
+
+    fun checkIsClearCache(){
+        if(LocalRepository.isClearHoleCache){
+            // 数据为空
+            Timber.e("clear cache")
+            currentPage = 1
+            getHoleList()
+            LocalRepository.isClearHoleCache = false
+        }
     }
 
     private fun getRandomHoleManagementPractice() {

@@ -244,8 +244,8 @@
             app:strokeColor="?attr/colorSecondary"
             app:rippleColor="@color/card_ripper_color"
             app:layout_constraintTop_toBottomOf="@id/hole_item_card"
-            app:firstShow="@{holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
+            app:firstShow="@{holeItemBean.reply}"
             bind:commentItemBean="@{viewModel.getFirstCommentByPid(holeItemBean.pid)}"/>
 
         <include
@@ -262,8 +262,8 @@
             app:strokeColor="?attr/colorSecondary"
             app:rippleColor="@color/card_ripper_color"
             app:layout_constraintTop_toBottomOf="@id/comment_card_1"
-            app:secondShow="@{holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
+            app:secondShow="@{holeItemBean.reply}"
             bind:commentItemBean="@{viewModel.getSecondCommentByPid(holeItemBean.pid)}"/>
 
         <ImageView

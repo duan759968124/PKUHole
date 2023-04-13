@@ -49,9 +49,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:textColor="?attr/colorOnSecondary"
-                android:textSize="14sp"
+                android:textSize="@dimen/comment_cid_text_size"
                 android:text="@{@string/pid_format(commentItemBean.cid)}"
-                android:textStyle="bold"
                 tools:text="#2995822"  />
 
             <TextView
@@ -104,7 +103,7 @@
                 android:layout_height="24dp"
                 app:layout_constraintLeft_toRightOf="@id/comment_cid"
                 app:layout_constraintBaseline_toBaselineOf="@id/comment_cid"
-                android:textSize="12sp"
+                android:textSize="@dimen/comment_cid_text_size"
                 android:textColor="?attr/colorOnSecondary"
                 app:postDurationFormatted="@{commentItemBean.timestamp}"
                 tools:text="@string/card_test_post_time" />

@@ -11,18 +11,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
-import cn.edu.pku.treehole.adapters.HoleAdapter
 import cn.edu.pku.treehole.adapters.HoleAdapter3
-import cn.edu.pku.treehole.adapters.HoleItemListener
 import cn.edu.pku.treehole.adapters.HoleItemListener2
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentAttentionBinding
 import cn.edu.pku.treehole.viewmodels.hole.AttentionViewModel
 
-import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener
 import cn.edu.pku.treehole.viewmodels.hole.PictureClickListener2
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.*
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class AttentionFragment : BaseFragment() {
@@ -47,10 +46,11 @@ class AttentionFragment : BaseFragment() {
         binding.fragmentAttentionRecycler.layoutManager = manager
 
         // 是否在刷新的时候禁止列表的操作
-        binding.fragmentAttentionSrl.setDisableContentWhenRefresh(true)
+//        binding.fragmentAttentionSrl.setDisableContentWhenRefresh(true)
+        binding.fragmentAttentionSrl.setDisableContentWhenRefresh(false)
+        binding.fragmentAttentionSrl.setDisableContentWhenLoading(false)
 
-
-//        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -60,6 +60,13 @@ class AttentionFragment : BaseFragment() {
             viewModel.refreshAttentionList()
             Timber.e("监听到下拉刷新了")
 //            it.finishRefresh()
+        }
+
+        // 加载更多监听
+        binding.fragmentAttentionSrl.setOnLoadMoreListener {
+            viewModel.getAttentionList()
+            Timber.e("监听到加载更多了")
+//            it.finishLoadMore(false)
         }
 
         // 监听holeList变化并更新UI
@@ -81,12 +88,29 @@ class AttentionFragment : BaseFragment() {
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             if(it){
                 Timber.e("show refresh")
-//                binding.fragmentAttentionSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+                binding.fragmentAttentionSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
 //                showLoading()
             }else{
                 Timber.e("hide refresh")
 //                dismissLoading()
                 binding.fragmentAttentionSrl.finishRefresh(500)
+                Timer().schedule(500) {
+                    binding.fragmentAttentionRecycler.smoothScrollToPosition(0)
+                }
+            }
+        })
+
+
+        // 监听加载更多状态
+        viewModel.loadingStatus.observe(viewLifecycleOwner, Observer {
+            if(it){
+                Timber.e("show loading")
+//                binding.fragmentAttentionSrl.autoRefreshAnimationOnly();//自动刷新，只显示动画不执行刷新
+//                showLoading()
+            }else{
+                Timber.e("hide loading")
+//                dismissLoading()
+                binding.fragmentAttentionSrl.finishLoadMore(500)
             }
         })
 
@@ -121,7 +145,8 @@ class AttentionFragment : BaseFragment() {
 
     override fun initData() {
 //        viewModel.getHoleList()
-        viewModel.getAttentionList()
+//        viewModel.getAttentionList()
+        viewModel.checkIsClearCache()
 //         监听数据的状态变化
 //        viewModel.mHoleListLiveData.observe(this,
 //            object : IStateObserver<List<HoleListItemBean>>(binding?.holeListRecycler) {

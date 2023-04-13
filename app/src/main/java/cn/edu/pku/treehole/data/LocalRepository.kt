@@ -208,6 +208,9 @@ object LocalRepository : MMKVOwner {
         return true
     }
 
+    var isClearHoleCache by mmkvBool(false)
+    var isClearAttentionCache by mmkvBool(false)
+
 
     fun clearAll() {
         // 清理全部数据前需要保留的数据: 用户账号、uuid

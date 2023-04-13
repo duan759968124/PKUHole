@@ -87,6 +87,7 @@ interface HoleApiService {
     // 获取关注数据
     @GET("api/follow")
     suspend fun getAttentionList(
+        @Query("page") page: Int,
         @Query("limit") limit: Int = 10000
     ): HoleApiResponse<HoleListBody<AttentionItemBean>?>
 

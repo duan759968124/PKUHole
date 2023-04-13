@@ -112,9 +112,9 @@ class HoleRepository @Inject constructor(
     }
 
     // 获取attention列表  更换表格insert另一个表中
-    suspend fun getAttentionListFromNetToDatabase() {
+    suspend fun getAttentionListFromNetToDatabase(page: Int) {
         withContext(Dispatchers.IO) {
-            val attentionListResponse = launchRequest { holeApi.getAttentionList() }
+            val attentionListResponse = launchRequest { holeApi.getAttentionList(page = page, limit = 30) }
 //            attentionListResponse.data?.map { it.is_follow = 1 }
             attentionListResponse.data!!.data?.map {
 //                if(!it.url.isNullOrEmpty()){

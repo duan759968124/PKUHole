@@ -256,10 +256,11 @@
             app:rippleColor="@color/card_ripper_color"
             android:onClick="@{()->clickListener.onClick(holeInfoBean)}"
             app:layout_constraintTop_toBottomOf="@id/hole_item_card"
-            app:firstShow="@{holeInfoBean.holeItemBean.reply}"
             layout="@layout/comment_item_view_2"
+            app:showComment="@{holeInfoBean.commentItemBeanHole1}"
             bind:commentItemBean="@{holeInfoBean.commentItemBeanHole1}"/>
 
+<!--        app:firstShow="@{holeInfoBean.holeItemBean.reply}"-->
         <include
             android:id="@+id/comment_card_2"
             android:layout_width="match_parent"
@@ -273,9 +274,11 @@
             app:cardElevation="@dimen/card_elevation"
             android:onClick="@{()->clickListener.onClick(holeInfoBean)}"
             app:layout_constraintTop_toBottomOf="@id/comment_card_1"
-            app:secondShow="@{holeInfoBean.holeItemBean.reply}"
+            app:showComment="@{holeInfoBean.commentItemBeanHole2}"
             layout="@layout/comment_item_view_2"
             bind:commentItemBean="@{holeInfoBean.commentItemBeanHole2}"/>
+
+<!--        app:secondShow="@{holeInfoBean.holeItemBean.reply}"-->
 
         <ImageView
             android:layout_width="10dp"
