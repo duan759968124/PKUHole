@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import cn.edu.pku.treehole.BuildConfig
+import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
@@ -184,6 +185,7 @@ class SplashFragment : BaseFragment() {
             findNavController().navigate(R.id.action_global_nav_login)
         } else {
             findNavController().navigate(SplashFragmentDirections.actionNavSplashToNavHole())
+//            findNavController().navigate(NavigationDirections.actionGlobalNavManMachineVerification("人机验证测试"))
         }
     }
 

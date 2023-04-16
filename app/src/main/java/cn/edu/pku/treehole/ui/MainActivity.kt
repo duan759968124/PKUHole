@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_login, R.id.nav_input_valid_code -> {
+                R.id.nav_login, R.id.nav_input_valid_code, R.id.nav_man_machine_verification -> {
                     binding.toolbar.visibility = View.GONE
                     binding.appBar.visibility = View.VISIBLE
                     navView.visibility = View.GONE

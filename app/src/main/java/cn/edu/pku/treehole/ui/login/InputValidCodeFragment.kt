@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.databinding.FragmentInputValidCodeBinding
@@ -93,6 +94,15 @@ class InputValidCodeFragment : BaseFragment() {
                 showToast("登录成功")
                 findNavController().navigate(InputValidCodeFragmentDirections.actionNavInputValidCodeToNavHole())
                 userViewModel.onVerifySuccessComplete()
+            }
+        }
+
+        // 进入人机验证界面
+        userViewModel.manMachineVerification.observe(viewLifecycleOwner) { isValidate ->
+            if (!isValidate.isNullOrEmpty()) {
+                // 全局导航操作
+                findNavController().navigate(NavigationDirections.actionGlobalNavManMachineVerification(isValidate))
+                userViewModel.onNavigateToLoginFinish()
             }
         }
     }

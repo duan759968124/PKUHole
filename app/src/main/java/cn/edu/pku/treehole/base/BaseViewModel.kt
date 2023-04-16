@@ -55,6 +55,10 @@ open class BaseViewModel @Inject internal constructor(
         val loginStatus: LiveData<Boolean>
             get() = _loginStatus
 
+    protected val _manMachineVerification = MutableLiveData<String>()
+    val manMachineVerification: LiveData<String>
+        get() = _manMachineVerification
+
 
 //   获取token相当于后台登录，如果后台登录失败，则跳转到前台
 //    fun getValidToken(){
@@ -150,8 +154,18 @@ open class BaseViewModel @Inject internal constructor(
                 apiException.msg = "请重新登录并进行手机短信验证"
                 clearDataAndReLogin(apiException)
             }
+            40008 -> {
+                // 添砖到人机验证界面，进行人机验证
+                navigateToManMachineVerification(apiException.msg!!)
+            }
             // 其他fragment需要监听failStatus状态变化，并toast出来
             else -> failStatus.postValue(apiException)
+        }
+    }
+
+    private fun navigateToManMachineVerification(msg: String) {
+        viewModelScope.launch(Dispatchers.IO){
+            _manMachineVerification.postValue(msg)
         }
     }
 
@@ -171,6 +185,10 @@ open class BaseViewModel @Inject internal constructor(
     // fragment执行跳转之后，将_loginStatus变为true
     fun onNavigateToLoginFinish() {
         _loginStatus.value = true
+    }
+
+    fun onNavigateToManMachineVerificationFinish() {
+        _manMachineVerification.value = ""
     }
 
 

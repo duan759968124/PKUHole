@@ -410,6 +410,13 @@ class HoleRepository @Inject constructor(
         return launchRequest { holeApi.search(keywords = keywords, page = page, labelId = labelId) }
     }
 
+
+    suspend fun checkOtp(
+        code: String
+    ): HoleApiResponse<EmptyBean?> {
+        return launchRequest { holeApi.checkOtp(code = code) }
+    }
+
     suspend fun searchPid(pid: String): HoleApiResponse<HoleListBody<HoleItemModel>?> {
         return launchRequest { holeApi.searchPid(pid = pid) }
     }

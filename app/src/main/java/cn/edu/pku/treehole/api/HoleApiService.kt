@@ -192,6 +192,14 @@ interface HoleApiService {
     ): HoleApiResponse<List<TagBean>?>
 
 
+    // 验证OTP
+    @FormUrlEncoded
+    @POST("/api/check_otp")
+    suspend fun checkOtp(
+        @Field("code") code: String,
+    ): HoleApiResponse<EmptyBean?>
+
+
 
 
     companion object{
@@ -204,7 +212,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-//                .addInterceptor(ChangeBaseUrlInterceptor())
+                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())

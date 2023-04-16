@@ -112,6 +112,15 @@ class SearchFragment : BaseFragment() {
                 viewModel.onNavigateToLoginFinish()
             }
         })
+
+        // 进入人机验证界面
+        viewModel.manMachineVerification.observe(viewLifecycleOwner) { isValidate ->
+            if (!isValidate.isNullOrEmpty()) {
+                // 全局导航操作
+                findNavController().navigate(NavigationDirections.actionGlobalNavManMachineVerification(isValidate))
+                viewModel.onNavigateToManMachineVerificationFinish()
+            }
+        }
     }
 
     override fun initData() {

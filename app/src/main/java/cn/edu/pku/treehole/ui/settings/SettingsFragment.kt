@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.base.BaseFragment
 import cn.edu.pku.treehole.data.LocalRepository
@@ -111,6 +112,15 @@ class SettingsFragment : BaseFragment() {
                 // 全局导航操作
                 findNavController().navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
+            }
+        }
+
+        // 进入人机验证界面
+        viewModel.manMachineVerification.observe(viewLifecycleOwner) { isValidate ->
+            if (!isValidate.isNullOrEmpty()) {
+                // 全局导航操作
+                findNavController().navigate(NavigationDirections.actionGlobalNavManMachineVerification(isValidate))
+                viewModel.onNavigateToManMachineVerificationFinish()
             }
         }
 

@@ -296,11 +296,30 @@
     </fragment>
 
 
+    <fragment
+        android:id="@+id/nav_man_machine_verification"
+        android:name="cn.edu.pku.treehole.ui.login.ManMachineVerificationFragment"
+        android:label="@string/man_machine_verification"
+        tools:layout="@layout/fragment_man_machine_verification">
+        <argument
+            android:name="msg"
+            app:argType="string" />
+    </fragment>
+
+
     <action
         android:id="@+id/action_global_nav_login"
         app:destination="@id/nav_login"
         app:popUpToInclusive="true"
         app:popUpTo="@+id/nav_hole"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/action_global_nav_man_machine_verification"
+        app:destination="@id/nav_man_machine_verification"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

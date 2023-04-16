@@ -85,7 +85,6 @@ class HoleViewPagerViewModel @Inject constructor(
     var localPicBase64 = MutableLiveData<String?>()
 
     fun postNewHole() {
-        showDialogPost.value = false
         postResponseMsg.value = null
         if (localPicBase64.value.isNullOrEmpty() and postTextContent.value.isNullOrEmpty()) {
             postResponseMsg.value = "输入内容为空"
@@ -113,6 +112,7 @@ class HoleViewPagerViewModel @Inject constructor(
                         else -> errorStatus.postValue(e)
                     }
                 } finally {
+                    showDialogPost.value = false
                     postTextContent.postValue("")
                     localPicFile.postValue(null)
                     selectedTagName = ""

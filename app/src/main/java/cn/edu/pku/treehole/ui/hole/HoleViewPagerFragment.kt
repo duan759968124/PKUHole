@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import cn.edu.pku.treehole.NavigationDirections
 import cn.edu.pku.treehole.R
 import cn.edu.pku.treehole.adapters.HOLE_LIST_INDEX
 import cn.edu.pku.treehole.adapters.HOLE_MY_ATTENTION_INDEX
@@ -130,6 +131,15 @@ class HoleViewPagerFragment : BaseFragment() {
                 // 全局导航操作
                 findNavController().navigate(R.id.action_global_nav_login)
                 viewModel.onNavigateToLoginFinish()
+            }
+        }
+
+        // 进入人机验证界面
+        viewModel.manMachineVerification.observe(viewLifecycleOwner) { isValidate ->
+            if (!isValidate.isNullOrEmpty()) {
+                // 全局导航操作
+                findNavController().navigate(NavigationDirections.actionGlobalNavManMachineVerification(isValidate))
+                viewModel.onNavigateToManMachineVerificationFinish()
             }
         }
 

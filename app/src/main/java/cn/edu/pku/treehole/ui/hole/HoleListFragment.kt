@@ -243,6 +243,15 @@ class HoleListFragment : BaseFragment() {
             }
         })
 
+        // 进入人机验证界面
+        viewModel.manMachineVerification.observe(viewLifecycleOwner) { isValidate ->
+            if (!isValidate.isNullOrEmpty()) {
+                // 全局导航操作
+                findNavController().navigate(NavigationDirections.actionGlobalNavManMachineVerification(isValidate))
+                viewModel.onNavigateToManMachineVerificationFinish()
+            }
+        }
+
 //        手动设置字体大小，暂时没必要
 //        viewModel.globalCurrentContentSize.observe(viewLifecycleOwner) {
 //            Timber.e("globalCurrentContentSize: $it")

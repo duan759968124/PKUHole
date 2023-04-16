@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="cn.edu.pku.treehole.viewmodels.ManMachineVerificationViewModel" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="?attr/colorSecondary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/man_machine_verification"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:textSize="24sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filled_code"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp">
+            <com.google.android.material.textfield.TextInputEditText
+                tools:text="305678"
+                android:inputType="number"
+                android:text="@={viewModel.verificationCode}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={viewModel.hintMsg}"
+            tools:text="请输入北大App动态口令"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:padding="10dp"
+                android:layout_margin="30dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/reLogin"
+                android:textColor="@color/white"
+                android:onClick="@{() -> viewModel.reLogin()}"
+                android:textSize="17sp"
+                />
+            <Button
+                android:layout_width="0dp"
+                android:padding="10dp"
+                android:layout_margin="30dp"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm"
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.verifyOtpCode()}"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
