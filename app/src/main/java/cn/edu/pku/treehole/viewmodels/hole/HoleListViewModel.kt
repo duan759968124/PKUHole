@@ -180,9 +180,13 @@ class HoleListViewModel @Inject internal constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 refreshStatus.postValue(true)
+                database.clear()
+                LocalRepository.isClearAttentionCache = true
+                currentPage = 1
                 val token = getValidTokenWithFlow().singleOrNull()
                 token?.let {
-                    database.refreshHoleListFromNetToDatabase() }
+                    database.getHoleListFromNetToDatabase(currentPage) }
+                currentPage ++
             }catch (e: Exception){
                 when(e){
                     is ApiException -> handleHoleFailResponse(e)
@@ -193,6 +197,25 @@ class HoleListViewModel @Inject internal constructor(
             }
         }
     }
+//     刷新数据
+//    @SuppressLint("TimberExceptionLogging")
+//    fun refreshHoleList() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                refreshStatus.postValue(true)
+//                val token = getValidTokenWithFlow().singleOrNull()
+//                token?.let {
+//                    database.refreshHoleListFromNetToDatabase() }
+//            }catch (e: Exception){
+//                when(e){
+//                    is ApiException -> handleHoleFailResponse(e)
+//                    else -> errorStatus.postValue(e)
+//                }
+//            }finally {
+//                refreshStatus.postValue(false)
+//            }
+//        }
+//    }
 
 
 }

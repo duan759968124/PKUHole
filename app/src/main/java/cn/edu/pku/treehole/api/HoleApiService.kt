@@ -73,19 +73,19 @@ interface HoleApiService {
 
 
     // 获取图片
-    @GET("api/pku_image/{pid}")
-    suspend fun getPictureFromPid(
-        @Path("pid") pid: Long,
-    ): Call<ResponseBody>
+//    @GET("api/pku_image/{pid}")
+//    suspend fun getPictureFromPid(
+//        @Path("pid") pid: Long,
+//    ): Call<ResponseBody>
 
     // 刷新树洞数据
-    @GET("api/pku_hold_refresh")
-    suspend fun refreshHoleList(
-        @Query("timestamp") timestamp: Long,
-    ): HoleApiResponse<List<HoleListItemBean>?>
+//    @GET("api/pku_hold_refresh")
+//    suspend fun refreshHoleList(
+//        @Query("timestamp") timestamp: Long,
+//    ): HoleApiResponse<List<HoleListItemBean>?>
 
     // 获取关注数据
-    @GET("api/follow")
+    @GET("api/follow_v2")
     suspend fun getAttentionList(
         @Query("page") page: Int,
         @Query("limit") limit: Int = 10000
@@ -109,12 +109,12 @@ interface HoleApiService {
         @Query("pid") pid: String
     ): HoleApiResponse<HoleListBody<HoleItemModel>?>
 
-    @GET("api/pku_comment/{pid}")
-    suspend fun getCommentList(
-        @Path("pid") pid: Long,
-        @Query("page") page: Int = 1,
-        @Query("limit") limit: Int = 100000,
-    ): HoleApiResponse<HoleListBody<CommentItemBean>?>
+//    @GET("api/pku_comment/{pid}")
+//    suspend fun getCommentList(
+//        @Path("pid") pid: Long,
+//        @Query("page") page: Int = 1,
+//        @Query("limit") limit: Int = 100000,
+//    ): HoleApiResponse<HoleListBody<CommentItemBean>?>
 
     @GET("api/pku_comment_v3/{pid}")
     suspend fun getCommentListV3(
@@ -133,12 +133,12 @@ interface HoleApiService {
     ): HoleApiResponse<HoleListBody<CommentItemBeanHole>?>
 
     // 回复评论
-    @FormUrlEncoded
-    @POST("/api/pku_comment")
-    suspend fun sendReplyComment(
-        @Field("pid") pid: Long,
-        @Field("text") text: String,
-    ): HoleApiResponse<EmptyBean?>
+//    @FormUrlEncoded
+//    @POST("/api/pku_comment")
+//    suspend fun sendReplyComment(
+//        @Field("pid") pid: Long,
+//        @Field("text") text: String,
+//    ): HoleApiResponse<EmptyBean?>
 
     // 回复评论
     @FormUrlEncoded
@@ -212,7 +212,7 @@ interface HoleApiService {
                 }
             )
             val okHttpclient = OkHttpClient.Builder()
-                .addInterceptor(ChangeBaseUrlInterceptor())
+//                .addInterceptor(ChangeBaseUrlInterceptor())
                 .addInterceptor(AddHeaderInterceptor())
                 .addInterceptor(logger)
                 .cookieJar(LocalCookieJar())

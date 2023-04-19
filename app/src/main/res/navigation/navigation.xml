@@ -320,6 +320,8 @@
     <action
         android:id="@+id/action_global_nav_man_machine_verification"
         app:destination="@id/nav_man_machine_verification"
+        app:popUpToInclusive="true"
+        app:popUpTo="@+id/nav_hole"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

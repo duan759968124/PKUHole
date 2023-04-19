@@ -89,6 +89,7 @@ class HoleViewPagerViewModel @Inject constructor(
         if (localPicBase64.value.isNullOrEmpty() and postTextContent.value.isNullOrEmpty()) {
             postResponseMsg.value = "输入内容为空"
         } else {
+            loadingStatus.value = true
             Timber.e("click post new hole to server %s", postTextContent.value)
             viewModelScope.launch(Dispatchers.IO) {
                 try {
@@ -105,6 +106,11 @@ class HoleViewPagerViewModel @Inject constructor(
                         }
                         Timber.e("reply result %s", response.toString())
                         postResponseMsg.postValue("发布成功")
+                        postTextContent.postValue("")
+                        localPicFile.postValue(null)
+                        localPicBase64.postValue(null)
+                        selectedTagName = ""
+                        showDialogPost.postValue(false)
                     }
                 } catch (e: Exception) {
                     when (e) {
@@ -112,10 +118,7 @@ class HoleViewPagerViewModel @Inject constructor(
                         else -> errorStatus.postValue(e)
                     }
                 } finally {
-                    showDialogPost.value = false
-                    postTextContent.postValue("")
-                    localPicFile.postValue(null)
-                    selectedTagName = ""
+                    loadingStatus.postValue(false)
                 }
             }
         }
